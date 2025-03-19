@@ -57,6 +57,10 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
     </Style>
 
+    <Style TargetType="Label" x:Key="FieldAppPickerLabel">
+        <Setter Property="Margin" Value="0,10"/>
+    </Style>
+    
     <Style TargetType="Label" x:Key="FieldAppEntryTitle">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />

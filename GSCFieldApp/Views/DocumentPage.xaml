@@ -43,7 +43,8 @@
                         <VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Picker Title="{local:Localize DocumentPageCategory}" x:Name="DocumentPageCategoryPicker"
+                                <Label Text="{local:Localize DocumentPageCategory}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DocumentPageCategoryPicker"
                                     ItemsSource="{Binding DocumentCategory.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedDocumentCategory}"
                                     SelectedIndex="{Binding DocumentCategory.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -64,8 +65,8 @@
 
                             </VerticalStackLayout>
 
-
-                            <Picker Title="{local:Localize DocumentPageScaleDirection}"
+                            <Label Text="{local:Localize DocumentPageScaleDirection}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}"
                                 x:Name="DocumentScalePicker"
                                 ItemsSource="{Binding DocumentScale.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
@@ -137,7 +138,8 @@
                                 <Entry Text="{Binding Model.FileName, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize DocumentPageFileType}" 
+                            <Label Text="{local:Localize DocumentPageFileType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                     x:Name="DocumentFileTypePicker" 
                                     ItemsSource="{Binding DocumentFileType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="DocumentFileTypePicker_SelectedIndexChanged"

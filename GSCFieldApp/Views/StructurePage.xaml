@@ -42,7 +42,8 @@
                         <VerticalStackLayout>
 
                             <!--Quirk - Show item value instead of name, else planar and linear are missing from text-->
-                            <Picker Title="{local:Localize StructurePageClass}" x:Name="StructureClassPicker"
+                            <Label Text="{local:Localize StructurePageClass}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureClassPicker"
                                     ItemsSource="{Binding StructureClass.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemValue}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding Model.StructureClass, 
@@ -51,7 +52,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureClass.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize StructurePageDetail}" x:Name="StructureDetailPicker"
+                            <Label Text="{local:Localize StructurePageDetail}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureDetailPicker"
                                     ItemsSource="{Binding StructureDetail.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureDetail, 
@@ -70,7 +72,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize StructurePageFormat}" x:Name="StructureFormatPicker"
+                            <Label Text="{local:Localize StructurePageFormat}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureFormatPicker"
                                     ItemsSource="{Binding StructureFormat.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureFormat, 
@@ -119,7 +122,8 @@
 
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize StructurePageMethod}" x:Name="StructureMethodPicker"
+                            <Label Text="{local:Localize StructurePageMethod}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureMethodPicker"
                                     ItemsSource="{Binding StructureMethod.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureMethod, 
@@ -128,7 +132,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureMethod.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize StructurePageRelate}" x:Name="StructureRelatedAliasPicker"
+                            <Label Text="{local:Localize StructurePageRelate}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureRelatedAliasPicker"
                                     ItemsSource="{Binding StructureRelatedAlias.cboxItems, Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding StructureRelatedAlias.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -146,7 +151,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize StructurePageAttitude}" x:Name="StructureAttitudePicker"
+                            <Label Text="{local:Localize StructurePageAttitude}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureAttitudePicker"
                                     ItemsSource="{Binding StructureAttitude.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureAttitude, 
@@ -155,7 +161,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureAttitude.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize StructurePageYounging}" x:Name="StructureYoungingPicker"
+                            <Label Text="{local:Localize StructurePageYounging}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureYoungingPicker"
                                     ItemsSource="{Binding StructureYounging.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureYounging, 
@@ -165,7 +172,8 @@
                                     SelectedIndex="{Binding StructureYounging.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <!--Can't use converter on this 2nd round picker, else it always gets overwritten with empty string on init-->
-                            <Picker Title="{local:Localize StructurePageGeneration}" x:Name="StructureGenerationPicker"
+                            <Label Text="{local:Localize StructurePageGeneration}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureGenerationPicker"
                                     ItemsSource="{Binding StructureGeneration.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureGeneration, 
@@ -174,7 +182,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureGeneration.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize StructurePageStrain}" x:Name="StructureStrainPicker"
+                            <Label Text="{local:Localize StructurePageStrain}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureStrainPicker"
                                     ItemsSource="{Binding StructureStrain.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureStrain, 
@@ -183,7 +192,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureStrain.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize StructurePageFlattening}" x:Name="StructureFlatteningPicker"
+                            <Label Text="{local:Localize StructurePageFlattening}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureFlatteningPicker"
                                     ItemsSource="{Binding StructureFlattening.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureFlattening, 

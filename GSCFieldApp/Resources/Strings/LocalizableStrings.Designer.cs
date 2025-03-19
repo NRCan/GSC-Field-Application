@@ -2005,6 +2005,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select ....
+        /// </summary>
+        internal static string GenericPickerTitle {
+            get {
+                return ResourceManager.GetString("GenericPickerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         internal static string GenericWarningTitle {

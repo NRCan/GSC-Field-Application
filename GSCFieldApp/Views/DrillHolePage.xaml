@@ -51,7 +51,8 @@
                                 <Entry Text="{Binding Model.DrillCompany, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize DrillHolePageType}" x:Name="DrillHolePageTypePicker"
+                            <Label Text="{local:Localize DrillHolePageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DrillHolePageTypePicker"
                                     ItemsSource="{Binding DrillType.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.DrillType, 
@@ -108,7 +109,8 @@
                                 <Entry Text="{Binding Model.DrillDepth, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize DrillHolePageUnits}" x:Name="DrillHolePageUnitPicker"
+                            <Label Text="{local:Localize DrillHolePageUnits}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DrillHolePageUnitPicker"
                                     ItemsSource="{Binding DrillUnits.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.DrillUnit, 
@@ -117,7 +119,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding DrillUnits.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize DrillHolePageHoleSize}" x:Name="DrillHolePageHoleSizePicker"
+                            <Label Text="{local:Localize DrillHolePageHoleSize}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DrillHolePageHoleSizePicker"
                                     ItemsSource="{Binding DrillHoleSizes.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="DrillHolePageHoleSizePicker_SelectedIndexChanged"
                                     SelectedItem="{Binding Model.DrillHoleSize, 
@@ -148,7 +151,8 @@
                         <VerticalStackLayout>
 
 
-                            <Picker Title="{local:Localize DrillHolePageLogType}" x:Name="DrillHolePageLogTypePicker"
+                            <Label Text="{local:Localize DrillHolePageLogType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DrillHolePageLogTypePicker"
                                     ItemsSource="{Binding DrillHoleLogType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.DrillRelogType, 

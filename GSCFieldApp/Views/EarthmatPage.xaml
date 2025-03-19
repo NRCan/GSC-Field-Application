@@ -41,7 +41,9 @@
 
                                 <!--Surficial lith group-->
                                 <!--Can't use converter here, else it interacts badly with bedrock form on init.-->
-                                <Picker Title="{local:Localize EarthmatPageLithoDetail}" x:Name="EMLithDetailSurficialPicker"
+                                <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppPickerLabel}" 
+                                       IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EMLithDetailSurficialPicker"
                                 ItemsSource="{Binding EarthLithDetail.cboxItems}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedIndex="{Binding EarthLithDetail.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -50,7 +52,8 @@
 
                                     <!-- Group type picker (approx. 65 items in bedrock) -->
                                     <Label Text="{local:Localize EarthmatPageLithoTypeTitle}" Style="{StaticResource FieldAppEntryTitleMandatory}" Margin="0,10"/>
-                                    <Picker Title="{local:Localize EarthmatPageLithoType}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                    <Label Text="{local:Localize EarthmatPageLithoType}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                         ItemsSource="{Binding EarthLithoGroup.cboxItems}" SelectedIndexChanged="LithoGroupPicker_SelectedIndexChanged"
                                         ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithoGroup}"
                                         SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -73,7 +76,8 @@
 
                             <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
-                                <Picker Title="{local:Localize EarthmatPageLithQualifier}" x:Name="QualifierPicker"
+                                <Label Text="{local:Localize EarthmatPageLithQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="QualifierPicker"
                                 ItemsSource="{Binding EarthLithQualifier.cboxItems}"
                                 ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
                                 SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -84,7 +88,8 @@
                                     
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
+                            <Label Text="{local:Localize EarthmatPageLithOccurAs}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"/>
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="OccurAsPicker"
                                 ItemsSource="{Binding EarthLithOccurAs.cboxItems}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedItem="{Binding Model.EarthMatOccurs, 
@@ -93,7 +98,8 @@
                                     Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageLithMapUnit}" x:Name="MapUnitPicker"
+                            <Label Text="{local:Localize EarthmatPageLithMapUnit}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MapUnitPicker"
                                 ItemsSource="{Binding EarthLithMapUnit.cboxItems}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedItem="{Binding Model.EarthMatMapunit, 
@@ -116,7 +122,8 @@
 
                             <!--Surficial controls-->
 
-                            <Picker Title="{local:Localize EarthmatPageSorting}" x:Name="SortingPicker"
+                            <Label Text="{local:Localize EarthmatPageSorting}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="SortingPicker"
                                 ItemsSource="{Binding EarthLithSorting.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatSorting, 
                                     Converter={StaticResource cbox2Str},
@@ -125,7 +132,8 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithSorting.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageWater}" x:Name="H2oPicker"
+                            <Label Text="{local:Localize EarthmatPageWater}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="H2oPicker"
                                 ItemsSource="{Binding EarthLithWater.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatH2O, 
                                     Converter={StaticResource cbox2Str},
@@ -134,7 +142,8 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithWater.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageOxidation}" x:Name="OxidationPicker"
+                            <Label Text="{local:Localize EarthmatPageOxidation}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="OxidationPicker"
                                 ItemsSource="{Binding EarthLithOxidation.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatOxidation, 
                                     Converter={StaticResource cbox2Str},
@@ -143,7 +152,8 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithOxidation.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageClast}" x:Name="ClastPicker"
+                            <Label Text="{local:Localize EarthmatPageClast}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ClastPicker"
                                 ItemsSource="{Binding EarthLithClast.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatClastForm, 
                                     Converter={StaticResource cbox2Str},
@@ -165,7 +175,8 @@
                         <VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Picker Title="{local:Localize EarthmatPageLithTextStruc}" x:Name="TextStructurePicker"
+                                <Label Text="{local:Localize EarthmatPageLithTextStruc}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="TextStructurePicker"
                                     ItemsSource="{Binding EarthLithTextureStruct.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithTextureStructure}"
                                     SelectedIndex="{Binding EarthLithTextureStruct.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -177,7 +188,8 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-                                <Picker Title="{local:Localize EarthmatPageLithGrainSize}" x:Name="GrainSizePicker"
+                                <Label Text="{local:Localize EarthmatPageLithGrainSize}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="GrainSizePicker"
                                     ItemsSource="{Binding EarthLithGrainSize.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithGrainSize}"
                                     SelectedIndex="{Binding EarthLithGrainSize.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -188,7 +200,8 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-                                <Picker Title="{local:Localize EarthmatPageLithBedThick}" x:Name="BeddingThicknessPicker"
+                                <Label Text="{local:Localize EarthmatPageLithBedThick}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="BeddingThicknessPicker"
                                     ItemsSource="{Binding EarthLithBedThick.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithBedThick}"
                                     SelectedIndex="{Binding EarthLithBedThick.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -199,7 +212,8 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-                                <Picker Title="{local:Localize EarthmatPageLithDefFab}" x:Name="DeformationFabricPicker"
+                                <Label Text="{local:Localize EarthmatPageLithDefFab}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DeformationFabricPicker"
                                     ItemsSource="{Binding EarthLithDefFab.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithDefFab}"
                                     SelectedIndex="{Binding EarthLithDefFab.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -220,17 +234,20 @@
 
                         <VerticalStackLayout >
 
-                            <Picker Title="{local:Localize EarthmatPageColourGeneric}" x:Name="ColourGenericPicker"
+                            <Label Text="{local:Localize EarthmatPageColourGeneric}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourGenericPicker"
                                     ItemsSource="{Binding EarthLithColourGeneric.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithColourGeneric.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageColourIntensity}" x:Name="ColourIntensityPicker"
+                            <Label Text="{local:Localize EarthmatPageColourIntensity}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourIntensityPicker"
                                     ItemsSource="{Binding EarthLithColourIntensity.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithColourIntensity.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageColourQualifier}" x:Name="ColourQualifierPicker"
+                            <Label Text="{local:Localize EarthmatPageColourQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourQualifierPicker"
                                     ItemsSource="{Binding EarthLithColourQualifier.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithColourQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -279,7 +296,8 @@
 
                         <VerticalStackLayout >
 
-                            <Picker Title="{local:Localize EarthmatPageMetaFacies}" x:Name="MetaFaciesPicker"
+                            <Label Text="{local:Localize EarthmatPageMetaFacies}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesPicker"
                                     ItemsSource="{Binding EarthLithMetaFacies.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.EarthMatMetaIFacies, 
@@ -288,7 +306,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding EarthLithMetaFacies.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageMetaInt}" x:Name="MetaFaciesIntensityPicker"
+                            <Label Text="{local:Localize EarthmatPageMetaInt}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesIntensityPicker"
                                     ItemsSource="{Binding EarthLithMetaInt.cboxItems}"
                                     SelectedItem="{Binding Model.EarthMatMetaIntensity, 
                                         Converter={StaticResource cbox2Str},
@@ -308,7 +327,8 @@
 
                         <VerticalStackLayout >
 
-                            <Picker Title="{local:Localize EarthmatPageContactUpper}" x:Name="ContactUpperPicker"
+                            <Label Text="{local:Localize EarthmatPageContactUpper}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactUpperPicker"
                                     ItemsSource="{Binding EarthLithContactUpper.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.EarthMatContactUp, 
@@ -317,7 +337,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding EarthLithContactUpper.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageContactLower}" x:Name="ContactLowerPicker"
+                            <Label Text="{local:Localize EarthmatPageContactLower}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactLowerPicker"
                                     ItemsSource="{Binding EarthLithContactLower.cboxItems}"
                                     SelectedItem="{Binding Model.EarthMatContactLow, 
                                         Converter={StaticResource cbox2Str},
@@ -345,12 +366,14 @@
 
                         <VerticalStackLayout >
 
-                            <Picker Title="{local:Localize EarthmatPageContactType}" x:Name="ContactTypePicker"
+                            <Label Text="{local:Localize EarthmatPageContactType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactTypePicker"
                                     ItemsSource="{Binding EarthLithContactType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithContactType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EarthmatPageContactRelatedAlias}" x:Name="ContactRelatedAliasPicker"
+                            <Label Text="{local:Localize EarthmatPageContactRelatedAlias}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactRelatedAliasPicker"
                                     ItemsSource="{Binding EarthLithContactRelatedAlias.cboxItems, Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithContactRelatedAlias.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -385,7 +408,8 @@
 
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize EarthmatPageMagQualifier}" x:Name="MagneticQualifierPicker"
+                            <Label Text="{local:Localize EarthmatPageMagQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MagneticQualifierPicker"
                                 ItemsSource="{Binding EarthLithMagQualifier.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatMagQualifier, 
                                         Converter={StaticResource cbox2Str},
@@ -404,7 +428,8 @@
 
                         <VerticalStackLayout >
 
-                            <Picker Title="{local:Localize EarthmatPageConfidence}" x:Name="ConfidencePicker"
+                            <Label Text="{local:Localize EarthmatPageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ConfidencePicker"
                                 ItemsSource="{Binding EarthLithConfidence.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatInterpConf, 
                                        Converter={StaticResource cbox2Str},

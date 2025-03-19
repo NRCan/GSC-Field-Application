@@ -1464,4 +1464,7 @@
   <data name="StationPageVisitTime" xml:space="preserve">
     <value>Time</value>
   </data>
+  <data name="GenericPickerTitle" xml:space="preserve">
+    <value>Select ...</value>
+  </data>
 </root>

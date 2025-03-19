@@ -39,7 +39,9 @@
                                               FrameTitle="{local:Localize StationPageTypeTitle}">
 
                         <VerticalStackLayout >
-                            <Picker Title="{local:Localize StationPageType}" Style="{StaticResource FieldAppMandatoryPicker}"
+
+                            <Label Text="{local:Localize StationPageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     x:Name="StationTypePicker"
@@ -48,8 +50,9 @@
                                         ConverterParameter={Binding StationType, Source={x:Reference StationTypePicker}},
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />
-                            
-                            <Picker Title="{local:Localize StationPageSource}"
+
+                            <Label Text="{local:Localize StationPageSource}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}"
                                     ItemsSource="{Binding StationSource.cboxItems}"
                                     x:Name="StationSourcePicker"
                                     SelectedItem="{Binding Model.StationObsSource, 
@@ -74,7 +77,8 @@
                                 <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize StationPageOutcropQuality}" x:Name="QualityPicker"
+                            <Label Text="{local:Localize StationPageOutcropQuality}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="QualityPicker"
                                     ItemsSource="{Binding StationOutcropQuality.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -93,7 +97,9 @@
                                               FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationGeneralVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize StationPageGeneralTitle}">
                         <VerticalStackLayout>
-                            <Picker Title="{local:Localize StationPageGeneralPhysEnv}"
+
+                            <Label Text="{local:Localize StationPageGeneralPhysEnv}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}"
                                     ItemsSource="{Binding StationPhysEnv.cboxItems}" 
                                     x:Name="StationPhysEnvPicker"
                                     SelectedItem="{Binding Model.StationPhysEnv, 

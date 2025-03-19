@@ -38,7 +38,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize LineworkPageLineType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                            <Label Text="{local:Localize LineworkPageLineType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                 x:Name="LineworkTypePicker" 
                                 ItemsSource="{Binding LineworkType.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="LineworkTypePicker_SelectedIndexChanged"
@@ -49,7 +50,8 @@
                                 SelectedIndex="{Binding LineworkType.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <Picker Title="{local:Localize LineworkPageConfidence}" 
+                            <Label Text="{local:Localize LineworkPageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                 x:Name="LineworkConfidencePicker" 
                                 ItemsSource="{Binding LineworkConfidence.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
@@ -60,7 +62,8 @@
                                 SelectedIndex="{Binding LineworkConfidence.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <Picker Title="{local:Localize LineworkPageSymbol}" 
+                            <Label Text="{local:Localize LineworkPageSymbol}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                 x:Name="LineworkColorPicker" 
                                 ItemsSource="{Binding LineworkColor.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 

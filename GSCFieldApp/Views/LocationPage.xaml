@@ -41,7 +41,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize LocationPageGeodetic}"
+                            <Label Text="{local:Localize LocationPageGeodetic}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}"
                                     ItemsSource="{Binding LocationGeodeticSystem.cboxItems}" 
                                     x:Name="LocationPageGeodeticPicker"
                                     Style="{StaticResource FieldAppMandatoryPicker}"

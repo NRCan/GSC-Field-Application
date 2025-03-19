@@ -40,7 +40,9 @@
                                               FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding PaleoflowTypeVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize PaleoflowPageTypeTitle}">
                         <VerticalStackLayout>
-                            <Picker Title="{local:Localize PaleoflowPageClass}" x:Name="PaleoflowPageClassPicker"
+
+                            <Label Text="{local:Localize PaleoflowPageClass}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageClassPicker"
                                     ItemsSource="{Binding PaleoflowClass.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     SelectedIndexChanged="PaleoflowPageClassPicker_SelectedIndexChanged"
@@ -50,7 +52,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowClass.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowPageFeature}" x:Name="PaleoflowPageFeaturePicker"
+                            <Label Text="{local:Localize PaleoflowPageFeature}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageFeaturePicker"
                                     ItemsSource="{Binding PaleoflowFeature.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowFeature, 
@@ -59,7 +62,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowFeature.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowPageSense}" x:Name="PaleoflowPageSensePicker"
+                            <Label Text="{local:Localize PaleoflowPageSense}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageSensePicker"
                                     ItemsSource="{Binding PaleoflowSense.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     SelectedItem="{Binding Model.PFlowSense, 
@@ -126,7 +130,9 @@
                                               FrameTitle="{local:Localize PaleoflowPageDescTitle}">
 
                         <VerticalStackLayout>
-                            <Picker Title="{local:Localize PaleoflowBedSurface}" x:Name="PaleoflowPageBedSurfacePicker"
+
+                            <Label Text="{local:Localize PaleoflowBedSurface}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageBedSurfacePicker"
                                     ItemsSource="{Binding PaleoflowBedsurface.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowBedsurf, 
@@ -135,7 +141,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowBedsurface.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowPageConfidence}" x:Name="PaleoflowPageConfidencePicker"
+                            <Label Text="{local:Localize PaleoflowPageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageConfidencePicker"
                                     ItemsSource="{Binding PaleoflowConfidence.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowConfidence, 
@@ -144,7 +151,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowConfidence.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowPageQuality}" x:Name="PaleoflowPageQualityPicker"
+                            <Label Text="{local:Localize PaleoflowPageQuality}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageQualityPicker"
                                     ItemsSource="{Binding PaleoflowQuality.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowDefinition, 
@@ -153,7 +161,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowPageIndicators}" x:Name="PaleoflowPageIndicatorsPicker"
+                            <Label Text="{local:Localize PaleoflowPageIndicators}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageIndicatorsPicker"
                                     ItemsSource="{Binding PaleoflowIndicators.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowNumIndic, 
@@ -171,8 +180,9 @@
                                               FrameTitle="{local:Localize PaleoflowPageRelationTitle}">
 
                         <VerticalStackLayout>
-                            
-                            <Picker Title="{local:Localize PaleoflowRelativeAge}" x:Name="PaleoflowPageRelativeAgePicker"
+
+                            <Label Text="{local:Localize PaleoflowRelativeAge}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageRelativeAgePicker"
                                     ItemsSource="{Binding PaleoflowRelativeAge.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowRelAge, 
@@ -181,7 +191,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowRelativeAge.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowMethod}" x:Name="PaleoflowPageMethodPicker"
+                            <Label Text="{local:Localize PaleoflowMethod}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageMethodPicker"
                                     ItemsSource="{Binding PaleoflowMethod.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowMethod, 
@@ -190,7 +201,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowMethod.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize PaleoflowRelation}" x:Name="PaleoflowPageRelationPicker"
+                            <Label Text="{local:Localize PaleoflowRelation}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageRelationPicker"
                                     ItemsSource="{Binding PaleoflowRelation.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowRelation, 

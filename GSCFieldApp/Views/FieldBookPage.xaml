@@ -38,7 +38,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize FieldBookPageWorkType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                            <Label Text="{local:Localize FieldBookPageWorkType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding ProjectType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     x:Name="FieldBookPageWorkTypePicker"

@@ -39,7 +39,8 @@
                                               FrameTitle="{local:Localize SamplePageDescriptionTitle}">
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize SamplePageType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                            <Label Text="{local:Localize SamplePageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding SampleType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     x:Name="SampleTypePicker" SelectedIndexChanged="SampleTypePicker_SelectedIndexChanged"
@@ -50,8 +51,9 @@
                                     SelectedIndex="{Binding SampleType.cboxDefaultItemIndex, Mode=TwoWay}"/>
                             
                             <VerticalStackLayout>
-                                <!--Quirk, selecting surficial paleomag with oriented sample should enable oriented control box from bedrock--> 
-                                <Picker Title="{local:Localize SamplePagePurpose}" x:Name="SamplePagePurposePicker" Style="{StaticResource FieldAppMandatoryPicker}"
+                                <!--Quirk, selecting surficial paleomag with oriented sample should enable oriented control box from bedrock-->
+                                <Label Text="{local:Localize SamplePagePurpose}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="SamplePagePurposePicker" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding SamplePurpose.cboxItems}" SelectedIndexChanged="SamplePagePurposePicker_SelectedIndexChanged"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedSamplePurpose}"
                                     SelectedIndex="{Binding SamplePurpose.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -95,7 +97,8 @@
                                               FrameTitle="{local:Localize SamplePageOrientationTitle}">
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize SamplePageSampleFormat}" 
+                            <Label Text="{local:Localize SamplePageSampleFormat}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                     x:Name="SampleFormatPicker"
                                     ItemsSource="{Binding SampleFormat.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
@@ -138,7 +141,8 @@
 
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize SamplePageSurface}" 
+                            <Label Text="{local:Localize SamplePageSurface}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                     x:Name="SampleSurfacePicker" 
                                     ItemsSource="{Binding SampleSurface.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
@@ -158,7 +162,8 @@
                                               FrameTitle="{local:Localize SamplePageStateTitle}">
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize SamplePageQuality}" 
+                            <Label Text="{local:Localize SamplePageQuality}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                 x:Name="SampleQualityPicker" 
                                 ItemsSource="{Binding SampleQuality.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
@@ -169,7 +174,8 @@
                                 SelectedIndex="{Binding SampleQuality.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <Picker Title="{local:Localize SamplePageState}" 
+                            <Label Text="{local:Localize SamplePageState}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                 x:Name="SampleStatePicker" 
                                 ItemsSource="{Binding SampleState.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
@@ -180,7 +186,8 @@
                                 SelectedIndex="{Binding SampleState.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <Picker Title="{local:Localize SamplePageHorizon}" 
+                            <Label Text="{local:Localize SamplePageHorizon}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" 
                                 x:Name="SampleHorizonPicker" 
                                 ItemsSource="{Binding SampleHorizon.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
@@ -218,7 +225,8 @@
                                               FrameTitle="{local:Localize SamplePageCoreTitle}">
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize SamplePageCorePortion}"
+                            <Label Text="{local:Localize SamplePageHorizon}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}"
                                     x:Name="SampleCoreSizePicker"
                                     ItemsSource="{Binding SampleCorePortion.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 

@@ -1,8 +1,4 @@
 ﻿using GSCFieldApp.Services;
-#if WINDOWS10_0_19041_0_OR_GREATER
-using WinUIEx;
-#endif
-
 
 namespace GSCFieldApp;
 
@@ -12,53 +8,26 @@ public partial class App : Application
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
 
-//    //NOTE: Only working method to have a splash screen on windows for winui3 2025-01-13
-//    // https://dotmorten.github.io/WinUIEx/concepts/Splashscreen.html
-//    //Still not fixe after 4 years by MS https://github.com/microsoft/microsoft-ui-xaml/issues/4055
-//#if WINDOWS
-
-//    private SimpleSplashScreen fss { get; set; }
-
-//#endif
-
     public App()
 	{
-
-//#if WINDOWS
-
-//        fss = SimpleSplashScreen.ShowDefaultSplashScreen();
-
-//#endif
         InitializeComponent();
 
-		MainPage = new AppShell();
+#if WINDOWS10_0_19041_0_OR_GREATER
+        Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping(nameof(IPicker.Title), (handler, view) =>
+        {
+            if (handler.PlatformView is not null && view is Picker pick && !String.IsNullOrWhiteSpace(pick.Title))
+            {
+                handler.PlatformView.HeaderTemplate = new Microsoft.UI.Xaml.DataTemplate();
+                //handler.PlatformView.PlaceholderText = pick.Title;
+                pick.Title = null;
+            }
+        });
+#endif
 
-//#if WINDOWS
-
-//        MainPage.Loaded += MainPage_Loaded;
-
-//#endif
-
+        MainPage = new AppShell();
 
     }
 
-//    /// <summary>
-//    /// Track loaded event and ask for desired permission before moving on.
-//    /// </summary>
-//    /// <param name="sender"></param>
-//    /// <param name="e"></param>
-//    private async void MainPage_Loaded(object sender, EventArgs e)
-//    {
-//        //await CheckAndRequestLocationPermission();
-
-//#if WINDOWS
-
-//        fss?.Hide();
-//        fss = null;
-
-//#endif
-
-//    }
 
     /// <summary>
     /// TODO Make sure to properly ask for permission

@@ -38,7 +38,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize FossilPageType}" x:Name="FossilPageTypePicker"
+                            <Label Text="{local:Localize FossilPageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="FossilPageTypePicker"
                                     ItemsSource="{Binding FossilType.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.FossilType, 

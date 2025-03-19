@@ -39,7 +39,8 @@
                                               FrameTitle="{local:Localize EnvironmentPageLandscapeTitle}">
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize EnvironmentPageRelief}" x:Name="EnvironmentPageReliefPicker"
+                            <Label Text="{local:Localize EnvironmentPageRelief}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageReliefPicker"
                                     ItemsSource="{Binding EnvironmentRelief.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.EnvRelief, 
@@ -48,7 +49,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding EnvironmentRelief.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EnvironmentPageBoulder}" x:Name="EnvironmentPageBoulderPicker"
+                            <Label Text="{local:Localize EnvironmentPageBoulder}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageBoulderPicker"
                                     ItemsSource="{Binding EnvironmentBoulder.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.EnvBoulder, 
@@ -99,7 +101,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize EnvironmentPageDrainage}" x:Name="EnvironmentPageDrainagePicker"
+                            <Label Text="{local:Localize EnvironmentPageDrainage}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageDrainagePicker"
                                    ItemsSource="{Binding EnvironmentDrainage.cboxItems}" 
                                    ItemDisplayBinding="{Binding itemName}"
                                    SelectedItem="{Binding Model.EnvDrainage, 
@@ -108,7 +111,8 @@
                                        Mode=TwoWay}"
                                    SelectedIndex="{Binding EnvironmentDrainage.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EnvironmentPagePermIndicator}" x:Name="EnvironmentPagePermIndicatorPicker"
+                            <Label Text="{local:Localize EnvironmentPagePermIndicator}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPagePermIndicatorPicker"
                                    ItemsSource="{Binding EnvironmentPermIndicator.cboxItems}" 
                                    ItemDisplayBinding="{Binding itemName}"
                                    SelectedItem="{Binding Model.EnvPermIndicator, 
@@ -117,7 +121,8 @@
                                        Mode=TwoWay}"
                                    SelectedIndex="{Binding EnvironmentPermIndicator.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EnvironmentPageExposure}" x:Name="EnvironmentPageExposurePicker"
+                            <Label Text="{local:Localize EnvironmentPageExposure}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageExposurePicker"
                                    ItemsSource="{Binding EnvironmentExposure.cboxItems}" 
                                    ItemDisplayBinding="{Binding itemName}"
                                    SelectedItem="{Binding Model.EnvExposure, 
@@ -141,7 +146,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize EnvironmentPageCover}" x:Name="EnvironmentPageCoverPicker"
+                            <Label Text="{local:Localize EnvironmentPageCover}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageCoverPicker"
                                    ItemsSource="{Binding EnvironmentCover.cboxItems}" 
                                    ItemDisplayBinding="{Binding itemName}"
                                    SelectedItem="{Binding Model.EnvGroundCover, 
@@ -150,7 +156,8 @@
                                        Mode=TwoWay}"
                                    SelectedIndex="{Binding EnvironmentCover.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EnvironmentPageIce}" x:Name="EnvironmentPageIcePicker"
+                            <Label Text="{local:Localize EnvironmentPageIce}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageIcePicker"
                                    ItemsSource="{Binding EnvironmentIce.cboxItems}" 
                                    ItemDisplayBinding="{Binding itemName}"
                                    SelectedItem="{Binding Model.EnvGroundIce, 
@@ -159,7 +166,8 @@
                                        Mode=TwoWay}"
                                    SelectedIndex="{Binding EnvironmentIce.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize EnvironmentPagePattern}" x:Name="EnvironmentPagePatternPicker"
+                            <Label Text="{local:Localize EnvironmentPagePattern}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPagePatternPicker"
                                     ItemsSource="{Binding EnvironmentPattern.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEnvironmentPattern}"
                                     SelectedIndex="{Binding EnvironmentPattern.cboxDefaultItemIndex, Mode=TwoWay}" />

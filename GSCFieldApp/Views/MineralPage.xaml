@@ -54,8 +54,9 @@
                             <ListView Style="{StaticResource FieldAppSearchCollectionView}" x:Name="mineralSearchList" ItemSelected="mineralSearchList_ItemSelected"
                                         ItemsSource="{Binding MineralPageNameSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
                             <!-- -->
-                            
-                            <Picker Title="{local:Localize MineralPageMode}" x:Name="MineralPageModePicker"
+
+                            <Label Text="{local:Localize MineralPageMode}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralPageModePicker"
                                     ItemsSource="{Binding MineralMode.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MineralMode, 
@@ -76,7 +77,8 @@
 
                         <VerticalStackLayout>
 
-                            <Picker Title="{local:Localize MineralPageColour}" x:Name="MineralPageColourPicker"
+                            <Label Text="{local:Localize MineralPageColour}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralPageColourPicker"
                                     ItemsSource="{Binding MineralColour.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MineralColour, 
@@ -117,7 +119,8 @@
 
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize MineralPageOccurence}" x:Name="MineralPageOccurencePicker"
+                            <Label Text="{local:Localize MineralPageOccurence}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralPageOccurencePicker"
                                     ItemsSource="{Binding MineralOccurence.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MineralOccur, 
@@ -126,7 +129,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding MineralOccurence.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Picker Title="{local:Localize MineralPageFormHabit}" x:Name="MineralPageFormHabitPicker"
+                            <Label Text="{local:Localize MineralPageFormHabit}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralPageFormHabitPicker"
                                 ItemsSource="{Binding MineralFormHabit.cboxItems}"
                                 ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedMineralFormHabit}"
                                 SelectedIndex="{Binding MineralFormHabit.cboxDefaultItemIndex, Mode=TwoWay}" />
