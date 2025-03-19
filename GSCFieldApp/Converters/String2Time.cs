@@ -1,5 +1,4 @@
-﻿using ABI.Microsoft.Graphics.Canvas.Text;
-using GSCFieldApp.Dictionaries;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services;
 using NetTopologySuite.Mathematics;
 using System;
