@@ -334,11 +334,17 @@ namespace GSCFieldApp.ViewModel
                 {
                     fieldworkType = ApplicationThemeBedrock; 
                 }
+
+                //Use case with old 'Bedrock - drill core' field work type
+                if (fieldworkType.ToLower() == ApplicationThemeDrillHole)
+                {
+                    fieldworkType = ApplicationThemeBedrock;
+                }
             }
 
             //Connect to default, not user database
             SQLiteAsyncConnection pickersConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
-            _vocabularyManagers = await pickersConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty || e.ThemeSpecificTo == null)).ToListAsync();
+            _vocabularyManagers = await pickersConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo.Contains(fieldworkType) || e.ThemeSpecificTo == string.Empty || e.ThemeSpecificTo == null)).ToListAsync();
 
             //Special fill for table names
             _picklistTables = await FillTablePicklist(pickersConnection);
