@@ -138,25 +138,33 @@ namespace GSCFieldApp.ViewModel
             bool canUpgrade = await CanUpgradeFieldBook();
             if (canUpgrade)
             {
-                bool upgradeWorked = await DoUpgradeFieldBook();
-
-                //Show toast of upgrade finished
-                if (upgradeWorked)
+                try
                 {
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
-                        LocalizationResourceManager["FieldBooksUpgradeContentDone"].ToString(),
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                    bool upgradeWorked = await DoUpgradeFieldBook();
 
-                    //Refresh
-                    FillBookCollectionAsync();
+                    //Show toast of upgrade finished
+                    if (upgradeWorked)
+                    {
+                        await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
+                            LocalizationResourceManager["FieldBooksUpgradeContentDone"].ToString(),
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                        //Refresh
+                        FillBookCollectionAsync();
+                    }
+                    else
+                    {
+                        //State that something went wrong.
+                        await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
+                            LocalizationResourceManager["FieldBooksUpgradeContentError"].ToString(),
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
+                    }
                 }
-                else
+                catch (Exception e) 
                 {
-                    //State that something went wrong.
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
-                        LocalizationResourceManager["FieldBooksUpgradeContentError"].ToString(),
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                    new ErrorToLogFile(e).WriteToFile();
                 }
+
             }
             else
             {
@@ -645,6 +653,11 @@ namespace GSCFieldApp.ViewModel
                 legacyFileName = legacyFileName + DatabaseLiterals.DBTypeSqlite;
             }
 
+
+#if ANDROID
+            legacyFileName = legacyFileName.Replace(DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated);         
+#endif
+
             //Build path
             legacyDBPath = Path.Combine(legacyDepot, legacyFileName);
 
@@ -828,6 +841,7 @@ namespace GSCFieldApp.ViewModel
                 queryList.AddRange(GetUpgradeQueryVersion1_9(attachDBName));
 
                 //Remove table that needs a special update query
+                basicInsertQueriesTables.Add(TableDrillHoles);
                 basicInsertQueriesTables.Remove(TableSample);
                 basicInsertQueriesTables.Remove(TableEarthMat);
                 basicInsertQueriesTables.Remove(TableStructure);

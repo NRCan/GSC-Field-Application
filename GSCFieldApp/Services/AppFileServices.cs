@@ -282,6 +282,7 @@ namespace GSCFieldApp.Services
                             {
                                 resultFullPath = System.IO.Path.Join(userLocalFolder, entry.FullName);
                                 resultFileName = entry.FullName;
+
                                 break;
                             }
                         }
@@ -300,6 +301,14 @@ namespace GSCFieldApp.Services
                         if (metadataTableRows != null && metadataTableRows.Count() == 1)
                         {
                             copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+
+#if WINDOWS
+                            copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+#elif ANDROID
+                            copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+#else
+                            copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+#endif
 
                             //Legacy extension
                             if (resultFileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
