@@ -544,6 +544,7 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MaximumHeightRequest" Value="50"/>
         <!--<Setter Property="WidthRequest" Value="240"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -597,6 +598,7 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MaximumHeightRequest" Value="50"/>
         <!--<Setter Property="WidthRequest" Value="240"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
