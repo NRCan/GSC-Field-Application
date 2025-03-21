@@ -723,13 +723,36 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Build attach db query
             string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS db2;";
 
+            Vocabularies modelVocab = new Vocabularies();
+            List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+            string vocab_querySelect = string.Empty;
+
+            foreach (string vocabFields in vocabFieldList)
+            {
+                //Get all fields except alias
+                if (vocabFields != vocabFieldList.First())
+                {
+                    vocab_querySelect = vocab_querySelect + ", " + vocabFields + " as " + vocabFields;
+                }
+                else
+                {
+                    if (vocabFields == FieldGenericRowID)
+                    {
+                        vocab_querySelect = " NULL as " + vocabFields; //Don't insert the ids back
+                    }
+
+                }
+
+            }
+            vocab_querySelect = vocab_querySelect.Replace(", ,", "");
+
             //Build insert queries
             //insert into M_DICTIONARY select * from db2.M_DICTIONARY where db2.M_DICTIONARY.TERMID not in (select TERMID from M_DICTIONARY)
             string insertQuery = "INSERT INTO " + TableDictionaryManager + 
                 " SELECT * FROM db2." + TableDictionaryManager + " WHERE db2." + TableDictionaryManager + "." + FieldDictionaryManagerLinkID +
                 " NOT IN (SELECT " + FieldDictionaryManagerLinkID + " FROM " + TableDictionaryManager + "); ";
-            string insertQuery2 = "INSERT INTO " + TableDictionary + 
-                " SELECT * FROM db2." + TableDictionary + " WHERE db2." + TableDictionary + "." + FieldDictionaryTermID +
+            string insertQuery2 = "INSERT INTO " + TableDictionary +
+                " SELECT " + vocab_querySelect + " FROM db2." + TableDictionary + " WHERE db2." + TableDictionary + "." + FieldDictionaryTermID +
                 " NOT IN (SELECT " + FieldDictionaryTermID + " FROM " + TableDictionary + "); ";
 
             //Build update queries
