@@ -257,7 +257,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 fieldworkType = Preferences.Get(nameof(FieldUserInfoFWorkType), fieldworkType);
 
                 //Something could have happened and nothing was selected, enforce bedrock
-                if (fieldworkType == string.Empty)
+                if (fieldworkType == string.Empty || fieldworkType.ToLower() == ApplicationThemeDrillHole)
                 {
                     fieldworkType = ApplicationThemeBedrock;
                 }
