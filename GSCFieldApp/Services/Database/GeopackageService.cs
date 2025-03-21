@@ -228,6 +228,55 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// From a given byte array that defines a geometry, will return a line object
+        /// WARNING: About EPSG3857 and it's Y-axis problem
+        /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
+        /// </summary>
+        /// <param name="geomBytes">The byte array to transform into a point object</param>
+        /// <returns></returns>
+        public async Task<NTS.Geometries.MultiLineString> GetGeometryMultiLineFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
+        {
+            //Init
+            NTS.Geometries.MultiLineString outLine = new NTS.Geometries.MultiLineString(new LineString[] { });
+            NTS.Geometries.LineString[] outLineArray = new LineString[] { };
+
+            //Build geopackage reader to get geometry as proper object
+            PrecisionModel precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
+            CoordinateSequenceFactory coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
+            GeoPackageGeoReader geoReader = new GeoPackageGeoReader(coordinateSequenceFactory, precisionModel);
+            geoReader.HandleSRID = true;
+            NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
+
+            if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiLineString)
+            {
+                outLine = geom as NTS.Geometries.MultiLineString;
+            }
+
+            if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
+            {
+                //Create a coord factory for incoming traverses
+                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outLine.SRID);
+
+                //Default map page coordinate
+                CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
+
+                //Transform
+                int index = 0;
+                outLineArray = new LineString[outLine.Count];
+                foreach (LineString ls in outLine)
+                {
+                    LineString newLine = await TransformLineCoordinates(ls, incomingProjection, outgoingProjection);
+                    outLineArray[index] = newLine;
+                    index++;
+                }
+
+                outLine = new NTS.Geometries.MultiLineString(outLineArray);
+            }
+
+            return outLine;
+        }
+
+        /// <summary>
         /// Will take a input point object and transform it from one coordinate system
         /// to another.
         /// </summary>
@@ -329,6 +378,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return outLine;
         }
+
 
         /// <summary>
         /// Will take a input line string object and transform it from one coordinate system
@@ -598,7 +648,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     ruleStyling.SetDefaultPolyStyle();
                 }
-                else if (geometry.ToLower() == Geometry.TypeNameLineString.ToLower())
+                else if (geometry.ToLower() == Geometry.TypeNameLineString.ToLower() || geometry.ToLower() == Geometry.TypeNameMultiLineString.ToLower())
                 {
                     ruleStyling.SetDefaultLineStyle();
                 }

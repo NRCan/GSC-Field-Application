@@ -1334,6 +1334,28 @@ public partial class MapPage : ContentPage
                                                 feat.Styles.Add(styling.lineVectorStyle);
 
                                             }
+                                            else if (geomType.ToLower() == Geometry.TypeNameMultiLineString.ToLower())
+                                            {
+                                                //Run on another thread else progress bar gets jammed and won't update in the UI
+                                                MultiLineString lines = await Task.Run(async () => await gpkgService.GetGeometryMultiLineFromByte(geomBytes));
+
+                                                //Get feature 
+                                                if (lines != null)
+                                                {
+                                                    //Build feature metadata
+                                                    feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
+                                                }
+                                                else
+                                                {
+                                                    //Stop everything
+                                                    hitError = true;
+                                                    break;
+                                                }
+
+                                                //Get default or user line style 
+                                                feat.Styles.Add(styling.lineVectorStyle);
+
+                                            }
                                             else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
