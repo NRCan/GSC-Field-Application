@@ -473,12 +473,7 @@ namespace GSCFieldApp.ViewModel
         public void FillFieldsPicklist()
         {
             //Reset other controls
-            _picklistFields.cboxItems.Clear();
-            OnPropertyChanged(nameof(PicklistFields));
-            _picklistParents.cboxItems.Clear();
-            OnPropertyChanged(nameof(PicklistParents));
-            _picklistValues.Clear();
-            OnPropertyChanged(nameof(PicklistValues));
+            ResetPage(false);
 
             //Build combobox object
             List<Vocabularies> vocTable = new List<Vocabularies>();
@@ -531,8 +526,6 @@ namespace GSCFieldApp.ViewModel
             //Reset
             _picklistValues.Clear();
             OnPropertyChanged(nameof(PicklistValues));
-            //_picklistParents.cboxItems.Clear();
-            //OnPropertyChanged(nameof(PicklistParents));
 
             //Get the values
             List<Vocabularies> incomingValues = new List<Vocabularies>();
@@ -684,10 +677,13 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will clean the page by removing all list and selected values
         /// </summary>
-        public void ResetPage()
+        public void ResetPage(bool withTables = true)
         {
-            _picklistTables.cboxDefaultItemIndex = -1;
-            OnPropertyChanged(nameof(PicklistTables));
+            if (withTables)
+            {
+                _picklistTables.cboxDefaultItemIndex = -1;
+                OnPropertyChanged(nameof(PicklistTables));
+            }
 
             _picklistFields.cboxItems.Clear();
             _picklistFields.cboxDefaultItemIndex = -1;
