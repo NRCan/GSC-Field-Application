@@ -288,10 +288,17 @@ namespace GSCFieldApp.ViewModel
         {
             if (CustomSampleNameEnabled)
             {
-                await Shell.Current.DisplayPromptAsync(LocalizationResourceManager["SamplePageEditNameTitle"].ToString(),
+                string editedSampleName = await Shell.Current.DisplayPromptAsync(LocalizationResourceManager["SamplePageEditNameTitle"].ToString(),
                     LocalizationResourceManager["SamplePageEditNameMessage"].ToString(),
                     LocalizationResourceManager["GenericButtonOk"].ToString(),
                     LocalizationResourceManager["GenericButtonCancel"].ToString(), null, -1, null, Model.SampleName);
+
+                if (editedSampleName != null && editedSampleName != string.Empty)
+                {
+                    Model.SampleName = editedSampleName;
+                    OnPropertyChanged(nameof(Model));
+                }
+
             }
 
         }
@@ -310,6 +317,10 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+        /// <summary>
+        /// Will calculate to value based on from and will also recalculate sample name if needed
+        /// </summary>
+        /// <returns></returns>
         public async Task CalculateSampleCoreToValue()
         {
             //Recalculate "To" value
