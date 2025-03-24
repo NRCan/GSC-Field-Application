@@ -1468,4 +1468,19 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GenericPickerTitle" xml:space="preserve">
     <value>Choisir ... </value>
   </data>
+  <data name="SettingPageOtherHeadingDrillSampleName" xml:space="preserve">
+    <value>Nom d'échantillon avec mesures</value>
+  </data>
+  <data name="SettingPageOtherHeadingDrillCore" xml:space="preserve">
+    <value>Forage</value>
+  </data>
+  <data name="SettingPageCustomSampleNameToggle" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="SamplePageEditNameTitle" xml:space="preserve">
+    <value>Nom d'échantillon</value>
+  </data>
+  <data name="SamplePageEditNameMessage" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
 </root>

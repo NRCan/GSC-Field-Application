@@ -1467,4 +1467,19 @@
   <data name="GenericPickerTitle" xml:space="preserve">
     <value>Select ...</value>
   </data>
+  <data name="SettingPageOtherHeadingDrillSampleName" xml:space="preserve">
+    <value>Custom sample name</value>
+  </data>
+  <data name="SettingPageOtherHeadingDrillCore" xml:space="preserve">
+    <value>Drill Core</value>
+  </data>
+  <data name="SettingPageCustomSampleNameToggle" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="SamplePageEditNameTitle" xml:space="preserve">
+    <value>Sample Name</value>
+  </data>
+  <data name="SamplePageEditNameMessage" xml:space="preserve">
+    <value>Edit</value>
+  </data>
 </root>

@@ -117,6 +117,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(LocationFollowEnabled), value); }
         }
 
+        public bool CustomSampleNameEnabled
+        {
+            get { return Preferences.Get(nameof(CustomSampleNameEnabled), true); }
+            set { Preferences.Set(nameof(CustomSampleNameEnabled), value); }
+        }
+
         /// <summary>
         /// Property saved in the about page
         /// </summary>

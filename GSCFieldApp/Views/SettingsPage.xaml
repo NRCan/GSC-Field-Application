@@ -113,10 +113,11 @@
                 <Border Stroke="Transparent">
                     <VerticalStackLayout>
 
-                        <!--Helicopter settings-->
+                       
                         <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageOtherHeading}"/>
                         <VerticalStackLayout>
 
+                            <!--Helicopter settings-->
                             <Label Style="{StaticResource FieldAppSettingTitles}"  Text="{local:Localize SettingPageHelicopterHeading}"/>
                             <Border Style="{StaticResource FieldAppSettingBorder}">
 
@@ -137,7 +138,27 @@
 
                                 </Grid>
                             </Border>
+
+                            <!--Drill core sample name-->
+                            <Label Style="{StaticResource FieldAppSettingTitles}" Text="{local:Localize SettingPageOtherHeadingDrillCore}"/>
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,90">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+
+                                    </Grid.RowDefinitions>
+
+                                    <!--Enable drill core sample custom naming scheme-->
+                                    <Label Text="{local:Localize SettingPageOtherHeadingDrillSampleName}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding CustomSampleNameEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="0" />
+
+                                </Grid>
+                            </Border>
+
                         </VerticalStackLayout>
+
+
                     </VerticalStackLayout>
                 </Border>
 

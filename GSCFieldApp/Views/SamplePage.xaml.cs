@@ -1,6 +1,7 @@
 using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
 using System;
+using System.Threading.Tasks;
 
 namespace GSCFieldApp.Views;
 
@@ -70,5 +71,17 @@ public partial class SamplePage : ContentPage
         //Validate paleomag controls visibility
         SampleViewModel vm6 = this.BindingContext as SampleViewModel;
         vm6.ValidateForPaleomagnetism();
+    }
+
+    /// <summary>
+    /// Special event that needs to calculate drill core sample length and new sample name if needed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void Entry_Unfocused(object sender, FocusEventArgs e)
+    {
+        //Will auto-calculate some drill core lenght and refresh core sample names
+        SampleViewModel vm7 = this.BindingContext as SampleViewModel;
+        await vm7.CalculateSampleCoreToValue();
     }
 }

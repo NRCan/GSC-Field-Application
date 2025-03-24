@@ -27,6 +27,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly DrillHole drillHoleModel = new DrillHole();
         readonly DataAccess dAccess = new DataAccess();
 
+        private bool CustomSampleNameEnabled
+        {
+            get { return Preferences.Get(nameof(CustomSampleNameEnabled), false); }
+            set { }
+        }
+
         public DataIDCalculation()
         {
             
@@ -377,57 +383,88 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public async Task<string> CalculateSampleAliasAsync(int parentID, string parentAlias)
+        public async Task<string> CalculateSampleAliasAsync(int parentID, string parentAlias, string drillFrom = "")
         {
             //Querying with Linq
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<Sample> sampleParent = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID).ToListAsync();
+            List<Sample> sampleParent = await currentConnection.Table<Sample>().Where(s => s.SampleEarthmatID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
-            string newAlias = string.Empty;
-            string finaleSampleString = parentAlias;
+            string finaleSampleString = parentAlias + "0" + newID; //Default
 
-            //Detect last sample number and add 1 to it.
+            //Find siblings and increment
             if (sampleParent.Count() > 0)
             {
                 string lastAlias = sampleParent.ToList()[sampleParent.Count() - 1].SampleName.ToString();
                 string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); //Sample only has two digits id in the alias
-                short parsedID = 0;
-                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
-                newID = parsedID + newID;
 
-                //Find a non existing name
-                while (processingID)
-                {
-                    //Padd current ID with 0 if needed
-                    if (newID < 10)
-                    {
-                        newAlias = "0" + newID;
-                    }
-                    else
-                    {
-                        newAlias = newID.ToString();
-                    }
-
-                    finaleSampleString = parentAlias + newAlias;
-
-                    //Find existing
-                    List<Sample> existingSamples = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID && e.SampleName == finaleSampleString).ToListAsync();
-                    if (existingSamples.Count() == 0 || existingSamples == null)
-                    {
-                        processingID = false;
-                    }
-
-                    newID++;
-                }
-
+                finaleSampleString = await CalculateSampleDefaultAlias(currentConnection, lastAlias, lastNumberString, parentAlias, newID, parentID);
             }
-            else
+
+            //Special drill core case ("mineName/sampleDepth")
+            if (CustomSampleNameEnabled && drillFrom != string.Empty)
             {
-                finaleSampleString = parentAlias + "0" + newID;
+                //Find parent core name
+                List<Earthmaterial> emParent = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == parentID).ToListAsync();
+                if (emParent.Count() > 0)
+                {
+                    if (emParent.ToList()[0].EarthMatDrillHoleID.HasValue)
+                    {
+                        int drillID = emParent.ToList()[0].EarthMatDrillHoleID.Value;
+                        List<DrillHole> drillParent = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == drillID).ToListAsync();
+
+                        if (drillParent.Count() > 0)
+                        {
+                            //Find core name
+                            string drillName = drillParent.ToList()[0].DrillName;
+                            if (drillName != null && drillName != string.Empty)
+                            {
+                                //Find if
+                                finaleSampleString = drillName + "/" + drillFrom;
+                            }
+                        }
+                    }
+                }
             }
 
             return finaleSampleString;
+        }
+
+        public async Task<string> CalculateSampleDefaultAlias(SQLiteAsyncConnection currentConnection, string lastAlias, string lastNumberString, string parentAlias, int startID, int parentID)
+        {
+
+            short parsedID = 0;
+            bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+            string newAlias = string.Empty;
+            string finaleSampleString = string.Empty;
+
+            //Find a non existing name
+            while (processingID)
+            {
+                //Padd current ID with 0 if needed
+                if (startID < 10)
+                {
+                    newAlias = "0" + startID;
+                }
+                else
+                {
+                    newAlias = startID.ToString();
+                }
+
+                finaleSampleString = parentAlias + newAlias;
+
+                //Find existing
+                List<Sample> existingSamples = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID && e.SampleName == finaleSampleString).ToListAsync();
+                if (existingSamples.Count() == 0 || existingSamples == null)
+                {
+                    processingID = false;
+                }
+
+                startID++;
+            }
+
+            return finaleSampleString;
+
         }
 
         #endregion

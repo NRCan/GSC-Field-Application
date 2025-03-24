@@ -200,19 +200,27 @@ namespace GSCFieldApp.Models
             {
                 if (SampleName != string.Empty)
                 {
-                    int aliasNumber = 0;
-                    int.TryParse(SampleName.Substring(SampleName.Length - 2), out aliasNumber);
-
-                    if (aliasNumber > 0)
-                    {
-                        //Trim bunch of zeros
-                        string shorterSampleName = SampleName.Substring(SampleName.Length - 7);
-                        return shorterSampleName.TrimStart('0');
-                    }
-                    else
+                    if (SampleName.Contains("/"))
                     {
                         return SampleName;
                     }
+                    else
+                    {
+                        int aliasNumber = 0;
+                        int.TryParse(SampleName.Substring(SampleName.Length - 2), out aliasNumber);
+
+                        if (aliasNumber > 0)
+                        {
+                            //Trim bunch of zeros
+                            string shorterSampleName = SampleName.Substring(SampleName.Length - 7);
+                            return shorterSampleName.TrimStart('0');
+                        }
+                        else
+                        {
+                            return SampleName;
+                        }
+                    }
+
 
                 }
                 else

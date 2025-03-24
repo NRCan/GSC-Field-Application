@@ -148,6 +148,13 @@ namespace GSCFieldApp.ViewModel
         public ComboBox SampleQuality { get { return _sampleQuality; } set { _sampleQuality = value; } }
         public ComboBox SampleState { get { return _sampleState; } set { _sampleState = value; } }
         public ComboBox SampleHorizon { get { return _sampleHorizon; } set { _sampleHorizon = value; } }
+
+        private bool CustomSampleNameEnabled
+        {
+            get { return Preferences.Get(nameof(CustomSampleNameEnabled), false); }
+            set { }
+        }
+
         #endregion
 
         public SampleViewModel() 
@@ -276,21 +283,46 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task SampleNameEdit(string sampleName)
+        {
+            if (CustomSampleNameEnabled)
+            {
+                await Shell.Current.DisplayPromptAsync(LocalizationResourceManager["SamplePageEditNameTitle"].ToString(),
+                    LocalizationResourceManager["SamplePageEditNameMessage"].ToString(),
+                    LocalizationResourceManager["GenericButtonOk"].ToString(),
+                    LocalizationResourceManager["GenericButtonCancel"].ToString(), null, -1, null, Model.SampleName);
+            }
+
+        }
+
         /// <summary>
         /// Will calculate the Core To value based on entered Core From (in m) and Core length (in cm)
         /// It'll need to be adjusted since the units are different between from and length.
         /// </summary>
         /// <returns></returns>
         [RelayCommand]
-        public void SampleCoreCalculatTo()
+        public async void SampleCoreCalculatTo()
         {
-            //Recalculate To value
-            Model.SampleCoreTo = Model.SampleCoreFrom + Model.SampleCoreLength / 100;
-            OnPropertyChanged(nameof(Model));
+            await CalculateSampleCoreToValue();
         }
         #endregion
 
         #region METHODS
+
+        public async Task CalculateSampleCoreToValue()
+        {
+            //Recalculate "To" value
+            Model.SampleCoreTo = Model.SampleCoreFrom + Model.SampleCoreLength / 100;
+
+            //Modify sample name if needed
+            if (CustomSampleNameEnabled)
+            {
+                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, Model.SampleCoreFrom.ToString());
+            }
+
+            OnPropertyChanged(nameof(Model));
+        }
 
         /// <summary>
         /// Initialize all pickers. 

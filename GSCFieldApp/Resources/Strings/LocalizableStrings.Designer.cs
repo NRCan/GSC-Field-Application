@@ -3157,6 +3157,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string SamplePageEditNameMessage {
+            get {
+                return ResourceManager.GetString("SamplePageEditNameMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample Name.
+        /// </summary>
+        internal static string SamplePageEditNameTitle {
+            get {
+                return ResourceManager.GetString("SamplePageEditNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for Frost Boil.
         /// </summary>
         internal static string SamplePageFrostBoil {
@@ -3319,6 +3337,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        internal static string SettingPageCustomSampleNameToggle {
+            get {
+                return ResourceManager.GetString("SettingPageCustomSampleNameToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Debug.
         /// </summary>
         internal static string SettingPageDebugHeading {
@@ -3414,6 +3441,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SettingPageOtherHeading {
             get {
                 return ResourceManager.GetString("SettingPageOtherHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drill Core.
+        /// </summary>
+        internal static string SettingPageOtherHeadingDrillCore {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingDrillCore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom sample name.
+        /// </summary>
+        internal static string SettingPageOtherHeadingDrillSampleName {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingDrillSampleName", resourceCulture);
             }
         }
         

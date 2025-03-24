@@ -27,8 +27,12 @@
     <ContentPage.Content>
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
-            <Label Text="{Binding Model.SampleName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
-            
+            <Label Text="{Binding Model.SampleName, Mode=TwoWay}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SampleNameEditCommand}" NumberOfTapsRequired="2"/>
+                </Label.GestureRecognizers>
+            </Label>
+
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
@@ -247,7 +251,7 @@
                             <VerticalStackLayout>
                                 <!--Quirk, this along next control should automatically calculate Core length "to" value-->
                                 <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}" Unfocused="Entry_Unfocused"/>
 
                             </VerticalStackLayout>
 

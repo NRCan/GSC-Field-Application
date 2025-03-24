@@ -1712,7 +1712,6 @@ namespace GSCFieldApp.ViewModel
                     FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(EarthMats));
 
-
                     FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Documents));
 
@@ -1721,7 +1720,6 @@ namespace GSCFieldApp.ViewModel
 
                     FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(MineralizationAlterations));
-
                     #endregion
 
                     #region Earth Mat - Second order children
