@@ -10,13 +10,18 @@ namespace GSCFieldApp.Services
     public static class ObservableCollectionHelper
     {
         /// <summary>
-        /// Appending two collections
+        /// Initializing and appending two collections 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="coll"></param>
         /// <param name="items"></param>
         public static void AddRange<T>(this ObservableCollection<T> coll, IEnumerable<T> items)
         {
+            if (coll == null)
+            {
+                coll = new ObservableCollection<T>();
+            }
+
             foreach (var item in items)
             {
                 if (!coll.Contains(item))
