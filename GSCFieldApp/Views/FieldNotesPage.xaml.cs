@@ -3,6 +3,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.ViewModel;
 using GSCFieldApp.Dictionaries;
 using Microsoft.Maui.Controls;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.Views;
 
@@ -38,13 +39,21 @@ public partial class FieldNotesPage : ContentPage
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnNavigatedTo(args);
+        try
+        {
+            base.OnNavigatedTo(args);
 
-        //Force reset of theme header bar for hidden/show preferences that might be coming from config.
-        FieldNotesViewModel vm2 = (FieldNotesViewModel)BindingContext;
-        vm2.ThemeHeaderBarsRefresh();
+            //Force reset of theme header bar for hidden/show preferences that might be coming from config.
+            FieldNotesViewModel vm2 = (FieldNotesViewModel)BindingContext;
+            vm2.ThemeHeaderBarsRefresh();
 
-        vm2.FillFieldNotesAsync().ConfigureAwait(false);
+            vm2.FillFieldNotesAsync().ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+
 
     }
 

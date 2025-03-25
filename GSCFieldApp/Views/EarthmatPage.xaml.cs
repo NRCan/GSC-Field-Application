@@ -1,6 +1,7 @@
 using GSCFieldApp.Models;
 using GSCFieldApp.Controls;
 using GSCFieldApp.ViewModel;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.Views;
 
@@ -15,13 +16,21 @@ public partial class EarthmatPage : ContentPage
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnNavigatedTo(args);
+        try
+        {
+            base.OnNavigatedTo(args);
 
-        //After binding context is setup fill pickers
-        EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
-        await Task.Run(async()=> await vm2.FillPickers());
-        await Task.Run(async () => await vm2.InitModel());
-        await Task.Run(async () => await vm2.Load()); //In case it is coming from an existing record in field notes
+            //After binding context is setup fill pickers
+            EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
+            await Task.Run(async () => await vm2.FillPickers());
+            await Task.Run(async () => await vm2.InitModel());
+            await Task.Run(async () => await vm2.Load()); //In case it is coming from an existing record in field notes
+        }
+        catch (Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+
     }
 
     /// <summary>
@@ -77,15 +86,23 @@ public partial class EarthmatPage : ContentPage
     /// <param name="e"></param>
     private void lithoSearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        SearchBar searchBar = sender as SearchBar;
-        if (searchBar != null)
+        try
         {
-            if (searchBar.Text != null && searchBar.Text != string.Empty)
+            SearchBar searchBar = sender as SearchBar;
+            if (searchBar != null)
             {
-                this.lithoSearchBar.SearchCommand.Execute(searchBar.Text);
-            }
+                if (searchBar.Text != null && searchBar.Text != string.Empty)
+                {
+                    this.lithoSearchBar.SearchCommand.Execute(searchBar.Text);
+                }
 
+            }
         }
+        catch (Exception searchBarException)
+        {
+            new ErrorToLogFile(searchBarException).WriteToFile();
+        }
+
     }
 
 }
