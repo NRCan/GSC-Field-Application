@@ -2590,6 +2590,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make a tap entry station.
+        /// </summary>
+        internal static string MapPageTapMode {
+            get {
+                return ResourceManager.GetString("MapPageTapMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove selected layer from map.
         /// </summary>
         internal static string MapPageTooltipDeleteLayer {

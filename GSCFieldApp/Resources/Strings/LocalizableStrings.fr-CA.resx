@@ -1537,4 +1537,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ButtonSaveSwipeTooltip" xml:space="preserve">
     <value />
   </data>
+  <data name="MapPageTapMode" xml:space="preserve">
+    <value>Créer une station à l'aide d'un touché sur le carte</value>
+  </data>
 </root>

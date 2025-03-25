@@ -256,7 +256,7 @@
 
                 <!--Tap entry-->
                 <Button x:Name="TapMode" Text="&#xF0741;"
-                        ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
+                        ToolTipProperties.Text="{local:Localize MapPageTapMode}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="TapMode_Clicked"/>
 
             </StackLayout>

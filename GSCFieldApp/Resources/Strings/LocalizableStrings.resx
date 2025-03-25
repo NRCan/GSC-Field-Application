@@ -1536,4 +1536,7 @@
   <data name="ButtonSaveSwipeTooltip" xml:space="preserve">
     <value>Tap to save, swipe left to delete, swipe right to copy and keep form filled</value>
   </data>
+  <data name="MapPageTapMode" xml:space="preserve">
+    <value>Make a tap entry station</value>
+  </data>
 </root>
