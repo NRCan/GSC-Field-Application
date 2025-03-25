@@ -1126,7 +1126,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 else
                 {
-                    if (_station != null)
+                    if (_station != null && _station.StationID != null)
                     {
                         ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == _station.StationID)).ToListAsync();
                     }

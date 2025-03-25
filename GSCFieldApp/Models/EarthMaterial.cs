@@ -340,7 +340,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (EarthMatName != string.Empty && GetIDLetter != string.Empty)
+                if (EarthMatName != string.Empty && GetIDLetter != string.Empty && EarthMatName.Length > 6)
                 {
                     string lightAlias = GetIDLetter;
                     int aliasCharNo = lightAlias.ToCharArray().Count();

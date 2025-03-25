@@ -209,7 +209,7 @@ namespace GSCFieldApp.Models
                         int aliasNumber = 0;
                         int.TryParse(SampleName.Substring(SampleName.Length - 2), out aliasNumber);
 
-                        if (aliasNumber > 0)
+                        if (aliasNumber > 0 && SampleName.Length > 7)
                         {
                             //Trim bunch of zeros
                             string shorterSampleName = SampleName.Substring(SampleName.Length - 7);

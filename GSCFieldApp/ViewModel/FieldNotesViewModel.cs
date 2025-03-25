@@ -889,50 +889,58 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillFieldNotesAsync()
         {
-            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+            try
             {
-
-                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-
-                List<Task> tasks = new List<Task>();
-                tasks.Add(FillTraverseDates(currentConnection));
-                tasks.Add(FillStationNotes(currentConnection));
-                tasks.Add(FillEMNotes(currentConnection));
-                tasks.Add(FillSampleNotes(currentConnection));
-                tasks.Add(FillDocumentNotes(currentConnection));
-                tasks.Add(FillStructureNotes(currentConnection));
-                tasks.Add(FillPaleoflowNotes(currentConnection));
-                tasks.Add(FillFossilNotes(currentConnection));
-                tasks.Add(FillEnvironmentNotes(currentConnection));
-                tasks.Add(FillMineralNotes(currentConnection));
-                tasks.Add(FillMineralizationAlterationNotes(currentConnection));
-                tasks.Add(FillLocationNotes(currentConnection));
-                tasks.Add(FillDrillHoleNotes(currentConnection));
-                tasks.Add(FillLineworkNotes(currentConnection));
-
-                await Task.WhenAll(tasks).ConfigureAwait(false);
-
-                await currentConnection.CloseAsync();
-
-                //OnPropertyChanged(nameof(FieldNotes));
-                OnPropertyChanged(nameof(Dates));
-
-                //Make a copy in case user wants to refilter values
-                FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
-
-                //Force a first select or refresh selected date or force last date if no selection
-                if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
+                if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
                 {
-                    await FilterRecordsOnDate(Dates.First());
 
-                    _selectedDate = Dates.First();
-                    OnPropertyChanged(nameof(SelectedDate));
-                }
-                else if (_selectedDate != null && Dates.Contains(_selectedDate))
-                {
-                    await FilterRecordsOnDate(_selectedDate);
+                    SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+
+                    List<Task> tasks = new List<Task>();
+                    tasks.Add(FillTraverseDates(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillSampleNotes(currentConnection));
+                    tasks.Add(FillDocumentNotes(currentConnection));
+                    tasks.Add(FillStructureNotes(currentConnection));
+                    tasks.Add(FillPaleoflowNotes(currentConnection));
+                    tasks.Add(FillFossilNotes(currentConnection));
+                    tasks.Add(FillEnvironmentNotes(currentConnection));
+                    tasks.Add(FillMineralNotes(currentConnection));
+                    tasks.Add(FillMineralizationAlterationNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillDrillHoleNotes(currentConnection));
+                    tasks.Add(FillLineworkNotes(currentConnection));
+
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
+
+                    await currentConnection.CloseAsync();
+
+                    //OnPropertyChanged(nameof(FieldNotes));
+                    OnPropertyChanged(nameof(Dates));
+
+                    //Make a copy in case user wants to refilter values
+                    FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
+
+                    //Force a first select or refresh selected date or force last date if no selection
+                    if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
+                    {
+                        await FilterRecordsOnDate(Dates.First());
+
+                        _selectedDate = Dates.First();
+                        OnPropertyChanged(nameof(SelectedDate));
+                    }
+                    else if (_selectedDate != null && Dates.Contains(_selectedDate))
+                    {
+                        await FilterRecordsOnDate(_selectedDate);
+                    }
+
                 }
 
+            }
+            catch (Exception fieldNoteFillException)
+            {
+                new ErrorToLogFile(fieldNoteFillException).WriteToFile();
             }
 
         }
@@ -1871,7 +1879,6 @@ namespace GSCFieldApp.ViewModel
                     tasks.Add(FillStationNotes(currentConnection));
                     
                     break;
-
                 case TableNames.earthmat:
                     tasks.Add(FillLocationNotes(currentConnection));
                     tasks.Add(FillStationNotes(currentConnection));
