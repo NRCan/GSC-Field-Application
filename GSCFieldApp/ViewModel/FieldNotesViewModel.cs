@@ -920,13 +920,18 @@ namespace GSCFieldApp.ViewModel
                 //Make a copy in case user wants to refilter values
                 FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
 
-                //Filter out latest date
-                //TODO uncomment if really needed
-                if (Dates != null && Dates.Count > 0)
+                //Force a first select or refresh selected date or force last date if no selection
+                if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
                 {
                     await FilterRecordsOnDate(Dates.First());
-                }
 
+                    _selectedDate = Dates.First();
+                    OnPropertyChanged(nameof(SelectedDate));
+                }
+                else if (_selectedDate != null && Dates.Contains(_selectedDate))
+                {
+                    await FilterRecordsOnDate(_selectedDate);
+                }
 
             }
 
