@@ -1542,4 +1542,10 @@
   <data name="MapPageTapEditFeatureError" xml:space="preserve">
     <value>Only Stations and Lineworks are editable from map page.</value>
   </data>
+  <data name="MapPageAddErrorContent" xml:space="preserve">
+    <value>No location available, enable GPS, take a manual entry or take a tap entry.</value>
+  </data>
+  <data name="MapPageAddErrorNavSetting" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

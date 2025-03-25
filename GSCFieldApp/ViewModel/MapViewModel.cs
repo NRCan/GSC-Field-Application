@@ -21,7 +21,12 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using BruTile.Wms;
 using Mapsui.UI.Maui;
 using NTSGeom = NetTopologySuite.Geometries;
-
+#if ANDROID
+using Android.Content;
+#elif IOS
+using UIKit;
+using Foundation;
+#endif
 namespace GSCFieldApp.ViewModel
 {
     public partial class MapViewModel : ObservableObject
@@ -78,7 +83,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddStation()
         {
-            if (sensorLocation != null)
+            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
             {
                 int locId = await SaveLocationModelAsync();
 
@@ -100,13 +105,16 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
-
+            else 
+            {
+                DisplayAddError();
+            }
         }
 
         [RelayCommand]
         async Task AddSample()
         {
-            if (sensorLocation != null)
+            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
             {
                 //Create a location record
                 int locationID = await SaveLocationModelAsync();
@@ -131,13 +139,16 @@ namespace GSCFieldApp.ViewModel
                     await ShowMissingFieldBookMesasge();
                 }
             }
-
+            else
+            {
+                DisplayAddError();
+            }
         }
 
         [RelayCommand]
         async Task AddDocument()
         {
-            if (sensorLocation != null)
+            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
             {
                 //Create a location record
                 int locationID = await SaveLocationModelAsync();
@@ -163,13 +174,16 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
-
+            else
+            {
+                DisplayAddError();
+            }
         }
 
         [RelayCommand]
         async Task AddStructure()
         {
-            if (sensorLocation != null)
+            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
             {
                 //Create a location record
                 int locationID = await SaveLocationModelAsync();
@@ -213,12 +227,16 @@ namespace GSCFieldApp.ViewModel
                     await ShowMissingFieldBookMesasge();
                 }
             }
+            else
+            {
+                DisplayAddError();
+            }
         }
 
         [RelayCommand]
         async Task AddLocation()
         {
-            if (sensorLocation != null)
+            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
             {
                 //Create a location record
                 int locationID = await SaveLocationModelAsync();
@@ -241,6 +259,10 @@ namespace GSCFieldApp.ViewModel
                     await ShowMissingFieldBookMesasge();
                 }
 
+            }
+            else
+            {
+                DisplayAddError();
             }
 
         }
@@ -335,6 +357,31 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will display an alert popup if user wants to take a quick entry but there is not
+        /// location available
+        /// </summary>
+        public async void DisplayAddError()
+        {
+            bool navToSetting = await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                        LocalizationResourceManager["MapPageAddErrorContent"].ToString(),
+                        LocalizationResourceManager["MapPageAddErrorNavSetting"].ToString(),
+                        LocalizationResourceManager["GenericButtonCancel"].ToString());
+
+            if (navToSetting == true)
+            {
+#if ANDROID
+                    var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+                    intent.AddCategory(Intent.CategoryDefault);
+                    intent.SetFlags(ActivityFlags.NewTask);
+                    Platform.CurrentActivity.StartActivityForResult(intent, 0);
+#elif IOS
+                UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
+#endif
+
+            }
+        }
 
         /// <summary>
         /// Will save the current layer settings into a JSON file inside the local folder

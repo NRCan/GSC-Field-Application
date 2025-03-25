@@ -1543,4 +1543,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageTapEditFeatureError" xml:space="preserve">
     <value>Seulement les stations et les lignes dessinées peuvent être édités à partir de la carte.</value>
   </data>
+  <data name="MapPageAddErrorContent" xml:space="preserve">
+    <value>Aucune localisation disponible, veuillez activer le GPS, faire une entrée manuelle ou en touchant la carte.</value>
+  </data>
+  <data name="MapPageAddErrorNavSetting" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
 </root>

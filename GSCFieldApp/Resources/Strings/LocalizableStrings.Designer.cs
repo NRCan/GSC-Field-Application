@@ -2383,6 +2383,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No location available, enable GPS, take a manual entry or take a tap entry..
+        /// </summary>
+        internal static string MapPageAddErrorContent {
+            get {
+                return ResourceManager.GetString("MapPageAddErrorContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string MapPageAddErrorNavSetting {
+            get {
+                return ResourceManager.GetString("MapPageAddErrorNavSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select features to add.
         /// </summary>
         internal static string MapPageAddGeopackageFeature {
