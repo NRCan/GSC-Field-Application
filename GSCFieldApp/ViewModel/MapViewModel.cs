@@ -254,6 +254,84 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task EditTappedFeature()
+        {
+            //Variables
+            List<string> keyIDField = new List<string>() { DatabaseLiterals.FieldStationID, DatabaseLiterals.FieldLineworkID};
+            bool foundKeyField = false;
+
+            //Will popup the tapped feature if station or linework
+            if (_mapInfoCollection.Count() > 0)
+            {
+                foreach (MapPageInfoResult mi in _mapInfoCollection)
+                {
+                    if (keyIDField.Contains(mi.FieldName))
+                    {
+                        SQLiteAsyncConnection currentConnection = dataAccess.GetConnectionFromPath(dataAccess.PreferedDatabasePath);
+
+                        if (mi.FieldName == keyIDField[0])
+                        {
+                            foundKeyField = true;
+                            int idValue = int.Parse(mi.FieldValue);
+                            List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationID == idValue).ToListAsync();
+
+                            //Navigate to station page and keep location model for relational link
+                            if (tappedStation != null && tappedStation.Count() == 1)
+                            {
+                                //Adapt for map page nav
+                                Station tappedStat = tappedStation[0];
+                                tappedStat.IsMapPageQuick = true;
+
+                                await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                                    new Dictionary<string, object>
+                                    {
+                                        [nameof(FieldLocation)] = null,
+                                        [nameof(Metadata)] = null,
+                                        [nameof(Station)] = tappedStat
+                                    }
+                                );
+                            }
+                        }
+                        else if (mi.FieldName == keyIDField[1])
+                        {
+                            foundKeyField = true;
+                            int idValue = int.Parse(mi.FieldValue);
+                            List<Linework> tappedLine= await currentConnection.Table<Linework>().Where(i => i.LineID == idValue).ToListAsync();
+
+                            //Navigate to linework page
+                            if (tappedLine != null && tappedLine.Count() == 1)
+                            {
+                                //Adapt for map page nav
+                                Linework tappedL= tappedLine[0];
+                                tappedL.IsMapPageQuick = true;
+
+                                await Shell.Current.GoToAsync($"/{nameof(LineworkPage)}/",
+                                    new Dictionary<string, object>
+                                    {
+                                        [nameof(Linework)] = tappedL,
+                                    }
+                                );
+                            }
+                        }
+
+                        await currentConnection.CloseAsync();
+
+
+                    }
+                }
+
+                //Show error if no key field found
+                if (!foundKeyField)
+                {
+                    await Shell.Current.DisplayAlert(
+                        LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                        LocalizationResourceManager["MapPageTapEditFeatureError"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+            }
+        }
+
         #endregion
 
         #region METHODS

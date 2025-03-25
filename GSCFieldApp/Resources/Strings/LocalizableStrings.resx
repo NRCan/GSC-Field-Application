@@ -1539,4 +1539,7 @@
   <data name="MapPageTapMode" xml:space="preserve">
     <value>Make a tap entry station</value>
   </data>
+  <data name="MapPageTapEditFeatureError" xml:space="preserve">
+    <value>Only Stations and Lineworks are editable from map page.</value>
+  </data>
 </root>

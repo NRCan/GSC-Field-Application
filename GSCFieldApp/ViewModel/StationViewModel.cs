@@ -222,8 +222,14 @@ namespace GSCFieldApp.ViewModel
                 await da.CloseConnectionAsync();
 
                 //Exit
-                await NavigateToFieldNotes(TableNames.station);
-
+                if (_station.IsMapPageQuick)
+                {
+                    await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+                }
+                else
+                {
+                    await NavigateToFieldNotes(TableNames.station);
+                }
             }
             else
             {

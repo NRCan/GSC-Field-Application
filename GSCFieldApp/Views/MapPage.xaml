@@ -69,7 +69,7 @@
 
         </DataTemplate>
 
-        <!--Geopackage feature selection-->
+        <!--Map info result template-->
         <DataTemplate  x:Key="MapInfoResultTemplate" x:DataType="model:MapPageInfoResult">
 
             <Grid Margin="0,0,0,5" Padding="0,0,15,0" >
@@ -210,6 +210,9 @@
                     </Grid.RowDefinitions>
 
                     <Label Text="{local:Localize MapPageInfoResults}" HorizontalOptions="Start" Grid.Row="0" Style="{StaticResource FieldAppSettingTitles}"/>
+                    <Button Text="&#xF0CB6;" FontFamily="MatDesign" Command="{Binding EditTappedFeatureCommand}"
+                            Style="{StaticResource FieldAppRowButton}"
+                           HorizontalOptions="End" Grid.Row="0" />
 
                     <Border Style="{StaticResource FieldAppBorder}" Grid.Row="1" Margin="0" Padding="5">
                         <ScrollView Orientation="Horizontal" >

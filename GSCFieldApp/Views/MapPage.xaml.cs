@@ -322,6 +322,9 @@ public partial class MapPage : ContentPage
             //Freshen up the default layers
             await Task.Run(async () => await QuickRefreshDefaultFeatureLayer());
 
+            //Close things that might be open
+            MapInfoResultsFrame.IsVisible = false;
+
         }
         catch (System.Exception e)
         {

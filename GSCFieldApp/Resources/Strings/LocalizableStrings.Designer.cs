@@ -2590,6 +2590,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only Stations and Lineworks are editable from map page..
+        /// </summary>
+        internal static string MapPageTapEditFeatureError {
+            get {
+                return ResourceManager.GetString("MapPageTapEditFeatureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Make a tap entry station.
         /// </summary>
         internal static string MapPageTapMode {
