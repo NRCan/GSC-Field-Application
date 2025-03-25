@@ -442,27 +442,31 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
-
-            //Validate if new entry or update
-            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            if (Model.EarthMatName != string.Empty)
             {
-                
-                await da.SaveItemAsync(Model, true);
-            }
-            else
-            {
-                //New entry coming from parent form
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-            }
+                //Fill out missing values in model
+                await SetModelAsync();
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
+                //Validate if new entry or update
+                if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+                {
 
-            //Exit
-            await NavigateToFieldNotes(TableNames.earthmat);
+                    await da.SaveItemAsync(Model, true);
+                }
+                else
+                {
+                    //New entry coming from parent form
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                }
+
+                //Close to be sure
+                await da.CloseConnectionAsync();
+
+                //Exit
+                await NavigateToFieldNotes(TableNames.earthmat);
+            }
+ 
         }
 
         /// <summary>
@@ -472,31 +476,33 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveStay()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
-
-            //Validate if new entry or update
-            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            if (Model.EarthMatName != string.Empty)
             {
-                await da.SaveItemAsync(Model, true);
+                //Fill out missing values in model
+                await SetModelAsync();
+
+                //Validate if new entry or update
+                if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+                {
+                    await da.SaveItemAsync(Model, true);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+
+                }
+
+                //Close to be sure
+                await da.CloseConnectionAsync();
+
+                //Show saved message
+                await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
+
+                //Reset
+                await ResetModelAsync();
+                OnPropertyChanged(nameof(Model));
             }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-
-            }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
-            //Show saved message
-            await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
-
-            //Reset
-            await ResetModelAsync();
-            OnPropertyChanged(nameof(Model));
-
 
         }
 
