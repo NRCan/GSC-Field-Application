@@ -11,11 +11,13 @@
     <!-- NOTE: Adding anything in here, even if registered as transient in MauiProgram, won't
     recreate the page. It'll be create once and that's it -->
 
+    <!--NOTE: Can't make tooltip works in here-->
+    
     <ShellContent
             Title="GSC Field App" FlyoutItemIsVisible="True" Icon="logo.png"
             ContentTemplate="{DataTemplate views:FieldBooksPage}" Route="FieldBooksPage"/>
 
-    <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}">
+    <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}" ToolTipProperties.Text="{local:Localize ShellTooltipFieldBooks}" >
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>

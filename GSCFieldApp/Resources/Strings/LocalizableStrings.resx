@@ -1482,4 +1482,58 @@
   <data name="SamplePageEditNameMessage" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="FieldbooksTooltipUpdate" xml:space="preserve">
+    <value>Update selected field book to current application version.</value>
+  </data>
+  <data name="FieldbooksTooltipUpload" xml:space="preserve">
+    <value>Upload a field book (.gpkg, .zip)</value>
+  </data>
+  <data name="FieldbooksTooltipDownload" xml:space="preserve">
+    <value>Download selected field book (photos, data, map config)</value>
+  </data>
+  <data name="FieldbooksTooltipDelete" xml:space="preserve">
+    <value>Delete selected field book</value>
+  </data>
+  <data name="FieldbooksTooltipEdit" xml:space="preserve">
+    <value>Edit selected field book</value>
+  </data>
+  <data name="FieldbooksTooltipAdd" xml:space="preserve">
+    <value>Add a new field book</value>
+  </data>
+  <data name="ShellTooltipFieldBooks" xml:space="preserve">
+    <value>Navigate to field books page</value>
+  </data>
+  <data name="MapPageTooltipEnableLayer" xml:space="preserve">
+    <value>Show/Hide selected layer in map</value>
+  </data>
+  <data name="MapPageTooltipDeleteLayer" xml:space="preserve">
+    <value>Remove selected layer from map</value>
+  </data>
+  <data name="MapPageTooltipZoomLayer" xml:space="preserve">
+    <value>Zoom to selected layer extent</value>
+  </data>
+  <data name="PicklistPageTooltipSave" xml:space="preserve">
+    <value>Save edits</value>
+  </data>
+  <data name="SettingPageTooltipDownloadDebugLog" xml:space="preserve">
+    <value>Download debug log as text file.</value>
+  </data>
+  <data name="SettingPageTooltipDownloadGPSLog" xml:space="preserve">
+    <value>Download the GPS tracking log as text file</value>
+  </data>
+  <data name="SettingPageTooltipRepairGeometry" xml:space="preserve">
+    <value>Will repair F_LOCATION geometry from field book.</value>
+  </data>
+  <data name="ButtonSaveTooltip" xml:space="preserve">
+    <value>Saves record</value>
+  </data>
+  <data name="ButtonSaveDeleteTooltip" xml:space="preserve">
+    <value>Deletes record</value>
+  </data>
+  <data name="ButtonSaveCopyTooltip" xml:space="preserve">
+    <value>Creates a copy record and keeps field filled</value>
+  </data>
+  <data name="ButtonSaveSwipeTooltip" xml:space="preserve">
+    <value>Tap to save, swipe left to delete, swipe right to copy and keep form filled</value>
+  </data>
 </root>

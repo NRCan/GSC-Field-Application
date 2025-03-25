@@ -34,10 +34,14 @@
 
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
-                    <Switch x:Name="mapFileName" IsToggled="{Binding Enabled}"/>
-                    <Button x:Name="mapDeleteLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF0A7A;" Clicked="mapDeleteLayer_Clicked" 
+                    <Switch x:Name="mapFileName" IsToggled="{Binding Enabled}" 
+                            ToolTipProperties.Text="{local:Localize MapPageTooltipEnableLayer}" />
+                    <Button x:Name="mapDeleteLayer" Style="{StaticResource FieldAppSymbolButton}" 
+                            ToolTipProperties.Text="{local:Localize MapPageTooltipDeleteLayer}" 
+                            Text="&#xF0A7A;" Clicked="mapDeleteLayer_Clicked" 
                             IsVisible="{Binding Name, Converter={StaticResource layerButtonVisibility}}"/>
                     <Button x:Name="mapZoomToLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF1874;"
+                            ToolTipProperties.Text="{local:Localize MapPageTooltipZoomLayer}" 
                             Clicked="mapZoomToLayer_Clicked"/>
 
                 </HorizontalStackLayout>

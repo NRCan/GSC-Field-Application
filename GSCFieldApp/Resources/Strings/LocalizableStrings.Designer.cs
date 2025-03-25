@@ -241,6 +241,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creates a copy record and keeps field filled.
+        /// </summary>
+        internal static string ButtonSaveCopyTooltip {
+            get {
+                return ResourceManager.GetString("ButtonSaveCopyTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string ButtonSaveDelete {
@@ -250,11 +259,38 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deletes record.
+        /// </summary>
+        internal static string ButtonSaveDeleteTooltip {
+            get {
+                return ResourceManager.GetString("ButtonSaveDeleteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         internal static string ButtonSaveStay {
             get {
                 return ResourceManager.GetString("ButtonSaveStay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to save, swipe left to delete, swipe right to copy and keep form filled.
+        /// </summary>
+        internal static string ButtonSaveSwipeTooltip {
+            get {
+                return ResourceManager.GetString("ButtonSaveSwipeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saves record.
+        /// </summary>
+        internal static string ButtonSaveTooltip {
+            get {
+                return ResourceManager.GetString("ButtonSaveTooltip", resourceCulture);
             }
         }
         
@@ -1690,6 +1726,60 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a new field book.
+        /// </summary>
+        internal static string FieldbooksTooltipAdd {
+            get {
+                return ResourceManager.GetString("FieldbooksTooltipAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete selected field book.
+        /// </summary>
+        internal static string FieldbooksTooltipDelete {
+            get {
+                return ResourceManager.GetString("FieldbooksTooltipDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download selected field book (photos, data, map config).
+        /// </summary>
+        internal static string FieldbooksTooltipDownload {
+            get {
+                return ResourceManager.GetString("FieldbooksTooltipDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit selected field book.
+        /// </summary>
+        internal static string FieldbooksTooltipEdit {
+            get {
+                return ResourceManager.GetString("FieldbooksTooltipEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update selected field book to current application version..
+        /// </summary>
+        internal static string FieldbooksTooltipUpdate {
+            get {
+                return ResourceManager.GetString("FieldbooksTooltipUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload a field book (.gpkg, .zip).
+        /// </summary>
+        internal static string FieldbooksTooltipUpload {
+            get {
+                return ResourceManager.GetString("FieldbooksTooltipUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field book has been upgraded successfully..
         /// </summary>
         internal static string FieldBooksUpgradeContentDone {
@@ -2500,6 +2590,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove selected layer from map.
+        /// </summary>
+        internal static string MapPageTooltipDeleteLayer {
+            get {
+                return ResourceManager.GetString("MapPageTooltipDeleteLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show/Hide selected layer in map.
+        /// </summary>
+        internal static string MapPageTooltipEnableLayer {
+            get {
+                return ResourceManager.GetString("MapPageTooltipEnableLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom to selected layer extent.
+        /// </summary>
+        internal static string MapPageTooltipZoomLayer {
+            get {
+                return ResourceManager.GetString("MapPageTooltipZoomLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected feature has more then 1000 records, loading this might impact the rendering speed within map page. Would you like to continue?.
         /// </summary>
         internal static string MapPageTooManyGeometriesMessage {
@@ -3031,6 +3148,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save edits.
+        /// </summary>
+        internal static string PicklistPageTooltipSave {
+            get {
+                return ResourceManager.GetString("PicklistPageTooltipSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azimuth.
         /// </summary>
         internal static string SamplePageAzimuth {
@@ -3490,6 +3616,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download debug log as text file..
+        /// </summary>
+        internal static string SettingPageTooltipDownloadDebugLog {
+            get {
+                return ResourceManager.GetString("SettingPageTooltipDownloadDebugLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download the GPS tracking log as text file.
+        /// </summary>
+        internal static string SettingPageTooltipDownloadGPSLog {
+            get {
+                return ResourceManager.GetString("SettingPageTooltipDownloadGPSLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Will repair F_LOCATION geometry from field book..
+        /// </summary>
+        internal static string SettingPageTooltipRepairGeometry {
+            get {
+                return ResourceManager.GetString("SettingPageTooltipRepairGeometry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string ShellAboutTitle {
@@ -3612,6 +3765,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string ShellSettingsTitle {
             get {
                 return ResourceManager.GetString("ShellSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigate to field books page.
+        /// </summary>
+        internal static string ShellTooltipFieldBooks {
+            get {
+                return ResourceManager.GetString("ShellTooltipFieldBooks", resourceCulture);
             }
         }
         

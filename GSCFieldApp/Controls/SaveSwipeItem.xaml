@@ -9,23 +9,26 @@
             <VerticalStackLayout>
 
                 <!--For mobile and touch screens-->
-                <SwipeView Threshold="110" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}" >
+                <SwipeView Threshold="110" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}" ToolTipProperties.Text="{local:Localize ButtonSaveSwipeTooltip}">
                     <SwipeView.LeftItems>
                         <SwipeItems Mode="Execute">
-                            <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{TemplateBinding ButtonLightColor}"
-                            Command="{Binding SaveStayCommand}"/>
+                            <SwipeItem x:Name="ButtonSaveStay" 
+                                Text="{local:Localize ButtonSaveStay}" BackgroundColor="{TemplateBinding ButtonLightColor}"
+                                Command="{Binding SaveStayCommand}"/>
                         </SwipeItems>
                     </SwipeView.LeftItems>
 
                     <SwipeView.RightItems>
                         <SwipeItems Mode="Execute">
-                            <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
-                            Command="{Binding SaveDeleteCommand}"/>
+                            <SwipeItem x:Name="ButtonSaveDelete" 
+                                Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
+                                Command="{Binding SaveDeleteCommand}"/>
                         </SwipeItems>
                     </SwipeView.RightItems>
 
-                    <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" BackgroundColor="{TemplateBinding ButtonColor}"
-                    Command="{Binding SaveCommand}"/>
+                    <Button Text="{local:Localize ButtonSave}" 
+                        Style="{StaticResource FieldAppButonSave}" BackgroundColor="{TemplateBinding ButtonColor}"
+                        Command="{Binding SaveCommand}"/>
                 </SwipeView>
 
                 <!--For desktop winui3 doesn't support mouse on swipeitems-->
@@ -39,6 +42,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Text="{local:Localize ButtonSaveDelete}"
+                        ToolTipProperties.Text="{local:Localize ButtonSaveDeleteTooltip}"
                         Style="{StaticResource FieldAppButonSave}" 
                         BackgroundColor="{StaticResource Gray500}"
                         Command="{Binding SaveDeleteCommand}"
@@ -46,12 +50,14 @@
 
                     <Button Text="{local:Localize ButtonSave}" 
                         Style="{StaticResource FieldAppButonSave}" 
+                        ToolTipProperties.Text="{local:Localize ButtonSaveTooltip}"
                         BackgroundColor="{TemplateBinding ButtonColor}"
                         Command="{Binding SaveCommand}"
                         Grid.Row="0" Grid.Column="1"/>
 
                     <Button Text="{local:Localize ButtonSaveStay}" 
-                        Style="{StaticResource FieldAppButonSave}" 
+                        Style="{StaticResource FieldAppButonSave}"
+                        ToolTipProperties.Text="{local:Localize ButtonSaveCopyTooltip}"
                         BackgroundColor="{TemplateBinding ButtonLightColor}"
                         Command="{Binding SaveStayCommand}"
                         Grid.Row="0" Grid.Column="2"/>

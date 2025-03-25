@@ -156,24 +156,36 @@
             <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="1" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
 
                 <!--Update a selected field book-->
-                <Button Command="{Binding UpdateFieldBookCommand}" Text="&#xF16C8;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Command="{Binding UpdateFieldBookCommand}" 
+                        ToolTipProperties.Text="{local:Localize FieldbooksTooltipUpdate}" 
+                        Text="&#xF16C8;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Upload a selected field book-->
-                <Button Command="{Binding UploadFieldBookCommand}" Text="&#xF1685;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Command="{Binding UploadFieldBookCommand}" 
+                        ToolTipProperties.Text="{local:Localize FieldbooksTooltipUpload}" 
+                        Text="&#xF1685;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Download a selected field book-->
-                <Button Command="{Binding DownloadFieldBookCommand}" Text="&#xF167F;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Command="{Binding DownloadFieldBookCommand}" 
+                        ToolTipProperties.Text="{local:Localize FieldbooksTooltipDownload}" 
+                        Text="&#xF167F;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Android only section-->
                 
                 <!--Deleting a selected field book-->
-                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" />
+                <Button Command="{Binding DeleteFieldBookCommand}" 
+                        ToolTipProperties.Text="{local:Localize FieldbooksTooltipDelete}" 
+                        Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" />
 
                 <!--Editing a selected field book-->
-                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" />
+                <Button Command="{Binding EditFieldBookCommand}" 
+                        ToolTipProperties.Text="{local:Localize FieldbooksTooltipEdit}" 
+                        Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" />
 
                 <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" />
+                <Button Command="{Binding AddFieldBookCommand}" 
+                        ToolTipProperties.Text="{local:Localize FieldbooksTooltipAdd}" 
+                        Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" />
 
             </StackLayout>
 

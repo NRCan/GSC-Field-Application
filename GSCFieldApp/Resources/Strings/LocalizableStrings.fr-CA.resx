@@ -1483,4 +1483,58 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageEditNameMessage" xml:space="preserve">
     <value>Modifier</value>
   </data>
+  <data name="FieldbooksTooltipUpdate" xml:space="preserve">
+    <value>Mettre à jour le carnet sélectionné</value>
+  </data>
+  <data name="FieldbooksTooltipUpload" xml:space="preserve">
+    <value>Charger un carnet (.gpkg, .zip)</value>
+  </data>
+  <data name="FieldbooksTooltipDownload" xml:space="preserve">
+    <value>Télécharger le carnet (photos, données et configuration de carte)</value>
+  </data>
+  <data name="FieldbooksTooltipDelete" xml:space="preserve">
+    <value>Supprimer le carnet sélectionné</value>
+  </data>
+  <data name="FieldbooksTooltipEdit" xml:space="preserve">
+    <value>Modifier le carnet sélectionné</value>
+  </data>
+  <data name="FieldbooksTooltipAdd" xml:space="preserve">
+    <value>Ajouter un nouveau carnet de notes</value>
+  </data>
+  <data name="ShellTooltipFieldBooks" xml:space="preserve">
+    <value>Aller à la page des carnets de notes</value>
+  </data>
+  <data name="MapPageTooltipEnableLayer" xml:space="preserve">
+    <value>Affiche/Cache la couche sélectionnée sur la carte</value>
+  </data>
+  <data name="MapPageTooltipDeleteLayer" xml:space="preserve">
+    <value>Enlève la couche sélectionnée de la carte</value>
+  </data>
+  <data name="MapPageTooltipZoomLayer" xml:space="preserve">
+    <value>Zoom sur l'étendue de la couche sélectionnée</value>
+  </data>
+  <data name="PicklistPageTooltipSave" xml:space="preserve">
+    <value>Sauvegarder les éditions</value>
+  </data>
+  <data name="SettingPageTooltipDownloadDebugLog" xml:space="preserve">
+    <value>Télécharger le journal de débogue en fichier texte.</value>
+  </data>
+  <data name="SettingPageTooltipDownloadGPSLog" xml:space="preserve">
+    <value>Télécharger le journal de suivi des positions GPS en fichier texte.</value>
+  </data>
+  <data name="SettingPageTooltipRepairGeometry" xml:space="preserve">
+    <value>Réparer la géométrie de la table F_LOCATION.</value>
+  </data>
+  <data name="ButtonSaveTooltip" xml:space="preserve">
+    <value>Toucher pour sauvegarder, glisser à gauche pour supprimer, à droite pour créer une copie.</value>
+  </data>
+  <data name="ButtonSaveDeleteTooltip" xml:space="preserve">
+    <value>Supprime l'enregistrement</value>
+  </data>
+  <data name="ButtonSaveCopyTooltip" xml:space="preserve">
+    <value>Crée une copie dans un nouvel enregistrement</value>
+  </data>
+  <data name="ButtonSaveSwipeTooltip" xml:space="preserve">
+    <value />
+  </data>
 </root>
