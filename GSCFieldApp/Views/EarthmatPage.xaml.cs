@@ -40,16 +40,24 @@ public partial class EarthmatPage : ContentPage
     /// <param name="e"></param>
     private void lihthoSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-        //Cast
-        if (e != null && e.SelectedItem != null)
+        try
         {
+            //Cast
+            if (e != null && e.SelectedItem != null)
+            {
 
-            EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
-            vm2.RefineGroupListFromDetail(e.SelectedItem.ToString());
+                EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
+                vm2.RefineGroupListFromDetail(e.SelectedItem.ToString());
 
-            lithoSearchBar.Text = e.SelectedItem.ToString();
+                lithoSearchBar.Text = e.SelectedItem.ToString();
 
+            }
         }
+        catch (Exception lithoSearchException)
+        {
+            new ErrorToLogFile(lithoSearchException).WriteToFile();
+        }
+
     }
 
     private async void LithoGroupPicker_SelectedIndexChanged(object sender, EventArgs e)
