@@ -48,6 +48,7 @@ public partial class FieldNotesPage : ContentPage
             vm2.ThemeHeaderBarsRefresh();
 
             vm2.FillFieldNotesAsync().ConfigureAwait(false);
+
         }
         catch (Exception e)
         {

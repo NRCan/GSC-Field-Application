@@ -633,9 +633,6 @@ namespace GSCFieldApp.ViewModel
             if (fieldNotes.GenericTableName == TableStation)
             {
                 List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationID == fieldNotes.GenericID).ToListAsync();
-
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStation != null && tappedStation.Count() == 1)
                 {
@@ -654,8 +651,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<Earthmaterial> tappedEM = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEM != null && tappedEM.Count() == 1)
                 {
@@ -672,8 +667,6 @@ namespace GSCFieldApp.ViewModel
             if (fieldNotes.GenericTableName == TableSample)
             {
                 List<Sample> tappedSample = await currentConnection.Table<Sample>().Where(i => i.SampleID == fieldNotes.GenericID).ToListAsync();
-
-                await currentConnection.CloseAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedSample != null && tappedSample.Count() == 1)
@@ -692,8 +685,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<Structure> tappedStructure = await currentConnection.Table<Structure>().Where(i => i.StructureID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStructure != null && tappedStructure.Count() == 1)
                 {
@@ -710,8 +701,6 @@ namespace GSCFieldApp.ViewModel
             if (fieldNotes.GenericTableName == TablePFlow)
             {
                 List<Paleoflow> tappedPflow = await currentConnection.Table<Paleoflow>().Where(i => i.PFlowID == fieldNotes.GenericID).ToListAsync();
-
-                await currentConnection.CloseAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedPflow != null && tappedPflow.Count() == 1)
@@ -730,8 +719,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<Fossil> tappedFossil= await currentConnection.Table<Fossil>().Where(i => i.FossilID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedFossil != null && tappedFossil.Count() == 1)
                 {
@@ -748,8 +735,6 @@ namespace GSCFieldApp.ViewModel
             if (fieldNotes.GenericTableName == TableEnvironment)
             {
                 List<EnvironmentModel> tappedEnv = await currentConnection.Table<EnvironmentModel>().Where(i => i.EnvID == fieldNotes.GenericID).ToListAsync();
-
-                await currentConnection.CloseAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEnv != null && tappedEnv.Count() == 1)
@@ -768,8 +753,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedDoc != null && tappedDoc.Count() == 1)
                 {
@@ -786,8 +769,6 @@ namespace GSCFieldApp.ViewModel
             if (fieldNotes.GenericTableName == TableMineral)
             {
                 List<Mineral> tappedMineral = await currentConnection.Table<Mineral>().Where(i => i.MineralID == fieldNotes.GenericID).ToListAsync();
-
-                await currentConnection.CloseAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedMineral != null && tappedMineral.Count() == 1)
@@ -807,8 +788,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<MineralAlteration> tappedMineralization = await currentConnection.Table<MineralAlteration>().Where(i => i.MAID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedMineralization != null && tappedMineralization.Count() == 1)
                 {
@@ -827,8 +806,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<FieldLocation> tappedLocation = await currentConnection.Table<FieldLocation>().Where(i => i.LocationID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedLocation != null && tappedLocation.Count() == 1)
                 {
@@ -844,8 +821,6 @@ namespace GSCFieldApp.ViewModel
             if (fieldNotes.GenericTableName == TableDrillHoles)
             {
                 List<DrillHole> tappedDrill= await currentConnection.Table<DrillHole>().Where(i => i.DrillID == fieldNotes.GenericID).ToListAsync();
-
-                await currentConnection.CloseAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedDrill != null && tappedDrill.Count() == 1)
@@ -864,8 +839,6 @@ namespace GSCFieldApp.ViewModel
             {
                 List<Linework> tappedLine = await currentConnection.Table<Linework>().Where(i => i.LineID == fieldNotes.GenericID).ToListAsync();
 
-                await currentConnection.CloseAsync();
-
                 //Navigate to linework page
                 if (tappedLine != null && tappedLine.Count() == 1)
                 {
@@ -877,6 +850,8 @@ namespace GSCFieldApp.ViewModel
                     );
                 }
             }
+
+            await currentConnection.CloseAsync();
         }
 
         #endregion
@@ -893,47 +868,53 @@ namespace GSCFieldApp.ViewModel
             {
                 if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
                 {
-
                     SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
-                    List<Task> tasks = new List<Task>();
-                    tasks.Add(FillTraverseDates(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
-                    tasks.Add(FillSampleNotes(currentConnection));
-                    tasks.Add(FillDocumentNotes(currentConnection));
-                    tasks.Add(FillStructureNotes(currentConnection));
-                    tasks.Add(FillPaleoflowNotes(currentConnection));
-                    tasks.Add(FillFossilNotes(currentConnection));
-                    tasks.Add(FillEnvironmentNotes(currentConnection));
-                    tasks.Add(FillMineralNotes(currentConnection));
-                    tasks.Add(FillMineralizationAlterationNotes(currentConnection));
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillDrillHoleNotes(currentConnection));
-                    tasks.Add(FillLineworkNotes(currentConnection));
+                    //Another round of validation to prevent this being fired multiple time
+                    List<double> lastLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
+                    if (lastLocation!= null && lastLocation.Count() == 1 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
+                    {
+                        List<Task> tasks = new List<Task>();
+                        tasks.Add(FillTraverseDates(currentConnection));
+                        tasks.Add(FillStationNotes(currentConnection));
+                        tasks.Add(FillEMNotes(currentConnection));
+                        tasks.Add(FillSampleNotes(currentConnection));
+                        tasks.Add(FillDocumentNotes(currentConnection));
+                        tasks.Add(FillStructureNotes(currentConnection));
+                        tasks.Add(FillPaleoflowNotes(currentConnection));
+                        tasks.Add(FillFossilNotes(currentConnection));
+                        tasks.Add(FillEnvironmentNotes(currentConnection));
+                        tasks.Add(FillMineralNotes(currentConnection));
+                        tasks.Add(FillMineralizationAlterationNotes(currentConnection));
+                        tasks.Add(FillLocationNotes(currentConnection));
+                        tasks.Add(FillDrillHoleNotes(currentConnection));
+                        tasks.Add(FillLineworkNotes(currentConnection));
 
-                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                        await Task.WhenAll(tasks).ConfigureAwait(false);
+
+                        //OnPropertyChanged(nameof(FieldNotes));
+                        OnPropertyChanged(nameof(Dates));
+
+                        //Make a copy in case user wants to refilter values
+                        FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
+
+                        //Force a first select or refresh selected date or force last date if no selection
+                        if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
+                        {
+                            await FilterRecordsOnDate(Dates.First());
+
+                            _selectedDate = Dates.First();
+                            OnPropertyChanged(nameof(SelectedDate));
+                        }
+                        else if (_selectedDate != null && Dates.Contains(_selectedDate))
+                        {
+                            await FilterRecordsOnDate(_selectedDate);
+                        }
+
+                    }
 
                     await currentConnection.CloseAsync();
 
-                    //OnPropertyChanged(nameof(FieldNotes));
-                    OnPropertyChanged(nameof(Dates));
-
-                    //Make a copy in case user wants to refilter values
-                    FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
-
-                    //Force a first select or refresh selected date or force last date if no selection
-                    if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
-                    {
-                        await FilterRecordsOnDate(Dates.First());
-
-                        _selectedDate = Dates.First();
-                        OnPropertyChanged(nameof(SelectedDate));
-                    }
-                    else if (_selectedDate != null && Dates.Contains(_selectedDate))
-                    {
-                        await FilterRecordsOnDate(_selectedDate);
-                    }
 
                 }
 
