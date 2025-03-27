@@ -158,6 +158,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public async Task<NTS.Geometries.Point> GetGeometryPointFromByteAsync(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSRID = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
+            
             NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
 
             //build geopackage reader to get geometry as proper object
@@ -165,12 +166,23 @@ namespace GSCFieldApp.Services.DatabaseServices
             CoordinateSequenceFactory coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
             GeoPackageGeoReader geoReader = new GeoPackageGeoReader(coordinateSequenceFactory, precisionModel);
             geoReader.HandleSRID = true;
-            NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
 
-            if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.Point)
+            try
             {
-                outPoint = geom as NTS.Geometries.Point;
+                NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
+
+                if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.Point)
+                {
+                    outPoint = geom as NTS.Geometries.Point;
+                }
             }
+            catch (Exception pointFromByteException)
+            {
+                new ErrorToLogFile(pointFromByteException).WriteToFile();
+                await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
+            }
+
+
 
             if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
             {
@@ -1005,10 +1017,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// geopackage works correctly in ArcGIS Pro.
         /// </summary>
         /// <returns></returns>
-        public static async Task MakeGeopackageArcGISCompatible(string connectionPath)
+        public static async Task<int> MakeGeopackageArcGISCompatible(string connectionPath)
         {
             SQLiteAsyncConnection inConnection = new SQLiteAsyncConnection(connectionPath);
-
 
             List<string> tablesToDelete = new List<string>() { GpkgDeleteDataLicenses, GpkgDeleteSpatialite,
                 GpkgDeleteSpatialRef, GpkgDeleteSpatialRefAux,
@@ -1018,14 +1029,16 @@ namespace GSCFieldApp.Services.DatabaseServices
                 GpkgDeleteTableViewGeomColumnStat, GpkgDeleteTableVirtGeomColumn, GpkgDeleteTableVirtGeomColumnAuth, 
                 GpkgDeleteTableVirtGeomColumnFieldInfo, GpkgDeleteTableVirtGeomColumnStat};
 
+            List<int> deletedTables = new List<int>();
+
             await Parallel.ForEachAsync(tablesToDelete, _parallelOptions, async (table, token) =>
             {
-
-                await inConnection.ExecuteAsync(string.Format("DROP TABLE IF EXISTS {0};", table));
-
+                deletedTables.Add(await inConnection.ExecuteAsync(string.Format("DROP TABLE IF EXISTS {0};", table)));
             });
 
             await inConnection.CloseAsync();
+
+            return deletedTables.Where(x=>x==1).Count();
 
         }
 

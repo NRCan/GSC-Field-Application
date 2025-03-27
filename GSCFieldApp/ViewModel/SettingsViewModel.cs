@@ -159,7 +159,26 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(IsWaiting));
 
             GeopackageService geopackageService = new GeopackageService();
-            bool repairedCompletedWithoutErrors = await geopackageService.RepairLocationGeometry();
+
+            //Clean geopackage so it's compatible with ArcGIS
+            DataAccess dataAccess = new DataAccess();
+            bool repairedCompletedWithoutErrors = true;
+            try
+            {
+                await GeopackageService.MakeGeopackageArcGISCompatible(dataAccess.PreferedDatabasePath).ContinueWith(async a =>
+                {
+                    //Repair location geometry
+                    repairedCompletedWithoutErrors = await geopackageService.RepairLocationGeometry();
+
+                });
+
+            }
+            catch (Exception repairException)
+            {
+                repairedCompletedWithoutErrors = false;
+                new ErrorToLogFile(repairException).WriteToFile();
+            }
+
 
             //Use Toast to show card in window interface or system like notification rather then modal alert popup.
             if (repairedCompletedWithoutErrors)
