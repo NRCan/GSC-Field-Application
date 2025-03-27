@@ -872,7 +872,7 @@ namespace GSCFieldApp.ViewModel
 
                     //Another round of validation to prevent this being fired multiple time
                     List<double> lastLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
-                    if (lastLocation!= null && lastLocation.Count() == 1 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
+                    if ((FieldNotes[TableNames.location].Count() == 0) || (lastLocation!= null && lastLocation.Count() == 1 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString()))
                     {
                         List<Task> tasks = new List<Task>();
                         tasks.Add(FillTraverseDates(currentConnection));
