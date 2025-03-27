@@ -1556,6 +1556,12 @@ namespace GSCFieldApp.ViewModel
                     {
                         string coordinatesFormat = string.Format("{0}° {1}°",
                             Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
+                        string locDate = DateTime.MinValue.ToString("yyyy-MM-dd");
+                        if (loc.LocationTimestamp != null && loc.LocationTimestamp != string.Empty)
+                        {
+                            locDate = loc.LocationTimestamp.Substring(0, 10);
+                        }
+
                         locationsFN.Add(new FieldNote
                         {
                             Display_text_1 = loc.LocationAliasLight,
@@ -1565,7 +1571,7 @@ namespace GSCFieldApp.ViewModel
                             GenericID = loc.LocationID,
                             ParentID = loc.MetaID,
                             isValid = loc.isValid,
-                            Date = loc.LocationTimestamp.Substring(0, 10)
+                            Date = locDate
                         });
                     }
 
