@@ -868,6 +868,8 @@ namespace GSCFieldApp.ViewModel
             {
                 if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
                 {
+                    bool alreadyProcessedLinework = false;
+
                     SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
                     //Another round of validation to prevent this being fired multiple time
@@ -899,22 +901,26 @@ namespace GSCFieldApp.ViewModel
                         FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
 
                         //Force a first select or refresh selected date or force last date if no selection
-                        if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
-                        {
-                            await FilterRecordsOnDate(Dates.First());
+                        await DateRefreshner();
 
-                            _selectedDate = Dates.First();
-                            OnPropertyChanged(nameof(SelectedDate));
-                        }
-                        else if (_selectedDate != null && Dates.Contains(_selectedDate))
-                        {
-                            await FilterRecordsOnDate(_selectedDate);
-                        }
+                        //Keep track to prevent further useless processing
+                        alreadyProcessedLinework = true;
 
                     }
 
-                    await currentConnection.CloseAsync();
+                    //Special linework case (user adds new linework in map page and nav here)
+                    List<double> lastLinework = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
+                    if (!alreadyProcessedLinework)
+                    {
+                        if ((FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
+                        {
+                            await FillLineworkNotes(currentConnection);
 
+                            await DateRefreshner();
+                        }
+                    }
+
+                    await currentConnection.CloseAsync();
 
                 }
 
@@ -924,6 +930,24 @@ namespace GSCFieldApp.ViewModel
                 new ErrorToLogFile(fieldNoteFillException).WriteToFile();
             }
 
+        }
+
+        /// <summary>
+        /// Will refresh the date selection and collection
+        /// </summary>
+        public async Task DateRefreshner()
+        {
+            if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
+            {
+                await FilterRecordsOnDate(Dates.First());
+
+                _selectedDate = Dates.First();
+                OnPropertyChanged(nameof(SelectedDate));
+            }
+            else if (_selectedDate != null && Dates.Contains(_selectedDate))
+            {
+                await FilterRecordsOnDate(_selectedDate);
+            }
         }
 
         /// <summary>
