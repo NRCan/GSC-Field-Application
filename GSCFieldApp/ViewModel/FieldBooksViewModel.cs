@@ -110,7 +110,7 @@ namespace GSCFieldApp.ViewModel
 
                 if (uploadFB.Contains(DBTypeSqlite) || uploadFB.Contains(DBTypeSqliteDeprecated))
                 {
-                    FillBookCollectionAsync();
+                    FillBookCollectionAsync(false);
                 }
             }
             catch (Exception e)
@@ -289,7 +289,7 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will fill the project collection with information related to it
         /// </summary>
-        public async void FillBookCollectionAsync()
+        public async void FillBookCollectionAsync(bool keepPreferedAsFirstBook = true)
         {
             _fieldbookCollection.Clear();
 
@@ -410,7 +410,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Push prefered field book at first place
-            if (_fieldbookCollection != null && _fieldbookCollection.Count() > 1)
+            if (_fieldbookCollection != null && _fieldbookCollection.Count() > 1 && keepPreferedAsFirstBook)
             {
                 List<FieldBooks> prefFB = _fieldbookCollection.Where(x => x.isSelected).ToList();
                 if (prefFB != null && prefFB.Count > 0)
@@ -419,13 +419,13 @@ namespace GSCFieldApp.ViewModel
                     _fieldbookCollection.Move(currentPreferedIndex, 0);
                 }
             }
-            else if (_fieldbookCollection != null && _fieldbookCollection.Count() == 1)
+            else if ((_fieldbookCollection != null && _fieldbookCollection.Count() == 1) || !keepPreferedAsFirstBook)
             {
                 //Else auto-select the only field book
                 _selectedFieldBook = _fieldbookCollection.First();
                 OnPropertyChanged(nameof(SelectedFieldBook));
 
-                //Force this to be the prefered database.
+                //Force this to be the preferred database.
                 da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
             }
             else
