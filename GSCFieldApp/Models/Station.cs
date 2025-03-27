@@ -149,17 +149,35 @@ namespace GSCFieldApp.Models
             {
                 if (StationAlias != string.Empty)
                 {
-                    int aliasNumber = 0;
-                    int.TryParse(StationAlias.Substring(StationAlias.Length - 4), out aliasNumber);
-
-                    if (aliasNumber > 0) 
+                    if (IsWaypoint)
                     {
-                        return aliasNumber.ToString();
+                        int aliasNumber = 0;
+                        int.TryParse(StationAlias.Substring(StationAlias.Length - 3), out aliasNumber);
+
+                        if (aliasNumber > 0)
+                        {
+                            return "W" + aliasNumber.ToString();
+                        }
+                        else
+                        {
+                            return StationAlias;
+                        }
                     }
                     else
                     {
-                        return StationAlias;
+                        int aliasNumber = 0;
+                        int.TryParse(StationAlias.Substring(StationAlias.Length - 4), out aliasNumber);
+
+                        if (aliasNumber > 0)
+                        {
+                            return aliasNumber.ToString();
+                        }
+                        else
+                        {
+                            return StationAlias;
+                        }
                     }
+
                      
                 }
                 else
@@ -175,5 +193,27 @@ namespace GSCFieldApp.Models
         /// </summary>
         [Ignore]
         public bool IsMapPageQuick { get; set; } = false;
+
+        /// <summary>
+        /// Will be used to render differently the station form, leaving only needed controls for a waypoint type
+        /// </summary>
+        [Ignore]
+        public bool IsWaypoint 
+        {
+            get
+            {
+                if ((StationAlias != null && StationAlias != string.Empty && StationAlias.ToLower().Contains(KeywordStationWaypoint)) ||
+                    (StationObsType !=null && StationObsType != string.Empty && StationObsType.ToLower().Contains(KeywordStationWaypoint)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+
+        } 
     }
 }

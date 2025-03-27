@@ -114,7 +114,8 @@
 
                 <!--Waypoint-->
                 <Button Text="&#xF023D;" Style="{StaticResource FieldAppHeaderButton}"
-                        ToolTipProperties.Text="{local:Localize MapPageAddWaypoint}"/>
+                        ToolTipProperties.Text="{local:Localize MapPageAddWaypoint}"
+                        Command="{Binding AddWaypointCommand}"/>
 
                 <!--Quick structure/pflow-->
                 <Button Text="&#xF183F;" Style="{StaticResource FieldAppHeaderButton}"
@@ -140,7 +141,7 @@
             <!--Map Control-->
             <!--TODO Check of mapsui map control can work with view model, it wasn't a feature when we started this app-->
             <mapsui:MapView x:Name="mapView" Grid.Row ="1" Margin="10" HorizontalOptions="FillAndExpand"
-                            IsVisible="true" MapClicked="mapView_MapClicked" DoubleTap="mapView_DoubleTap"
+                            IsVisible="true" MapClicked="mapView_MapClicked" 
                             VerticalOptions="FillAndExpand" SingleTap="mapView_SingleTap" LongTap="mapView_LongTap"/>
 
             <!--Coordinates Bar-->

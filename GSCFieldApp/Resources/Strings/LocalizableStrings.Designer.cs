@@ -3994,6 +3994,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Waypoint.
+        /// </summary>
+        internal static string StationPageWaypoint {
+            get {
+                return ResourceManager.GetString("StationPageWaypoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to add a new earth material.
         /// </summary>
         internal static string StationTooltipAddEM {

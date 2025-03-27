@@ -1526,7 +1526,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Réparer la géométrie de la table F_LOCATION.</value>
   </data>
   <data name="ButtonSaveTooltip" xml:space="preserve">
-    <value>Toucher pour sauvegarder, glisser à gauche pour supprimer, à droite pour créer une copie.</value>
+    <value>Sauvegarde l'enregistrement</value>
   </data>
   <data name="ButtonSaveDeleteTooltip" xml:space="preserve">
     <value>Supprime l'enregistrement</value>
@@ -1535,7 +1535,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Crée une copie dans un nouvel enregistrement</value>
   </data>
   <data name="ButtonSaveSwipeTooltip" xml:space="preserve">
-    <value />
+    <value>Presser pour sauvegarder, glisser à gauche pour supprimer, glisser à droite pour copier.</value>
   </data>
   <data name="MapPageTapMode" xml:space="preserve">
     <value>Créer une station à l'aide d'un touché sur le carte</value>
@@ -1548,5 +1548,8 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MapPageAddErrorNavSetting" xml:space="preserve">
     <value>Configuration</value>
+  </data>
+  <data name="StationPageWaypoint" xml:space="preserve">
+    <value>Point d'intérêt</value>
   </data>
 </root>

@@ -56,7 +56,6 @@ namespace GSCFieldApp.ViewModel
         [ObservableProperty]
         private Station _station;
 
-
         public bool StationTypeVisibility 
         {
             get { return Preferences.Get(nameof(StationTypeVisibility), true); }
@@ -138,8 +137,6 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(MineralizationVisible), true); }
             set { Preferences.Set(nameof(MineralizationVisible), value); }
         }
-
-        //public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
         #endregion 
 
         public StationViewModel()
@@ -178,7 +175,7 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, fieldLocation.LocationAlias, fieldLocation.LocationID, true);
             }
 
-            if(_station == null)
+            if(_station == null || (_station.IsWaypoint && _station.StationID == 0))
             { 
                 //Exit on map
                 await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
@@ -404,11 +401,17 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load()
         {
-
-            if (_station != null && _station.StationAlias != string.Empty)
+            //Default station case
+            if (_station != null && _station.StationAlias != string.Empty && _station.StationID != 0)
             {
                 //Set model like actual record
                 _model = _station;
+
+                //Waypoint case for control visibility
+                if (_station.IsWaypoint)
+                {
+                    SetUIAsWaypoint();
+                }
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
@@ -440,6 +443,12 @@ namespace GSCFieldApp.ViewModel
             _stationType = await FillAPicker(FieldStationObsType);
             _stationSource = await FillAPicker(FieldStationObsSource);
             _stationPhysEnv = await FillAPicker(FieldStationPhysEnv);
+
+            //Remove waypoint from obs type list if a normal station
+            if (_station == null || (_station!= null && !_station.IsWaypoint))
+            {
+                _stationType.cboxItems.Where(x => x.itemName == KeywordStationWaypoint).ToList().ForEach(x => _stationType.cboxItems.Remove(x));
+            }
 
             OnPropertyChanged(nameof(StationType));
             OnPropertyChanged(nameof(StationSource));
@@ -528,34 +537,6 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will reset model fields to default just like it's a new record
-        /// </summary>
-        /// <returns></returns>
-        private async Task ResetModelAsync()
-        {
-
-            //Reset model
-            if (Model.StationID == 0)
-            {
-                //Get current application version
-                Model.LocationID = fieldLocation.LocationID;
-                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
-                Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
-            }
-            else if (Model.LocationID != null)
-            {
-                // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
-                Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
-            }
-
-            Model.StationID = 0;
-
-        }
-
-        /// <summary>
         /// Will make a quick station record in station table, from a given xy position. 
         /// XY will be used to create a quick location first
         /// </summary>
@@ -586,15 +567,48 @@ namespace GSCFieldApp.ViewModel
             {
                 //Get current application version
                 Model.LocationID = fieldLocation.LocationID;
-                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
+
+                //Set current date
                 Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
                 Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
 
-                OnPropertyChanged(nameof(Model));
+                //Waypoint type of station case
+                if ((_station != null && _station.IsWaypoint) || (Model != null && Model.IsWaypoint))
+                {
+                    //Set model like actual record
+                    Model.StationObsType = _station.StationObsType;
+
+                    //Force other themes to be off
+                    SetUIAsWaypoint();
+
+                    //Calculate alias
+                    Model.StationAlias = await idCalculator.CalculateStationWaypointAlias();
+
+                    //Refresh
+                    OnPropertyChanged(nameof(Model));
+                    
+                }
+                else
+                {
+                    //Calculate alias
+                    Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
+                }
+
+                 OnPropertyChanged(nameof(Model));
 
             }
         }
 
+        /// <summary>
+        /// Will hide controls that aren't related to waypoint station
+        /// </summary>
+        public void SetUIAsWaypoint()
+        {
+            FieldThemes.SurficialVisibility = false;
+            FieldThemes.BedrockVisibility = false;
+            OnPropertyChanged(nameof(FieldThemes));
+
+        }
         #endregion
 
         #region EVENTS

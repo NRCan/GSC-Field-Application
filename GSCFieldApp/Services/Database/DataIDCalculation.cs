@@ -227,66 +227,68 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
-        ///// <summary>
-        ///// Will calculate a station waypoint alias name from a given station ID. Results: Waypoint1, Waypoint2, ... 
-        ///// </summary>
-        ///// <param name="currentID">The station ID to calculate the alias from</param>
-        ///// <param name="stationTime">The datetime object related to the station to get the year from</param>
-        ///// <returns></returns>
-        //public string CalculateStationWaypointAlias(string waypointVocabCode, string waypointVocabName)
-        //{
+        /// <summary>
+        /// Will calculate a station waypoint alias name from a given station ID. Results: Waypoint1, Waypoint2, ... 
+        /// </summary>
+        /// <param name="currentID">The station ID to calculate the alias from</param>
+        /// <param name="stationTime">The datetime object related to the station to get the year from</param>
+        /// <returns></returns>
+        public async Task<string> CalculateStationWaypointAlias(string currentGeolcode = "")
+        {
 
-        //    //Get current geolcode
-        //    string currentGeolcode = localSetting.GetSettingValue(Dictionaries.FieldUserInfoUCode).ToString();
-        //    string currentMetaID = localSetting.GetSettingValue(Dictionaries.FieldUserInfoID).ToString();
+            //Build query to get a waypoint term count
+            string querySelect = "SELECT s." + FieldStationAlias + " ";
+            string queryFrom = "FROM " + TableStation + " as s ";
+            string queryWhere = "WHERE " + "s." + FieldStationObsType + " LIKE '%" + KeywordStationWaypoint + "%' ";
+            string queryOrderBy = "ORDER BY s." + FieldStationAlias + " DESC LIMIT 1";
+            string finalQuery = querySelect + queryFrom + queryWhere + queryOrderBy;
 
-        //    //Build query to get a waypoint term count
-        //    string querySelect= "SELECT s." + Dictionaries.FieldStationAlias + " ";
-        //    string queryFrom = "FROM " + Dictionaries.TableStation + " as s ";
-        //    string queryWhere = "WHERE " + "s." + Dictionaries.FieldStationObsType + " LIKE '%" + waypointVocabCode + "%' ";
-        //    string queryOrderBy = "ORDER BY s." + Dictionaries.FieldStationAlias + " DESC LIMIT 1";
-        //    string finalQuery = querySelect + queryFrom + queryWhere + queryOrderBy;
+            //Get query result
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Station> waypoints = await currentConnection.QueryAsync<Station>(finalQuery);
 
-        //    //Get query result
-        //    List<object> waypointRaw = dAccess.ReadTable(stationModel.GetType(), finalQuery);
-        //    IEnumerable<Station> waypoints = waypointRaw.Cast<Station>(); //Cast to proper list type
+            //Get officer code
+            if (currentGeolcode == string.Empty)
+            {
+                List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                currentGeolcode = mets[0].UserCode;
+            }
 
-        //    //Try parsing value
-        //    int waypointLastNumber = 1;
-        //    if (waypointRaw.Count() > 0)
-        //    {
-        //        if (waypoints.First().StationAlias.ToString().Contains(waypointVocabCode + currentGeolcode))
-        //        {
-        //            waypointLastNumber = Convert.ToInt32(waypoints.First().StationAlias.ToString().Replace(waypointVocabCode + currentGeolcode, "")) + 1;   //prefix is wp
-        //        }
-        //        else
-        //        {
-        //            waypointLastNumber = Convert.ToInt32(waypoints.First().StationAlias.Substring(waypoints.First().StationAlias.Length - 3, 3)) + 1;  //probably do not need code above
-        //        }
-        //    }
+            //Try parsing value
+            int waypointLastNumber = 1;
+            if (waypoints.Count() > 0)
+            {
+                if (waypoints.First().StationAlias.ToString().Contains(KeywordStationWaypoint + currentGeolcode))
+                {
+                    waypointLastNumber = Convert.ToInt32(waypoints.First().StationAlias.ToString().Replace(KeywordStationWaypoint + currentGeolcode, "")) + 1;   //prefix is wp
+                }
+                else
+                {
+                    waypointLastNumber = Convert.ToInt32(waypoints.First().StationAlias.Substring(waypoints.First().StationAlias.Length - 3, 3)) + 1;  //probably do not need code above
+                }
+            }
 
-        //    //Padd current ID with 0 if needed
-        //    string outputStringID = string.Empty;
+            //Pad current ID with 0 if needed
+            string outputStringID = string.Empty;
 
-        //    if (waypointLastNumber < 10)
-        //    {
-        //        outputStringID = "00" + waypointLastNumber.ToString();
-        //    }
-        //    else if (waypointLastNumber >= 10 && waypointLastNumber < 100)
-        //    {
-        //        outputStringID = "0" + waypointLastNumber.ToString();
-        //    }
-        //    else
-        //    {
-        //        outputStringID = waypointLastNumber.ToString();
-        //    }
+            if (waypointLastNumber < 10)
+            {
+                outputStringID = "00" + waypointLastNumber.ToString();
+            }
+            else if (waypointLastNumber >= 10 && waypointLastNumber < 100)
+            {
+                outputStringID = "0" + waypointLastNumber.ToString();
+            }
+            else
+            {
+                outputStringID = waypointLastNumber.ToString();
+            }
 
-        //    string finaleWaypointString = waypointVocabName + currentGeolcode + outputStringID;  //prefix is waypoint
-        //    //string finaleWaypointString = "wp" + currentGeolcode + outputStringID;   //prefix is wp
+            string finaleWaypointString = KeywordStationWaypoint + currentGeolcode + outputStringID;  //prefix is waypoint
 
-        //    return finaleWaypointString;
+            return finaleWaypointString;
 
-        //}
+        }
 
         #endregion
 

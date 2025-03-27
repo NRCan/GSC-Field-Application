@@ -1948,7 +1948,8 @@ public partial class MapPage : ContentPage
             //Prep
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<FieldLocation> fieldLoc = await currentConnection.Table<FieldLocation>().ToListAsync();
-            
+            List<Station> fieldStat = await currentConnection.Table<Station>().ToListAsync();
+
             LabelStyle labelStyle = new LabelStyle
             {
                 BackColor = new Brush(Color.WhiteSmoke),
@@ -1966,6 +1967,14 @@ public partial class MapPage : ContentPage
 
                 if (locationPoint != null)
                 {
+                    //Get some station info for labelling
+                    string label = fl.LocationAliasLight;
+                    Station station = fieldStat.Where(n => n.LocationID == fl.LocationID).FirstOrDefault();
+                    if (station != null)
+                    {
+                        label = station.StationAliasLight;
+                    }
+
                     //Build feature 
                     Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
                     feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
@@ -1975,7 +1984,7 @@ public partial class MapPage : ContentPage
                         HorizontalAlignment = labelStyle.HorizontalAlignment,
                         BorderThickness = labelStyle.BorderThickness,
                         Offset = offset,
-                        Text = fl.LocationAliasLight
+                        Text = label
                     };
 
                     feat.Styles.Add(lStyle);
@@ -2904,8 +2913,4 @@ public partial class MapPage : ContentPage
 
     #endregion
 
-    private void mapView_DoubleTap(object sender, Mapsui.UI.TappedEventArgs e)
-    {
-        new ErrorToLogFile("test").WriteToFile();
-    }
 }

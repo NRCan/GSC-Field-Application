@@ -1548,4 +1548,7 @@
   <data name="MapPageAddErrorNavSetting" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="StationPageWaypoint" xml:space="preserve">
+    <value>Waypoint</value>
+  </data>
 </root>

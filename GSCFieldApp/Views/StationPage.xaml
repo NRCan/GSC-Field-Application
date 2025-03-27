@@ -20,21 +20,22 @@
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
         <conv:String2Date x:Key="Str2Date"/>
         <conv:String2Time x:Key="Str2Time"/>
-        
+        <conv:VisibilityFromReverseBoolConverter x:Key="ReverseBool"/>
+
     </ContentPage.Resources>
     
     <ContentPage.Content>
 
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
-            <Label Text="{Binding Model.StationAlias}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+            <Label Text="{Binding Model.StationAlias, Mode=TwoWay}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
             
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
 
                     <!--Station Type section-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}"
                                               FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationTypeVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize StationPageTypeTitle}">
 
@@ -93,7 +94,7 @@
                     
 
                     <!--General section-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}"
                                               FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationGeneralVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize StationPageGeneralTitle}">
                         <VerticalStackLayout>
@@ -147,8 +148,8 @@
                             <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
                                         Text="{Binding Model.StationNote, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                            <Label Text="{local:Localize StationPageNotesSLS}" Style="{StaticResource FieldAppEntryTitle}"/>
-                            <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
+                            <Label Text="{local:Localize StationPageNotesSLS}" Style="{StaticResource FieldAppEntryTitle}" IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}"/>
+                            <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}"
                                         Text="{Binding Model.StationSLSNotes,Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
                         </VerticalStackLayout>
@@ -164,7 +165,7 @@
                                     ButtonLightColor="{StaticResource FieldStationColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
-            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}">
 
 
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
