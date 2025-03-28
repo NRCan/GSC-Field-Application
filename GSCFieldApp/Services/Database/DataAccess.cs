@@ -104,9 +104,29 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 if (!File.Exists(outputDatabasePath))
                 {
+                    //Default
                     if (resourceName == string.Empty)
                     {
                         resourceName = @"GSCFieldwork.gpkg";
+                    }
+
+                    //Validate app resource name
+                    bool resourceNameExist = await FileSystem.AppPackageFileExistsAsync(resourceName);
+                    if (!resourceNameExist)
+                    {
+                        //Under android, the file type needs to be sqlite else it doesn't work
+                        //This is a workaround to keep the real resource name but change the extension
+                        //after the copying process is over
+                        resourceName = resourceName.Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
+
+                        //Last attempt
+                        resourceNameExist = await FileSystem.AppPackageFileExistsAsync(resourceName);
+
+                        if (!resourceNameExist)
+                        {
+                            return false;
+                        }
+
                     }
 
                     //Open stream with embeded resource
