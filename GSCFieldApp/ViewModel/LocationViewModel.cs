@@ -148,7 +148,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit on either map or field notes
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}");
+            await NavigateToFieldNotes(TableNames.location);
 
         }
 

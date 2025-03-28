@@ -47,7 +47,7 @@ public partial class FieldNotesPage : ContentPage
             FieldNotesViewModel vm2 = (FieldNotesViewModel)BindingContext;
             vm2.ThemeHeaderBarsRefresh();
 
-            vm2.FillFieldNotesAsync().ConfigureAwait(false);
+            vm2.ValidateFillFieldNotesAsync().ConfigureAwait(false);
 
         }
         catch (Exception e)

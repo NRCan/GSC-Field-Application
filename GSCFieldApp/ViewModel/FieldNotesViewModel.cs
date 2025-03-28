@@ -499,7 +499,7 @@ namespace GSCFieldApp.ViewModel
             _dates = new ObservableCollection<string>();
 
             //Init all records
-            _ = Task.Run(async () => await FillFieldNotesAsync());
+            _ = Task.Run(async () => await ValidateFillFieldNotesAsync());
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -611,7 +611,7 @@ namespace GSCFieldApp.ViewModel
                 if (inComingName.ToLower().Contains(KeywordDates))
                 {
                     //Force refresh of all
-                    await FillFieldNotesAsync();
+                    await ValidateFillFieldNotesAsync(true);
                 }
 
             }
@@ -859,10 +859,12 @@ namespace GSCFieldApp.ViewModel
         #region METHODS
 
         /// <summary>
-        /// Will initiate a fill of all records in the database
+        /// Will check if a full refresh of the whole page is necessary and 
+        /// will initiate a fill of all records in the database
         /// </summary>
+        /// <param name="enforceValidation">Will enforce or not validateion, setting to false will force a full refill of all tables</param>
         /// <returns></returns>
-        public async Task FillFieldNotesAsync()
+        public async Task ValidateFillFieldNotesAsync(bool forceRefresh = false)
         {
             try
             {
@@ -872,36 +874,37 @@ namespace GSCFieldApp.ViewModel
 
                     SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
-                    //Another round of validation to prevent this being fired multiple time
-                    List<double> lastLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
-                    if ((FieldNotes[TableNames.location].Count() == 0) || (lastLocation!= null && lastLocation.Count() == 1 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString()))
+                    //Check if number of location has changed, or if last location is different from last record
+                    bool check1 = false;
+                    bool check2 = false;
+                    bool check3 = false;
+                    bool check4 = forceRefresh; //Code needs to force a refresh
+
+                    //Check #1 - If no records in location, then refill all
+                    if ((FieldNotes[TableNames.location].Count() == 0))
                     {
-                        List<Task> tasks = new List<Task>();
-                        tasks.Add(FillTraverseDates(currentConnection));
-                        tasks.Add(FillStationNotes(currentConnection));
-                        tasks.Add(FillEMNotes(currentConnection));
-                        tasks.Add(FillSampleNotes(currentConnection));
-                        tasks.Add(FillDocumentNotes(currentConnection));
-                        tasks.Add(FillStructureNotes(currentConnection));
-                        tasks.Add(FillPaleoflowNotes(currentConnection));
-                        tasks.Add(FillFossilNotes(currentConnection));
-                        tasks.Add(FillEnvironmentNotes(currentConnection));
-                        tasks.Add(FillMineralNotes(currentConnection));
-                        tasks.Add(FillMineralizationAlterationNotes(currentConnection));
-                        tasks.Add(FillLocationNotes(currentConnection));
-                        tasks.Add(FillDrillHoleNotes(currentConnection));
-                        tasks.Add(FillLineworkNotes(currentConnection));
+                        check1 = true;
+                    }
 
-                        await Task.WhenAll(tasks).ConfigureAwait(false);
+                    //Check #2 - If location record count is different, then refill all
+                    List<double> countLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
+                    if (countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
+                    {
+                        check2 = true;
+                    }
 
-                        //OnPropertyChanged(nameof(FieldNotes));
-                        OnPropertyChanged(nameof(Dates));
+                    //Check #3 - If last location is different from last record, then refill all
+                    List<double> lastLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
+                    if (lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
+                    {
+                        check3 = true;
+                    }
 
-                        //Make a copy in case user wants to refilter values
-                        FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
 
-                        //Force a first select or refresh selected date or force last date if no selection
-                        await DateRefreshner();
+                    if (check1 || check2 || check3 || check4)
+                    {
+                        //Refill all
+                        await FillFieldNotesAsync(currentConnection);
 
                         //Keep track to prevent further useless processing
                         alreadyProcessedLinework = true;
@@ -910,7 +913,7 @@ namespace GSCFieldApp.ViewModel
 
                     //Special linework case (user adds new linework in map page and nav here)
                     List<double> lastLinework = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
-                    if (!alreadyProcessedLinework)
+                    if (!alreadyProcessedLinework || check4)
                     {
                         if ((FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
                         {
@@ -930,6 +933,36 @@ namespace GSCFieldApp.ViewModel
                 new ErrorToLogFile(fieldNoteFillException).WriteToFile();
             }
 
+        }
+
+        public async Task FillFieldNotesAsync(SQLiteAsyncConnection connection)
+        {
+            List<Task> tasks = new List<Task>();
+            tasks.Add(FillTraverseDates(connection));
+            tasks.Add(FillStationNotes(connection));
+            tasks.Add(FillEMNotes(connection));
+            tasks.Add(FillSampleNotes(connection));
+            tasks.Add(FillDocumentNotes(connection));
+            tasks.Add(FillStructureNotes(connection));
+            tasks.Add(FillPaleoflowNotes(connection));
+            tasks.Add(FillFossilNotes(connection));
+            tasks.Add(FillEnvironmentNotes(connection));
+            tasks.Add(FillMineralNotes(connection));
+            tasks.Add(FillMineralizationAlterationNotes(connection));
+            tasks.Add(FillLocationNotes(connection));
+            tasks.Add(FillDrillHoleNotes(connection));
+            tasks.Add(FillLineworkNotes(connection));
+
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            //OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Dates));
+
+            //Make a copy in case user wants to refilter values
+            FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
+
+            //Force a first select or refresh selected date or force last date if no selection
+            await DateRefreshner();
         }
 
         /// <summary>
@@ -1879,7 +1912,7 @@ namespace GSCFieldApp.ViewModel
                 case TableNames.meta:
                     //Special case, this will trigger a whole field note page refresh
                     //Best used when a delete cascade has been done and and child should be removed from page
-                    tasks.Add(FillFieldNotesAsync());
+                    tasks.Add(ValidateFillFieldNotesAsync(true));
                     break;
                 case TableNames.location:
                     tasks.Add(FillLocationNotes(currentConnection));
@@ -1995,7 +2028,7 @@ namespace GSCFieldApp.ViewModel
             if (hasChanged)
             {
                 //Reload all notes
-                await FillFieldNotesAsync();
+                await ValidateFillFieldNotesAsync(true);
             }
 
         }
