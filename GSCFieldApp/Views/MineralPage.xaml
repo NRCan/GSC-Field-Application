@@ -49,7 +49,7 @@
                             <Label Text="{local:Localize MineralPageName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                             <SearchBar Placeholder="{local:Localize MineralPageNameSearchPlaceholder}"
                                         x:Name="mineralNameSearchBar" Text="{Binding Model.MineralName, Mode=TwoWay }"
-                                        SearchCommand="{Binding PerformNameSearchCommand}" 
+                                        SearchCommand="{Binding PerformNameSearchCommand}" TextChanged="mineralNameSearchBar_TextChanged"
                                         SearchCommandParameter="{Binding Text, Source={x:Reference mineralNameSearchBar}}"/>
                             <ListView Style="{StaticResource FieldAppSearchCollectionView}" x:Name="mineralSearchList" ItemSelected="mineralSearchList_ItemSelected"
                                         ItemsSource="{Binding MineralPageNameSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>

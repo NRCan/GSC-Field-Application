@@ -87,7 +87,7 @@ public partial class EarthmatPage : ContentPage
     }
 
     /// <summary>
-    /// Will filter down values while using is typing text in, else
+    /// Will filter down values while user is typing text in, else
     /// they need to tap search icon in order to initiate the filtering
     /// </summary>
     /// <param name="sender"></param>
