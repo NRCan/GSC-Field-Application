@@ -583,6 +583,7 @@ public partial class MapPage : ContentPage
 
         if (wms_url != null && wms_url != string.Empty)
         {
+            this.WaitingCursor.IsRunning = true;
 
             //Get a list of supported CRS before prompting to chose a layer
             WMSService wService = new WMSService();
@@ -635,6 +636,8 @@ public partial class MapPage : ContentPage
                     LocalizationResourceManager["GenericButtonOk"].ToString());
             }
 
+
+            this.WaitingCursor.IsRunning = false;
         }
     }
 
