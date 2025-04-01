@@ -210,8 +210,32 @@ namespace GSCFieldApp.Models
                     int aliasNumber = 0;
                     int.TryParse(LocationAlias.Substring(LocationAlias.Length - 6, 4), out aliasNumber);
 
+                    //Case waypoint
+                    if (LocationAlias.Contains(DatabaseLiterals.KeywordStationWaypoint))
+                    {
+                        int.TryParse(LocationAlias.Substring(LocationAlias.Length - 5, 3), out aliasNumber);
+                    }
+
+                    //Case drill holes
+                    if (LocationAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                    {
+                        int.TryParse(LocationAlias.Substring(LocationAlias.Length - 8, 4), out aliasNumber);
+                    }
+
                     if (aliasNumber > 0)
                     {
+                        //Case waypoint
+                        if (LocationAlias.Contains(DatabaseLiterals.KeywordStationWaypoint))
+                        {
+                            return "W" + aliasNumber.ToString();
+                        }
+
+                        //Case drill holes
+                        if (LocationAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                        {
+                            return "DH" + aliasNumber.ToString();
+                        }
+
                         return aliasNumber.ToString();
                     }
                     else

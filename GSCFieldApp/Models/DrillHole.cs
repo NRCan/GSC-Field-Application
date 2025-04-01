@@ -140,7 +140,7 @@ namespace GSCFieldApp.Models
 
                     if (aliasNumber > 0)
                     {
-                        return aliasNumber.ToString() + TableDrillHolePrefix;
+                        return aliasNumber.ToString();
                     }
                     else
                     {
