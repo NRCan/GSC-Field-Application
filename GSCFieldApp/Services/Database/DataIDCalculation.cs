@@ -4,6 +4,7 @@ using System.Linq;
 using GSCFieldApp.Models;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
+using GSCFieldApp.Dictionaries;
 
 
 namespace GSCFieldApp.Services.DatabaseServices
@@ -974,7 +975,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + drillCount.ToString() + TableDrillHolePrefix;
             if (followStationAlias)
             {
-                List<Station> stations = await currentConnection.Table<Station>().OrderByDescending(s => s.StationAlias).ToListAsync();
+                List<Station> stations = await currentConnection.Table<Station>().Where(w=>w.StationObsType != DatabaseLiterals.KeywordStationWaypoint).OrderByDescending(s => s.StationAlias).ToListAsync();
                 if (stations != null && stations.Count > 0)
                 {
                     int stationIDNo = 0;

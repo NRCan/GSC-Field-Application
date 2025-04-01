@@ -20,6 +20,7 @@ using CommunityToolkit.Maui.Alerts;
 using SQLite;
 using GSCFieldApp.Services;
 using System.Security.Cryptography;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -209,6 +210,21 @@ namespace GSCFieldApp.ViewModel
         {
             //Fill out missing values in model
             await SetModelAsync();
+
+            //Edge case: renaming parent location alias if station is a waypoint
+            if (Model != null && Model.StationObsType == DatabaseLiterals.KeywordStationWaypoint)
+            {
+                SQLiteAsyncConnection conn = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<FieldLocation> parentLocation = await conn.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
+                await conn.CloseAsync();
+
+                if (parentLocation != null && parentLocation.Count > 0)
+                {
+                    DataIDCalculation iDCalculation = new DataIDCalculation();
+                    parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.StationAlias);
+                    await da.SaveItemAsync(parentLocation[0], true);
+                }
+            }
 
             //Validate if new entry or update
             if (_station != null &&_station.StationAlias != string.Empty && _model.StationID != 0)

@@ -218,6 +218,21 @@ namespace GSCFieldApp.ViewModel
             //Fill out missing values in model
             await SetModelAsync();
 
+            //Edge case: renaming parent location alias based on drill hole alias
+            if (Model != null && Model.DrillLocationID > 0)
+            {
+                SQLiteAsyncConnection conn = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<FieldLocation> parentLocation = await conn.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
+                await conn.CloseAsync();
+
+                if (parentLocation != null && parentLocation.Count > 0)
+                {
+                    DataIDCalculation iDCalculation = new DataIDCalculation();
+                    parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.DrillIDName);
+                    await da.SaveItemAsync(parentLocation[0], true);
+                }
+            }
+
             //Validate if new entry or update
             if (_drillHole != null && _drillHole.DrillIDName != string.Empty && _model.DrillID != 0)
             {
