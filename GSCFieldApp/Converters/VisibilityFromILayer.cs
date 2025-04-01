@@ -16,8 +16,11 @@ namespace GSCFieldApp.Converters
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value.ToString() != ApplicationLiterals.aliasStations && 
-                value.ToString() != ApplicationLiterals.aliasOSM && value.ToString() != ApplicationLiterals.aliasLinework)
+            if (value != null && 
+                value.ToString() != ApplicationLiterals.aliasStations && 
+                value.ToString() != ApplicationLiterals.aliasOSM && 
+                value.ToString() != ApplicationLiterals.aliasLinework &&
+                value.ToString() != ApplicationLiterals.aliasTraversePoint)
             {
                 return true;
             }

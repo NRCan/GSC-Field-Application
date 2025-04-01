@@ -1107,7 +1107,9 @@ public partial class MapPage : ContentPage
 
                     foreach (MapPageLayer mpl in prefLayers)
                     {
-                        if (mpl.LayerName != ApplicationLiterals.aliasStations && mpl.LayerName != ApplicationLiterals.aliasLinework)
+                        if (mpl.LayerName != ApplicationLiterals.aliasStations 
+                            && mpl.LayerName != ApplicationLiterals.aliasLinework
+                            && mpl.LayerName != ApplicationLiterals.aliasTraversePoint)
                         {
                             if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
                             {
