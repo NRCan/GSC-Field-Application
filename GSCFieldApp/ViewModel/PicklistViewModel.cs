@@ -155,35 +155,39 @@ namespace GSCFieldApp.ViewModel
         {
             if (vocabToEdit != null)
             {
-                //Get a new list so we can edit later one the real one
-                List<Vocabularies> copiedVocbs = _picklistValues.ToList();
-                _picklistValues.Clear();
-                OnPropertyChanged(nameof(PicklistValues));
+                // Get vocab that needs to be set as default
+                Vocabularies newDefault = _picklistValues.Where(v => v.TermID == vocabToEdit.TermID).ToList().FirstOrDefault();
 
-                foreach (Vocabularies vocs in copiedVocbs)
+                // Get previous vocab that was set as default
+                Vocabularies previousDefault = _picklistValues.Where(d => d.DefaultValue == boolYes).ToList().FirstOrDefault();
+
+                //Validation and update of new default
+                if (newDefault != null)
                 {
-                    int currentIndex = copiedVocbs.IndexOf(vocs);
-                    if (vocs.TermID == vocabToEdit.TermID)
+                    newDefault.DefaultValue = boolYes;
+                    int newDefaultIndex = _picklistValues.IndexOf(newDefault);
+
+                    if (newDefaultIndex > -1)
                     {
-                        //Set as default selected value or reverse
-                        if (vocabToEdit.DefaultValue == boolYes)
-                        {
-                            vocabToEdit.DefaultValue = boolNo;
-                        }
-                        else
-                        {
-                            vocabToEdit.DefaultValue = boolYes;
-                        }
-                        
-                        _picklistValues.Add(vocabToEdit);
+                        _picklistValues.RemoveAt(newDefaultIndex);
+                        _picklistValues.Insert(newDefaultIndex, newDefault);
                     }
-                    else
+                    
+                }
+
+                // Validate and update of old default value
+                if (previousDefault != null)
+                {
+                    previousDefault.DefaultValue = boolNo;
+                    int previousDefaultIndex = _picklistValues.IndexOf(previousDefault);
+
+                    if (previousDefaultIndex > -1)
                     {
-                        //Unset all other values
-                        vocs.DefaultValue = boolNo;
-                        _picklistValues.Add(vocs);
+                        _picklistValues.RemoveAt(previousDefaultIndex);
+                        _picklistValues.Insert(previousDefaultIndex, previousDefault);
                     }
                 }
+
                 OnPropertyChanged(nameof(PicklistValues));
 
             }
