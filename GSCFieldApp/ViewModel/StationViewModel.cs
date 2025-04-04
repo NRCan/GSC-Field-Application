@@ -247,13 +247,17 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Insert new record
-                await da.SaveItemAsync(Model, false);
+                object newStation = await da.SaveItemAsync(Model, false);
 
-                //Close to be sure
-                await da.CloseConnectionAsync();
+                if (newStation != null)
+                {
+                    //Close to be sure
+                    await da.CloseConnectionAsync();
 
-                //Exit
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+                    //Exit
+                    await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+
+                }
 
             }
 

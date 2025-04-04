@@ -878,7 +878,7 @@ public partial class MapPage : ContentPage
 
                 if (item.Name == ApplicationLiterals.aliasStations)
                 {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Station)));  
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(FieldLocation)));  
                 }
                 else if (item.Name == ApplicationLiterals.aliasLinework)
                 {
