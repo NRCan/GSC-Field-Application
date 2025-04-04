@@ -766,8 +766,22 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))) .ToListAsync();
+#if ANDROID
+
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+
+            if (vocab_manager != null && vocab_manager.Count() > 0)
+            {
+                string codeTheme = vocab_manager.First().ThemeCodedTheme;
+                _litho_detail_vocab = await currentConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
+            }
+
+#else
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
             _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
+
+#endif
+
 
             var _lihthoSearchResults = new List<string>();
             foreach (Vocabularies tmp in _litho_detail_vocab)
@@ -800,8 +814,21 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoGroupSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
+#if ANDROID
+
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+
+            if (vocab_manager != null && vocab_manager.Count() > 0)
+            {
+                string codeTheme = vocab_manager.First().ThemeCodedTheme;
+                _litho_group_vocab = await currentConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
+            }
+
+#else
             List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
             _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
+
+#endif
 
             var _lihthoSearchResults = new List<string>();
             foreach (Vocabularies tmp in _litho_group_vocab)
@@ -1475,7 +1502,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
         }
 
-        #endregion
+#endregion
 
         #region CALCULATE
 
