@@ -31,6 +31,11 @@ namespace GSCFieldApp.ViewModel
         private List<VocabularyManager> _vocabularyManagers = new List<VocabularyManager>();
         private ObservableCollection<Vocabularies> _picklistValues = new ObservableCollection<Vocabularies>();
         private bool _isWaiting = false;
+
+        //Issue #404
+        private bool _isDoubleTap;
+        private bool _ignoreNextTap;
+
         #endregion
 
         #region RELAYS
@@ -83,44 +88,39 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will mod a term
+        /// Will mod a term (single tap event)
         /// </summary>
         [RelayCommand]
         async void ModifyTerm(Vocabularies vocabToEdit)
         {
             if (vocabToEdit != null)
             {
-                string popUpTitle = LocalizationResourceManager["PicklistPageModifyTermTitle"].ToString();
-                string popUpContent = LocalizationResourceManager["PicklistPageModifyTermContent"].ToString();
-                string popUpButtonOK = LocalizationResourceManager["GenericButtonOk"].ToString();
-                string popUpButtonCancel = LocalizationResourceManager["GenericButtonCancel"].ToString();
-                string result = await Shell.Current.DisplayPromptAsync(popUpTitle, popUpContent, popUpButtonOK, popUpButtonCancel, null, -1, null, vocabToEdit.Description);
+#if WINDOWS
+                var delay = Task.Delay(555);
+                await delay;
 
-                if (result != null && result != string.Empty)
+                if (_ignoreNextTap)
                 {
-                    //Trim
-                    result = result.Trim();
-
-                    //Set
-                    vocabToEdit.Description = result;
-                    vocabToEdit.DescriptionFR = result;
-                    vocabToEdit.Editor = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
-                    vocabToEdit.EditorDate = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
-
-                    //Replace 
-                    int vocabIndex = -1;
-                    foreach (Vocabularies voc in _picklistValues)
-                    {
-                        if (voc.TermID == vocabToEdit.TermID)
-                        {
-                            vocabIndex = _picklistValues.IndexOf(voc);
-                        }
-                    }
-                    _picklistValues.RemoveAt(vocabIndex);
-                    _picklistValues.Insert(vocabIndex, vocabToEdit);
-                    OnPropertyChanged(nameof(PicklistValues));
-
+                    _ignoreNextTap = false;
+                    
+                    return;
                 }
+
+                if (_isDoubleTap)
+                {
+                    _isDoubleTap = false;
+                    _ignoreNextTap = true;
+                    SetADefaultTerm(vocabToEdit);
+                }
+                else
+	            {
+                    ModifyATerm(vocabToEdit);
+	            }
+#else
+                ModifyATerm(vocabToEdit);
+#endif
+
+
             }
 
 
@@ -150,47 +150,20 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will set a term to be a default selection for a picklist
+        /// (Double tap event)
+        /// </summary>
+        /// <param name="vocabToEdit"></param>
         [RelayCommand]
         async void SetDefaultTerm(Vocabularies vocabToEdit)
         {
-            if (vocabToEdit != null)
-            {
-                // Get vocab that needs to be set as default
-                Vocabularies newDefault = _picklistValues.Where(v => v.TermID == vocabToEdit.TermID).ToList().FirstOrDefault();
-
-                // Get previous vocab that was set as default
-                Vocabularies previousDefault = _picklistValues.Where(d => d.DefaultValue == boolYes).ToList().FirstOrDefault();
-
-                //Validation and update of new default
-                if (newDefault != null)
-                {
-                    newDefault.DefaultValue = boolYes;
-                    int newDefaultIndex = _picklistValues.IndexOf(newDefault);
-
-                    if (newDefaultIndex > -1)
-                    {
-                        _picklistValues.RemoveAt(newDefaultIndex);
-                        _picklistValues.Insert(newDefaultIndex, newDefault);
-                    }
-                    
-                }
-
-                // Validate and update of old default value
-                if (previousDefault != null)
-                {
-                    previousDefault.DefaultValue = boolNo;
-                    int previousDefaultIndex = _picklistValues.IndexOf(previousDefault);
-
-                    if (previousDefaultIndex > -1)
-                    {
-                        _picklistValues.RemoveAt(previousDefaultIndex);
-                        _picklistValues.Insert(previousDefaultIndex, previousDefault);
-                    }
-                }
-
-                OnPropertyChanged(nameof(PicklistValues));
-
-            }
+#if WINDOWS
+            //Track double event
+            _isDoubleTap = true;
+#else
+            SetADefaultTerm(vocabToEdit);
+#endif  
         }
 
         [RelayCommand]
@@ -298,7 +271,7 @@ namespace GSCFieldApp.ViewModel
                 FillFieldValuesPicklist();
             }
         }
-        #endregion
+#endregion
 
         #region PROPERTIES
 
@@ -625,7 +598,6 @@ namespace GSCFieldApp.ViewModel
             return doesHaveParents;
         }
 
-
         /// <summary>
         /// Will show a file picker to user to chose a geopackage to load
         /// picklist from into the app
@@ -699,6 +671,92 @@ namespace GSCFieldApp.ViewModel
 
             _picklistValues.Clear();
             OnPropertyChanged(nameof(PicklistValues));
+        }
+
+        /// <summary>
+        /// Will mod a term
+        /// </summary>
+        /// <param name="vocabToEdit"></param>
+        public async void ModifyATerm(Vocabularies vocabToEdit)
+        {
+            string popUpTitle = LocalizationResourceManager["PicklistPageModifyTermTitle"].ToString();
+            string popUpContent = LocalizationResourceManager["PicklistPageModifyTermContent"].ToString();
+            string popUpButtonOK = LocalizationResourceManager["GenericButtonOk"].ToString();
+            string popUpButtonCancel = LocalizationResourceManager["GenericButtonCancel"].ToString();
+            string result = await Shell.Current.DisplayPromptAsync(popUpTitle, popUpContent, popUpButtonOK, popUpButtonCancel, null, -1, null, vocabToEdit.Description);
+
+            if (result != null && result != string.Empty)
+            {
+                //Trim
+                result = result.Trim();
+
+                //Set
+                vocabToEdit.Description = result;
+                vocabToEdit.DescriptionFR = result;
+                vocabToEdit.Editor = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
+                vocabToEdit.EditorDate = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+                //Replace 
+                int vocabIndex = -1;
+                foreach (Vocabularies voc in _picklistValues)
+                {
+                    if (voc.TermID == vocabToEdit.TermID)
+                    {
+                        vocabIndex = _picklistValues.IndexOf(voc);
+                    }
+                }
+                _picklistValues.RemoveAt(vocabIndex);
+                _picklistValues.Insert(vocabIndex, vocabToEdit);
+                OnPropertyChanged(nameof(PicklistValues));
+
+            }
+        }
+
+        /// <summary>
+        /// Will set a term to be a default selection for a picklist
+        /// </summary>
+        /// <param name="vocabToEdit"></param>
+        public async void SetADefaultTerm(Vocabularies vocabToEdit)
+        {
+            if (vocabToEdit != null)
+            {
+
+                // Get vocab that needs to be set as default
+                Vocabularies newDefault = _picklistValues.Where(v => v.TermID == vocabToEdit.TermID).ToList().FirstOrDefault();
+
+                // Get previous vocab that was set as default
+                Vocabularies previousDefault = _picklistValues.Where(d => d.DefaultValue == boolYes).ToList().FirstOrDefault();
+
+                //Validation and update of new default
+                if (newDefault != null)
+                {
+                    newDefault.DefaultValue = boolYes;
+                    int newDefaultIndex = _picklistValues.IndexOf(newDefault);
+
+                    if (newDefaultIndex > -1)
+                    {
+                        _picklistValues.RemoveAt(newDefaultIndex);
+                        _picklistValues.Insert(newDefaultIndex, newDefault);
+                    }
+
+                }
+
+                // Validate and update of old default value
+                if (previousDefault != null)
+                {
+                    previousDefault.DefaultValue = boolNo;
+                    int previousDefaultIndex = _picklistValues.IndexOf(previousDefault);
+
+                    if (previousDefaultIndex > -1)
+                    {
+                        _picklistValues.RemoveAt(previousDefaultIndex);
+                        _picklistValues.Insert(previousDefaultIndex, previousDefault);
+                    }
+                }
+
+                OnPropertyChanged(nameof(PicklistValues));
+
+            }
         }
         #endregion
 
