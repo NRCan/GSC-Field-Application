@@ -51,6 +51,7 @@ namespace GSCFieldApp.ViewModel
         //Others
         private double _dbVersion = 0.0; //Will be used to track ugraded db versions
         private double _dbNextVersion = 0.0; //Will be used to track to which version the db will be ugraded to
+
         //Events
         public static EventHandler<bool> newFieldBookSelected; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
 

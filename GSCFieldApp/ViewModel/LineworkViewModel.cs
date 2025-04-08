@@ -33,6 +33,9 @@ namespace GSCFieldApp.ViewModel
 
         private ComboBox _lineworkTypeColor = new ComboBox(); // Only used to gather a list of line types and their symbols
 
+        //Events
+        public static EventHandler<Tuple<int, string>> lineworkHasUpdated; //This event is triggered when a linework record is updated (mainly to track color changes)  
+
         #endregion
 
         #region PROPERTIES
@@ -86,6 +89,13 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
+
+                //Send call that a linework has been updated
+                EventHandler<Tuple<int, string>> lineworkUpdate = lineworkHasUpdated;
+                if (lineworkUpdate != null)
+                {
+                    lineworkUpdate(this, new Tuple<int, string> (Model.LineID, Model.LineSymbol));
+                }
             }
             else
             {

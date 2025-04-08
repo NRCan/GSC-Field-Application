@@ -55,8 +55,7 @@ namespace GSCFieldApp.Views;
 
 public partial class MapPage : ContentPage
 {
-    //private MapViewModel _vm;
-    //private CancellationTokenSource? gpsCancelation;
+
     private CancellationTokenSource _cancelTokenSource;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
@@ -144,22 +143,67 @@ public partial class MapPage : ContentPage
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+
+            //Detect linework update (mainly for user color change)
+            LineworkViewModel.lineworkHasUpdated += LineworkViewModel_lineworkHasUpdated;
         }
         catch (System.Exception e)
         {
             new ErrorToLogFile(e).WriteToFile();
         }
 
-
     }
+
 
     #region EVENTS
 
     /// <summary>
-    /// An event that detect get map feature info on a tap/click on screen
+    /// An even that is triggered when user has updated a linework
     /// </summary>
     /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="updatedLineworkID">the int id of the updated linework</param>
+    private void LineworkViewModel_lineworkHasUpdated(object sender, Tuple<int, string> updatedLineworkIDAndColor)
+    {
+        try
+        {
+            //Get layer
+            ILayer lineLayer = mapView.Map.Layers.Where(x => x.Name == ApplicationLiterals.aliasLinework).FirstOrDefault();
+            MemoryLayer memLineLayer = lineLayer as MemoryLayer;
+            if (lineLayer != null && memLineLayer != null)
+            {
+                //Get updated feature
+                IFeature lineFeat = memLineLayer.Features.Where(x => x.ToDisplayText().Contains(updatedLineworkIDAndColor.Item1.ToString())).FirstOrDefault();
+
+                if (lineFeat != null)
+                {
+                    //Get style
+                    IStyle lineStyle = lineFeat.Styles.FirstOrDefault(x => x is VectorStyle);
+                    if (lineStyle != null)
+                    {
+                        //New color
+                        Color newLineColor = GetColorFromString(updatedLineworkIDAndColor.Item2);
+
+                        //Validate if color has changed
+                        VectorStyle lineVectorStyle = lineStyle as VectorStyle;
+                        Pen linePenStyle = lineVectorStyle.Line as Pen;
+
+                        if (linePenStyle != null && !newLineColor.Equals(linePenStyle.Color))
+                        {
+                            linePenStyle.Color = newLineColor;
+                            mapView.Map.RefreshData();
+                        }
+
+                    }
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+
+    }
+
     private async void Map_Info(object sender, MapInfoEventArgs e)
     {
 
