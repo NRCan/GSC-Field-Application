@@ -39,7 +39,7 @@ namespace GSCFieldApp.Services.DatabaseServices
     public class GeopackageService
     {
 
-        public DataAccess dAcccess = new DataAccess();
+        public DataAccess da = new DataAccess();
         public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
         public static GeometryFactory defaultMapsuiGeometryFactory = new GeometryFactory();
 
@@ -1050,14 +1050,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             bool repaired = true;
 
-            //Connect
-            SQLiteAsyncConnection inConnection = new SQLiteAsyncConnection(dAcccess.PreferedDatabasePath);
-
             //Get all features
-            List<FieldLocation> fieldLocations = await inConnection.Table<FieldLocation>().ToListAsync();
-
-            //Close
-            await inConnection.CloseAsync();
+            List<FieldLocation> fieldLocations = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
 
             //Go through all features and get byte for long/lat
             if (fieldLocations != null)
@@ -1071,7 +1065,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                             byte[] byteGeom = CreateByteGeometryPoint(locs.LocationLong, locs.LocationLat);
                             locs.LocationGeometry = byteGeom;
 
-                            await dAcccess.SaveItemAsync(locs, true);
+                            await da.SaveItemAsync(locs, true);
                         }
                         catch (Exception e)
                         {

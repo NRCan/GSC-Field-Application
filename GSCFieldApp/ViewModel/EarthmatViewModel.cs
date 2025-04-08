@@ -459,9 +459,6 @@ namespace GSCFieldApp.ViewModel
                     await da.SaveItemAsync(Model, false);
                 }
 
-                //Close to be sure
-                await da.CloseConnectionAsync();
-
                 //Exit
                 await NavigateToFieldNotes(TableNames.earthmat);
             }
@@ -491,9 +488,6 @@ namespace GSCFieldApp.ViewModel
                     await da.SaveItemAsync(Model, false);
 
                 }
-
-                //Close to be sure
-                await da.CloseConnectionAsync();
 
                 //Show saved message
                 await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -767,37 +761,42 @@ namespace GSCFieldApp.ViewModel
 
 #if ANDROID
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
 
             if (vocab_manager != null && vocab_manager.Count() > 0)
             {
                 string codeTheme = vocab_manager.First().ThemeCodedTheme;
-                _litho_detail_vocab = await currentConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
+                _litho_detail_vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
             }
 
 #else
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
             _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
 
 #endif
 
 
             var _lihthoSearchResults = new List<string>();
-            foreach (Vocabularies tmp in _litho_detail_vocab)
+
+            if (_litho_detail_vocab != null)
             {
-                if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                foreach (Vocabularies tmp in _litho_detail_vocab)
                 {
-                    _lihthoSearchResults.Add(tmp.Code.ToString());
+                    if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                    {
+                        _lihthoSearchResults.Add(tmp.Code.ToString());
+                    }
+
+                    IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
+                    if (existingDetails != null && existingDetails.Count() > 0)
+                    {
+                        LithologyDetail detail = new LithologyDetail();
+                        detail.DetailCode = tmp.Code.ToString();
+                        existingDetails.First().lithologyDetails.Add(detail);
+
+                    }
                 }
 
-                IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
-                if (existingDetails != null && existingDetails.Count() > 0)
-                {
-                    LithologyDetail detail = new LithologyDetail();
-                    detail.DetailCode = tmp.Code.ToString();
-                    existingDetails.First().lithologyDetails.Add(detail);
-
-                }
             }
 
             LihthoDetailSearchResults = _lihthoSearchResults;
@@ -815,33 +814,36 @@ namespace GSCFieldApp.ViewModel
 
 #if ANDROID
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
 
             if (vocab_manager != null && vocab_manager.Count() > 0)
             {
                 string codeTheme = vocab_manager.First().ThemeCodedTheme;
-                _litho_group_vocab = await currentConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
+                _litho_group_vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
             }
 
 #else
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
             _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
 
 #endif
 
             var _lihthoSearchResults = new List<string>();
-            foreach (Vocabularies tmp in _litho_group_vocab)
+            if (_litho_group_vocab != null)
             {
-                if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                foreach (Vocabularies tmp in _litho_group_vocab)
                 {
-                    _lihthoSearchResults.Add(tmp.Code.ToString());
-
-                    IEnumerable<Lithology> existingGroupType = lithologies.Where(l => l.GroupTypeCode == tmp.Code.ToString());
-                    if (existingGroupType == null || existingGroupType.Count() == 0)
+                    if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
                     {
-                        lithologies.Add(new Lithology(tmp.Code.ToString()));
-                    }
+                        _lihthoSearchResults.Add(tmp.Code.ToString());
 
+                        IEnumerable<Lithology> existingGroupType = lithologies.Where(l => l.GroupTypeCode == tmp.Code.ToString());
+                        if (existingGroupType == null || existingGroupType.Count() == 0)
+                        {
+                            lithologies.Add(new Lithology(tmp.Code.ToString()));
+                        }
+
+                    }
                 }
             }
 
@@ -855,11 +857,9 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         private async Task FillSearchListAsync()
         {
-            //Connect to db
-            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //Prepare vocabulary
-            List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(vis => vis.Visibility == boolYes).ToListAsync();
+            List<Vocabularies> vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(vis => vis.Visibility == boolYes).ToListAsync();
             currentProjectType = Preferences.Get(nameof(FieldUserInfoFWorkType), currentProjectType);
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
@@ -867,7 +867,6 @@ namespace GSCFieldApp.ViewModel
             //TODO: Make sure this one doesn't slow up the rendering process of the form
             await FillLithoSearchListAsync(vocab, currentProjectType);
 
-            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -1143,18 +1142,18 @@ namespace GSCFieldApp.ViewModel
                 {
                     if (_earthmaterial.ParentName == TableStation)
                     {
-                        ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
+                        ems = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
                     }
                     else
                     {
-                        ems = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatDrillHoleID == Earthmaterial.EarthMatDrillHoleID || i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
+                        ems = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => i.EarthMatDrillHoleID == Earthmaterial.EarthMatDrillHoleID || i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
                     }
                 }
                 else
                 {
                     if (_station != null && _station.StationID != null)
                     {
-                        ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == _station.StationID)).ToListAsync();
+                        ems = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == _station.StationID)).ToListAsync();
                     }
                 }
 
@@ -1242,9 +1241,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.EarthMatStatID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.EarthMatStatID.Value).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Station> parentAlias = await DataAccess.DbConnection.Table<Station>().Where(e => e.StationID == Model.EarthMatStatID.Value).ToListAsync();
                 Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Model.EarthMatStatID.Value, parentAlias.First().StationAlias);
             }
 
@@ -1257,9 +1254,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.EarthMatDrillHoleID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<DrillHole> parentAlias = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.EarthMatDrillHoleID.Value).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<DrillHole> parentAlias = await DataAccess.DbConnection.Table<DrillHole>().Where(e => e.DrillID == Model.EarthMatDrillHoleID.Value).ToListAsync();
                 Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Model.EarthMatDrillHoleID.Value, parentAlias.First().DrillIDName);
             }
 
@@ -1497,8 +1492,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
         }
 
 #endregion
@@ -1521,18 +1514,18 @@ namespace GSCFieldApp.ViewModel
                 {
                     if (_earthmaterial.ParentName == TableStation)
                     {
-                        ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
+                        ems = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
                     }
                     else
                     {
-                        ems = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatDrillHoleID == Earthmaterial.EarthMatDrillHoleID || i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
+                        ems = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => i.EarthMatDrillHoleID == Earthmaterial.EarthMatDrillHoleID || i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
                     }
                 }
                 else
                 {
                     if (_station != null)
                     {
-                        ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == _station.StationID)).ToListAsync();
+                        ems = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == _station.StationID)).ToListAsync();
                     }
                 }
 

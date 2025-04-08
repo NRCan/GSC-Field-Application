@@ -219,9 +219,7 @@ namespace GSCFieldApp.ViewModel
             //Edge case: renaming parent location alias based on drill hole alias
             if (Model != null && Model.DrillLocationID > 0)
             {
-                SQLiteAsyncConnection conn = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<FieldLocation> parentLocation = await conn.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
-                await conn.CloseAsync();
+                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
 
                 if (parentLocation != null && parentLocation.Count > 0)
                 {
@@ -242,8 +240,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
         }
 
         /// <summary>
@@ -303,9 +299,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.DrillLocationID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<FieldLocation> parent = await currentConnection.Table<FieldLocation>().Where(e => e.LocationID == Model.DrillLocationID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<FieldLocation> parent = await DataAccess.DbConnection.Table<FieldLocation>().Where(e => e.LocationID == Model.DrillLocationID).ToListAsync();
                 DateTime locationDate = DateTime.Parse(parent.First().LocationTimestamp);
                 Model.DrillIDName = await idCalculator.CalculateDrillAliasAsync(locationDate, parent.First().LocationID);
             }
@@ -404,8 +398,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task FillLogBy()
         {
-            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-            List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+            List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
 
             if (mets != null && mets.Count == 1)
             {
@@ -414,7 +407,7 @@ namespace GSCFieldApp.ViewModel
                 //Update UI
                 OnPropertyChanged(nameof(Model));
             }
-            await currentConnection.CloseAsync();
+
         }
 
         /// <summary>

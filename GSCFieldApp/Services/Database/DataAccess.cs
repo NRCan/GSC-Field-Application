@@ -19,7 +19,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataAccess
     {
-        public static SQLiteAsyncConnection _dbConnection;
+        private static SQLiteAsyncConnection _dbConnection;
 
         //Localization
         public LocalizationResourceManager LocalizationResourceManager
@@ -52,6 +52,12 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         public DataAccess()
         {
+            //Init database
+            if (DbConnection == null)
+            {
+                //Create the database connection object
+                DbConnection = new SQLiteAsyncConnection(PreferedDatabasePath);
+            }
 
         }
 
@@ -60,22 +66,24 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Get a sqlite connection object
         /// </summary>
-        private SQLiteAsyncConnection DbConnection
+        public static SQLiteAsyncConnection DbConnection
         {
             get
             {
-                if (PreferedDatabasePath != string.Empty)
-                {
-                    return new SQLiteAsyncConnection(PreferedDatabasePath);
-                }
-                else
-                {
-                    return _dbConnection;
-                }
+                return _dbConnection;
+            }
 
+            set
+            {
+                _dbConnection = value;
             }
         }
 
+        /// <summary>
+        /// Will return a async connection from a string path
+        /// </summary>
+        /// <param name="inPath"></param>
+        /// <returns></returns>
         public SQLiteAsyncConnection GetConnectionFromPath(string inPath)
         {
             return new SQLiteAsyncConnection(inPath);
@@ -88,6 +96,15 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task CloseConnectionAsync()
         {
             await DbConnection.CloseAsync();
+        }
+
+        /// <summary>
+        /// Will close the database connection
+        /// </summary>
+        /// <returns></returns>
+        public async Task SetConnectionAsync()
+        {
+            DbConnection = new SQLiteAsyncConnection(PreferedDatabasePath);
         }
 
         #endregion
@@ -315,9 +332,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Get vocab records
-            SQLiteAsyncConnection vocabConnection = GetConnectionFromPath(databasePath);
-
-            List<Vocabularies> vocabs = await vocabConnection.QueryAsync<Vocabularies>(finalQuery);
+            List<Vocabularies> vocabs = await DbConnection.QueryAsync<Vocabularies>(finalQuery);
 
             //Add empty record for user to remove any selected values
             Vocabularies emptyNull = new Vocabularies();
@@ -325,8 +340,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             emptyNull.Description = " ";
 
             vocabs.Insert(0, emptyNull);
-
-            await vocabConnection.CloseAsync();
 
             return vocabs;
         }
@@ -879,18 +892,14 @@ namespace GSCFieldApp.Services.DatabaseServices
             int tableCount = 0;
 
             //Get query result
-            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
-            TableMapping tableMapping = await GetATableObjectAsync(inTableType, dbConnect);
+            TableMapping tableMapping = await GetATableObjectAsync(inTableType, DbConnection);
 
-            List<int> tableRows = await dbConnect.QueryScalarsAsync<int>("SELECT * FROM " + tableMapping.TableName);
+            List<int> tableRows = await DbConnection.QueryScalarsAsync<int>("SELECT * FROM " + tableMapping.TableName);
 
             if (tableRows.Count() > 0)
             {
                 tableCount = tableRows.Count();
             }
-            
-
-            await dbConnect.CloseAsync();
             
             return tableCount;
 
@@ -906,16 +915,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             Structure relatedStructure = new Structure();
             if (StrucId != null)
             {
-                SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
-                List<Structure> relatedStructures = await dbConnect.Table<Structure>().Where(struc => struc.StructureID == StrucId).ToListAsync();
+                List<Structure> relatedStructures = await DbConnection.Table<Structure>().Where(struc => struc.StructureID == StrucId).ToListAsync();
 
                 if (relatedStructures != null  && relatedStructures.Count > 0)
                 {
                     relatedStructure = relatedStructures[0];
                 }
-
-                await dbConnect.CloseAsync();
-                
             }
 
             return relatedStructure;
@@ -929,9 +934,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             double schemaVersion = 0.0;
 
-            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
-            List<Metadata> mets = await dbConnect.Table<Metadata>().ToListAsync();
-            await dbConnect.CloseAsync();
+            List<Metadata> mets = await DbConnection.Table<Metadata>().ToListAsync();
 
             if (mets != null && mets.Count() > 0)
             {

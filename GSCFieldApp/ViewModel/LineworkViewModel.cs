@@ -93,9 +93,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Exit or stay in map page if quick photo
             if (_model.IsMapPageQuick)
             {

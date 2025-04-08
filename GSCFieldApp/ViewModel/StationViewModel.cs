@@ -204,9 +204,7 @@ namespace GSCFieldApp.ViewModel
             //Edge case: renaming parent location alias if station is a waypoint
             if (Model != null && Model.StationObsType == DatabaseLiterals.KeywordStationWaypoint)
             {
-                SQLiteAsyncConnection conn = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<FieldLocation> parentLocation = await conn.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
-                await conn.CloseAsync();
+                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
 
                 if (parentLocation != null && parentLocation.Count > 0)
                 {
@@ -220,9 +218,6 @@ namespace GSCFieldApp.ViewModel
             if (_station != null &&_station.StationAlias != string.Empty && _model.StationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-
-                //Close to be sure
-                await da.CloseConnectionAsync();
 
                 //Exit
                 if (_station.IsMapPageQuick)
@@ -241,9 +236,6 @@ namespace GSCFieldApp.ViewModel
 
                 if (newStation != null)
                 {
-                    //Close to be sure
-                    await da.CloseConnectionAsync();
-
                     //Exit
                     await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
 
@@ -298,9 +290,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Navigate to child
             await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
                 new Dictionary<string, object>
@@ -327,9 +316,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Navigate to child
             await Shell.Current.GoToAsync($"/{nameof(DocumentPage)}/",
@@ -358,9 +344,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Navigate to child
             await Shell.Current.GoToAsync($"/{nameof(EnvironmentPage)}/",
                 new Dictionary<string, object>
@@ -387,9 +370,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Navigate to pflow page 
             await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",

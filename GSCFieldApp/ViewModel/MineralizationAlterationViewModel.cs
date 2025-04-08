@@ -199,9 +199,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
         }
 
         /// <summary>
@@ -256,17 +253,13 @@ namespace GSCFieldApp.ViewModel
             else if (Model.MAEarthmatID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Earthmaterial> parentAlias = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.MAEarthmatID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Earthmaterial> parentAlias = await DataAccess.DbConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.MAEarthmatID).ToListAsync();
                 Model.MAName = await idCalculator.CalculateMineralAlterationAliasAsync(Model.MAEarthmatID.Value, parentAlias.First().EarthMatName);
             }
             else if (Model.MAStationID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.MAStationID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Station> parentAlias = await DataAccess.DbConnection.Table<Station>().Where(e => e.StationID == Model.MAStationID).ToListAsync();
                 Model.MAName = await idCalculator.CalculateMineralAlterationAliasAsync(Model.MAStationID.Value, parentAlias.First().StationAlias);
             }
             Model.MAID = 0;

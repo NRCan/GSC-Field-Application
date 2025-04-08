@@ -140,9 +140,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Exit or stay in map page if quick photo
             if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
             {
@@ -176,9 +173,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -215,9 +209,6 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            //Connect to db
-            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-
             //First order pickers
             _structureClass = await FillAPicker(FieldStructureClass);
             OnPropertyChanged(nameof(StructureClass));
@@ -252,7 +243,6 @@ namespace GSCFieldApp.ViewModel
             _structureRelatedAlias = await FillRelatedStructureAsync();
             OnPropertyChanged(nameof(StructureRelatedAlias));
 
-            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -462,9 +452,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.StructureEarthmatID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Earthmaterial> parentAlias = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.StructureEarthmatID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Earthmaterial> parentAlias = await DataAccess.DbConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.StructureEarthmatID).ToListAsync();
                 Model.StructureName = await idCalculator.CalculateStructureAliasAsync(Model.StructureEarthmatID, parentAlias.First().EarthMatName);
             }
 
@@ -507,14 +495,14 @@ namespace GSCFieldApp.ViewModel
                 if (_structure != null)
                 {
 
-                    sts = await currentConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _structure.StructureEarthmatID && i.StructureID != _structure.StructureID)).ToListAsync();
+                    sts = await DataAccess.DbConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _structure.StructureEarthmatID && i.StructureID != _structure.StructureID)).ToListAsync();
 
                 }
                 else
                 {
                     if (_earthmaterial != null)
                     {
-                        sts = await currentConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _earthmaterial.EarthMatID)).ToListAsync();
+                        sts = await DataAccess.DbConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _earthmaterial.EarthMatID)).ToListAsync();
                     }
                 }
 

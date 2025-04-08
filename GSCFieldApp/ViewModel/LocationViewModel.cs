@@ -302,9 +302,6 @@ namespace GSCFieldApp.ViewModel
             {
                 await da.SaveItemAsync(Model, true);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
         }
 
         /// <summary>

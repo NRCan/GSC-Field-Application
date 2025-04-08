@@ -66,9 +66,8 @@ namespace GSCFieldApp.Services
                     case DatabaseLiterals.TableNames.station:
                         //Special case with station, it shall delete from location
                         //And location always cascades
-                        SQLiteAsyncConnection dbConnect = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                        List<DrillHole> drillSiblings = await dbConnect.Table<DrillHole>().Where(d=>d.DrillLocationID == itemID).ToListAsync();
-                        await dbConnect.CloseAsync();
+                        List<DrillHole> drillSiblings = await DataAccess.DbConnection.Table<DrillHole>().Where(d=>d.DrillLocationID == itemID).ToListAsync();
+
                         if (drillSiblings != null && drillSiblings.Count() > 0)
                         {
                             numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableStation, DatabaseLiterals.FieldStationObsID, itemID);
@@ -126,9 +125,8 @@ namespace GSCFieldApp.Services
                         //Case # 3
                         // Parent location with related drill holes should only delete the drill hole
 
-                        SQLiteAsyncConnection dhConnect = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                        List<Station> statSiblings = await dhConnect.Table<Station>().Where(s => s.LocationID == itemID).ToListAsync();
-                        List<DrillHole> dhSiblings = await dhConnect.Table<DrillHole>().Where(d => d.DrillLocationID == itemID).ToListAsync();
+                        List<Station> statSiblings = await DataAccess.DbConnection.Table<Station>().Where(s => s.LocationID == itemID).ToListAsync();
+                        List<DrillHole> dhSiblings = await DataAccess.DbConnection.Table<DrillHole>().Where(d => d.DrillLocationID == itemID).ToListAsync();
 
                         if ((statSiblings != null && statSiblings.Count() > 0) || (dhSiblings != null && dhSiblings.Count() > 0))
                         {

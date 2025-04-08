@@ -168,6 +168,10 @@ namespace GSCFieldApp.ViewModel
                     //Set database path
                     da.PreferedDatabasePath = desiredDatabaseName;
 
+                    //Close last connection and open new one
+                    await da.CloseConnectionAsync();
+                    await da.SetConnectionAsync();
+
                     //Create new field book database
                     await da.CreateDatabaseFromResource(da.PreferedDatabasePath);
 
@@ -177,9 +181,6 @@ namespace GSCFieldApp.ViewModel
                     //Insert new record in F_METADATA
                     await da.SaveItemAsync(Model, false);
                 }
-
-                //Close to be sure
-                await da.CloseConnectionAsync();
 
                 //Exit
                 await Shell.Current.GoToAsync($"//{nameof(FieldBooksPage)}/");

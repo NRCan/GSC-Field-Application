@@ -183,9 +183,6 @@ namespace GSCFieldApp.ViewModel
                 int photoTaken = await Task.Run(async () => await BatchCreatePhotos());
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Exit or stay in map page if quick photo
             if (_station != null && _station.IsMapPageQuick)
             {
@@ -224,9 +221,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new records as batch if needed
                 await Task.Run(async () => await BatchCreatePhotos());
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -541,7 +535,6 @@ namespace GSCFieldApp.ViewModel
         private async Task ResetModelAsync()
         {
             // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //Reset model
             if (_station != null)
@@ -554,7 +547,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.StationID != null)
             {
                 
-                List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
+                List<Station> parentAlias = await DataAccess.DbConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(Model.StationID.Value, parentAlias.First().StationAlias);
 
             }
@@ -567,7 +560,7 @@ namespace GSCFieldApp.ViewModel
             }
             else if (Model.DrillHoleID != null)
             {
-                List<DrillHole> parentAlias = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
+                List<DrillHole> parentAlias = await DataAccess.DbConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(Model.DrillHoleID.Value, parentAlias.First().DrillIDName);
             }
             Model.Hyperlink = null;
@@ -576,7 +569,6 @@ namespace GSCFieldApp.ViewModel
             Model.FileNumber = Model.FileNumber + 1;
             CalculateFileNumberTo();
 
-            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -707,8 +699,6 @@ namespace GSCFieldApp.ViewModel
             {
                 IsProcessingBatch = true;
 
-                SQLiteAsyncConnection sq = da.GetConnectionFromPath(da.PreferedDatabasePath);
-
                 while (currentIteration <= _fileNumberTo)
                 {
                     //Calculate filenumber and file name if not from embeded pictures
@@ -739,12 +729,11 @@ namespace GSCFieldApp.ViewModel
                     TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P0'", FieldDocumentFileNo, ">=10", _model.StationID.ToString());
                 string aliasQuery = string.Format(aliasQuery_base,
                     TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P'", FieldDocumentFileNo, ">=100", _model.StationID.ToString());
-                await sq.ExecuteAsync(aliasQuery00);
-                await sq.ExecuteAsync(aliasQuery0);
-                await sq.ExecuteAsync(aliasQuery);
+                await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
+                await DataAccess.DbConnection.ExecuteAsync(aliasQuery0);
+                await DataAccess.DbConnection.ExecuteAsync(aliasQuery);
 
                 IsProcessingBatch = false;
-                await sq.CloseAsync();
             }
 
             return currentIteration;
@@ -762,9 +751,8 @@ namespace GSCFieldApp.ViewModel
             if (_station == null)
             {
                 //Go get original record
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Station> pRecord = await currentConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Station> pRecord = await DataAccess.DbConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
+
                 if (pRecord != null && pRecord.Count() > 0)
                 {
                     _station = pRecord.First();
@@ -778,9 +766,8 @@ namespace GSCFieldApp.ViewModel
             else if (_drillHole == null)
             {
                 //Go get original record
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<DrillHole> pRecord = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<DrillHole> pRecord = await DataAccess.DbConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
+
                 if (pRecord != null && pRecord.Count() > 0)
                 {
                     _drillHole = pRecord.First();

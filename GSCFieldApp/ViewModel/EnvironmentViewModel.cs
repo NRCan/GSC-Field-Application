@@ -151,9 +151,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Exit or stay in map page if quick photo
             await NavigateToFieldNotes(TableNames.environment);
             
@@ -181,9 +178,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -225,8 +219,6 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            //Connect to db
-            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //First order pickers
             _environmentRelief = await FillAPicker(FieldEnvRelief);
@@ -252,8 +244,6 @@ namespace GSCFieldApp.ViewModel
 
             _environmentIce = await FillAPicker(FieldEnvGroundIce);
             OnPropertyChanged(nameof(EnvironmentIce));
-
-            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -329,9 +319,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.EnvStationID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.EnvStationID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Station> parentAlias = await DataAccess.DbConnection.Table<Station>().Where(e => e.StationID == Model.EnvStationID).ToListAsync();
                 Model.EnvName = await idCalculator.CalculateEnvironmentAliasAsync(Model.EnvStationID, parentAlias.First().StationAlias);
             }
 

@@ -33,7 +33,7 @@ namespace GSCFieldApp.ViewModel
     {
         #region INIT
         private DataIDCalculation idCalc = new DataIDCalculation();
-        private DataAccess dataAccess = new DataAccess();
+        private DataAccess da = new DataAccess();
 
         private FieldLocation locationModel = new FieldLocation();
         private Metadata metadataModel = new Metadata();
@@ -291,13 +291,11 @@ namespace GSCFieldApp.ViewModel
                 {
                     if (keyIDField.Contains(mi.FieldName))
                     {
-                        SQLiteAsyncConnection currentConnection = dataAccess.GetConnectionFromPath(dataAccess.PreferedDatabasePath);
-
                         if (mi.FieldName == keyIDField[0])
                         {
                             foundKeyField = true;
                             int idValue = int.Parse(mi.FieldValue);
-                            List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationID == idValue).ToListAsync();
+                            List<Station> tappedStation = await DataAccess.DbConnection.Table<Station>().Where(i => i.StationID == idValue).ToListAsync();
 
                             //Navigate to station page and keep location model for relational link
                             if (tappedStation != null && tappedStation.Count() == 1)
@@ -320,7 +318,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             foundKeyField = true;
                             int idValue = int.Parse(mi.FieldValue);
-                            List<Linework> tappedLine= await currentConnection.Table<Linework>().Where(i => i.LineID == idValue).ToListAsync();
+                            List<Linework> tappedLine= await DataAccess.DbConnection.Table<Linework>().Where(i => i.LineID == idValue).ToListAsync();
 
                             //Navigate to linework page
                             if (tappedLine != null && tappedLine.Count() == 1)
@@ -337,10 +335,6 @@ namespace GSCFieldApp.ViewModel
                                 );
                             }
                         }
-
-                        await currentConnection.CloseAsync();
-
-
                     }
                 }
 
@@ -498,7 +492,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public string GetPreferedLayerJsonPath()
         { 
-            return Path.Combine(Path.GetDirectoryName(dataAccess.PreferedDatabasePath), Path.GetFileNameWithoutExtension(dataAccess.PreferedDatabasePath)) + ".json";
+            return Path.Combine(Path.GetDirectoryName(da.PreferedDatabasePath), Path.GetFileNameWithoutExtension(da.PreferedDatabasePath)) + ".json";
         }
 
         /// <summary>
@@ -508,11 +502,8 @@ namespace GSCFieldApp.ViewModel
         private async Task GetMetadataAsync()
         {
             //Get metadata record
-            SQLiteAsyncConnection currentConnection = dataAccess.GetConnectionFromPath(dataAccess.PreferedDatabasePath);
-            List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
+            List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
             metadataModel = mets[0];
-            await currentConnection.CloseAsync();
-
         }
 
         /// <summary>
@@ -522,7 +513,7 @@ namespace GSCFieldApp.ViewModel
         public async Task<int> SaveLocationModelAsync()
         {
             //Quick check if a valid field book is selected
-            if (dataAccess.PreferedDatabasePath != dataAccess.DatabaseFilePath)
+            if (da.PreferedDatabasePath != da.DatabaseFilePath)
             {
                 locationModel = new FieldLocation();
                 if (sensorLocation.Altitude.HasValue)
@@ -580,14 +571,14 @@ namespace GSCFieldApp.ViewModel
                 {
                     //Since a first location is being recorded, set to active.
                     metadataModel.IsActive = 1;
-                    await dataAccess.SaveItemAsync(metadataModel, true);
+                    await da.SaveItemAsync(metadataModel, true);
                 }
 
                 //Mapping setting
                 locationModel.IsMapPageQuick = true;
 
                 //Save
-                locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
+                locationModel = await da.SaveItemAsync(locationModel, false) as FieldLocation;
 
                 //Return ID
                 return locationModel.LocationID;

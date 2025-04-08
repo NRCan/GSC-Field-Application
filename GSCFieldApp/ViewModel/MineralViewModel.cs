@@ -157,9 +157,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Exit
              await NavigateToFieldNotes(TableNames.mineral);
             
@@ -187,9 +184,6 @@ namespace GSCFieldApp.ViewModel
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -255,9 +249,6 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            //Connect to db
-            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-
             //First order pickers
             _mineralMode = await FillAPicker(FieldMineralMode);
             OnPropertyChanged(nameof(MineralMode));
@@ -271,7 +262,6 @@ namespace GSCFieldApp.ViewModel
             _mineralFormHabit = await FillAPicker(FieldMineralFormHabit);
             OnPropertyChanged(nameof(MineralFormHabit));
 
-            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -376,17 +366,13 @@ namespace GSCFieldApp.ViewModel
             else if (Model.MineralEMID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Earthmaterial> parentAlias = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.MineralEMID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Earthmaterial> parentAlias = await DataAccess.DbConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.MineralEMID).ToListAsync();
                 Model.MineralIDName = await idCalculator.CalculateMineralAlias(Model.MineralEMID.Value, parentAlias.First().EarthMatName, TableNames.earthmat);
             }
             else if (Model.MineralMAID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<MineralAlteration> parentAlias = await currentConnection.Table<MineralAlteration>().Where(e => e.MAID == Model.MineralMAID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<MineralAlteration> parentAlias = await DataAccess.DbConnection.Table<MineralAlteration>().Where(e => e.MAID == Model.MineralMAID).ToListAsync();
                 Model.MineralIDName = await idCalculator.CalculateMineralAlias(Model.MineralMAID.Value, parentAlias.First().MAName, TableNames.mineralization);
             }
             Model.MineralID = 0;
@@ -400,12 +386,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         private async Task FillSearchListAsync()
         {
-            //Connect to db
-            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-
             _mineralNames = await FillAPicker(FieldMineral);
-
-            await currentConnection.CloseAsync();
         }
 
         #endregion

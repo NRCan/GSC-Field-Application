@@ -627,12 +627,9 @@ namespace GSCFieldApp.ViewModel
         public async Task TapGestureRecognizer(FieldNote fieldNotes)
         {
             //Get tapped record
-            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-
-            //Get desire form on screen from tapped table name
             if (fieldNotes.GenericTableName == TableStation)
             {
-                List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationID == fieldNotes.GenericID).ToListAsync();
+                List<Station> tappedStation = await DataAccess.DbConnection.Table<Station>().Where(i => i.StationID == fieldNotes.GenericID).ToListAsync();
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStation != null && tappedStation.Count() == 1)
                 {
@@ -649,7 +646,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableEarthMat)
             {
-                List<Earthmaterial> tappedEM = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatID == fieldNotes.GenericID).ToListAsync();
+                List<Earthmaterial> tappedEM = await DataAccess.DbConnection.Table<Earthmaterial>().Where(i => i.EarthMatID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEM != null && tappedEM.Count() == 1)
@@ -666,7 +663,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableSample)
             {
-                List<Sample> tappedSample = await currentConnection.Table<Sample>().Where(i => i.SampleID == fieldNotes.GenericID).ToListAsync();
+                List<Sample> tappedSample = await DataAccess.DbConnection.Table<Sample>().Where(i => i.SampleID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedSample != null && tappedSample.Count() == 1)
@@ -683,7 +680,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableStructure)
             {
-                List<Structure> tappedStructure = await currentConnection.Table<Structure>().Where(i => i.StructureID == fieldNotes.GenericID).ToListAsync();
+                List<Structure> tappedStructure = await DataAccess.DbConnection.Table<Structure>().Where(i => i.StructureID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStructure != null && tappedStructure.Count() == 1)
@@ -700,7 +697,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TablePFlow)
             {
-                List<Paleoflow> tappedPflow = await currentConnection.Table<Paleoflow>().Where(i => i.PFlowID == fieldNotes.GenericID).ToListAsync();
+                List<Paleoflow> tappedPflow = await DataAccess.DbConnection.Table<Paleoflow>().Where(i => i.PFlowID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedPflow != null && tappedPflow.Count() == 1)
@@ -717,7 +714,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableFossil)
             {
-                List<Fossil> tappedFossil= await currentConnection.Table<Fossil>().Where(i => i.FossilID == fieldNotes.GenericID).ToListAsync();
+                List<Fossil> tappedFossil= await DataAccess.DbConnection.Table<Fossil>().Where(i => i.FossilID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedFossil != null && tappedFossil.Count() == 1)
@@ -734,7 +731,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableEnvironment)
             {
-                List<EnvironmentModel> tappedEnv = await currentConnection.Table<EnvironmentModel>().Where(i => i.EnvID == fieldNotes.GenericID).ToListAsync();
+                List<EnvironmentModel> tappedEnv = await DataAccess.DbConnection.Table<EnvironmentModel>().Where(i => i.EnvID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEnv != null && tappedEnv.Count() == 1)
@@ -751,7 +748,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableDocument)
             {
-                List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
+                List<Document> tappedDoc = await DataAccess.DbConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedDoc != null && tappedDoc.Count() == 1)
@@ -768,7 +765,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableMineral)
             {
-                List<Mineral> tappedMineral = await currentConnection.Table<Mineral>().Where(i => i.MineralID == fieldNotes.GenericID).ToListAsync();
+                List<Mineral> tappedMineral = await DataAccess.DbConnection.Table<Mineral>().Where(i => i.MineralID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedMineral != null && tappedMineral.Count() == 1)
@@ -786,7 +783,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableMineralAlteration)
             {
-                List<MineralAlteration> tappedMineralization = await currentConnection.Table<MineralAlteration>().Where(i => i.MAID == fieldNotes.GenericID).ToListAsync();
+                List<MineralAlteration> tappedMineralization = await DataAccess.DbConnection.Table<MineralAlteration>().Where(i => i.MAID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedMineralization != null && tappedMineralization.Count() == 1)
@@ -804,7 +801,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableLocation)
             {
-                List<FieldLocation> tappedLocation = await currentConnection.Table<FieldLocation>().Where(i => i.LocationID == fieldNotes.GenericID).ToListAsync();
+                List<FieldLocation> tappedLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(i => i.LocationID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedLocation != null && tappedLocation.Count() == 1)
@@ -820,7 +817,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableDrillHoles)
             {
-                List<DrillHole> tappedDrill= await currentConnection.Table<DrillHole>().Where(i => i.DrillID == fieldNotes.GenericID).ToListAsync();
+                List<DrillHole> tappedDrill= await DataAccess.DbConnection.Table<DrillHole>().Where(i => i.DrillID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedDrill != null && tappedDrill.Count() == 1)
@@ -837,7 +834,7 @@ namespace GSCFieldApp.ViewModel
 
             if (fieldNotes.GenericTableName == TableLinework)
             {
-                List<Linework> tappedLine = await currentConnection.Table<Linework>().Where(i => i.LineID == fieldNotes.GenericID).ToListAsync();
+                List<Linework> tappedLine = await DataAccess.DbConnection.Table<Linework>().Where(i => i.LineID == fieldNotes.GenericID).ToListAsync();
 
                 //Navigate to linework page
                 if (tappedLine != null && tappedLine.Count() == 1)
@@ -850,8 +847,6 @@ namespace GSCFieldApp.ViewModel
                     );
                 }
             }
-
-            await currentConnection.CloseAsync();
         }
 
         #endregion
@@ -872,8 +867,6 @@ namespace GSCFieldApp.ViewModel
                 {
                     bool alreadyProcessedLinework = false;
 
-                    SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-
                     //Check if number of location has changed, or if last location is different from last record
                     bool check1 = false;
                     bool check2 = false;
@@ -887,14 +880,14 @@ namespace GSCFieldApp.ViewModel
                     }
 
                     //Check #2 - If location record count is different, then refill all
-                    List<double> countLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
+                    List<double> countLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
                     if (countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
                     {
                         check2 = true;
                     }
 
                     //Check #3 - If last location is different from last record, then refill all
-                    List<double> lastLocation = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
+                    List<double> lastLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
                     if (lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
                     {
                         check3 = true;
@@ -904,7 +897,7 @@ namespace GSCFieldApp.ViewModel
                     if (check1 || check2 || check3 || check4)
                     {
                         //Refill all
-                        await FillFieldNotesAsync(currentConnection);
+                        await FillFieldNotesAsync(DataAccess.DbConnection);
 
                         //Keep track to prevent further useless processing
                         alreadyProcessedLinework = true;
@@ -912,19 +905,16 @@ namespace GSCFieldApp.ViewModel
                     }
 
                     //Special linework case (user adds new linework in map page and nav here)
-                    List<double> lastLinework = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
+                    List<double> lastLinework = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
                     if (!alreadyProcessedLinework || check4)
                     {
                         if ((FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
                         {
-                            await FillLineworkNotes(currentConnection);
+                            await FillLineworkNotes(DataAccess.DbConnection);
 
                             await DateRefreshner();
                         }
                     }
-
-                    await currentConnection.CloseAsync();
-
                 }
 
             }
@@ -1904,7 +1894,6 @@ namespace GSCFieldApp.ViewModel
         public async void UpdateRecordList(TableNames tableToUpdate)
         {
             //Detect if 
-            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<Task> tasks = new List<Task>();
 
             switch (tableToUpdate)
@@ -1915,83 +1904,81 @@ namespace GSCFieldApp.ViewModel
                     tasks.Add(ValidateFillFieldNotesAsync(true));
                     break;
                 case TableNames.location:
-                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.station:
  
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
                     
                     break;
                 case TableNames.earthmat:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
 
                     break;
                 case TableNames.sample:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
-                    tasks.Add(FillSampleNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    tasks.Add(FillSampleNotes(DataAccess.DbConnection));
 
                     break;
                 case TableNames.mineralization:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillMineralizationAlterationNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.mineral:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
-                    tasks.Add(FillMineralizationAlterationNotes(currentConnection));
-                    tasks.Add(FillMineralNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillMineralNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.document:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillDocumentNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.structure:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
-                    tasks.Add(FillStructureNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStructureNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.fossil:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
-                    tasks.Add(FillFossilNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    tasks.Add(FillFossilNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.environment:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEnvironmentNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEnvironmentNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.pflow:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
-                    tasks.Add(FillEMNotes(currentConnection));
-                    tasks.Add(FillPaleoflowNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    tasks.Add(FillPaleoflowNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.drill:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillDrillHoleNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillDrillHoleNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.linework:
-                    tasks.Add(FillLineworkNotes(currentConnection));
+                    tasks.Add(FillLineworkNotes(DataAccess.DbConnection));
                     break;
                 default:
-                    tasks.Add(FillLocationNotes(currentConnection));
-                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
                     break;
             }
 
-            await Task.WhenAll(tasks).ConfigureAwait(false);
-            await currentConnection.CloseAsync(); 
-            
+            await Task.WhenAll(tasks).ConfigureAwait(false);            
 
         }
 

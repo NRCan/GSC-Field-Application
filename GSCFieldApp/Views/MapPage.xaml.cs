@@ -1995,9 +1995,8 @@ public partial class MapPage : ContentPage
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
             //Prep
-            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<FieldLocation> fieldLoc = await currentConnection.Table<FieldLocation>().ToListAsync();
-            List<Station> fieldStat = await currentConnection.Table<Station>().ToListAsync();
+            List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
+            List<Station> fieldStat = await DataAccess.DbConnection.Table<Station>().ToListAsync();
 
             LabelStyle labelStyle = new LabelStyle
             {
@@ -2042,8 +2041,6 @@ public partial class MapPage : ContentPage
                 }
             });
 
-            await currentConnection.CloseAsync();
-
         }
 
         return enumFeat;
@@ -2062,8 +2059,7 @@ public partial class MapPage : ContentPage
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
             //Prep
-            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<TraversePoint> fieldTravPoint = await currentConnection.Table<TraversePoint>().ToListAsync();
+            List<TraversePoint> fieldTravPoint = await DataAccess.DbConnection.Table<TraversePoint>().ToListAsync();
 
             LabelStyle labelStyle = new LabelStyle
             {
@@ -2076,7 +2072,7 @@ public partial class MapPage : ContentPage
             if (fieldTravPoint != null && fieldTravPoint.Count > 0)
             {
                 //Prep style
-                string xmlStyle = await Task.Run(async () => await _geopackageService.GetGeopackageStyleXMLString(currentConnection, DatabaseLiterals.TableTraversePoint));
+                string xmlStyle = await Task.Run(async () => await _geopackageService.GetGeopackageStyleXMLString(DataAccess.DbConnection, DatabaseLiterals.TableTraversePoint));
                 List<GeopackageLayerStyling> stylings = await Task.Run(
                     async () => await _geopackageService.GetGeopackageStyle(
                         xmlStyle, 
@@ -2116,9 +2112,6 @@ public partial class MapPage : ContentPage
 
             }
 
-
-            await currentConnection.CloseAsync();
-
         }
 
         return enumFeat;
@@ -2136,8 +2129,7 @@ public partial class MapPage : ContentPage
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
             //Prep
-            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<Linework> fieldLinework = await currentConnection.Table<Linework>().ToListAsync();
+            List<Linework> fieldLinework = await DataAccess.DbConnection.Table<Linework>().ToListAsync();
             LabelStyle labelStyle = new LabelStyle
             {
                 BackColor = new Brush(Color.WhiteSmoke),
@@ -2183,8 +2175,6 @@ public partial class MapPage : ContentPage
 
                 }
             }
-
-            await currentConnection.CloseAsync();
         }
 
         return enumFeat;

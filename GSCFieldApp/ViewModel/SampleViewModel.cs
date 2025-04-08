@@ -210,9 +210,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
             //Exit or stay in map page if quick photo
             if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
             {
@@ -245,9 +242,6 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
 
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -409,9 +403,7 @@ namespace GSCFieldApp.ViewModel
             else if (Model.SampleEarthmatID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Earthmaterial> parentAlias = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.SampleEarthmatID).ToListAsync();
-                await currentConnection.CloseAsync();
+                List<Earthmaterial> parentAlias = await DataAccess.DbConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.SampleEarthmatID).ToListAsync();
                 Model.SampleName = await idCalculator.CalculateSampleAliasAsync(Model.SampleEarthmatID, parentAlias.First().EarthMatName);
             }
 

@@ -274,7 +274,7 @@ namespace GSCFieldApp.ViewModel
                 await appFileServices.BackupFieldBook();
 
                 //Delete
-                DeleteUserFieldBook();
+                await DeleteUserFieldBook();
 
                 //Unset progress ring
                 SetWaitingCursor(false);
@@ -282,7 +282,7 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Delete
-                DeleteUserFieldBook();
+                await DeleteUserFieldBook();
             }
 
         }
@@ -483,9 +483,9 @@ namespace GSCFieldApp.ViewModel
             //Refresh
             FillBookCollectionAsync();
 
-            //Reset prefered database
+            //Reset preferred database
             da.PreferedDatabasePath = da.DatabaseFilePath;
-
+            await da.SetConnectionAsync();
 
         }
 
@@ -496,6 +496,10 @@ namespace GSCFieldApp.ViewModel
         public void SetFieldBookAsPreferred(FieldBooks book)
         {
             da.PreferedDatabasePath = book.ProjectDBPath;
+
+            //Invalid last connection
+            da.CloseConnectionAsync();
+            da.SetConnectionAsync();
 
             // Keep in pref project type for futur vocab use and other viewing purposes
             Preferences.Set(nameof(FieldUserInfoFWorkType), book.metadataForProject.FieldworkType);

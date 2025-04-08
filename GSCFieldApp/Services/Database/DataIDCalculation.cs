@@ -26,7 +26,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
         readonly EnvironmentModel envModel = new EnvironmentModel();
         readonly DrillHole drillHoleModel = new DrillHole();
-        readonly DataAccess dAccess = new DataAccess();
+        readonly DataAccess da = new DataAccess();
 
         private bool CustomSampleNameEnabled
         {
@@ -63,8 +63,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Edge case: Make sure it gets incremented if it's the first and only location record with no stations
                 if (finaleLocationString.EndsWith("001XY"))
                 {
-                    SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-                    List<FieldLocation> fls = await currentConnection.Table<FieldLocation>().ToListAsync();
+                    List<FieldLocation> fls = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
                     if (fls.Count() > 0)
                     {
                         FieldLocation lastLocation = fls[fls.Count - 1];
@@ -96,8 +95,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                             finaleLocationString = finaleLocationString.Replace("001", locationStringID);
                         }
                     }
-
-                    await currentConnection.CloseAsync();
                 }
 
             }
@@ -145,8 +142,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string stationQueryOrderbyLimit = " ORDER BY " + FieldStationAlias + " DESC LIMIT 1;";
             string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2 + stationQueryOrderbyLimit;
 
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<Station> stats = await currentConnection.QueryAsync<Station>(stationQueryFinal);
+            List<Station> stats = await DataAccess.DbConnection.QueryAsync<Station>(stationQueryFinal);
 
             //Get current year
             string currentDate = stationDate.Year.ToString();
@@ -154,7 +150,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Get officer code
             if (currentGeolcode == string.Empty)
             {
-                List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
                 currentGeolcode = mets[0].UserCode;
             }
 
@@ -162,7 +158,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int stationCount = stats.Count();
             if (stationCount == 0)
             {
-                List<Metadata> metStationCount = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                List<Metadata> metStationCount = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
                 stationCount = metStationCount[0].StationStartNumber;
             }
             else
@@ -185,7 +181,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (followDrillAlias)
             {
-                List<DrillHole> drills = await currentConnection.Table<DrillHole>().OrderByDescending(s => s.DrillIDName).ToListAsync();
+                List<DrillHole> drills = await DataAccess.DbConnection.Table<DrillHole>().OrderByDescending(s => s.DrillIDName).ToListAsync();
                 if (drills != null && drills.Count > 0)
                 {
                     int drillIDNo = 0;
@@ -221,8 +217,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
 
-            await currentConnection.CloseAsync();
-
             return finaleStationString;
 
 
@@ -245,7 +239,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string finalQuery = querySelect + queryFrom + queryWhere + queryOrderBy;
 
             //Get query result
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Station> waypoints = await currentConnection.QueryAsync<Station>(finalQuery);
 
             //Get officer code
@@ -306,7 +300,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             bool isDrillHole = false;
 
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Earthmaterial> eartmatParentStations = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatStatID == parentID).ToListAsync();
 
             if (parentAlias.Contains(TableDrillHolePrefix))
@@ -389,7 +383,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateSampleAliasAsync(int parentID, string parentAlias, string drillFrom = "")
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Sample> sampleParent = await currentConnection.Table<Sample>().Where(s => s.SampleEarthmatID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
@@ -485,7 +479,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             if (connection == null)
             {
-                connection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+                connection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             }
             List<Document> docParent = await connection.Table<Document>().Where(e => e.StationID == parentID || e.DrillHoleID == parentID).ToListAsync();
 
@@ -558,7 +552,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateStructureAliasAsync(int parentID, string parentAlias)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Structure> strucParentEarth = await currentConnection.Table<Structure>().Where(e => e.StructureEarthmatID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
@@ -622,7 +616,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculatePflowAliasAsync(int parentID, string parentAlias)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Paleoflow> pflowParentEarth = await currentConnection.Table<Paleoflow>().Where(e => e.PFlowParentID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
@@ -686,7 +680,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateFossilAliasAsync(int parentID, string parentAlias)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Fossil> fossilParentEarth = await currentConnection.Table<Fossil>().Where(e => e.FossilParentID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
@@ -749,7 +743,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateMineralAlias(int? parentID, string parentAlias, TableNames parentType)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Mineral> minerals = await currentConnection.Table<Mineral>().ToListAsync(); //Get all records
 
             if (parentType == TableNames.mineralization)
@@ -823,7 +817,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateMineralAlterationAliasAsync(int parentID, string parentAlias)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<MineralAlteration> mas = await currentConnection.Table<MineralAlteration>().ToListAsync(); //Get all records
             List<MineralAlteration> maParentStations = await currentConnection.Table<MineralAlteration>().Where(e => e.MAEarthmatID == parentID || e.MAStationID == parentID).OrderBy(e => e.MAName).ToListAsync();
             int newID = 1; //Incrementing step
@@ -890,7 +884,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateEnvironmentAliasAsync(int parentID, string parentAlias)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<EnvironmentModel> envParentStations = await currentConnection.Table<EnvironmentModel>().Where(e => e.EnvStationID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
@@ -958,14 +952,13 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<string> CalculateDrillAliasAsync(DateTime recordDate, int parentID, bool followStationAlias = true)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<DrillHole> drills = await currentConnection.Table<DrillHole>().ToListAsync();
+            List<DrillHole> drills = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
 
             //Get current year
             string currentDate = recordDate.Year.ToString();
 
             //Get officer code
-            List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+            List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
             string currentGeolcode = mets[0].UserCode;
 
             //Get initial station start number and officer code
@@ -975,7 +968,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + drillCount.ToString() + TableDrillHolePrefix;
             if (followStationAlias)
             {
-                List<Station> stations = await currentConnection.Table<Station>().Where(w=>w.StationObsType != DatabaseLiterals.KeywordStationWaypoint).OrderByDescending(s => s.StationAlias).ToListAsync();
+                List<Station> stations = await DataAccess.DbConnection.Table<Station>().Where(w=>w.StationObsType != DatabaseLiterals.KeywordStationWaypoint).OrderByDescending(s => s.StationAlias).ToListAsync();
                 if (stations != null && stations.Count > 0)
                 {
                     int stationIDNo = 0;
@@ -1016,7 +1009,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + TableDrillHolePrefix;
 
                 //Find existing
-                List<DrillHole> existingDrill = await currentConnection.Table<DrillHole>().Where(e => e.DrillLocationID == parentID && e.DrillIDName == finalDrillAlias).ToListAsync();
+                List<DrillHole> existingDrill = await DataAccess.DbConnection.Table<DrillHole>().Where(e => e.DrillLocationID == parentID && e.DrillIDName == finalDrillAlias).ToListAsync();
                 if (existingDrill.Count() == 0 || existingDrill == null)
                 {
                     processingID = false;
@@ -1025,8 +1018,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                 drillCount++;
 
             }
-
-            await currentConnection.CloseAsync();
 
             return finalDrillAlias;
         }
@@ -1051,8 +1042,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string lineworkQueryOrderbyLimit = " ORDER BY " + FieldLineworkIDName + " DESC LIMIT 1;";
             string lineworkQueryFinal = lineworkQuerySelect + lineworkQueryFrom + lineworkQueryOrderbyLimit;
 
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<Linework> lines = await currentConnection.QueryAsync<Linework>(lineworkQueryFinal);
+            List<Linework> lines = await DataAccess.DbConnection.QueryAsync<Linework>(lineworkQueryFinal);
 
             //Get current year
             string currentDate = stationDate.Year.ToString();
@@ -1060,7 +1050,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Get officer code
             if (currentGeolcode == string.Empty)
             {
-                List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
                 currentGeolcode = mets[0].UserCode;
             }
 
@@ -1105,8 +1095,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             string finaleLineworkString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
-
-            await currentConnection.CloseAsync();
 
             return finaleLineworkString;
 

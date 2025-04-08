@@ -29,7 +29,6 @@ namespace GSCFieldApp.Services
         #region INIT
         //Database
         public DataAccess da = new DataAccess();
-        public SQLiteAsyncConnection currentConnection;
         public DataIDCalculation idCalculator = new DataIDCalculation();
 
         //Localize
