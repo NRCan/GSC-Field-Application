@@ -176,17 +176,7 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, fieldLocation.LocationAlias, fieldLocation.LocationID, true);
             }
 
-            if(_station == null || (_station.IsWaypoint && _station.StationID == 0))
-            { 
-                //Exit on map
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-
-            }
-            else
-            {
-                //Exit in field notes
-                await NavigateToFieldNotes(TableNames.station);
-            }
+            await Shell.Current.GoToAsync("..");
 
         }
 

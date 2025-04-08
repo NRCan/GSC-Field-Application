@@ -267,15 +267,7 @@ namespace GSCFieldApp.ViewModel
                 DeleteSnapshot();
             }
 
-            //Exit or stay in map page if quick photo
-            if (_station != null && _station.IsMapPageQuick)
-            {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-            }
-            else
-            {
-                await NavigateToFieldNotes(TableNames.document);
-            }
+            await Shell.Current.GoToAsync("..");
         }
 
         [RelayCommand]

@@ -61,18 +61,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-
-            if (_linework == null)
-            {
-                //Exit on map
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-
-            }
-            else
-            {
-                //Exit in field notes
-                await NavigateToFieldNotes(TableNames.linework);
-            }
+            await Shell.Current.GoToAsync("..");
         }
 
         /// <summary>

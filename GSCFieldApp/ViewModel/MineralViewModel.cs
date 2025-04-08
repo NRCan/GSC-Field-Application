@@ -131,10 +131,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-
-            //Exit 
-            await NavigateToFieldNotes(TableNames.mineral);
-            
+            await Shell.Current.GoToAsync("..");
         }
 
         /// <summary>

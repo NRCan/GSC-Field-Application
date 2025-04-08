@@ -431,8 +431,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            //Exit
-            await NavigateToFieldNotes(TableNames.earthmat, false);
+            await Shell.Current.GoToAsync("..");
         }
 
         /// <summary>
