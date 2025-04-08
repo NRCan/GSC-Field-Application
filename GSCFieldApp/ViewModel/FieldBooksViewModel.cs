@@ -2230,7 +2230,7 @@ namespace GSCFieldApp.ViewModel
             }
 
 
-            return insert_query;
+            return insert_query + ";";
         }
 
         /// <summary>
