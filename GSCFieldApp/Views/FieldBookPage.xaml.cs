@@ -19,11 +19,4 @@ public partial class FieldBookPage : ContentPage
         newFieldBookSaved?.Invoke(this, null);
     }
 
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-        
-        FieldBookViewModel vm = (FieldBookViewModel)BindingContext;
-        await vm.Load();
-    }
 }

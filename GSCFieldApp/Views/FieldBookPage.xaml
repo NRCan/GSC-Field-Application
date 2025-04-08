@@ -31,7 +31,7 @@
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
 
-                    <!--Description section dev-->
+                    <!--Description section-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="descriptionSectionFrame"
                                               FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookDescriptionExpand, Mode=TwoWay}"
                                               FrameTitle="{local:Localize FieldBookPageDescriptionTitle}">
@@ -49,7 +49,7 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding ProjectType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <VerticalStackLayout>
+                            <VerticalStackLayout>
                                     <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
                                     <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
                                        Text="{Binding Model.ProjectName, Mode=TwoWay}"/>

@@ -211,7 +211,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load()
         {
-            if (metadata != null && metadata.isValid)
+            if (metadata != null)
             {
                 //Disable some key fields
                 if (metadata.IsActive == 1)
@@ -232,12 +232,12 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will fill the project type combobox
         /// </summary>
-        private async void FillProjectType()
+        public async void FillProjectType()
         {
             //Init.
             string fieldName = Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType;
 
-            //Make sure to user default database rather then the prefered one. This one will always be there.
+            //Make sure to user default database rather then the preferred one. This one will always be there.
             _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
 
             //Quick validation in case picklist is empty
@@ -258,17 +258,12 @@ namespace GSCFieldApp.ViewModel
                 //Refill
                 _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
 
-                ////Show error
-                //await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
-                //    LocalizationResourceManager["FieldBookPageFailedToLoadContent"].ToString(),
-                //    LocalizationResourceManager["GenericButtonOk"].ToString());
-
-
             }
 
             //Update UI
-            OnPropertyChanged("ProjectType");
+            OnPropertyChanged(nameof(ProjectType));
 
+            await Load();
         }
 
         /// <summary>
