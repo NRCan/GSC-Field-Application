@@ -125,7 +125,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateToFieldNotes(TableNames.mineralization);
+            await NavigateAfterAction(TableNames.mineralization);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.mineralization);
+            await NavigateAfterAction(TableNames.mineralization);
 
         }
 

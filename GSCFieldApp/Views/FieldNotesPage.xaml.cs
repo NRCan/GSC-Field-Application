@@ -49,6 +49,10 @@ public partial class FieldNotesPage : ContentPage
 
             vm2.ValidateFillFieldNotesAsync().ConfigureAwait(false);
 
+            //Keep where user is coming from
+            //It'll help when saving a form to nav back to map page
+            FieldAppPageHelper.NavFromMapPage = false;
+
         }
         catch (Exception e)
         {

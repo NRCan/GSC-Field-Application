@@ -460,7 +460,7 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Exit
-                await NavigateToFieldNotes(TableNames.earthmat);
+                await NavigateAfterAction(TableNames.earthmat);
             }
  
         }
@@ -508,7 +508,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.earthmat);
+            await NavigateAfterAction(TableNames.earthmat);
 
         }
 

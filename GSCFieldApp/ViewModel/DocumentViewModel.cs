@@ -183,16 +183,8 @@ namespace GSCFieldApp.ViewModel
                 int photoTaken = await Task.Run(async () => await BatchCreatePhotos());
             }
 
-            //Exit or stay in map page if quick photo
-            if (_station != null && _station.IsMapPageQuick)
-            {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-            }
-            else
-            {
-                await NavigateToFieldNotes(TableNames.document);
-            }
-
+            //Exit to field notes or stay in map page
+            await NavigateAfterAction(TableNames.document);
 
         }
 
@@ -239,7 +231,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.document);
+            await NavigateAfterAction(TableNames.document);
 
         }
 

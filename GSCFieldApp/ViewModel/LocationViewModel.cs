@@ -101,18 +101,9 @@ namespace GSCFieldApp.ViewModel
             //Save
             await SetAndSaveModelAsync();
 
-            //Show message to take a station or a drill core.
-
             //Exit
-            if (Model.isManualEntry)
-            {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}");
-            }
-            else
-            {
-                await NavigateToFieldNotes(TableNames.location);
-            }
-            
+            await NavigateAfterAction(TableNames.location);
+
         }
 
         /// <summary>
@@ -137,8 +128,8 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, _fieldLocation.LocationAlias, _fieldLocation.LocationID);
             }
 
-            //Exit on either map or field notes
-            await NavigateToFieldNotes(TableNames.location);
+            //Exit
+            await NavigateAfterAction(TableNames.location);
 
         }
 

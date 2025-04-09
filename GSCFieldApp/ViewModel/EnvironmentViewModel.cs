@@ -151,8 +151,8 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Exit or stay in map page if quick photo
-            await NavigateToFieldNotes(TableNames.environment);
+            //Exit
+            await NavigateAfterAction(TableNames.environment);
             
         }
 
@@ -198,7 +198,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.environment);
+            await NavigateAfterAction(TableNames.environment);
 
         }
 

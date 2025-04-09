@@ -93,15 +93,9 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Exit or stay in map page if quick photo
-            if (_model.IsMapPageQuick)
-            {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-            }
-            else
-            {
-                await NavigateToFieldNotes(TableNames.linework);
-            }
+            //Exit
+            await NavigateAfterAction(TableNames.linework);
+
         }
 
         [RelayCommand]
@@ -121,8 +115,8 @@ namespace GSCFieldApp.ViewModel
             }
             else
             {
-                //Exit in field notes
-                await NavigateToFieldNotes(TableNames.linework);
+                //Exit
+                await NavigateAfterAction(TableNames.linework);
             }
 
 

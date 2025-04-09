@@ -158,7 +158,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-             await NavigateToFieldNotes(TableNames.mineral);
+             await NavigateAfterAction(TableNames.mineral);
             
         }
 
@@ -206,7 +206,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.mineral);
+            await NavigateAfterAction(TableNames.mineral);
 
         }
 

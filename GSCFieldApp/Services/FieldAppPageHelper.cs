@@ -44,6 +44,9 @@ namespace GSCFieldApp.Services
         //Theme
         public FieldThemes FieldThemes { get; set; }
 
+        //Navigation
+        public static bool NavFromMapPage = false;  //Used to know where the user is coming from
+
         #endregion
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace GSCFieldApp.Services
         /// </summary>
         /// <param name="tableName">Input table name enum to refresh component in field notes</param>
         /// <returns></returns>
-        public static async Task NavigateToFieldNotes(TableNames tableName, bool refreshTable = true)
+        public static async Task NavigateToFieldNotesOrMapPage(TableNames tableName, bool refreshTable = true)
         {
             //Make sure to remove all previous navigated pages to prevent them from showing up
             List<Page> lastPages = Shell.Current.Navigation.NavigationStack.ToList();
@@ -84,6 +87,24 @@ namespace GSCFieldApp.Services
                 await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}");
             }
 
+        }
+
+        /// <summary>
+        /// Will either navigate to the map page if user was in there, or it'll go the field notes.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="refreshTable"></param>
+        /// <returns></returns>
+        public static async Task NavigateAfterAction(TableNames tableName, bool refreshTable = true)
+        {
+            if (NavFromMapPage)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+            }
+            else
+            {
+                await NavigateToFieldNotesOrMapPage(tableName, refreshTable);
+            }
         }
 
     }

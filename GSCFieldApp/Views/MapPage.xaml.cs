@@ -55,7 +55,6 @@ namespace GSCFieldApp.Views;
 
 public partial class MapPage : ContentPage
 {
-
     private CancellationTokenSource _cancelTokenSource;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
@@ -368,6 +367,10 @@ public partial class MapPage : ContentPage
 
             //Close things that might be open
             MapInfoResultsFrame.IsVisible = false;
+
+            //Keep where user is coming from
+            //It'll help when saving a form to nav back to map page
+            FieldAppPageHelper.NavFromMapPage = true;
 
         }
         catch (System.Exception e)

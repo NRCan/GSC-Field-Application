@@ -113,7 +113,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateToFieldNotes(TableNames.drill);
+            await NavigateAfterAction(TableNames.drill);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.drill);
+            await NavigateAfterAction(TableNames.drill);
 
         }
 

@@ -218,32 +218,17 @@ namespace GSCFieldApp.ViewModel
             if (_station != null &&_station.StationAlias != string.Empty && _model.StationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-
-                //Exit
-                if (_station.IsMapPageQuick)
-                {
-                    await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-                }
-                else
-                {
-                    await NavigateToFieldNotes(TableNames.station);
-                }
             }
             else
             {
                 //Insert new record
-                object newStation = await da.SaveItemAsync(Model, false);
-
-                if (newStation != null)
-                {
-                    //Exit
-                    await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-
-                }
-
+                await da.SaveItemAsync(Model, false);
             }
 
-           
+            //Exit
+            await NavigateAfterAction(TableNames.station);
+
+
         }
 
         /// <summary>
@@ -269,7 +254,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.meta);
+            await NavigateAfterAction(TableNames.meta);
 
         }
 

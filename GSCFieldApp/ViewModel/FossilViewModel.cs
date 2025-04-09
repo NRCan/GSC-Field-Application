@@ -91,15 +91,9 @@ namespace GSCFieldApp.ViewModel
                 await da.SaveItemAsync(Model, false);
             }
 
-            //Exit or stay in map page if quick photo
-            if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
-            {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
-            }
-            else
-            {
-                await NavigateToFieldNotes(TableNames.fossil);
-            }
+            //Exit
+            await NavigateAfterAction(TableNames.fossil);
+            
         }
 
         /// <summary>
@@ -142,7 +136,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.fossil);
+            await NavigateAfterAction(TableNames.fossil);
 
         }
 
