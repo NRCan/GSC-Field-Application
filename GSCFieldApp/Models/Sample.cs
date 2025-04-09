@@ -198,7 +198,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (SampleName != string.Empty)
+                if (SampleName != null && SampleName != string.Empty)
                 {
                     if (SampleName.Contains("/"))
                     {

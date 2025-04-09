@@ -551,8 +551,14 @@ namespace GSCFieldApp.ViewModel
             string legacyDBFrom = GetLegacyDBNamePath(_dbVersion, false);
             if (!File.Exists(legacyDBFrom) )
             {
+                //Close connection, else the move won't work
+                await da.CloseConnectionAsync();
+
                 System.IO.File.Move(da.PreferedDatabasePath, legacyDBFrom);
                 da.PreferedDatabasePath = legacyDBFrom;
+                
+                //Reset to new db
+                await da.SetConnectionAsync();
             }
 
             //Upgrade until latest version
