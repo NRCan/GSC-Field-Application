@@ -109,7 +109,11 @@ namespace GSCFieldApp.ViewModel
                         }
                         if (value != null && value.itemName != string.Empty)
                         {
-                            _categoryCollection.Add(value);
+                            if (!_categoryCollection.Contains(value))
+                            {
+                                _categoryCollection.Add(value);
+                            }
+                            
                             _selectedDocumentCategory = value;
                             OnPropertyChanged(nameof(SelectedDocumentCategory));
 
@@ -499,6 +503,7 @@ namespace GSCFieldApp.ViewModel
                 //Select values in pickers
                 List<string> bfs = ConcatenatedCombobox.UnpipeString(_document.Category);
                 _categoryCollection.Clear(); //Clear any possible values first
+                OnPropertyChanged(nameof(DocumentCategoryCollection));
                 foreach (ComboBoxItem cbox in DocumentCategory.cboxItems)
                 {
                     if (bfs.Contains(cbox.itemValue) && !_categoryCollection.Contains(cbox))
@@ -506,7 +511,8 @@ namespace GSCFieldApp.ViewModel
                         _categoryCollection.Add(cbox);
                     }
                 }
-                OnPropertyChanged(nameof(DocumentCategory));
+                //OnPropertyChanged(nameof(DocumentCategory));
+                OnPropertyChanged(nameof(DocumentCategoryCollection));
 
                 #endregion
 

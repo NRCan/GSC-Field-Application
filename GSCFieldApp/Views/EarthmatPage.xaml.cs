@@ -24,7 +24,7 @@ public partial class EarthmatPage : ContentPage
             EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
             await Task.Run(async () => await vm2.FillPickers());
             await Task.Run(async () => await vm2.InitModel());
-            await Task.Run(async () => await vm2.Load()); //In case it is coming from an existing record in field notes
+            await vm2.Load(); //In case it is coming from an existing record in field notes
         }
         catch (Exception e)
         {
