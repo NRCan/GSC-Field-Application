@@ -418,6 +418,10 @@ namespace GSCFieldApp.ViewModel
                 {
                     int currentPreferedIndex = _fieldbookCollection.IndexOf(prefFB.First());
                     _fieldbookCollection.Move(currentPreferedIndex, 0);
+
+                    da.PreferedDatabasePath = prefFB[currentPreferedIndex].ProjectDBPath;
+                    await da.CloseConnectionAsync();
+                    await da.SetConnectionAsync();
                 }
             }
             else if ((_fieldbookCollection != null && _fieldbookCollection.Count() == 1) || !keepPreferedAsFirstBook)
@@ -428,11 +432,15 @@ namespace GSCFieldApp.ViewModel
 
                 //Force this to be the preferred database.
                 da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
+                await da.CloseConnectionAsync();
+                await da.SetConnectionAsync();
             }
             else
             {
                 //Default
                 da.PreferedDatabasePath = da.DatabaseFilePath;
+                await da.CloseConnectionAsync();
+                await da.SetConnectionAsync();
             }
 
             //Refresh UI
