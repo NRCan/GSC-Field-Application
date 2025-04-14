@@ -419,7 +419,7 @@ namespace GSCFieldApp.ViewModel
                     int currentPreferedIndex = _fieldbookCollection.IndexOf(prefFB.First());
                     _fieldbookCollection.Move(currentPreferedIndex, 0);
 
-                    da.PreferedDatabasePath = prefFB[currentPreferedIndex].ProjectDBPath;
+                    da.PreferedDatabasePath = prefFB[0].ProjectDBPath;
                     await da.CloseConnectionAsync();
                     await da.SetConnectionAsync();
                 }
