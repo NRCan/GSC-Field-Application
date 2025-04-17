@@ -287,6 +287,9 @@ namespace GSCFieldApp.ViewModel
         public PicklistViewModel()
         {
             _ = FillPickers();
+
+            //Detect new field book selection, uprgrade, edit, ...
+            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
         }
 
         #region METHODS
@@ -458,28 +461,28 @@ namespace GSCFieldApp.ViewModel
 
             if (_vocabularyManagers != null && _vocabularyManagers.Count > 0 && ModelPicklist.PicklistName != string.Empty)
             {
-                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => (v.ThemeAssignTable == ModelPicklist.PicklistName)).ToList();
-                foreach (VocabularyManager vcms in subVocabList)
+
+                foreach (VocabularyManager v in _vocabularyManagers)
                 {
-                    if (!parsedVoc.Contains(vcms.ThemeAssignField))
+                    if (v.ThemeEditable == boolYes && v.ThemeAssignTable == ModelPicklist.PicklistName)
                     {
-                        //Spoof a vocab object and get localized table name
-                        Vocabularies voc = new Vocabularies();
-                        voc.Code = vcms.ThemeCodedTheme;
-                        voc.Description = vcms.ThemeCodeThemeDesc;
-
-                        //Prevent bs from being added.
-                        if (voc.Code != null && voc.Code != string.Empty)
+                        if (!parsedVoc.Contains(v.ThemeAssignField))
                         {
-                            vocTable.Add(voc);
-                            parsedVoc.Add(vcms.ThemeAssignField);
+
+                            //Spoof a vocab object and get localized table name
+                            Vocabularies voc = new Vocabularies();
+                            voc.Code = v.ThemeCodedTheme;
+                            voc.Description = v.ThemeCodeThemeDesc;
+
+                            //Prevent bs from being added.
+                            if (voc.Code != null && voc.Code != string.Empty)
+                            {
+                                vocTable.Add(voc);
+                                parsedVoc.Add(v.ThemeAssignField);
+                            }
                         }
-
-
                     }
-
                 }
-
             }
 
             //Convert to custom picker
@@ -488,6 +491,9 @@ namespace GSCFieldApp.ViewModel
             //Sort based on localized value
             List<ComboBoxItem> sortedFieldBox = fieldBox.cboxItems.OrderBy(t => t.itemName).ToList();
             fieldBox.cboxItems = sortedFieldBox;
+
+            _picklistFields.cboxItems.Clear();
+            OnPropertyChanged(nameof(PicklistFields));
 
             _picklistFields = fieldBox;
             OnPropertyChanged(nameof(PicklistFields));
@@ -554,31 +560,9 @@ namespace GSCFieldApp.ViewModel
                 _picklistParents.cboxItems.Clear();
                 OnPropertyChanged(nameof(PicklistParents));
 
+                //Get the values
                 string query = string.Format("SELECT DISTINCT(m2.{0}) FROM {1} as m2 WHERE m2.{2} = '{3}'",
                     FieldDictionaryRelatedTo, TableDictionary, FieldDictionaryCodedTheme, _modelPicklist.PicklistField);
-
-                ////Build query to retrieve unique parents
-                ////select * from M_DICTIONARY m WHERE m.CODETHEME in 
-                //string querySelect_1 = "select * from " + TableDictionary + " m ";
-                //string queryWhere_1 = " WHERE m." + FieldDictionaryCodedTheme + " in ";
-
-                ////(select m.CODETHEME from M_DICTIONARY m join M_DICTIONARY_MANAGER mdm on m.CODETHEME = mdm.CODETHEME WHERE m.CODE in 
-                //string querySelect_2 = "(select m." + FieldDictionaryCodedTheme + " from " + TableDictionary + " m ";
-                //string querySelect_2_join = "join " + TableDictionaryManager + " mdm on m." + FieldDictionaryCodedTheme + " = mdm." + FieldDictionaryCodedTheme + " ";
-                //string queryWhere_2 = " WHERE m." + FieldDictionaryCode + " in ";
-
-                ////(select distinct(m.RELATEDTO) from M_DICTIONARY m WHERE m.CODETHEME = 'MODTEXTURE' ORDER BY m.RELATEDTO ) and mdm.ASSIGNTABLE in 
-                //string querySelect_3 = "(select distinct(m." + FieldDictionaryRelatedTo + ") from " + TableDictionary + " m ";
-                //string queryWhere_3 = " WHERE m." + FieldDictionaryCodedTheme + " = '" + _modelPicklist.PicklistField + "'";
-                //string queryOrderBy_3 = " ORDER BY m." + FieldDictionaryRelatedTo + " ) and mdm." + FieldDictionaryManagerAssignTable + " in ";
-
-                ////(select mdm2.ASSIGNTABLE from M_DICTIONARY_MANAGER mdm2 where mdm2.CODETHEME = 'MODTEXTURE'))  AND m.VISIBLE = 'Y' ORDER BY m.DESCRIPTIONEN ASC
-                //string queryWhere_1_2 = "(select mdm2." + FieldDictionaryManagerAssignTable +
-                //    " from " + TableDictionaryManager + " mdm2 where mdm2." + FieldDictionaryCodedTheme +
-                //    " = '" + _modelPicklist.PicklistField + "'))";
-                //string queryOrderby_1 = " ORDER BY m." + FieldDictionaryDescription + " ASC";
-
-                //string queryFinal = querySelect_1 + queryWhere_1 + querySelect_2 + querySelect_2_join + queryWhere_2 + querySelect_3 + queryWhere_3 + queryOrderBy_3 + queryWhere_1_2 + queryOrderby_1;
 
                 SQLiteAsyncConnection parentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
                 List<string> parentVocabs = await parentConnection.QueryScalarsAsync<string>(query);
@@ -671,6 +655,7 @@ namespace GSCFieldApp.ViewModel
 
             _picklistValues.Clear();
             OnPropertyChanged(nameof(PicklistValues));
+
         }
 
         /// <summary>
@@ -758,6 +743,27 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
+        #endregion
+
+        #region EVENTS
+
+        /// <summary>
+        /// Whenever a user changes field book a forced refresh will occurs on picklist editor
+        /// In case user goes from surficial to bedrock or the other way around
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="hasChanged"></param>
+        private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
+        {
+            if (hasChanged)
+            {
+                //Reload all notes
+                ResetPage();
+
+                await FillPickers();
+            }
+        }
+
         #endregion
 
     }
