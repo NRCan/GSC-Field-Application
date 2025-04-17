@@ -11,12 +11,25 @@ public partial class DocumentPage : ContentPage
         {
             InitializeComponent();
             BindingContext = vm;
+
+            this.Focused += DocumentPage_Focused;
+
         }
         catch (Exception e)
         {
             new ErrorToLogFile(e).WriteToFile();
         }
 
+    }
+
+    private void DocumentPage_Focused(object sender, FocusEventArgs e)
+    {
+        //Quick thumbnail validation
+        DocumentViewModel vmDoc = this.BindingContext as DocumentViewModel;
+        if (vmDoc.imageTapped)
+        {
+            vmDoc.UpdateThumbnail();
+        }
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)

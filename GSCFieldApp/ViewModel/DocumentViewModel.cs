@@ -38,6 +38,7 @@ namespace GSCFieldApp.ViewModel
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
         public bool IsProcessingBatch = false; //Will be used to block picklist from being refilled when processed in abtch
         private ImageSource _snapshotSource = null;
+        public bool imageTapped = false; //Will track user edits on snapshot
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -333,11 +334,9 @@ namespace GSCFieldApp.ViewModel
                     {
                         await SaveAsNewSnapshot();
                     }
-                    
+
                     //Update image source
-                    FileStream snapStream = File.OpenRead(localFilePath);
-                    _snapshotSource = ImageSource.FromStream(() => snapStream);
-                    OnPropertyChanged(nameof(SnapshotSource));
+                    UpdateThumbnail(localFilePath);
 
                 }
             }
@@ -380,6 +379,8 @@ namespace GSCFieldApp.ViewModel
 
                 //Force refresh of image (might have been edited by user)
                 OnPropertyChanged(nameof(Model));
+
+                imageTapped = true;
             }
             
         }
@@ -831,6 +832,26 @@ namespace GSCFieldApp.ViewModel
                 return null;
             }
 
+        }
+
+        /// <summary>
+        /// Will update the snapshot thumbnail in the form
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void UpdateThumbnail(string filePath = "")
+        {
+            //Take what's in the model first
+            if (filePath == string.Empty)
+            {
+                filePath = Model.Hyperlink;
+            }
+
+            FileStream snapStream = File.OpenRead(filePath);
+            _snapshotSource = ImageSource.FromStream(() => snapStream);
+            OnPropertyChanged(nameof(SnapshotSource));
+
+            //Unset image tapped
+            imageTapped = false;
         }
 
         #endregion
