@@ -273,15 +273,19 @@ namespace GSCFieldApp.Services
                     using (FileStream zipToOpen = new FileStream(result.FullPath, FileMode.Open))
                     using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read))
                     {
-                        archive.ExtractToDirectory(userLocalFolder);
 
                         //Get the database file in the zip
                         foreach (ZipArchiveEntry entry in archive.Entries)
                         {
                             if (entry.FullName.Contains(DatabaseLiterals.DBTypeSqlite) || entry.FullName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
                             {
-                                resultFullPath = System.IO.Path.Join(userLocalFolder, entry.FullName);
                                 resultFileName = entry.FullName;
+                                resultFullPath = System.IO.Path.Join(userLocalFolder, resultFileName);
+
+                                //Manage existing database
+                                bool userWantsToReplace = await AskToOverwriteExistingDatabase(resultFullPath);
+
+                                archive.ExtractToDirectory(userLocalFolder, userWantsToReplace);
 
                                 break;
                             }
@@ -320,13 +324,7 @@ namespace GSCFieldApp.Services
                             if (!result.FullPath.Contains(".zip"))
                             {
                                 //Manage existing database
-                                bool userWantsToReplace = true;
-                                if (File.Exists(copiedFieldBookPath))
-                                {
-                                    userWantsToReplace = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
-                                      LocalizationResourceManager["FieldBooksUploadContentExisting"].ToString(),
-                                      LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
-                                }
+                                bool userWantsToReplace = await AskToOverwriteExistingDatabase(copiedFieldBookPath);
 
                                 if (userWantsToReplace)
                                 {
@@ -337,12 +335,7 @@ namespace GSCFieldApp.Services
                                             await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
                                         }
                                     }
-                                    
                                 }
-
-
-
-
                             }
 
                         }
@@ -364,11 +357,27 @@ namespace GSCFieldApp.Services
                     }
                 }
 
-
             }
 
             return copiedFieldBookPath;
 
+        }
+
+        /// <summary>
+        /// Manages existing database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> AskToOverwriteExistingDatabase(string fieldBookPath)
+        {
+            bool userWantsToReplace = false;
+            if (File.Exists(fieldBookPath))
+            {
+                userWantsToReplace = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
+                  LocalizationResourceManager["FieldBooksUploadContentExisting"].ToString(),
+                  LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
+            }
+
+            return userWantsToReplace;
         }
 
         /// <summary>
