@@ -13,7 +13,7 @@ The GSC Field Application only records bedrock geology data at this time, but we
 ## Requirements
 
 Windows 10 Minimum build 19041, version 2004. 
-Android 13
+Android 10
 
 ## Installation
 
@@ -21,7 +21,7 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-DEV VERSION 3
+VERSION 3
 
 ## Wiki
 
@@ -37,9 +37,9 @@ The current application uses a Geopackage data format to store all information g
 
 ## Contacts
 
-Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
-Étienne Girard: etienne.girard@canada.ca
+Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
 ### How to Contribute
 
@@ -71,7 +71,7 @@ Le public cible est principalement les géologues et intervenants souhaitant ré
 ## Pré-requis
 
 Windows 10 Minimum build 19041, version 2004. 
-Android 13
+Android 10
 
 
 ## Installation
@@ -80,7 +80,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-VERSION 3 EN DEV
+VERSION 3 
 
 ## Wiki
 
@@ -96,9 +96,9 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 
 ### Contacts
 
-Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
-Étienne Girard: etienne.girard@canada.ca
+Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
 ### Comment contribuer
 
@@ -112,4 +112,4 @@ Voir [CONTRIBUTING.md](CONTRIBUTING.md)
 Le mot-symbole « Canada » et les éléments graphiques connexes liés à cette distribution sont protégés en vertu des lois portant sur les marques de commerce et le droit d'auteur. Aucune autorisation n'est accordée pour leur utilisation à l'extérieur des paramètres du programme de coordination de l'image de marque du gouvernement du Canada. Pour obtenir davantage de renseignements à ce sujet, veuillez consulter les [Exigences pour l'image de marque](https://www.canada.ca/fr/secretariat-conseil-tresor/sujets/communications-gouvernementales/exigences-image-marque.html).
 
 #### Huot-Vézina, G., Ressources naturelles Canada, Commission géologique du Canada.
-##### © Sa Majesté le Roi du Chef tu Canada représenté par le ministre des Ressources naturelles, 2024.
+##### © Sa Majesté le Roi du Chef tu Canada représenté par le ministre des Ressources naturelles, 2025.
