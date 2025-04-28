@@ -123,6 +123,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(CustomSampleNameEnabled), value); }
         }
 
+        public bool InternalCameraFirstEnabled
+        {
+            get { return Preferences.Get(nameof(InternalCameraFirstEnabled), true); }
+            set { Preferences.Set(nameof(InternalCameraFirstEnabled), value); }
+        }
+
         /// <summary>
         /// Property saved in the about page
         /// </summary>

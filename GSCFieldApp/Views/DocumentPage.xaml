@@ -127,7 +127,7 @@
                     </controls:ExpandableFrame>
                     
                     <!--External camera-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsEnabled="{Binding Model.PhotoFileExists, Mode=TwoWay, Converter={StaticResource reverseBool}}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay, Converter={StaticResource reverseBool}}"
                                               FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentExternalCamVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize DocumentPageExternalTitle}">
 

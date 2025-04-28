@@ -1551,4 +1551,10 @@
   <data name="StationPageWaypoint" xml:space="preserve">
     <value>Waypoint</value>
   </data>
+  <data name="SettingPageOtherHeadingDevicePhotoFirst" xml:space="preserve">
+    <value>Open internal camera first</value>
+  </data>
+  <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
+    <value>Photos</value>
+  </data>
 </root>

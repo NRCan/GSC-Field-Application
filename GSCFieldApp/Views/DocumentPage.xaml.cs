@@ -5,7 +5,8 @@ namespace GSCFieldApp.Views;
 
 public partial class DocumentPage : ContentPage
 {
-	public DocumentPage(DocumentViewModel vm)
+
+    public DocumentPage(DocumentViewModel vm)
 	{
         try
         {
@@ -39,8 +40,8 @@ public partial class DocumentPage : ContentPage
         {
             base.OnNavigatedTo(args);
 
-            //After binding context is setup fill pickers
             DocumentViewModel vm2 = this.BindingContext as DocumentViewModel;
+            //After binding context is setup fill pickers
             if (vm2 != null)
             {
                 await Task.Run(async () => await vm2.FillPickers());

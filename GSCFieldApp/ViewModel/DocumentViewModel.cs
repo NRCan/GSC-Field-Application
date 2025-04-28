@@ -135,6 +135,12 @@ namespace GSCFieldApp.ViewModel
 
         public ImageSource SnapshotSource { get { return _snapshotSource; } set { _snapshotSource = value; } }
 
+        private bool InternalCameraFirstEnabled
+        {
+            get { return Preferences.Get(nameof(InternalCameraFirstEnabled), true); }
+            set { }
+        }
+
         #endregion
 
         public DocumentViewModel()
@@ -262,9 +268,8 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        async Task AddSnapshot()
+        public async Task AddSnapshot()
         {
-
             if (MediaPicker.Default.IsCaptureSupported)
             {
                 bool newSnapshot = true; //Will be used to replace snapshot with new one
@@ -525,6 +530,15 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(SnapshotSource));
                 }
             }
+
+            else
+            {
+                // Open snapshot first if set by user as internal camera first
+                if (InternalCameraFirstEnabled)
+                {
+                    await AddSnapshot();
+                }
+            }
         }
 
         /// <summary>
@@ -744,7 +758,7 @@ namespace GSCFieldApp.ViewModel
         /// Triggered when user takes a new snapshot from an existing record
         /// </summary>
         /// <returns></returns>
-        private async Task SaveAsNewSnapshot()
+        public async Task SaveAsNewSnapshot()
         {
             //Get back original station record
             if (_station == null)

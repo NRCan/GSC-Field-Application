@@ -3607,6 +3607,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open internal camera first.
+        /// </summary>
+        internal static string SettingPageOtherHeadingDevicePhotoFirst {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingDevicePhotoFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drill Core.
         /// </summary>
         internal static string SettingPageOtherHeadingDrillCore {
@@ -3621,6 +3630,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SettingPageOtherHeadingDrillSampleName {
             get {
                 return ResourceManager.GetString("SettingPageOtherHeadingDrillSampleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photos.
+        /// </summary>
+        internal static string SettingPageOtherHeadingPhoto {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingPhoto", resourceCulture);
             }
         }
         

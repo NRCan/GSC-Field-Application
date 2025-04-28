@@ -1552,4 +1552,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StationPageWaypoint" xml:space="preserve">
     <value>Point d'intérêt</value>
   </data>
+  <data name="SettingPageOtherHeadingDevicePhotoFirst" xml:space="preserve">
+    <value>Caméra intégrée en premier</value>
+  </data>
+  <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
+    <value>Photos</value>
+  </data>
 </root>

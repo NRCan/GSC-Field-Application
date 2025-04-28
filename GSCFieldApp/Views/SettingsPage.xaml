@@ -156,6 +156,23 @@
                                 </Grid>
                             </Border>
 
+                            <!--Photo management-->
+                            <Label Style="{StaticResource FieldAppSettingTitles}" Text="{local:Localize SettingPageOtherHeadingPhoto}"/>
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,90">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+
+                                    </Grid.RowDefinitions>
+
+                                    <!--On new photo record, open internal camera first instead of form-->
+                                    <Label Text="{local:Localize SettingPageOtherHeadingDevicePhotoFirst}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding InternalCameraFirstEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="0" />
+
+                                </Grid>
+                            </Border>
+                            
                         </VerticalStackLayout>
 
 
