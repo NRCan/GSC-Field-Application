@@ -194,12 +194,12 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (DocumentName != string.Empty)
+                if (!string.IsNullOrEmpty(DocumentName))
                 {
                     // Split into two main pieces, station # and photo #
                     string[] splitName = DocumentName.Split(DatabaseLiterals.TableDocumentAliasPrefix);
 
-                    if (splitName.Count() > 0)
+                    if (splitName.Length > 1)
                     {
                         int docNumber = 0;
                         int.TryParse(splitName[1], out docNumber);
@@ -212,7 +212,6 @@ namespace GSCFieldApp.Models
                     {
                         return DocumentName;
                     }
-
                 }
                 else
                 {
@@ -221,6 +220,7 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
 
 
         /// <summary>
