@@ -1244,7 +1244,7 @@ namespace GSCFieldApp.ViewModel
                             Display_text_3 = dc.Description,
                             GenericTableName = TableDocument,
                             GenericID = dc.DocumentID,
-                            ParentID = parentID.Value,
+                            ParentID = parentID.HasValue ? parentID.Value : -1, // Use a default value like -1 or handle appropriately
                             isValid = dc.isValid
                         });
                     }
