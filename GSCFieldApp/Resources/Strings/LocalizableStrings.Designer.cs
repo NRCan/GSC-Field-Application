@@ -466,7 +466,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Embedded camera.
+        ///   Looks up a localized string similar to Device camera.
         /// </summary>
         internal static string DocumentPageEmbededTitle {
             get {

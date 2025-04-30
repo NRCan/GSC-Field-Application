@@ -205,7 +205,7 @@
     <value>Direction</value>
   </data>
   <data name="DocumentPageEmbededTitle" xml:space="preserve">
-    <value>Embedded camera</value>
+    <value>Device camera</value>
   </data>
   <data name="DocumentPageExternalTitle" xml:space="preserve">
     <value>External camera</value>

@@ -206,7 +206,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Direction</value>
   </data>
   <data name="DocumentPageEmbededTitle" xml:space="preserve">
-    <value>Caméra interne</value>
+    <value>Caméra de l'appareil</value>
   </data>
   <data name="DocumentPageExternalTitle" xml:space="preserve">
     <value>Caméra externe</value>
