@@ -369,7 +369,7 @@ namespace GSCFieldApp.Services
         /// <returns></returns>
         public async Task<bool> AskToOverwriteExistingDatabase(string fieldBookPath)
         {
-            bool userWantsToReplace = false;
+            bool userWantsToReplace = true;
             if (File.Exists(fieldBookPath))
             {
                 userWantsToReplace = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
