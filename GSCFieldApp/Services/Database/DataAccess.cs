@@ -95,7 +95,15 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public async Task CloseConnectionAsync()
         {
-            await DbConnection.CloseAsync();
+            try
+            {
+                await DbConnection.CloseAsync();
+            }
+            catch (Exception closeError)
+            {
+                new ErrorToLogFile(closeError).WriteToFile();
+            }
+            
         }
 
         /// <summary>
@@ -104,7 +112,15 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public async Task SetConnectionAsync()
         {
-            DbConnection = new SQLiteAsyncConnection(PreferedDatabasePath);
+            try
+            {
+                DbConnection = new SQLiteAsyncConnection(PreferedDatabasePath);
+            }
+            catch (Exception connectError)
+            {
+                new ErrorToLogFile(connectError).WriteToFile();
+            }
+            
         }
 
         #endregion
