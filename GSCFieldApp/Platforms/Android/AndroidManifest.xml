@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="GSCFieldApp.GSCFieldApp" android:versionCode="3" android:versionName="3.0.12">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="GSCFieldApp.GSCFieldApp" android:versionCode="3" android:versionName="3.0.13">
 	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="GSCFieldApp"></application>
 	<uses-feature android:name="android.hardware.location" android:required="true" />
 	<uses-feature android:name="android.hardware.location.gps" android:required="true" />

@@ -45,8 +45,8 @@
 		<Platforms>AnyCPU;x64;ARM64;ARM32</Platforms>
 		<Title>GSC Field App</Title>
 		<PackageProjectUrl>https://nrcan.github.io/GSC-Field-Application/</PackageProjectUrl>
-		<FileVersion>3.0.8</FileVersion>
-		<AssemblyVersion>3.0.8</AssemblyVersion>
+		<FileVersion>3.0.13</FileVersion>
+		<AssemblyVersion>3.0.13</AssemblyVersion>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/NRCan/GSC-Field-Application-3</RepositoryUrl>
 		<Description>Geological Survey Canada on site data collection for geologists.</Description>
