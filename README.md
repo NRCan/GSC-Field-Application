@@ -28,7 +28,7 @@ Version 3.0.13
 
 ## Wiki
 
-The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation..
+The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation.
 
 ## Data Format
 
@@ -98,7 +98,7 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 
 ### Environnement de développement
 
-.net Multi-platform App UI, Visual studio 2016-2025
+.net Multi-platform App UI (MAUI), Visual studio 2016-2025
 
 ### Contacts
 
