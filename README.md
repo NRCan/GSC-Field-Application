@@ -12,8 +12,11 @@ The GSC Field Application only records bedrock geology data at this time, but we
 
 ## Requirements
 
-Windows 10 Minimum build 19041, version 2004. 
-Android 10
+* Windows 10 Minimum build 19041, version 2004,
+
+or
+
+* Android 10
 
 ## Installation
 
@@ -21,11 +24,11 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-VERSION 3
+Version 3.0.13
 
 ## Wiki
 
-The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation and videos for your use including a video highlighting the [top ten features](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) in the GSC Field App.
+The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation..
 
 ## Data Format
 
@@ -33,7 +36,7 @@ The current application uses a Geopackage data format to store all information g
 
 ### Development environment
 
-.net Multi-platform App UI, Visual studio 2016-2023
+.net Multi-platform App UI (MAUI), Visual studio 2016-2025
 
 ## Contacts
 
@@ -70,8 +73,11 @@ Le public cible est principalement les géologues et intervenants souhaitant ré
 
 ## Pré-requis
 
-Windows 10 Minimum build 19041, version 2004. 
-Android 10
+* Windows 10 Minimum build 19041, version 2004.
+
+ou
+
+* Android 10
 
 
 ## Installation
@@ -80,11 +86,11 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-VERSION 3 
+Version 3 
 
 ## Wiki
 
-Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient une documentation et des vidéos utiles, notamment une vidéo présentant les [dix principales fonctionnalités](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) de l'application de terrain du CGS.
+Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient une documentation.
 
 ## Format de donnée
 
@@ -92,7 +98,7 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 
 ### Environnement de développement
 
-.net Multi-platform App UI, Visual studio 2016-2023
+.net Multi-platform App UI, Visual studio 2016-2025
 
 ### Contacts
 
