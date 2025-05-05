@@ -836,17 +836,25 @@ namespace GSCFieldApp.ViewModels
             return _samplePurposeConcat;
         }
 
+        /// <summary>
+        /// Will unpipe any incoming string and build the collection of values out of it
+        /// </summary>
+        /// <param name="inPurpose"></param>
         public void UnPipePurposes(string inPurpose)
         {
-            List<string> purposesUnpiped = inPurpose.Split(Dictionaries.DatabaseLiterals.KeywordConcatCharacter.Trim().ToCharArray()).ToList();
-
             //Clean values first
             _purposeValues.Clear();
 
-            foreach (string pu in purposesUnpiped)
+            if (inPurpose != null && inPurpose != string.Empty)
             {
-                AddAPurpose(pu.Trim());
+                List<string> purposesUnpiped = inPurpose.Split(Dictionaries.DatabaseLiterals.KeywordConcatCharacter.Trim().ToCharArray()).ToList();
+
+                foreach (string pu in purposesUnpiped)
+                {
+                    AddAPurpose(pu.Trim());
+                }
             }
+
         }
 
         /// <summary>

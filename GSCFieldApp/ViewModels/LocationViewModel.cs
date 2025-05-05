@@ -205,8 +205,12 @@ namespace GSCFieldApp.ViewModels
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
             _locationNTS = existingDataDetailLocation.location.locationNTS;
-            _locationtimestamp = existingDataDetailLocation.location.LocationTimestamp.ToString();
 
+            if (existingDataDetailLocation.location.LocationTimestamp != null)
+            {
+                _locationtimestamp = existingDataDetailLocation.location.LocationTimestamp.ToString();
+            }
+            
             //Check for manual XY projections
             if (existingDataDetailLocation.location.LocationEPSGProj != null && existingDataDetailLocation.location.LocationEPSGProj != string.Empty)
             {

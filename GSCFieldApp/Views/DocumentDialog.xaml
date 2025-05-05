@@ -22,13 +22,22 @@
         <Page.Resources>
 
             <!-- Concatenated Value Template -->
-            <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+            <DataTemplate x:Key="ConcatenatedValueTemplate" 
+                          x:DataType="themes:ComboBoxItem">
 
                 <RelativePanel>
                     <TextBlock Margin="5,0,0,0"
-                        Text="{x:Bind itemName}" x:Name="itemNameText"
-                        TextWrapping="NoWrap" />
-                    <SymbolIcon x:Name="ConcatValueCheck" Margin="10,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.RightOf="itemNameText" Symbol="Delete" Foreground="#FF0000" Tapped="ConcatValueCheck_Tapped" Visibility="{x:Bind canRemoveItem}"/>
+                               Text="{x:Bind itemName}" 
+                               x:Name="itemNameText"
+                               TextWrapping="NoWrap" />
+                    <SymbolIcon x:Name="ConcatValueCheck" 
+                                Margin="10,0,0,0" 
+                                RelativePanel.AlignRightWithPanel="True" 
+                                RelativePanel.RightOf="itemNameText" 
+                                Symbol="Delete" 
+                                Foreground="#FF0000" 
+                                Tapped="ConcatValueCheck_Tapped" 
+                                Visibility="{x:Bind canRemoveItem}"/>
                 </RelativePanel>
 
             </DataTemplate>
@@ -40,36 +49,79 @@
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 
-            <Controls:PageHeader x:Name="pageHeader" x:Uid="DocumentDialogHeader" Text ="" BackButtonVisibility="Collapsed" 
+            <Controls:PageHeader x:Name="pageHeader" 
+                                 x:Uid="DocumentDialogHeader" 
+                                 Text ="" 
+                                 BackButtonVisibility="Collapsed" 
                                  CommandBarOverflowPresenterStyle="{StaticResource CommandBarOverflowPresenterStyleDocumentPage}"
-                            RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldPhotoColorBrush}"
-                            RelativePanel.AlignRightWithPanel="True" EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Background="{ThemeResource FieldPhotoColorBrush}"
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 EllipsisVisibility="Visible" 
+                                 IsOpen="False" 
+                                 DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="documentPhotoButton" Icon="Camera" Label="Camera" Foreground="White" Tapped="documentPhotoButton_Tapped" x:Uid="DocumentDialogSnapshot"/>
+                    <AppBarButton x:Name="documentPhotoButton" 
+                                  Icon="Camera" 
+                                  Label="Camera" 
+                                  Foreground="White" 
+                                  Tapped="documentPhotoButton_Tapped" 
+                                  x:Uid="DocumentDialogSnapshot"/>
                     <AppBarSeparator Foreground="White"/>
-                    <AppBarButton x:Name="documentBackButton" Icon="Clear" x:Uid="GenericCloseLabel" Label ="Close" Foreground="White" Tapped="documentBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
-                    <AppBarButton x:Name="documentSaveButton" Icon="Save"  x:Uid="GenericSaveLabel" Label ="Save" Foreground="White" Tapped="documentSaveButton_Tapped" />
+                    <AppBarButton x:Name="documentBackButton" 
+                                  Icon="Clear" 
+                                  x:Uid="GenericCloseLabel" 
+                                  Label ="Close" 
+                                  Foreground="White" 
+                                  Tapped="documentBackButton_Tapped" 
+                                  Style="{StaticResource AppBarButtonClose}"/>
+                    <AppBarButton x:Name="documentSaveButton" 
+                                  Icon="Save"  
+                                  x:Uid="GenericSaveLabel" 
+                                  Label ="Save" 
+                                  Foreground="White" 
+                                  Tapped="documentSaveButton_Tapped" />
                     
                 </Controls:PageHeader.PrimaryCommands>
                 <!--<Controls:PageHeader.SecondaryCommands/>-->
             </Controls:PageHeader>
-            <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldPhotoColorBrush}"
-                             RelativePanel.AlignBottomWithPanel="True" 
-                             EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True" Height="20">
+            <Controls:PageHeader x:Name="pageFooter" 
+                                 Background="{ThemeResource FieldPhotoColorBrush}"
+                                 RelativePanel.AlignBottomWithPanel="True" 
+                                 EllipsisVisibility="Collapsed" 
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Height="20">
             </Controls:PageHeader>
 
-            <RelativePanel Style="{StaticResource ParentPanel}" x:Name="docRelativePanel">
+            <RelativePanel Style="{StaticResource ParentPanel}" 
+                           x:Name="docRelativePanel">
                 <ScrollViewer Style="{StaticResource VerticalScroll}">
-                    <RelativePanel Style="{StaticResource ChildPanel}" x:Name="docScrollRelativePanel" RenderTransformOrigin="0.5,0.5">
+                    <RelativePanel Style="{StaticResource ChildPanel}" 
+                                   x:Name="docScrollRelativePanel" 
+                                   RenderTransformOrigin="0.5,0.5">
 
-                        <RelativePanel x:Name="relPanelCategory" RelativePanel.AlignLeftWithPanel="True">
-                            <ComboBox x:Name="DocumentCategoryCombobox" x:Uid="DocumentCategoryCombobox" Style="{ThemeResource ComboboxMandatoryField}"
-                              ItemsSource="{x:Bind DocViewModel.Category}" SelectionChanged="{x:Bind DocViewModel.ConcatComboBox_SelectionChanged}"
-                              SelectedValue="{x:Bind DocViewModel.SelectedCategory, Mode=TwoWay}" TabIndex="1"/>
-                            <ListView x:Name="DocumentCategoryConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="DocumentCategoryCombobox"
-                                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
-                                                        ItemsSource="{x:Bind DocViewModel.CategoryValues}" IsTabStop="True" TabIndex="2"/>
+                        <RelativePanel x:Name="relPanelCategory" 
+                                       RelativePanel.AlignLeftWithPanel="True"
+                                       ManipulationMode="TranslateX, TranslateY"
+                                       ManipulationDelta="Element_ManipulationDelta"
+                                       ManipulationStarted="UIElement_ManipulationStarted"
+                                       ManipulationCompleted="UIElement_ManipulationCompleted">
+                            <ComboBox x:Name="DocumentCategoryCombobox" 
+                                      x:Uid="DocumentCategoryCombobox" 
+                                      Style="{ThemeResource ComboboxMandatoryField}"
+                                      ItemsSource="{x:Bind DocViewModel.Category}" 
+                                      SelectionChanged="{x:Bind DocViewModel.ConcatComboBox_SelectionChanged}"
+                                      SelectedValue="{x:Bind DocViewModel.SelectedCategory, Mode=TwoWay}" 
+                                      TabIndex="1"/>
+                            <ListView x:Name="DocumentCategoryConcat" 
+                                      Style="{StaticResource ConcatenatedListView}" 
+                                      RelativePanel.Below="DocumentCategoryCombobox"
+                                      ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
+                                      Height="136" 
+                                      ItemsSource="{x:Bind DocViewModel.CategoryValues}" 
+                                      IsTabStop="True" 
+                                      TabIndex="2"/>
 
                         </RelativePanel>
 
@@ -88,91 +140,132 @@
                                     Symbol="Directions"
                                     Margin="0,0,0,5"
                                     RelativePanel.AlignBottomWith="DocumentDirectionTextbox"
-                                    RelativePanel.RightOf="DocumentDirectionTextbox" RenderTransformOrigin="0.5,0.5">
+                                    RelativePanel.RightOf="DocumentDirectionTextbox" 
+                                    RenderTransformOrigin="0.5,0.5">
                             <SymbolIcon.RenderTransform>
                                 <CompositeTransform Rotation="{Binding Text, ElementName=DocumentDirectionTextbox, Converter={StaticResource StringToDouble}}"/>
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
 
-                        <ComboBox x:Name="DocumentScaleDirectionCombobox" x:Uid="DocumentScaleDirectionCombobox"
-                              ItemsSource="{x:Bind DocViewModel.ScaleDirection}" RelativePanel.Below="DocumentDirectionTextbox"
-                              SelectedValue="{x:Bind DocViewModel.SelectedScaleDir, Mode=TwoWay}" TabIndex="4"/>
+                        <ComboBox x:Name="DocumentScaleDirectionCombobox" 
+                                  x:Uid="DocumentScaleDirectionCombobox"
+                                  ItemsSource="{x:Bind DocViewModel.ScaleDirection}" 
+                                  RelativePanel.Below="DocumentDirectionTextbox"
+                                  SelectedValue="{x:Bind DocViewModel.SelectedScaleDir, Mode=TwoWay}" 
+                                  TabIndex="4"/>
 
-                        <TextBox Style="{ThemeResource Notes}" x:Name="DocumentCaptionTextbox" x:Uid="DocumentCaptionTextbox"
-                         RelativePanel.Below="DocumentScaleDirectionCombobox" 
-                         Text ="{x:Bind DocViewModel.Description, Mode=TwoWay}" TabIndex="5"/>
+                        <TextBox Style="{ThemeResource Notes}" 
+                                 x:Name="DocumentCaptionTextbox" 
+                                 x:Uid="DocumentCaptionTextbox"
+                                 RelativePanel.Below="DocumentScaleDirectionCombobox" 
+                                 Text ="{x:Bind DocViewModel.Description, Mode=TwoWay}" 
+                                 TabIndex="5"/>
 
-                        <Button x:Name="LoadPreviousCaptionButton" x:Uid="DocumentLoadPreviousButton" Margin="0,10,0,0"
-                            RelativePanel.Below="DocumentCaptionTextbox" 
-                            Tapped="{x:Bind DocViewModel.LoadPreviousCaptionButton_Tapped}"/>
+                        <Button x:Name="LoadPreviousCaptionButton" 
+                                x:Uid="DocumentLoadPreviousButton" 
+                                Margin="0,10,0,0"
+                                RelativePanel.Below="DocumentCaptionTextbox" 
+                                Tapped="{x:Bind DocViewModel.LoadPreviousCaptionButton_Tapped}"/>
 
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="SeperatorLine_02"
-                           RelativePanel.Below="LoadPreviousCaptionButton"
-                           Fill="{ThemeResource FieldPhotoColorBrush}" />
+                        <Rectangle Style="{StaticResource Horizontal}" 
+                                   x:Name="SeperatorLine_02"
+                                   RelativePanel.Below="LoadPreviousCaptionButton"
+                                   Fill="{ThemeResource FieldPhotoColorBrush}" />
 
-                        <GridView x:Name="DocumentNameAndNumbers" RelativePanel.Below="SeperatorLine_02" Visibility="{x:Bind DocViewModel.DocumentPhotoExists, Mode=TwoWay, Converter={StaticResource VisibilityFromReverseBoolConverter}}"
-                                  Style="{StaticResource NonselectableGridView}">
+                        <GridView x:Name="DocumentNameAndNumbers" 
+                                  RelativePanel.Below="SeperatorLine_02" 
+                                  Visibility="{x:Bind DocViewModel.DocumentPhotoExists, Mode=TwoWay, Converter={StaticResource VisibilityFromReverseBoolConverter}}"
+                                  Style="{StaticResource NonselectableGridView}"
+                                  ManipulationMode="TranslateX, TranslateY"
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
 
-                            <ComboBox x:Name="DocumentTypeCombobox" x:Uid="DocumentTypeCombobox"
-                              ItemsSource="{x:Bind DocViewModel.DocType}" 
-                              SelectedValue="{x:Bind DocViewModel.SelectedDocType, Mode=TwoWay}" 
-                              SelectionChanged="{x:Bind DocViewModel.DocumentTypeCombobox_SelectionChanged}" TabIndex="6"/>
+                            <ComboBox x:Name="DocumentTypeCombobox" 
+                                      x:Uid="DocumentTypeCombobox"
+                                      ItemsSource="{x:Bind DocViewModel.DocType}" 
+                                      SelectedValue="{x:Bind DocViewModel.SelectedDocType, Mode=TwoWay}" 
+                                      SelectionChanged="{x:Bind DocViewModel.DocumentTypeCombobox_SelectionChanged}" 
+                                      TabIndex="6"/>
                             
-                            <StackPanel Orientation="Horizontal" x:Name="DocumentFromToBoxes">
+                            <StackPanel Orientation="Horizontal" 
+                                        x:Name="DocumentFromToBoxes">
 
-                                <TextBox x:Name="DocumentFromNumberTextbox" x:Uid="DocumentFromNoTextbox" 
-                                HorizontalAlignment="Stretch" 
-                                Margin="0"  Width="20"
-                                Text ="{x:Bind DocViewModel.FileNumber, Mode=TwoWay}"
-                                InputScope="Number" TextChanging="{x:Bind DocViewModel.DocumentFromNumberTextbox_TextChanged}"/>
+                                <TextBox x:Name="DocumentFromNumberTextbox" 
+                                         x:Uid="DocumentFromNoTextbox" 
+                                         HorizontalAlignment="Stretch" 
+                                         Margin="0"  
+                                         Width="20"
+                                         Text ="{x:Bind DocViewModel.FileNumber, Mode=TwoWay}"
+                                         InputScope="Number" 
+                                         TextChanging="{x:Bind DocViewModel.DocumentFromNumberTextbox_TextChanged}"/>
 
-                                <Rectangle x:Name="SeperatorVertical_02" Width="2" Margin="15,10,15,0" Visibility="{x:Bind DocViewModel.DocumentUpdateVisibility, Mode=TwoWay}"
-                                Fill="{ThemeResource FieldPhotoColorBrush}" />
+                                <Rectangle x:Name="SeperatorVertical_02" 
+                                           Width="2" 
+                                           Margin="15,10,15,0" 
+                                           Visibility="{x:Bind DocViewModel.DocumentUpdateVisibility, Mode=TwoWay}"
+                                           Fill="{ThemeResource FieldPhotoColorBrush}" />
 
-                                <TextBox x:Name="DocumentToNumberTextbox" x:Uid="DocumentToNoTextbox"
-                                HorizontalAlignment="Stretch" Width="Auto" 
-                                Margin="0" Visibility="{x:Bind DocViewModel.DocumentUpdateVisibility, Mode=TwoWay}"
-                                Text ="{x:Bind DocViewModel.FileToNumber, Mode=TwoWay}"
-                                InputScope="Number" />
+                                <TextBox x:Name="DocumentToNumberTextbox" 
+                                         x:Uid="DocumentToNoTextbox"
+                                         HorizontalAlignment="Stretch" 
+                                         Width="Auto" 
+                                         Margin="0" 
+                                         Visibility="{x:Bind DocViewModel.DocumentUpdateVisibility, Mode=TwoWay}"
+                                         Text ="{x:Bind DocViewModel.FileToNumber, Mode=TwoWay}"
+                                         InputScope="Number" />
 
                             </StackPanel>
 
                         </GridView>
 
-                        <TextBox x:Name="DocumentNameTextbox" x:Uid="DocumentNameTextbox" Style="{ThemeResource TextboxMandatoryField}"
-                             RelativePanel.Below="DocumentNameAndNumbers"
-                             HorizontalAlignment="Stretch"
-                             InputScope="Text"
-                             Text ="{x:Bind DocViewModel.FileName, Mode=TwoWay}" TabIndex="7"/>
+                        <TextBox x:Name="DocumentNameTextbox" 
+                                 x:Uid="DocumentNameTextbox" 
+                                 Style="{ThemeResource TextboxMandatoryField}"
+                                 RelativePanel.Below="DocumentNameAndNumbers"
+                                 HorizontalAlignment="Stretch"
+                                 InputScope="Text"
+                                 Text ="{x:Bind DocViewModel.FileName, Mode=TwoWay}" 
+                                 TabIndex="7"/>
 
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="SeperatorLine_04"
-                            RelativePanel.Below="DocumentNameTextbox" RelativePanel.AlignLeftWithPanel="True"
-                            Fill="{ThemeResource FieldPhotoColorBrush}" 
-                            Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"/>
+                        <Rectangle Style="{StaticResource Horizontal}" 
+                                   x:Name="SeperatorLine_04"
+                                   RelativePanel.Below="DocumentNameTextbox" 
+                                   RelativePanel.AlignLeftWithPanel="True"
+                                   Fill="{ThemeResource FieldPhotoColorBrush}" 
+                                   Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"/>
 
+                        <ComboBox x:Name="DocumentParentThemeCombobox" 
+                                  x:Uid="DocumentRelatedTableCombobox"
+                                  RelativePanel.AlignLeftWithPanel="True"
+                                  RelativePanel.Below="SeperatorLine_04"
+                                  Margin="0,0,0,5"
+                                  ItemsSource="{x:Bind DocViewModel.RelatedTable}" 
+                                  SelectedValue="{x:Bind DocViewModel.SelectedRelatedTable, Mode=TwoWay}"
+                                  Visibility="{x:Bind DocViewModel.DocumentModeVisibility}" 
+                                  SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" 
+                                  TabIndex="7"/>
+                        <ComboBox x:Name="DocumentParentIDCombobox" 
+                                  x:Uid="DocumentRelatedItemCombobox"
+                                  RelativePanel.Below="SeperatorLine_04"
+                                  Margin="10,0,0,5"
+                                  RelativePanel.RightOf="DocumentParentThemeCombobox"
+                                  Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"
+                                  ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
+                                  SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" 
+                                  TabIndex="8"/>
 
-                        <ComboBox x:Name="DocumentParentThemeCombobox" x:Uid="DocumentRelatedTableCombobox"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.Below="SeperatorLine_04"
-                            Margin="0,0,0,5"
-                            ItemsSource="{x:Bind DocViewModel.RelatedTable}" 
-                            SelectedValue="{x:Bind DocViewModel.SelectedRelatedTable, Mode=TwoWay}"
-                            Visibility="{x:Bind DocViewModel.DocumentModeVisibility}" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" TabIndex="7"/>
-                        <ComboBox x:Name="DocumentParentIDCombobox" x:Uid="DocumentRelatedItemCombobox"
-                            RelativePanel.Below="SeperatorLine_04"
-                            Margin="10,0,0,5"
-                            RelativePanel.RightOf="DocumentParentThemeCombobox"
-                            Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"
-                            ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
-                            SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" TabIndex="8"/>
-
-
-                        <Image x:Name="imagePreview" Tapped="imagePreview_Tapped" 
-                                MaxWidth="300" MaxHeight="300" Visibility="{x:Bind DocViewModel.DocumentPhotoExists, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"
-                               RelativePanel.Below="DocumentParentThemeCombobox"  ImageFailed ="Image_ImageFailed"
+                        <Image x:Name="imagePreview" 
+                               Tapped="imagePreview_Tapped" 
+                               MaxWidth="300" 
+                               MaxHeight="300" 
+                               Visibility="{x:Bind DocViewModel.DocumentPhotoExists, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               RelativePanel.Below="DocumentParentThemeCombobox"  
+                               ImageFailed ="Image_ImageFailed"
                                RelativePanel.AlignLeftWithPanel="True">
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="300" UriSource="{x:Bind DocViewModel.DocumentPhotoPath, Mode=TwoWay, Converter={StaticResource BitmapSourceConverter}}"/>
+                                <BitmapImage DecodePixelWidth="300" 
+                                             UriSource="{x:Bind DocViewModel.DocumentPhotoPath, Mode=TwoWay, Converter={StaticResource BitmapSourceConverter}}"/>
                             </Image.Source>
                         </Image>
 

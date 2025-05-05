@@ -1259,12 +1259,17 @@ namespace GSCFieldApp.ViewModels
                     PrimaryButtonText = "OK",
                 };
 
-                noLocationFlightModeDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-
+                // Ensure the style exists before applying
+                if (Application.Current.Resources.ContainsKey("WarningDialog"))
+                {
+                    noLocationFlightModeDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                }
 
                 try
                 {
-                    ContentDialogResult flightModeResult = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationFlightModeDialog, false).Result;
+                    //ContentDialogResult flightModeResult = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationFlightModeDialog, false).Result;
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationFlightModeDialog, false);
+
                 }
                 catch (Exception)
                 {

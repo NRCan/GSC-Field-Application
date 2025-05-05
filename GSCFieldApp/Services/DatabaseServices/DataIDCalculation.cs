@@ -302,8 +302,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             string lastNumber = string.Empty;
             foreach (char c in lastNumbers)
             {
-                //Rebuild number
-                lastNumber = lastNumber + c;
+                if (char.IsNumber(c))
+                {
+                    //Rebuild number
+                    lastNumber = lastNumber + c;
+                }
+
             }
             int lastCharacterNumber = Convert.ToInt32(lastNumber);
 
@@ -715,7 +719,18 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 string lastAlias = docParent.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
                 string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //Document only has three digits id in the alias
-                int newNumber = Convert.ToInt16(lastNumberString) + startingDocNumber;
+                string validLastNumber = string.Empty;
+                foreach (char c in lastNumberString)
+                {
+                    if (char.IsNumber(c))
+                    {
+                        //Rebuild number
+                        validLastNumber = validLastNumber + c;
+                    }
+
+                }
+
+                int newNumber = Convert.ToInt16(validLastNumber) + startingDocNumber;
 
                 bool breaker = true;
                 while (breaker)

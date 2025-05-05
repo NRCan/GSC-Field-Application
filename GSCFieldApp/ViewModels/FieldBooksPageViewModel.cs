@@ -19,7 +19,6 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
-using System.Diagnostics;
 using Esri.ArcGISRuntime.Geometry;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -92,7 +91,7 @@ namespace GSCFieldApp.ViewModels
         public FieldBooksPageViewModel()
         {
             //Fill list view of projects
-            _ = FillProjectCollectionAsync();
+            FillProjectCollectionAsync();
 
             //Detect new field book save
             GSCFieldApp.Views.FieldBookDialog.newFieldBookSaved -= FieldBookDialog_newFieldBookSaved;
@@ -117,118 +116,137 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the project collection with information related to it
         /// </summary>
-        private async Task<ObservableCollection<FieldBooks>> FillProjectCollectionAsync()
+        private async Task FillProjectCollectionAsync()
         {
             _projectCollection = new ObservableCollection<FieldBooks>();
+            ProjectCollection = _projectCollection;
             RaisePropertyChanged("ProjectCollection");
             List<string> invalidFieldBookToDelete = new List<string>();
 
-            //Iterate through local state folder
-            IReadOnlyList<StorageFolder> localStateFolders = await ApplicationData.Current.LocalFolder.GetFoldersAsync();
-            IEnumerable<StorageFolder> reverseStateList = localStateFolders.Reverse();
-
-            foreach (StorageFolder sf in reverseStateList)
+            if (_projectCollection.Count() == 0)
             {
-                //Get files 
-                IReadOnlyList<StorageFile> localFiles = await sf.GetFilesAsync();
-                foreach (StorageFile sfi in localFiles)
+                //Iterate through local state folder
+                IReadOnlyList<StorageFolder> localStateFolders = await ApplicationData.Current.LocalFolder.GetFoldersAsync();
+                IEnumerable<StorageFolder> reverseStateList = localStateFolders.Reverse();
+
+                foreach (StorageFolder sf in reverseStateList)
                 {
-                    //Get the database
-                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
-                        && sfi.DisplayName == DatabaseLiterals.DBName)
+                    //Get files 
+                    IReadOnlyList<StorageFile> localFiles = await sf.GetFilesAsync();
+                    foreach (StorageFile sfi in localFiles)
                     {
-                        FieldBooks currentDB = new FieldBooks();
-
-                        using (SQLiteConnection currentConnection = accessData.GetConnectionFromPath(sfi.Path))
+                        //Get the database
+                        if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                            && sfi.DisplayName == DatabaseLiterals.DBName)
                         {
-                            List<object> metadataTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(metadataModel.GetType(), string.Empty, currentConnection);
-                            foreach (object m in metadataTableRows)
+                            FieldBooks currentDB = new FieldBooks();
+
+                            using (SQLiteConnection currentConnection = accessData.GetConnectionFromPath(sfi.Path))
                             {
-                                //For metadata
-                                Metadata met = m as Metadata;
-                                currentDB.CreateDate = met.StartDate;
-                                currentDB.GeologistGeolcode = met.Geologist + "[" + met.UserCode + "]";
-                                //currentDB.metadataForProject.FieldworkType = met.FieldworkType;
-                                //currentDB.metadataForProject.MetaID = met.MetaID;
-                                currentDB.ProjectPath = Path.GetDirectoryName(sfi.Path);
-                                currentDB.ProjectDBPath = sfi.Path;
-                                currentDB.metadataForProject = m as Metadata;
+                                List<object> metadataTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(metadataModel.GetType(), string.Empty, currentConnection);
+                                foreach (object m in metadataTableRows)
+                                {
+                                    //For metadata
+                                    Metadata met = m as Metadata;
+                                    currentDB.CreateDate = met.StartDate;
+                                    currentDB.GeologistGeolcode = met.Geologist + "[" + met.UserCode + "]";
+                                    //currentDB.metadataForProject.FieldworkType = met.FieldworkType;
+                                    //currentDB.metadataForProject.MetaID = met.MetaID;
+                                    currentDB.ProjectPath = Path.GetDirectoryName(sfi.Path);
+                                    currentDB.ProjectDBPath = sfi.Path;
+                                    currentDB.metadataForProject = m as Metadata;
+                                }
+
+                                #region For stations
+                                string stationQuerySelect = "SELECT *";
+                                string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
+                                string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "%'";
+                                string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
+                                List<object> stationCountResult = accessData.ReadTableFromDBConnectionWithoutClosingConnection(stationModel.GetType(), stationQueryFinal, currentConnection);
+
+                                if (stationCountResult.Count != 0)
+                                {
+                                    Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
+                                    currentDB.StationLastEntered = lastStation.StationAlias;
+                                }
+
+                                //If field book is invalid keep parent folder path at least user will be able to delete it.
+                                if (metadataTableRows.Count == 0 && stationCountResult.Count == 0)
+                                {
+                                    StorageFolder parentFolder = await sfi.GetParentAsync();
+                                    currentDB.ProjectPath = parentFolder.Path;
+                                }
+                                #endregion
+
+                                #region For locations
+                                string queryLocation = "select count(*) from " + DatabaseLiterals.TableLocation;
+                                List<int> locationCountResult = accessData.ReadScalarFromDBConnectionWithoutClosingConnection(queryLocation, currentConnection);
+                                if (locationCountResult != null && locationCountResult.Count() > 0)
+                                {
+                                    currentDB.StationNumber = locationCountResult[0].ToString();
+                                }
+                                else
+                                {
+                                    currentDB.StationNumber = 0.ToString();
+                                }
+
+
+                                #endregion
+
+                                currentConnection.Close();
+
+                                if (!_projectCollection.Contains(currentDB))
+                                {
+                                    //Detect duplicates
+                                    bool foundDup = false;
+                                    foreach (FieldBooks fbs in _projectCollection)
+                                    {
+                                        if (fbs.ProjectDBPath == currentDB.ProjectDBPath)
+                                        {
+                                            foundDup = true; break;
+                                        }
+                                    }
+
+                                    if (!foundDup)
+                                    {
+                                        _projectCollection.Add(currentDB);
+                                    }
+                                    
+                                }
+
+                                break; //Forget about other files
+
                             }
-
-                            #region For stations
-                            string stationQuerySelect = "SELECT *";
-                            string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
-                            string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "%'";
-                            string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
-                            List<object> stationCountResult = accessData.ReadTableFromDBConnectionWithoutClosingConnection(stationModel.GetType(), stationQueryFinal, currentConnection);
-
-                            if (stationCountResult.Count != 0)
-                            {
-                                Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
-                                currentDB.StationLastEntered = lastStation.StationAlias;
-                            }
-
-                            //If field book is invalid keep parent folder path at least user will be able to delete it.
-                            if (metadataTableRows.Count == 0 && stationCountResult.Count == 0)
-                            {
-                                StorageFolder parentFolder = await sfi.GetParentAsync();
-                                currentDB.ProjectPath = parentFolder.Path;
-                            }
-                            #endregion
-
-                            #region For locations
-                            string queryLocation = "select count(*) from " + DatabaseLiterals.TableLocation;
-                            List<int> locationCountResult = accessData.ReadScalarFromDBConnectionWithoutClosingConnection(queryLocation, currentConnection);
-                            if (locationCountResult != null && locationCountResult.Count() > 0)
-                            {
-                                currentDB.StationNumber = locationCountResult[0].ToString();
-                            }
-                            else
-                            {
-                                currentDB.StationNumber = 0.ToString();
-                            }
-
-
-                            #endregion
-                            if (!_projectCollection.Contains(currentDB))
-                            {
-                                _projectCollection.Add(currentDB);
-                            }
-
-                            currentConnection.Close();
-
-                            break; //Forget about other files
                         }
                     }
                 }
+
+                //Refresh UI
+                RaisePropertyChanged("ProjectCollection");
+
+                //Select the current active project, so it's highlighted in the list view
+                ResourceLoader loadLocal = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                if (_projectCollection.Count == 0)
+                {
+
+                    _noFieldBookWatermark = true;
+                    RaisePropertyChanged("NoFieldBookWatermark");
+
+                    //Send event about missing field books.
+                    fieldBooksUpdate?.Invoke(this, false);
+
+                }
+                else
+                {
+                    SelectActiveProject();
+                    _noFieldBookWatermark = false;
+                    RaisePropertyChanged("NoFieldBookWatermark");
+
+                    //Send event about missing field books.
+                    fieldBooksUpdate?.Invoke(this, true);
+                }
             }
 
-            //Refresh UI
-            //RaisePropertyChanged("ProjectCollection");
-
-            //Select the current active project, so it's highlighted in the list view
-            ResourceLoader loadLocal = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            if (_projectCollection.Count == 0)
-            {
-
-                _noFieldBookWatermark = true;
-                RaisePropertyChanged("NoFieldBookWatermark");
-
-                //Send event about missing field books.
-                fieldBooksUpdate?.Invoke(this, false);
-
-            }
-            else
-            {
-                SelectActiveProject();
-                _noFieldBookWatermark = false;
-                RaisePropertyChanged("NoFieldBookWatermark");
-
-                //Send event about missing field books.
-                fieldBooksUpdate?.Invoke(this, true);
-            }
-
-            return _projectCollection;
         }
 
         /// <summary>
@@ -394,7 +412,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Refresh page
-            _ =FillProjectCollectionAsync();
+            FillProjectCollectionAsync();
 
         }
 
@@ -712,7 +730,7 @@ namespace GSCFieldApp.ViewModels
         private void ViewModel_projectEdit(object sender)
         {
             //Refresh page
-            _ =FillProjectCollectionAsync();
+            FillProjectCollectionAsync();
 
             RaisePropertyChanged("ProjectCollection");
         }
@@ -868,7 +886,7 @@ namespace GSCFieldApp.ViewModels
 
                         SetFieldBook(restFieldBook);
 
-                        _ = FillProjectCollectionAsync();
+                        FillProjectCollectionAsync();
                     }
                     else
                     {
@@ -1149,7 +1167,7 @@ namespace GSCFieldApp.ViewModels
         private void upgradedDBDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
             //Send call to refresh other pages
-            _ = FillProjectCollectionAsync();
+            FillProjectCollectionAsync();
             EventHandler<string> newFieldBookRequest = newFieldBookSelected;
             if (newFieldBookRequest != null)
             {

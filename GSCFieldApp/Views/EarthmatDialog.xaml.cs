@@ -2,10 +2,13 @@
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.ViewModels;
+//using GSCFieldApp.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Template10.Common;
+using Windows.Storage;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -28,6 +31,11 @@ namespace GSCFieldApp.Views
         private readonly DataAccess accessData = new DataAccess();
         public string level1Sep = ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = ApplicationLiterals.parentChildLevel2Seperator;
+        private TranslateTransform dragTransform;
+        private UIElement currentDraggedElement;
+
+        private double _startX = 0;
+        private double _startY = 0;
 
         public EarthmatDialog(FieldNotes inDetailViewModel)
         {
@@ -44,8 +52,10 @@ namespace GSCFieldApp.Views
 
             //#259 give a more space to percent box
             AddPaddingToLithoRelBox();
+            dragTransform = new TranslateTransform();
 
         }
+
 
         #region EVENTS
 
@@ -74,7 +84,11 @@ namespace GSCFieldApp.Views
             {
                 this.pageHeader.Text = this.pageHeader.Text + "  " + this.ViewModel.Alias;
             }
-
+            // Load the saved position when the app starts
+            if (EarthNoteTextbox != null)
+            {
+                LoadPosition(EarthNoteTextbox);  // Replace 'EarthNoteTextbox' with the actual element you want to load the position for
+            }
 
         }
 
@@ -211,12 +225,84 @@ namespace GSCFieldApp.Views
                 }
 
         }
-        
+
+        #endregion
+
+        #region Dragging Implementation
+
+        private void UIElement_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                currentDraggedElement = element;
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    dragTransform = transform;
+                }
+                else
+                {
+                    dragTransform = new TranslateTransform();
+                    element.RenderTransform = dragTransform;
+                }
+            }
+        }
+
+        private void UIElement_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (currentDraggedElement != null && dragTransform != null)
+            {
+                dragTransform.X += e.Delta.Translation.X;
+                dragTransform.Y += e.Delta.Translation.Y;
+            }
+        }
+
+        private void UIElement_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                // Check if the element has a valid name
+                if (string.IsNullOrEmpty(element.Name))
+                {
+                    System.Diagnostics.Debug.WriteLine("Element does not have a valid name!");
+                    return;
+                }
+
+                // Ensure the TranslateTransform is applied
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    // Log the final position when manipulation completes
+                    System.Diagnostics.Debug.WriteLine($"Saving position for {element.Name}: X={transform.X}, Y={transform.Y}");
+
+                    var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+                    // Save the final position to LocalSettings
+                    settings.Values[$"EarthNoteTextbox_X"] = transform.X;
+                    settings.Values[$"EarthNoteTextbox_Y"] = transform.Y;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("TranslateTransform not found on the element.");
+                }
+            }
+
+            currentDraggedElement = null;
+        }
+
+
         #endregion
 
         #region SAVE
         private void earthmatSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (EarthNoteTextbox != null)
+            {
+                // Assuming you have a method to get the current position of the element
+                double x = Canvas.GetLeft(EarthNoteTextbox); // Or your method for position
+                double y = Canvas.GetTop(EarthNoteTextbox); // Or your method for position
+
+                SavePosition(EarthNoteTextbox, x, y); // Save the position
+            }
+
             this.earthmatSaveButton.Focus(FocusState.Keyboard);
         }
 
@@ -228,6 +314,16 @@ namespace GSCFieldApp.Views
         /// </summary>
         public void CloseControl()
         {
+
+            // Save the position of the EarthNoteTextbox before closing the dialog
+            if (EarthNoteTextbox != null)
+            {
+                // Assuming you have a method to get the current position of the element
+                double x = Canvas.GetLeft(EarthNoteTextbox); // Or your method for position
+                double y = Canvas.GetTop(EarthNoteTextbox); // Or your method for position
+
+                SavePosition(EarthNoteTextbox, x, y); // Save the position
+            }
 
             //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
             WindowWrapper.Current().Dispatcher.Dispatch(() =>
@@ -241,6 +337,15 @@ namespace GSCFieldApp.Views
 
         private void earthmatBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (EarthNoteTextbox != null)
+            {
+                // Assuming you have a method to get the current position of the element
+                double x = Canvas.GetLeft(EarthNoteTextbox); // Or your method for position
+                double y = Canvas.GetTop(EarthNoteTextbox); // Or your method for position
+
+                SavePosition(EarthNoteTextbox, x, y); // Save the position
+            }
+
             CloseControl();
         }
 
@@ -329,6 +434,75 @@ namespace GSCFieldApp.Views
             }
         }
         #endregion
+
+        private void Element_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                double currentX = Canvas.GetLeft(element) + e.Delta.Translation.X;
+                double currentY = Canvas.GetTop(element) + e.Delta.Translation.Y;
+
+                Canvas.SetLeft(element, currentX);
+                Canvas.SetTop(element, currentY);
+
+                // Save position
+                SavePosition(element, currentX, currentY);
+            }
+        }
+
+
+
+        private void SavePosition(UIElement element, double x, double y)
+        {
+            var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            // Save position based on element's Name or another unique identifier
+            settings.Values[$"EarthNoteTextbox_X"] = x;
+            settings.Values[$"EarthNoteTextbox_Y"] = y;
+        }
+
+
+        private void Element_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                // Get the initial position when manipulation starts
+                _startX = Canvas.GetLeft(element);
+                _startY = Canvas.GetTop(element);
+            }
+        }
+
+        private void LoadPosition(UIElement element)
+        {
+            try
+            {
+                var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+                if (settings.Values.ContainsKey("EarthNoteTextbox_X") && settings.Values.ContainsKey("EarthNoteTextbox_Y"))
+                {
+                    double savedX = (double)settings.Values["EarthNoteTextbox_X"];
+                    double savedY = (double)settings.Values["EarthNoteTextbox_Y"];
+
+                    // Apply saved position to TranslateTransform
+                    var transform = new TranslateTransform
+                    {
+                        X = savedX,
+                        Y = savedY
+                    };
+
+                    // Make sure the element has a RenderTransform set
+                    element.RenderTransform = transform;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading position: {ex.Message}");
+            }
+        }
+
+
+
+
 
     }
 }

@@ -8,33 +8,33 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+using Windows.Storage;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.Foundation;
 
 namespace GSCFieldApp.Views
 {
     public sealed partial class MineralDialog : UserControl
     {
-
         public MineralViewModel MineralVM { get; set; }
         public FieldNotes parentViewModel { get; set; }
-
         public List<string> Minerals { get; private set; }
         private readonly DataAccess accessData = new DataAccess();
+        private TranslateTransform dragTransform;
+        private UIElement currentDraggedElement;
 
         public MineralDialog(FieldNotes inDetailViewModel)
         {
             parentViewModel = inDetailViewModel;
-
-            this.InitializeComponent();
-
+            InitializeComponent();
             MineralVM = new MineralViewModel(inDetailViewModel);
             this.Loading += MineralDialog_Loading;
+            dragTransform = new TranslateTransform();
 
             //#258 bringing back some old patch on save button
             this.mineralSaveButton.GotFocus -= MineralSaveButton_GotFocus;
             this.mineralSaveButton.GotFocus += MineralSaveButton_GotFocus;
-
         }
 
         private void MineralSaveButton_GotFocus(object sender, RoutedEventArgs e)
@@ -44,32 +44,76 @@ namespace GSCFieldApp.Views
             CloseControl();
         }
 
-        private void MineralDialog_Loading(FrameworkElement sender, object args)
+    private void MineralDialog_Loading(FrameworkElement sender, object args)
         {
-
             this.Minerals = CreateSuggestionList();
 
-            //Fill automatically the earthmat dialog if an edit is asked by the user.
+            // Auto-fill dialog for edit mode
             if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineral && MineralVM.doMineralUpdate)
             {
                 this.MineralVM.AutoFillDialog(parentViewModel);
-                this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.GenericAliasName;
+                this.pageHeader.Text += "  " + parentViewModel.GenericAliasName;
             }
             else if (!MineralVM.doMineralUpdate)
             {
-                this.pageHeader.Text = this.pageHeader.Text + "  " + this.MineralVM.MineralAlias;
+                this.pageHeader.Text += "  " + this.MineralVM.MineralAlias;
             }
         }
 
+        #region Dragging Implementation
 
-        #region CLOSE
-        /// <summary>
-        /// Will close the modal dialog.
-        /// </summary>
+        private void UIElement_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                currentDraggedElement = element;
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    dragTransform = transform;
+                }
+                else
+                {
+                    dragTransform = new TranslateTransform();
+                    element.RenderTransform = dragTransform;
+                }
+            }
+        }
+
+        private void UIElement_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (currentDraggedElement != null && dragTransform != null)
+            {
+                dragTransform.X += e.Delta.Translation.X;
+                dragTransform.Y += e.Delta.Translation.Y;
+            }
+        }
+
+        private void UIElement_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                // Save the current position
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    var settings = ApplicationData.Current.LocalSettings;
+
+                    // Save X and Y positions using the element's name as a key
+                    if (!string.IsNullOrEmpty(element.Name))
+                    {
+                        settings.Values[$"{element.Name}_X"] = transform.X;
+                        settings.Values[$"{element.Name}_Y"] = transform.Y;
+                    }
+                }
+            }
+
+            currentDraggedElement = null;
+        }
+
+        #endregion
+
+        #region Close
         public void CloseControl()
         {
-
-            //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
             WindowWrapper.Current().Dispatcher.Dispatch(() =>
             {
                 var modalMineralClose = Window.Current.Content as Template10.Controls.ModalDialog;
@@ -81,13 +125,12 @@ namespace GSCFieldApp.Views
 
         private void mineralBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
             CloseControl();
         }
 
         #endregion
 
-        #region SAVE
+        #region Save
         private void mineralSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.mineralSaveButton.Focus(FocusState.Keyboard);
@@ -95,57 +138,43 @@ namespace GSCFieldApp.Views
 
         #endregion
 
-        //Made by Jamel
-
-        /// Filter based on the user's input into the combobox text area
-        /// </summary>
-        /// <param name="sender">The event sender</param>
-        /// <param name="e">Any event arguments</param>
+        #region AutoSuggestBox
         private void MineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            // Only get results when it was a user typing,
-            // otherwise assume the value got filled in by TextMemberPath
-            // or the handler for SuggestionChosen.
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                //Set the ItemsSource to be your filtered dataset
-                //sender.ItemsSource = dataset;
                 string search_term = MineralAutoSuggest.Text.ToLower();
                 List<string> results = Minerals.Where(i => i.ToLower().Contains(search_term)).ToList();
 
-                if (results != null && results.Count > 0)
-                    MineralAutoSuggest.ItemsSource = results;
-                else
-                    MineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+                MineralAutoSuggest.ItemsSource = results.Count > 0
+                    ? results
+                    : new string[] { "No results found" } as IEnumerable<string>;
             }
 
-            //Reset mineral box
             if (sender.Text == string.Empty)
             {
                 MineralNamesTextbox.Text = string.Empty;
-                MineralVM.InitFill2ndRound(MineralNamesTextbox.Text); //Reset picklist
+                MineralVM.InitFill2ndRound(MineralNamesTextbox.Text);
             }
         }
+
         private void MineralAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-
             if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
             {
                 MineralNamesTextbox.Text = args.ChosenSuggestion.ToString();
-                //sender.Text = string.Empty;
-                MineralNamesTextbox.Focus(FocusState.Programmatic); //Force focus, so viewmodel gets filled with value
+                MineralNamesTextbox.Focus(FocusState.Programmatic);
             }
             else
             {
-                //Reset litho box
                 MineralNamesTextbox.Text = string.Empty;
             }
 
-            //Update list that are bound to lithology selection
             MineralVM.InitFill2ndRound(MineralNamesTextbox.Text);
-
-
         }
+
+        #endregion
+
         private List<string> CreateSuggestionList()
         {
             Vocabularies vocabularyModel = new Vocabularies();
@@ -156,28 +185,19 @@ namespace GSCFieldApp.Views
 
             List<object> vocResults = accessData.ReadTable(vocabularyModel.GetType(), vocFinalQuery);
 
-            var outResults = new List<string>();
-            foreach (Vocabularies tmp in vocResults)
-            {
-                //outResults.Add(tmp.RelatedTo.ToString() + " ; " + tmp.Code.ToString());
-                outResults.Add(tmp.Description.ToString());
-            }
-
-            return outResults;
+            return vocResults.Select(v => ((Vocabularies)v).Description.ToString()).ToList();
         }
 
         private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //Find the clicked symbol icon list view parent
             SymbolIcon senderIcon = sender as SymbolIcon;
             DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
+
             while (!(iconParent is ListView))
             {
                 iconParent = VisualTreeHelper.GetParent(iconParent);
-
             }
 
-            //Find value associated with clicked symbol icon and remove from list view.
             ListView parentListView = iconParent as ListView;
             IList<object> selectedValues = parentListView.SelectedItems;
             if (selectedValues.Count > 0)
@@ -188,5 +208,28 @@ namespace GSCFieldApp.Views
                 }
             }
         }
+
+        private void Element_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                // Get the current transform or create a new one
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    transform.X += e.Delta.Translation.X;
+                    transform.Y += e.Delta.Translation.Y;
+                }
+                else
+                {
+                    var newTransform = new TranslateTransform
+                    {
+                        X = e.Delta.Translation.X,
+                        Y = e.Delta.Translation.Y
+                    };
+                    element.RenderTransform = newTransform;
+                }
+            }
+        }
+
     }
 }
