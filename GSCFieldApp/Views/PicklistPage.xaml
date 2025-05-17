@@ -210,7 +210,7 @@
             
             <!--Save-->
             <Button Text="{local:Localize ButtonSave}" Grid.Row="1" Style="{StaticResource FieldAppButonSave}" 
-                    ToolTipProperties.Text="{local:Localize PicklistTooltipSave}" 
+                    ToolTipProperties.Text="{local:Localize PicklistPageTooltipSave}" 
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding SaveCommand}"/>
             
