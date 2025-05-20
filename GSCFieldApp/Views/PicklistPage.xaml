@@ -187,7 +187,7 @@
                             <!--List section-->
                             <Label Text="{local:Localize PicklistPageFieldValues}" Margin="0,0,0,10"/>
                             <Border Stroke="{StaticResource Primary}" Margin="0" Style="{StaticResource FieldAppBorder}"
-                                   MaximumHeightRequest="500" MinimumWidthRequest="350" Padding="10,10,0,0"
+                                   MaximumHeightRequest="525" MinimumWidthRequest="350" Padding="10,10,0,0"
                                    MaximumWidthRequest="550" HorizontalOptions="Start">
 
                                 <CollectionView ItemsSource="{Binding PicklistValues, Mode=TwoWay}"
