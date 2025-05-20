@@ -1009,7 +1009,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + TableDrillHolePrefix;
 
                 //Find existing
-                List<DrillHole> existingDrill = await DataAccess.DbConnection.Table<DrillHole>().Where(e => e.DrillLocationID == parentID && e.DrillIDName == finalDrillAlias).ToListAsync();
+                List<DrillHole> existingDrill = await DataAccess.DbConnection.Table<DrillHole>().Where(e => e.DrillIDName == finalDrillAlias).ToListAsync();
                 if (existingDrill.Count() == 0 || existingDrill == null)
                 {
                     processingID = false;
