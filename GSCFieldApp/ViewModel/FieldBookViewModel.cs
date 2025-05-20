@@ -104,7 +104,17 @@ namespace GSCFieldApp.ViewModel
                     //Replace with latest version. It indicates user upgraded the app
                     //and has a new data model.
                     string fieldWorkRename = da.DatabaseFilePath.Replace(DatabaseLiterals.DBName, DatabaseLiterals.DBName + "_legacy");
-                    File.Move(da.DatabaseFilePath, fieldWorkRename);
+                    await da.CloseConnectionAsync(); //Close gscfieldwork.gpkg before moving it
+
+                    try
+                    {
+                        File.Move(da.DatabaseFilePath, fieldWorkRename);
+                    }
+                    catch (Exception e)
+                    {
+                        new ErrorToLogFile(e).WriteToFile();
+                    }
+                    
                     await da.CreateDatabaseFromResource(da.DatabaseFilePath);
 
                     //Import user vocab from legacy one to newest one
