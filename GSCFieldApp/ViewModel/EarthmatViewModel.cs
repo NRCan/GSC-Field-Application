@@ -927,6 +927,7 @@ namespace GSCFieldApp.ViewModel
 
             //Find group match from detail
             bool foundMatch = false;
+            List<ComboBoxItem> matchGroupItem = new List<ComboBoxItem>();
             while (!foundMatch)
             {
                 foreach (Lithology lith in lithologies)
@@ -937,21 +938,33 @@ namespace GSCFieldApp.ViewModel
                         {
                             if (lDetail.DetailCode == detailName)
                             {
-                                List<ComboBoxItem> matchGroupItem = _earthLithoGroup.cboxItems.Where(i => i.itemValue == lith.GroupTypeCode).ToList();
-                                if (matchGroupItem != null && matchGroupItem.Count() > 0)
+                                //List all litho group/types that are parents of selected lith detail
+                                List<ComboBoxItem> matchCurrentGroup = _earthLithoGroup.cboxItems.Where(i => i.itemValue == lith.GroupTypeCode).ToList();
+                                if (matchCurrentGroup != null && matchCurrentGroup.Count() > 0)
                                 {
-                                    _earthLithoGroup.cboxDefaultItemIndex = _earthLithoGroup.cboxItems.IndexOf(matchGroupItem.First());
-                                    foundMatch = true; //Get out of all for loops
+                                    matchGroupItem.AddRange(matchCurrentGroup);
                                 }
 
+                                //Change value only if user is set to something else, like a totally different group; user could already have
+                                // selected a proper group, but then changed the detail value, else it'll replace his selection
+                                if (_earthLithoGroup.cboxDefaultItemIndex != -1 && matchGroupItem.Contains(_earthLithoGroup.cboxItems[_earthLithoGroup.cboxDefaultItemIndex]))
+                                {
+                                    foundMatch = true; //Parent was already selected by user.
+                                }
+                                
 
                             }
-
                         }
                     }
                 }
 
-                foundMatch = true; //Break while if nothing was found
+                //If loop is still running, select first value that matches
+                if (!foundMatch)
+                {
+                    _earthLithoGroup.cboxDefaultItemIndex = _earthLithoGroup.cboxItems.IndexOf(matchGroupItem.First());
+                    foundMatch = true; //Force match
+                }
+   
             }
 
             OnPropertyChanged(nameof(EarthLithoGroup));
