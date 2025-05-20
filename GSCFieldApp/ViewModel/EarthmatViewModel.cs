@@ -782,19 +782,33 @@ namespace GSCFieldApp.ViewModel
             {
                 foreach (Vocabularies tmp in _litho_detail_vocab)
                 {
-                    if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+
+                    try
                     {
-                        _lihthoSearchResults.Add(tmp.Code.ToString());
+                        if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                        {
+                            _lihthoSearchResults.Add(tmp.Code.ToString());
+                        }
+
+                        IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
+                        if (existingDetails != null && existingDetails.Count() > 0)
+                        {
+                            LithologyDetail detail = new LithologyDetail();
+                            detail.DetailCode = tmp.Code.ToString();
+                            existingDetails.First().lithologyDetails.Add(detail);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        new ErrorToLogFile(ex).WriteToFile();
+
+                        break;
                     }
 
-                    IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
-                    if (existingDetails != null && existingDetails.Count() > 0)
-                    {
-                        LithologyDetail detail = new LithologyDetail();
-                        detail.DetailCode = tmp.Code.ToString();
-                        existingDetails.First().lithologyDetails.Add(detail);
 
-                    }
+
+
                 }
 
             }
