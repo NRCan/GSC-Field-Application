@@ -157,7 +157,9 @@
     <value>Effacement terminé</value>
   </data>
   <data name="CommandDeleteContent" xml:space="preserve">
-    <value>Entrez les deux derniers chiffres de l'année en cours.</value>
+    <value>Attention, supprimer une station va entraîner la pertes des matériaux, échantillons et autres données connexes.
+
+Entrez les deux derniers chiffres de l'année en cours pour continuer.</value>
   </data>
   <data name="CommandDeleteTitle" xml:space="preserve">
     <value>Supprimer {0}</value>
