@@ -938,22 +938,29 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             string xmlString = string.Empty;
 
-            //Read from geopackage style table
-            string getStyleXML = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", GpkgFieldStyleSLD, GpkgTableStyle, GpkgFieldStyleTableName, tableName);
-            try
-            {
-                List<string> xmlStyle = await gpkgConnection.QueryScalarsAsync<string>(getStyleXML);
+            //Check for layer style table existance
+            string getLayerStyleTable = string.Format("SELECT 1 FROM sqlite_master WHERE type='table' and name='{0}'", GpkgTableStyle);
 
-                if (xmlStyle != null && xmlStyle.Count() > 0)
+            List<string> layerStyleTable = await gpkgConnection.QueryScalarsAsync<string>(getLayerStyleTable);
+
+            if (layerStyleTable != null && layerStyleTable.Count() > 0)
+            {
+                //Read from geopackage style table
+                string getStyleXML = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", GpkgFieldStyleSLD, GpkgTableStyle, GpkgFieldStyleTableName, tableName);
+                try
                 {
-                    xmlString = xmlStyle[0];
+                    List<string> xmlStyle = await gpkgConnection.QueryScalarsAsync<string>(getStyleXML);
+
+                    if (xmlStyle != null && xmlStyle.Count() > 0)
+                    {
+                        xmlString = xmlStyle[0];
+                    }
+                }
+                catch (Exception e)
+                {
+                    new ErrorToLogFile(e).WriteToFile();
                 }
             }
-            catch (Exception e)
-            {
-                new ErrorToLogFile(e).WriteToFile();
-            }
-
 
             return xmlString;
         }
