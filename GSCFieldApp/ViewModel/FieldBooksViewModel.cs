@@ -217,6 +217,16 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
+        [RelayCommand]
+        public async Task NavigateToMapPage(FieldBooks tappedFieldbook)
+        {
+            //Triger field book selection
+            await FieldBookChanged(tappedFieldbook);
+
+            //Gets triggered with a double tap on a field book
+            await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+        }
         #endregion
 
         #region METHODS

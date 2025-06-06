@@ -31,7 +31,7 @@
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=FieldBookChangedCommand}" 
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
-                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=EditFieldBookCommand}" 
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=NavigateToMapPageCommand}" 
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
 
                     </Border.GestureRecognizers>
