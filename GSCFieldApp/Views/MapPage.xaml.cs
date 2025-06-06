@@ -203,6 +203,11 @@ public partial class MapPage : ContentPage
 
     }
 
+    /// <summary>
+    /// Triggered when user taps on  a feature on the map.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void Map_Info(object sender, MapInfoEventArgs e)
     {
 
@@ -406,15 +411,15 @@ public partial class MapPage : ContentPage
             //Reload user datasets for selected field book
             await Task.Run(async () => await LoadPreferedLayers());
 
+            //Keep in memory that initial loading is done
+            //Will prevent some method to be launched each time loading has ended
+            _isInitialLoadingDone = true;
+
             //Manage GPS
             if (!_isCheckingGeolocation && !_isTapMode)
             {
                 await StartGPS();
             }
-
-            //Keep in memory that initial loading is done
-            //Will prevent some method to be launched each time loading has ended
-            _isInitialLoadingDone = true;
 
         }
         catch (System.Exception exception)
