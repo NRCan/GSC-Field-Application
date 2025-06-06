@@ -42,6 +42,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         public DataAccess da = new DataAccess();
         public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
         public static GeometryFactory defaultMapsuiGeometryFactory = new GeometryFactory();
+        public LocalizationResourceManager LocalizationResourceManager 
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         //Geopackage strings
         public const string GpkgTableGeometry = "gpkg_geometry_columns";
@@ -159,7 +161,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<NTS.Geometries.Point> GetGeometryPointFromByteAsync(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSRID = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             
-            NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
+            NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate(0,0));
 
             //build geopackage reader to get geometry as proper object
             PrecisionModel precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
@@ -182,19 +184,25 @@ namespace GSCFieldApp.Services.DatabaseServices
                 await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
             }
 
-
-
-            if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
+            if (outPoint != NTS.Geometries.Point.Empty)
             {
-                //Create a coord factory for incoming traverses
-                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outPoint.SRID);
+                if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
+                {
+                    //Create a coord factory for incoming traverses
+                    CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outPoint.SRID);
 
-                //Default map page coordinate
-                CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSRID);
+                    //Default map page coordinate
+                    CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSRID);
 
 
-                //Transform
-                outPoint = await TransformPointCoordinates(outPoint, incomingProjection, outgoingProjection);
+                    //Transform
+                    outPoint = await TransformPointCoordinates(outPoint, incomingProjection, outgoingProjection);
+                }
+            }
+            else
+            {
+                new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryPointFromByteAsync)) + ").").WriteToFile();
+                outPoint = null;
             }
 
             return outPoint;
@@ -224,17 +232,26 @@ namespace GSCFieldApp.Services.DatabaseServices
                 outLine = geom as NTS.Geometries.LineString;
             }
 
-            if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
+            if (outLine != LineString.Empty)
             {
-                //Create a coord factory for incoming traverses
-                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outLine.SRID);
+                if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
+                {
+                    //Create a coord factory for incoming traverses
+                    CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outLine.SRID);
 
-                //Default map page coordinate
-                CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
+                    //Default map page coordinate
+                    CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
 
-                //Transform
-                outLine = await TransformLineCoordinates(outLine, incomingProjection, outgoingProjection);
+                    //Transform
+                    outLine = await TransformLineCoordinates(outLine, incomingProjection, outgoingProjection);
+                }
             }
+            else
+            {
+                new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryLineFromByte)) + ").").WriteToFile();
+                outLine = null;
+            }
+
 
             return outLine;
         }
@@ -264,25 +281,33 @@ namespace GSCFieldApp.Services.DatabaseServices
                 outLine = geom as NTS.Geometries.MultiLineString;
             }
 
-            if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
+            if (outLine != MultiLineString.Empty)
             {
-                //Create a coord factory for incoming traverses
-                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outLine.SRID);
-
-                //Default map page coordinate
-                CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
-
-                //Transform
-                int index = 0;
-                outLineArray = new LineString[outLine.Count];
-                foreach (LineString ls in outLine)
+                if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
                 {
-                    LineString newLine = await TransformLineCoordinates(ls, incomingProjection, outgoingProjection);
-                    outLineArray[index] = newLine;
-                    index++;
-                }
+                    //Create a coord factory for incoming traverses
+                    CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outLine.SRID);
 
-                outLine = new NTS.Geometries.MultiLineString(outLineArray);
+                    //Default map page coordinate
+                    CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
+
+                    //Transform
+                    int index = 0;
+                    outLineArray = new LineString[outLine.Count];
+                    foreach (LineString ls in outLine)
+                    {
+                        LineString newLine = await TransformLineCoordinates(ls, incomingProjection, outgoingProjection);
+                        outLineArray[index] = newLine;
+                        index++;
+                    }
+
+                    outLine = new NTS.Geometries.MultiLineString(outLineArray);
+                }
+            }
+            else
+            {
+                new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryMultiLineFromByte)) + ").").WriteToFile();
+                outLine = null;
             }
 
             return outLine;
@@ -554,36 +579,46 @@ namespace GSCFieldApp.Services.DatabaseServices
                 outPolygon = geom as NTS.Geometries.MultiPolygon;
             }
 
-            //Transform geometry if needed
-            if (outPolygon != null && outPolygon.SRID != -1 && outPolygon.SRID != outSrid)
+            if (outPolygon != MultiPolygon.Empty)
             {
-                //Create a coord factory for incoming geometries
-                CoordinateSystem incomingProjection = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
-                if (outSrid != DatabaseLiterals.KeywordEPSGDefault)
+                //Transform geometry if needed
+                if (outPolygon != null && outPolygon.SRID != -1 && outPolygon.SRID != outSrid)
                 {
-                    //Manage SRID that are different from parameter and geometry
-                    if (outPolygon.SRID != srid)
+                    //Create a coord factory for incoming geometries
+                    CoordinateSystem incomingProjection = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
+                    if (outSrid != DatabaseLiterals.KeywordEPSGDefault)
                     {
-                        incomingProjection = await SridReader.GetCSbyID(srid);
+                        //Manage SRID that are different from parameter and geometry
+                        if (outPolygon.SRID != srid)
+                        {
+                            incomingProjection = await SridReader.GetCSbyID(srid);
+                        }
+                        else
+                        {
+                            incomingProjection = await SridReader.GetCSbyID(outPolygon.SRID);
+                        }
                     }
-                    else
+
+
+                    //Default map page coordinate
+                    CoordinateSystem outgoingProjection = ProjNet.CoordinateSystems.ProjectedCoordinateSystem.WebMercator;
+                    if (outSrid != DatabaseLiterals.KeywordEPSGMapsuiDefault)
                     {
-                        incomingProjection = await SridReader.GetCSbyID(outPolygon.SRID);
+                        outgoingProjection = await SridReader.GetCSbyID(outSrid);
                     }
+
+
+                    //Transform
+                    outPolygon = await TransformPolygonCoordinates(outPolygon, incomingProjection, outgoingProjection);
                 }
 
-
-                //Default map page coordinate
-                CoordinateSystem outgoingProjection = ProjNet.CoordinateSystems.ProjectedCoordinateSystem.WebMercator;
-                if (outSrid != DatabaseLiterals.KeywordEPSGMapsuiDefault)
-                {
-                    outgoingProjection = await SridReader.GetCSbyID(outSrid);
-                }
-                
-
-                //Transform
-                outPolygon = await TransformPolygonCoordinates(outPolygon, incomingProjection, outgoingProjection);
             }
+            else
+            {
+                new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryPolygonFromByte)) + ").").WriteToFile();
+                outPolygon = null;
+            }
+
 
             return outPolygon;
         }

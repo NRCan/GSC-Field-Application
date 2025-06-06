@@ -1559,4 +1559,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
     <value>Photos</value>
   </data>
+  <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
+    <value>Empty geometry was found. Will skip for now, a repair is needed.</value>
+  </data>
 </root>

@@ -415,6 +415,7 @@ public partial class MapPage : ContentPage
             //Keep in memory that initial loading is done
             //Will prevent some method to be launched each time loading has ended
             _isInitialLoadingDone = true;
+
         }
         catch (System.Exception exception)
         {
@@ -855,7 +856,7 @@ public partial class MapPage : ContentPage
                     //Adding geopackage feature in bulk
                     if (isGeopackage)
                     {
-                        await AddGPKG(geopackageFeatureNames, gpkgPath);
+                        await AddGPKG(geopackageFeatureNames, gpkgPath, null, true);
                     }
 
                     this.WaitingCursor.IsRunning = false;
@@ -1226,7 +1227,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="gpkgPath"></param>
     /// <returns></returns>
-    public async Task AddGPKG(List<string> featuresToAdd, string gpkgPath, MapPageLayer pageLayer = null)
+    public async Task AddGPKG(List<string> featuresToAdd, string gpkgPath, MapPageLayer pageLayer = null, bool showWarnings = false)
     {
         if (gpkgPath != null && gpkgPath != string.Empty && featuresToAdd.Count > 0)
         {
@@ -1242,30 +1243,19 @@ public partial class MapPage : ContentPage
                 foreach (string features in featuresToAdd)
                 {
 
-                    //Error handling
-                    if (hitError)
-                    {
-                        break;
-                    }
-
                     //Validate number of geometries before actually proceed
                     string getGeomCount = string.Format("SELECT COUNT(*) FROM {0};", features);
                     List<int> geomCount = await gpkgConnection.QueryScalarsAsync<int>(getGeomCount);
                     bool canContinue = true;
                     if (geomCount.Count > 0 && geomCount[0] > 1000)
                     {
-                        try
+                        if (showWarnings)
                         {
                             canContinue = await DisplayAlert(LocalizationResourceManager["GenericWarningTitle"].ToString(),
                                 LocalizationResourceManager["MapPageTooManyGeometriesMessage"].ToString(),
                                 LocalizationResourceManager["GenericButtonYes"].ToString(),
                                 LocalizationResourceManager["GenericButtonNo"].ToString());
                         }
-                        catch (System.Exception)
-                        {
-
-                        }
-
                     }
 
                     if (canContinue) 
@@ -1301,13 +1291,6 @@ public partial class MapPage : ContentPage
 
                             foreach (string geomType in typeGeometries)
                             {
-
-                                //Error handling
-                                if (hitError)
-                                {
-                                    break;
-                                }
-
                                 //Get some styling in
                                 string xmlStyle = await Task.Run(async () => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
                                 List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageStyle(xmlStyle, features, geomType));
@@ -1336,6 +1319,8 @@ public partial class MapPage : ContentPage
                                     {
                                         foreach (byte[] geomBytes in featGeometries)
                                         {
+                                            hitError = false; //Reset
+
                                             if (pageLayer == null)
                                             {
                                                 this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
@@ -1355,16 +1340,14 @@ public partial class MapPage : ContentPage
                                                 {
                                                     //Build feature metadata
                                                     feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
+
+                                                    //Get default or user line style 
+                                                    feat.Styles.Add(styling.polyVectorStyle);
                                                 }
                                                 else
                                                 {
-                                                    //Stop everything
                                                     hitError = true;
-                                                    break;
                                                 }
-
-                                                //Get default or user line style 
-                                                feat.Styles.Add(styling.polyVectorStyle);
 
                                             }
                                             else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
@@ -1377,16 +1360,14 @@ public partial class MapPage : ContentPage
                                                 {
                                                     //Build feature metadata
                                                     feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
+
+                                                    //Get default or user line style 
+                                                    feat.Styles.Add(styling.lineVectorStyle);
                                                 }
                                                 else
                                                 {
-                                                    //Stop everything
                                                     hitError = true;
-                                                    break;
                                                 }
-
-                                                //Get default or user line style 
-                                                feat.Styles.Add(styling.lineVectorStyle);
 
                                             }
                                             else if (geomType.ToLower() == Geometry.TypeNameMultiLineString.ToLower())
@@ -1399,16 +1380,15 @@ public partial class MapPage : ContentPage
                                                 {
                                                     //Build feature metadata
                                                     feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
+
+                                                    //Get default or user line style 
+                                                    feat.Styles.Add(styling.lineVectorStyle);
                                                 }
                                                 else
                                                 {
-                                                    //Stop everything
                                                     hitError = true;
-                                                    break;
                                                 }
 
-                                                //Get default or user line style 
-                                                feat.Styles.Add(styling.lineVectorStyle);
 
                                             }
                                             else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
@@ -1422,29 +1402,40 @@ public partial class MapPage : ContentPage
                                                     //Build feature metadata
                                                     feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
 
+                                                    //Style point
+                                                    feat.Styles.Add(styling.pointVectorStyle);
                                                 }
                                                 else
                                                 {
-                                                    //Stop everything
                                                     hitError = true;
-                                                    break;
                                                 }
 
-                                                //Style point
-                                                feat.Styles.Add(styling.pointVectorStyle);
                                             }
 
-                                            //Keep hex of geometry as id for futur get feature info from user
-                                            if (geomName != null && geomName.Count > 0)
+                                            //Error management for empty geometries or other
+                                            if (!hitError)
                                             {
-                                                feat[geomName[0]] = Convert.ToHexString(geomBytes);
-                                            }
+                                                //Keep hex of geometry as id for futur get feature info from user
+                                                if (geomName != null && geomName.Count > 0)
+                                                {
+                                                    feat[geomName[0]] = Convert.ToHexString(geomBytes);
+                                                }
 
-                                            //Add to list of features
-                                            feats = feats.Append(feat);
+                                                //Add to list of features
+                                                feats = feats.Append(feat);
+                                            }
+                                            else
+                                            {
+                                                if (showWarnings)
+                                                {
+                                                    await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                                                            LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + "(" + features + ")",
+                                                            LocalizationResourceManager["GenericButtonOk"].ToString());
+                                                }
+                                                 
+                                            }
                                         }
                                     }
-
                                 }
 
                                 if (pageLayer == null)
@@ -1484,20 +1475,16 @@ public partial class MapPage : ContentPage
             }
             catch (System.Exception e)
             {
-                try
+                if (showWarnings)
                 {
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
                         e.Message,
                         LocalizationResourceManager["GenericButtonOk"].ToString());
                 }
-                catch (System.Exception)
-                {
-
-                }
-
 
                 new ErrorToLogFile(e).WriteToFile();
                 this.MapPageProgressBar.IsVisible = false;
+
             }
 
         }

@@ -2115,6 +2115,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty geometry was found. Will skip for now, a repair is needed..
+        /// </summary>
+        internal static string GeopackageServiceEmptyGeometry {
+            get {
+                return ResourceManager.GetString("GeopackageServiceEmptyGeometry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confidence.
         /// </summary>
         internal static string LineworkPageConfidence {
