@@ -1308,12 +1308,15 @@ public partial class MapPage : ContentPage
 
                                 foreach (GeopackageLayerStyling styling in stylings)
                                 {
+                                    List<object> queryArgs = new List<object>();
+
                                     if (styling.className != string.Empty && styling.classValue != string.Empty)
                                     {
                                         //Add a where clause
-                                        getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = '{1}' ;", styling.className, styling.classValue);
+                                        getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = ? ;", styling.className);
+                                        queryArgs.Add(styling.classValue);
                                     }
-                                    List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
+                                    List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery, queryArgs.ToArray());
 
                                     if (featGeometries != null && featGeometries.Count() > 0)
                                     {
