@@ -939,7 +939,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string xmlString = string.Empty;
 
             //Check for layer style table existance
-            string getLayerStyleTable = string.Format("SELECT 1 FROM sqlite_master WHERE type='table' and name='{0}'", GpkgTableStyle);
+            string getLayerStyleTable = string.Format("SELECT 1 FROM sqlite_master WHERE type='table' and name = '{0}'", GpkgTableStyle);
 
             List<string> layerStyleTable = await gpkgConnection.QueryScalarsAsync<string>(getLayerStyleTable);
 
