@@ -154,7 +154,7 @@
             </HorizontalStackLayout>
 
             <!--Waiting indication-->
-            <ActivityIndicator x:Name="WaitingCursor" Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="1"/>
+            <ActivityIndicator x:Name="WaitingCursor" IsRunning="True" Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="1"/>
 
             <!--Map Layer menu-->
             <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->

@@ -194,7 +194,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Default map page coordinate
                     CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSRID);
 
-
                     //Transform
                     outPoint = await TransformPointCoordinates(outPoint, incomingProjection, outgoingProjection);
                 }
@@ -342,7 +341,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             catch (Exception e)
             {
                 new ErrorToLogFile(e).WriteToFile();
-                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
+                outPoint = null; //nullify
             }
 
 
@@ -409,7 +408,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             catch (Exception e)
             {
                 new ErrorToLogFile(e).WriteToFile();
-                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
+                outLine = null; //nullify
             }
 
 
@@ -483,8 +482,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             catch (Exception e)
             {
                 new ErrorToLogFile(e).WriteToFile();
-                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
-                outPoly = null;
+                outPoly = null; //nullify
             }
 
 

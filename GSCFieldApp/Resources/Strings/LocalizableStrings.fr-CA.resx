@@ -1561,6 +1561,6 @@ Aimeriez-vous modifier les droits?</value>
     <value>Photos</value>
   </data>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
-    <value>Détection d'une géométrie vide. La procédure va continuer, mais assurez-vous de réparer celle-ci.</value>
+    <value>Détection d'une géométrie défectueuse. La procédure va continuer, mais assurez-vous de réparer celle-ci.</value>
   </data>
 </root>

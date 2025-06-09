@@ -1587,6 +1587,7 @@ public partial class MapPage : ContentPage
     {
         if (!_isInitialLoadingDone)
         {
+
             if (withCache)
             {
                 var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM");
