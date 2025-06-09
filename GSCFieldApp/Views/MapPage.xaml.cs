@@ -99,7 +99,7 @@ public partial class MapPage : ContentPage
     public string GPSLogFilePath
     {
         get { return Preferences.Get(nameof(GPSLogFilePath), ""); }
-        set { }
+        set { Preferences.Set(nameof(GPSLogFilePath), value); }
     }
 
     public bool GPSHighRateEnabled
@@ -2829,7 +2829,7 @@ public partial class MapPage : ContentPage
         }
 
         //Debug option to log GPS
-        LogGPSChanges(DateTime.Now, inLocation);
+        await Task.Run(async() => await LogGPSChanges(DateTime.Now, inLocation));
 
     }
 
@@ -2880,7 +2880,7 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will save into a log file all GPS location changes if enabled by user in debug mode
     /// </summary>
-    public void LogGPSChanges(DateTime inTime, Sensor.Location inLocation)
+    public async Task LogGPSChanges(DateTime inTime, Sensor.Location inLocation)
     {
         if (GPSLogFilePath == string.Empty)
         {
@@ -2897,7 +2897,7 @@ public partial class MapPage : ContentPage
                 inLocation.Accuracy + "(m)," +
                 _refreshRate.TotalMilliseconds.ToString() + "(ms)";   
 
-                writer.WriteLine(gpsLogs);
+                await writer.WriteLineAsync(gpsLogs);
                 writer.Close();
             }
         }
