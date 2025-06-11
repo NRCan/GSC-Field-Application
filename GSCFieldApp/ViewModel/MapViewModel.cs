@@ -637,8 +637,8 @@ namespace GSCFieldApp.ViewModel
             foreach (ILayer layer in layers)
             {
                 //Remove unused layers
-                if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && !layer.Name.Contains(ApplicationLiterals.aliasMapsuiCallouts) &&
-                    !layer.Name.Contains(ApplicationLiterals.aliasMapsuiLayer) && !layer.Name.Contains(ApplicationLiterals.aliasMapsuiPins)) 
+                if (layer.Name != ApplicationLiterals.aliasMapsuiDrawables && layer.Name != ApplicationLiterals.aliasMapsuiCallouts &&
+                    layer.Name != ApplicationLiterals.aliasMapsuiLayer && layer.Name != ApplicationLiterals.aliasMapsuiPins) 
                 {
                     if (!_layerCollection.Contains(layer) && _layerCollection.Where(x=>x.Name == layer.Name).Count() == 0)
                     {
