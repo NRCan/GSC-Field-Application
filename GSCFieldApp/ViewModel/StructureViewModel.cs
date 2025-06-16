@@ -128,7 +128,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_structure != null && _structure.StructureName != string.Empty && _model.StructureID != 0)
+            if (_model.StructureID != 0)
             {
 
                 await da.SaveItemAsync(Model, true);

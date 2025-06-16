@@ -139,9 +139,8 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_environmentModel != null && _environmentModel.EnvName != string.Empty && _model.EnvID != 0)
+            if (_model.EnvID != 0)
             {
-
                 await da.SaveItemAsync(Model, true);
             }
             else

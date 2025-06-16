@@ -289,7 +289,7 @@ namespace GSCFieldApp.ViewModel
             _model.LocationDatum = KeywordEPSGDefault.ToString();
 
             //Validate if new entry or update
-            if (_fieldLocation != null && _fieldLocation.LocationAlias != string.Empty && _model.LocationID != 0)
+            if (_model.LocationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
             }

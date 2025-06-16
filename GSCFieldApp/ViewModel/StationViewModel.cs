@@ -215,7 +215,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Validate if new entry or update
-            if (_station != null &&_station.StationAlias != string.Empty && _model.StationID != 0)
+            if (_model.StationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
             }

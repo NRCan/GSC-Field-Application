@@ -145,7 +145,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_mineral != null && _mineral.MineralIDName != string.Empty && _model.MineralID != 0)
+            if (_model.MineralID != 0)
             {
 
                 await da.SaveItemAsync(Model, true);

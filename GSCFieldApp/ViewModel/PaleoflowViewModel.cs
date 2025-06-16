@@ -122,7 +122,7 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Validate if new entry or update
-            if (_paleoflow != null && _paleoflow.ParentName != string.Empty && _model.PFlowID != 0)
+            if (_model.PFlowID != 0)
             {
 
                 await da.SaveItemAsync(Model, true);

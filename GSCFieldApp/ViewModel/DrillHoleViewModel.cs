@@ -230,7 +230,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Validate if new entry or update
-            if (_drillHole != null && _drillHole.DrillIDName != string.Empty && _model.DrillID != 0)
+            if (_model.DrillID != 0)
             {
                 await da.SaveItemAsync(Model, true);
             }

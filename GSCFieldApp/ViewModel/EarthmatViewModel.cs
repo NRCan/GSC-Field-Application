@@ -447,9 +447,8 @@ namespace GSCFieldApp.ViewModel
                 await SetModelAsync();
 
                 //Validate if new entry or update
-                if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+                if (_model.EarthMatID != 0)
                 {
-
                     await da.SaveItemAsync(Model, true);
                 }
                 else

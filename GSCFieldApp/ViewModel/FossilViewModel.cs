@@ -79,9 +79,8 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Validate if new entry or update
-            if (_fossil != null && _fossil.FossilIDName != string.Empty && _model.FossilID != 0)
+            if ( _model.FossilID != 0)
             {
-
                 await da.SaveItemAsync(Model, true);
             }
             else
