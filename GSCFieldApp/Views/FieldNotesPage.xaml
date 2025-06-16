@@ -120,7 +120,7 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
 
-                <VerticalStackLayout VerticalOptions="StartAndExpand">
+                <VerticalStackLayout VerticalOptions="Start">
 
                     <!--Station records-->
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"

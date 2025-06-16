@@ -865,7 +865,6 @@ namespace GSCFieldApp.ViewModel
             {
                 if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
                 {
-                    bool alreadyProcessedLinework = false;
 
                     //Check if number of location has changed, or if last location is different from last record
                     bool check1 = false;
@@ -898,16 +897,13 @@ namespace GSCFieldApp.ViewModel
                     {
                         //Refill all
                         await FillFieldNotesAsync(DataAccess.DbConnection);
-
-                        //Keep track to prevent further useless processing
-                        alreadyProcessedLinework = true;
-
                     }
 
                     //Special linework case (user adds new linework in map page and nav here)
                     List<double> lastLinework = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
-                    if (!alreadyProcessedLinework || check4)
+                    if (!check4)
                     {
+                        //Detect changes
                         if ((FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
                         {
                             await FillLineworkNotes(DataAccess.DbConnection);
