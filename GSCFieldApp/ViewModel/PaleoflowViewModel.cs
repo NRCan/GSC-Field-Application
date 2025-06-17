@@ -126,13 +126,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.pflow, Model, true);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.pflow, Model);
+                RefreshFieldNotes(TableNames.pflow, Model, false);
             }
 
             //Exit 
@@ -153,13 +154,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.pflow, Model, true);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.pflow, Model);
+                RefreshFieldNotes(TableNames.pflow, Model, false);
             }
 
             //Show saved message

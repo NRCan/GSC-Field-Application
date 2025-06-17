@@ -1,25 +1,25 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Views;
+using GSCFieldApp.Controls;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
+using Microsoft.Maui.ApplicationModel.Communication;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GSCFieldApp.Models;
-using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using GSCFieldApp.Controls;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.Maui.ApplicationModel.Communication;
-using System.Xml.Linq;
+using System.Linq;
 using System.Reflection;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using CommunityToolkit.Maui.Alerts;
-using SQLite;
-using GSCFieldApp.Services;
 using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 
 namespace GSCFieldApp.Services
@@ -118,15 +118,29 @@ namespace GSCFieldApp.Services
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="recordObject"></param>
-        public static void RefreshFieldNotes(TableNames tableName, object recordObject)
+        public static async void RefreshFieldNotes(TableNames tableName, object recordObject, bool objectIsBeingUpdated)
         {
-            //Send call to refresh other pages
-            EventHandler<Tuple<TableNames, object>> newRecordEvent = newRecord;
-            if (newRecordEvent != null)
+            if (objectIsBeingUpdated)
             {
-                Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
-                newRecordEvent(newRecord, tableRecordTuple);
+                //Send call to refresh other pages
+                EventHandler<Tuple<TableNames, object>> updateRecordEvent = updateRecord;
+                if (updateRecordEvent != null)
+                {
+                    Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
+                    updateRecordEvent(updateRecord, tableRecordTuple);
+                }
             }
+            else
+            {
+                //Send call to refresh other pages
+                EventHandler<Tuple<TableNames, object>> newRecordEvent = newRecord;
+                if (newRecordEvent != null)
+                {
+                    Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
+                    newRecordEvent(newRecord, tableRecordTuple);
+                }
+            }
+
         }
 
     }

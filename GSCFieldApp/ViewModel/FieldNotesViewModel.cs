@@ -504,6 +504,7 @@ namespace GSCFieldApp.ViewModel
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
             FieldAppPageHelper.newRecord += FieldAppPageHelper_newRecordAsync;  
+            FieldAppPageHelper.updateRecord += FieldAppPageHelper_updateRecordAsync;
         }
 
         #region RELAY
@@ -2175,6 +2176,31 @@ namespace GSCFieldApp.ViewModel
             return lwFN;
         }
 
+        /// <summary>
+        /// Will replace a field note in the collection with the one passed in.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="fnToUpdate"></param>
+        private FieldNote ReplaceFieldNote(TableNames table, FieldNote fnToUpdate)
+        {
+
+            // Find the existing FieldNote in the collection
+            FieldNote existingFN= FieldNotes[table].Where(x => x.GenericID == fnToUpdate.GenericID).FirstOrDefault(fnToUpdate);
+
+            if (existingFN != null && existingFN != fnToUpdate)
+            {
+                int indexOfStation = FieldNotes[table].IndexOf(existingFN);
+
+                if (indexOfStation > -1)
+                {
+                    FieldNotes[table].RemoveAt(indexOfStation);
+                    FieldNotes[table].Insert(indexOfStation, fnToUpdate);
+                }
+            }
+
+            return existingFN;
+        }
+
         #endregion
 
         #region EVENTS
@@ -2443,7 +2469,259 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
+        }
 
+        /// <summary>
+        /// Event based method to update an existing record in the field note page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void FieldAppPageHelper_updateRecordAsync(object sender, Tuple<TableNames, object> e)
+        {
+            if (e != null)
+            {
+                Tuple<TableNames, object> newRec = (Tuple<TableNames, object>)e;
+
+                if (newRec != null)
+                {
+                    switch (newRec.Item1)
+                    {
+                        case TableNames.station:
+                            Station station = (Station)newRec.Item2;
+                            if (station != null)
+                            {
+                                FieldNote upStationsFN = GetStatFieldNote(station);
+
+                                ReplaceFieldNote(newRec.Item1, upStationsFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Stations));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+   
+                            }
+                            break;
+
+                        case TableNames.earthmat:
+                            Earthmaterial earthmaterial = (Earthmaterial)newRec.Item2;
+
+                            if (earthmaterial != null)
+                            {
+                                FieldNote updateEMFN = GetEMFieldNote(earthmaterial);
+
+                                ReplaceFieldNote(newRec.Item1, updateEMFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(EarthMats));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+
+                            }
+
+                            break;
+
+                        case TableNames.sample:
+                            Sample sample = (Sample)newRec.Item2;
+                            if (sample != null)
+                            {
+                                FieldNote samFN = GetSampleFieldNote(sample);
+                                ReplaceFieldNote(newRec.Item1, samFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Samples));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.document:
+                            Document document = (Document)newRec.Item2;
+                            if (document != null)
+                            {
+                                FieldNote dcFN = GetDocumentFieldNote(document);
+                                ReplaceFieldNote(newRec.Item1, dcFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Documents));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.structure:
+                            Structure structure = (Structure)newRec.Item2;
+                            if (structure != null)
+                            {
+                                FieldNote structureFN = GetStructureFieldNote(structure);
+                                ReplaceFieldNote(newRec.Item1, structureFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Structures));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.pflow:
+                            Paleoflow pflow = (Paleoflow)newRec.Item2;
+                            if (pflow != null)
+                            {
+                                FieldNote pfFN = GetPflowFieldNote(pflow);
+                                ReplaceFieldNote(newRec.Item1, pfFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Paleoflows));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.fossil:
+                            Fossil fossil = (Fossil)newRec.Item2;
+                            if (fossil != null)
+                            {
+                                FieldNote fossFN = GetFossilFieldNote(fossil);
+                                ReplaceFieldNote(newRec.Item1, fossFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Fossils));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.environment:
+                            EnvironmentModel environment = (EnvironmentModel)newRec.Item2;
+                            if (environment != null)
+                            {
+                                FieldNote envFN = GetEnvironmentFieldNote(environment);
+                                ReplaceFieldNote(newRec.Item1, envFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Environments));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.mineral:
+                            Mineral mineral = (Mineral)newRec.Item2;
+                            if (mineral != null)
+                            {
+                                FieldNote minFN = GetMineralFieldNote(mineral);
+                                ReplaceFieldNote(newRec.Item1, minFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Minerals));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.mineralization:
+                            MineralAlteration mineralAlteration = (MineralAlteration)newRec.Item2;
+                            if (mineralAlteration != null)
+                            {
+                                FieldNote malFN = GetMAFieldNote(mineralAlteration);
+                                ReplaceFieldNote(newRec.Item1, malFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(MineralizationAlterations));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.drill:
+                            DrillHole drillHole = (DrillHole)newRec.Item2;
+                            if (drillHole != null)
+                            {
+                                FieldNote dhFN = GetDrillFieldNote(drillHole);
+                                ReplaceFieldNote(newRec.Item1, dhFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(DrillHoles));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.location:
+                            FieldLocation location = (FieldLocation)newRec.Item2;
+                            if (location != null)
+                            {
+                                FieldNote locFN = GetLocationFieldNote(location);
+                                ReplaceFieldNote(newRec.Item1, locFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Locations));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.linework:
+                            Linework linework = (Linework)newRec.Item2;
+                            if (linework != null)
+                            {
+                                FieldNote lwFN = GetLineworkFieldNote(linework);
+                                ReplaceFieldNote(newRec.Item1, lwFN);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Lineworks));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
         }
         #endregion
 

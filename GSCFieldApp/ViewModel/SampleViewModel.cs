@@ -202,13 +202,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.sample, Model, true);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.sample, Model);
+                RefreshFieldNotes(TableNames.sample, Model, false);
             }
 
             //Exit 
@@ -230,12 +231,13 @@ namespace GSCFieldApp.ViewModel
             if (_sample != null && _sample.SampleName != string.Empty && _model.SampleID != 0)
             {
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.sample, Model, true);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.sample, Model);
+                RefreshFieldNotes(TableNames.sample, Model, false);
 
             }
 

@@ -218,12 +218,13 @@ namespace GSCFieldApp.ViewModel
             if (_model.StationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.station, Model, true);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model);
+                RefreshFieldNotes(TableNames.station, Model, false);
             }
 
             //Exit
@@ -269,12 +270,13 @@ namespace GSCFieldApp.ViewModel
             if (_station != null && _station.StationAlias != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.station, Model, true);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model);
+                RefreshFieldNotes(TableNames.station, Model, false);
             }
 
             //Navigate to child
@@ -297,12 +299,13 @@ namespace GSCFieldApp.ViewModel
             if (_station != null && _station.StationAlias != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.station, Model, true);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model);
+                RefreshFieldNotes(TableNames.station, Model, false);
             }
 
             //Navigate to child
@@ -325,12 +328,13 @@ namespace GSCFieldApp.ViewModel
             if (_station != null && _station.StationAlias != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.station, Model, true);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model);
+                RefreshFieldNotes(TableNames.station, Model, false);
             }
 
             //Navigate to child
@@ -353,12 +357,13 @@ namespace GSCFieldApp.ViewModel
             if (_station != null && _station.StationAlias != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.station, Model, true);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model);
+                RefreshFieldNotes(TableNames.station, Model, false);
             }
 
             //Navigate to pflow page 
@@ -533,7 +538,7 @@ namespace GSCFieldApp.ViewModel
             await InitModel();
             Station quickStation = await da.SaveItemAsync(Model, false) as Station;
             quickStation.IsMapPageQuick = true;
-            RefreshFieldNotes(TableNames.station, Model);
+            RefreshFieldNotes(TableNames.station, Model, false);
 
             return quickStation;
         }

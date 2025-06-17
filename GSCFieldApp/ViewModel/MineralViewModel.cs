@@ -149,13 +149,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.mineral, Model, true);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.mineral, Model);
+                RefreshFieldNotes(TableNames.mineral, Model, false);
             }
 
             //Exit
@@ -178,13 +179,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.mineral, Model, true);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.mineral, Model);
+                RefreshFieldNotes(TableNames.mineral, Model, false);
             }
 
             //Show saved message
