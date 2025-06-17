@@ -1,20 +1,20 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Models;
-using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Controls;
-using GSCFieldApp.Views;
+using GSCFieldApp.Models;
 using GSCFieldApp.Services;
-using static GSCFieldApp.Dictionaries.DatabaseLiterals;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using SQLite;
-using CommunityToolkit.Maui.Alerts;
-using System.Security.Cryptography;
-using System.Collections.ObjectModel;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -198,6 +198,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.mineralization, Model);
             }
         }
 

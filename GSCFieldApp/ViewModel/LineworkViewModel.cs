@@ -91,6 +91,7 @@ namespace GSCFieldApp.ViewModel
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.linework, Model);
             }
 
             //Exit

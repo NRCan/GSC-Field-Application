@@ -223,6 +223,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.station, Model);
             }
 
             //Exit
@@ -273,6 +274,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.station, Model);
             }
 
             //Navigate to child
@@ -300,6 +302,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.station, Model);
             }
 
             //Navigate to child
@@ -327,6 +330,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.station, Model);
             }
 
             //Navigate to child
@@ -354,6 +358,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.station, Model);
             }
 
             //Navigate to pflow page 
@@ -528,6 +533,7 @@ namespace GSCFieldApp.ViewModel
             await InitModel();
             Station quickStation = await da.SaveItemAsync(Model, false) as Station;
             quickStation.IsMapPageQuick = true;
+            RefreshFieldNotes(TableNames.station, Model);
 
             return quickStation;
         }

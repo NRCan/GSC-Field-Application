@@ -503,6 +503,7 @@ namespace GSCFieldApp.ViewModel
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+            FieldAppPageHelper.newRecord += FieldAppPageHelper_newRecordAsync;  
         }
 
         #region RELAY
@@ -873,21 +874,21 @@ namespace GSCFieldApp.ViewModel
                     bool check4 = forceRefresh; //Code needs to force a refresh
 
                     //Check #1 - If no records in location, then refill all
-                    if ((FieldNotes[TableNames.location].Count() == 0))
+                    if (FieldNotes[TableNames.location].Count() == 0)
                     {
                         check1 = true;
                     }
 
                     //Check #2 - If location record count is different, then refill all
                     List<double> countLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
-                    if (countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
+                    if (LocationVisible && countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
                     {
                         check2 = true;
                     }
 
                     //Check #3 - If last location is different from last record, then refill all
                     List<double> lastLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
-                    if (lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
+                    if (LocationVisible && lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
                     {
                         check3 = true;
                     }
@@ -904,7 +905,7 @@ namespace GSCFieldApp.ViewModel
                     if (!check4)
                     {
                         //Detect changes
-                        if ((FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
+                        if (LineworkVisible && (FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
                         {
                             await FillLineworkNotes(DataAccess.DbConnection);
 
@@ -921,6 +922,11 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// First run on filling all the notes from the database
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public async Task FillFieldNotesAsync(SQLiteAsyncConnection connection)
         {
             List<Task> tasks = new List<Task>();
@@ -1069,17 +1075,7 @@ namespace GSCFieldApp.ViewModel
                 
                 foreach (Station st in stations)
                 {
-                    stationsFN.Add(new FieldNote
-                    {
-                        Display_text_1 = st.StationAliasLight,
-                        Display_text_2 = st.StationObsType,
-                        Display_text_3 = st.StationNote,
-                        GenericTableName = TableStation,
-                        GenericID = st.StationID,
-                        ParentID = st.LocationID,
-                        Date = st.StationVisitDate,
-                        isValid = st.isValid
-                    });
+                    stationsFN.Add(GetStatFieldNote(st));
                 }
 
             }
@@ -1114,29 +1110,9 @@ namespace GSCFieldApp.ViewModel
                 ObservableCollection<FieldNote> emsFN = new ObservableCollection<FieldNote>();
                 if (ems != null && ems.Count > 0)
                 {
-                    foreach (Earthmaterial st in ems)
+                    foreach (Earthmaterial em in ems)
                     {
-                        int parentID = -1;
-                        string parentLightAlias = string.Empty;
-                        if (st.EarthMatStatID != null)
-                        {
-                            parentID = (int)st.EarthMatStatID;
-                        }
-                        if (st.EarthMatDrillHoleID != null)
-                        {
-                            parentID = (int)st.EarthMatDrillHoleID;
-                        }
-                        emsFN.Add(new FieldNote
-                        {
-
-                            Display_text_1 = st.EarthmatAliasLight,
-                            Display_text_2 = st.EarthMatLithdetail,
-                            Display_text_3 = st.EarthMatLithgroup,
-                            GenericTableName = TableEarthMat,
-                            GenericID = st.EarthMatID,
-                            ParentID = parentID,
-                            isValid = st.isValid
-                        });
+                        emsFN.Add(GetEMFieldNote(em));
                     }
 
                 }
@@ -1175,18 +1151,9 @@ namespace GSCFieldApp.ViewModel
                 if (samples != null && samples.Count > 0)
                 {
 
-                    foreach (Sample st in samples)
+                    foreach (Sample sam in samples)
                     {
-                        samplesFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.SampleAliasLight,
-                            Display_text_2 = st.SampleType,
-                            Display_text_3 = st.SamplePurpose,
-                            GenericTableName = TableSample,
-                            GenericID = st.SampleID,
-                            ParentID = st.SampleEarthmatID,
-                            isValid = st.isValid
-                        });
+                        samplesFN.Add(GetSampleFieldNote(sam));
                     }
 
                 }
@@ -1224,27 +1191,10 @@ namespace GSCFieldApp.ViewModel
                 ObservableCollection<FieldNote> docsFN = new ObservableCollection<FieldNote>();
                 if (docs != null && docs.Count > 0)
                 {
-                    
                     foreach (Document dc in docs)
                     {
-                        int? parentID = dc.StationID;
-
-                        if (!parentID.HasValue && dc.DrillHoleID.HasValue)
-                        {
-                            parentID = dc.DrillHoleID;
-                        }
-                        docsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = dc.DocumentAliasLight,
-                            Display_text_2 = dc.Category,
-                            Display_text_3 = dc.Description,
-                            GenericTableName = TableDocument,
-                            GenericID = dc.DocumentID,
-                            ParentID = parentID.HasValue ? parentID.Value : -1, // Use a default value like -1 or handle appropriately
-                            isValid = dc.isValid
-                        });
+                        docsFN.Add(GetDocumentFieldNote(dc));
                     }
-
                 }
                 FieldNotes[TableNames.document] = docsFN;
             }
@@ -1281,18 +1231,9 @@ namespace GSCFieldApp.ViewModel
                 if (structures != null && structures.Count > 0)
                 {
 
-                    foreach (Structure st in structures)
+                    foreach (Structure struc in structures)
                     {
-                        structuresFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.StructureAliasLight,
-                            Display_text_2 = st.StructureClass,
-                            Display_text_3 = st.StructureDetail,
-                            GenericTableName = TableStructure,
-                            GenericID = st.StructureID,
-                            ParentID = st.StructureEarthmatID,
-                            isValid = st.isValid
-                        });
+                        structuresFN.Add(GetStructureFieldNote(struc));
                     }
 
                 }
@@ -1331,18 +1272,9 @@ namespace GSCFieldApp.ViewModel
                 if (pflows != null && pflows.Count > 0)
                 {
 
-                    foreach (Paleoflow st in pflows)
+                    foreach (Paleoflow pf in pflows)
                     {
-                        pflowsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.PflowAliasLight,
-                            Display_text_2 = st.PFlowClass,
-                            Display_text_3 = st.PFlowSense,
-                            GenericTableName = TablePFlow,
-                            GenericID = st.PFlowID,
-                            ParentID = st.PFlowParentID,
-                            isValid = st.isValid
-                        });
+                        pflowsFN.Add(GetPflowFieldNote(pf));
                     }
 
                 }
@@ -1381,18 +1313,9 @@ namespace GSCFieldApp.ViewModel
                 if (fossils != null && fossils.Count > 0)
                 {
 
-                    foreach (Fossil st in fossils)
+                    foreach (Fossil fs in fossils)
                     {
-                        fossilsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.FossilAliasLight,
-                            Display_text_2 = st.FossilType,
-                            Display_text_3 = st.FossilNote,
-                            GenericTableName = TableFossil,
-                            GenericID = st.FossilID,
-                            ParentID = st.FossilParentID,
-                            isValid = st.isValid
-                        });
+                        fossilsFN.Add(GetFossilFieldNote(fs));
                     }
 
                 }
@@ -1431,18 +1354,9 @@ namespace GSCFieldApp.ViewModel
                 if (environments != null && environments.Count > 0)
                 {
 
-                    foreach (EnvironmentModel st in environments)
+                    foreach (EnvironmentModel env in environments)
                     {
-                        environmentsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.EnvironmentAliasLight,
-                            Display_text_2 = st.EnvRelief,
-                            Display_text_3 = st.EnvNotes,
-                            GenericTableName = TableEnvironment,
-                            GenericID = st.EnvID,
-                            ParentID = st.EnvStationID,
-                            isValid = st.isValid
-                        });
+                        environmentsFN.Add(GetEnvironmentFieldNote(env));
                     }
 
                 }
@@ -1481,25 +1395,9 @@ namespace GSCFieldApp.ViewModel
                 if (minerals != null && minerals.Count > 0)
                 {
 
-                    foreach (Mineral st in minerals)
+                    foreach (Mineral min in minerals)
                     {
-                        //Find proper parent
-                        int? parentID = st.MineralEMID;
-                        if (parentID == null && st.MineralMAID != null)
-                        {
-                            parentID = st.MineralMAID;
-                        }
-
-                        mineralsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.MineralAliasLight,
-                            Display_text_2 = st.MineralName,
-                            Display_text_3 = st.MineralMode,
-                            GenericTableName = TableMineral,
-                            GenericID = st.MineralID,
-                            ParentID = parentID.Value,
-                            isValid = st.isValid
-                        });
+                        mineralsFN.Add(GetMineralFieldNote(min));
                     }
 
                 }
@@ -1538,25 +1436,9 @@ namespace GSCFieldApp.ViewModel
                 if (mineralizations != null && mineralizations.Count > 0)
                 {
 
-                    foreach (MineralAlteration st in mineralizations)
+                    foreach (MineralAlteration malt in mineralizations)
                     {
-                        //Find proper parent
-                        int? parentID = st.MAStationID;
-                        if (parentID == null && st.MAEarthmatID != null)
-                        {
-                            parentID = st.MAEarthmatID;
-                        }
-
-                        mineralizationsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = st.MineralALterationAliasLight,
-                            Display_text_2 = st.MAMA,
-                            Display_text_3 = st.MAUnit,
-                            GenericTableName = TableMineralAlteration,
-                            GenericID = st.MAID,
-                            ParentID = parentID.Value,
-                            isValid = st.isValid
-                        });
+                        mineralizationsFN.Add(GetMAFieldNote(malt));
                     }
 
                 }
@@ -1587,38 +1469,18 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            if (LocationVisible)
+            //Get all stations from database
+            List<FieldLocation> locations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
+            ObservableCollection<FieldNote> locationsFN = new ObservableCollection<FieldNote>();
+            if (locations != null && locations.Count > 0)
             {
-                //Get all stations from database
-                List<FieldLocation> locations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
-                ObservableCollection<FieldNote> locationsFN = new ObservableCollection<FieldNote>();
-                if (locations != null && locations.Count > 0)
+
+                foreach (FieldLocation loc in locations)
                 {
-
-                    foreach (FieldLocation loc in locations)
-                    {
-                        string coordinatesFormat = string.Format("{0}° {1}°",
-                            Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
-                        string locDate = DateTime.MinValue.ToString("yyyy-MM-dd");
-                        if (loc.LocationTimestamp != null && loc.LocationTimestamp != string.Empty)
-                        {
-                            locDate = loc.LocationTimestamp.Substring(0, 10);
-                        }
-
-                        locationsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = loc.LocationAliasLight,
-                            Display_text_2 = coordinatesFormat,
-                            Display_text_3 = loc.locationNTS,
-                            GenericTableName = TableLocation,
-                            GenericID = loc.LocationID,
-                            ParentID = loc.MetaID,
-                            isValid = loc.isValid,
-                            Date = locDate
-                        });
-                    }
-
+                    locationsFN.Add(GetLocationFieldNote(loc));
                 }
+
+                
                 FieldNotes[TableNames.location] = locationsFN;
                 OnPropertyChanged(nameof(Locations));
             }
@@ -1655,16 +1517,7 @@ namespace GSCFieldApp.ViewModel
 
                     foreach (DrillHole dr in drills)
                     {
-                        drillsFN.Add(new FieldNote
-                        {
-                            Display_text_1 = dr.DrillAliasLight,
-                            Display_text_2 = dr.DrillCompany,
-                            Display_text_3 = dr.DrillType,
-                            GenericTableName = TableDrillHoles,
-                            GenericID = dr.DrillID,
-                            ParentID = dr.DrillLocationID,
-                            isValid = dr.isValid
-                        });
+                        drillsFN.Add(GetDrillFieldNote(dr));
                     }
 
                 }
@@ -1705,16 +1558,7 @@ namespace GSCFieldApp.ViewModel
 
                     foreach (Linework ln in lineworks)
                     {
-                        lineworksFN.Add(new FieldNote
-                        {
-                            Display_text_1 = ln.LineAliasLight,
-                            Display_text_2 = ln.LineType,
-                            Display_text_3 = ln.LineNotes,
-                            GenericTableName = TableLinework,
-                            GenericID = ln.LineID,
-                            ParentID = ln.LineMetaID,
-                            isValid = ln.isValid
-                        });
+                        lineworksFN.Add(GetLineworkFieldNote(ln));
                     }
 
                 }
@@ -1900,77 +1744,77 @@ namespace GSCFieldApp.ViewModel
                     tasks.Add(ValidateFillFieldNotesAsync(true));
                     break;
                 case TableNames.location:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.station:
  
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
                     
                     break;
                 case TableNames.earthmat:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
 
                     break;
                 case TableNames.sample:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    tasks.Add(FillSampleNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillSampleNotes(DataAccess.DbConnection));
 
                     break;
                 case TableNames.mineralization:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.mineral:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillMineralNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillMineralNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.document:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.structure:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStructureNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStructureNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.fossil:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    tasks.Add(FillFossilNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillFossilNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.environment:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEnvironmentNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEnvironmentNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.pflow:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    tasks.Add(FillPaleoflowNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillPaleoflowNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.drill:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillDrillHoleNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillDrillHoleNotes(DataAccess.DbConnection));
                     break;
                 case TableNames.linework:
-                    tasks.Add(FillLineworkNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLineworkNotes(DataAccess.DbConnection));
                     break;
                 default:
-                    tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    tasks.Add(FillStationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
+                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
                     break;
             }
 
@@ -1997,6 +1841,340 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(LineworkVisible));
         }
 
+        /// <summary>
+        /// Will return a field note object with the information from the given station.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="st"></param>
+        /// <returns></returns>
+        public FieldNote GetStatFieldNote(Station st)
+        {
+            FieldNote stationsFN = new FieldNote
+            {
+                Display_text_1 = st.StationAliasLight,
+                Display_text_2 = st.StationObsType,
+                Display_text_3 = st.StationNote,
+                GenericTableName = TableStation,
+                GenericID = st.StationID,
+                ParentID = st.LocationID,
+                Date = st.StationVisitDate,
+                isValid = st.isValid
+            };
+
+            return stationsFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given earth material.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="earthmaterial"></param>
+        /// <returns></returns>
+        public FieldNote GetEMFieldNote(Earthmaterial earthmaterial)
+        {
+            int parentID = -1;
+            string parentLightAlias = string.Empty;
+            if (earthmaterial.EarthMatStatID != null)
+            {
+                parentID = (int)earthmaterial.EarthMatStatID;
+            }
+            if (earthmaterial.EarthMatDrillHoleID != null)
+            {
+                parentID = (int)earthmaterial.EarthMatDrillHoleID;
+            }
+
+            FieldNote emsFN = new FieldNote()
+            {
+                Display_text_1 = earthmaterial.EarthmatAliasLight,
+                Display_text_2 = earthmaterial.EarthMatLithdetail,
+                Display_text_3 = earthmaterial.EarthMatLithgroup,
+                GenericTableName = TableEarthMat,
+                GenericID = earthmaterial.EarthMatID,
+                ParentID = parentID,
+                isValid = earthmaterial.isValid
+
+            };
+
+            return emsFN;
+
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given sample.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="sam"></param>
+        /// <returns></returns>
+        public FieldNote GetSampleFieldNote(Sample sam)
+        {
+            FieldNote samFN = new FieldNote
+            {
+                Display_text_1 = sam.SampleAliasLight,
+                Display_text_2 = sam.SampleType,
+                Display_text_3 = sam.SamplePurpose,
+                GenericTableName = TableSample,
+                GenericID = sam.SampleID,
+                ParentID = sam.SampleEarthmatID,
+                isValid = sam.isValid
+            };
+
+            return samFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given document/photo.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="dc"></param>
+        /// <returns></returns>
+        public FieldNote GetDocumentFieldNote(Document dc)
+        {
+            int? parentID = dc.StationID;
+
+            if (!parentID.HasValue && dc.DrillHoleID.HasValue)
+            {
+                parentID = dc.DrillHoleID;
+            }
+
+            FieldNote dcFN = new FieldNote
+            {
+                Display_text_1 = dc.DocumentAliasLight,
+                Display_text_2 = dc.Category,
+                Display_text_3 = dc.Description,
+                GenericTableName = TableDocument,
+                GenericID = dc.DocumentID,
+                ParentID = parentID.HasValue ? parentID.Value : -1, // Use a default value like -1 or handle appropriately
+                isValid = dc.isValid
+            };
+
+            return dcFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given structure.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="struc"></param>
+        /// <returns></returns>
+        public FieldNote GetStructureFieldNote(Structure struc)
+        {
+
+            FieldNote structureFN = new FieldNote
+            {
+                Display_text_1 = struc.StructureAliasLight,
+                Display_text_2 = struc.StructureClass,
+                Display_text_3 = struc.StructureDetail,
+                GenericTableName = TableStructure,
+                GenericID = struc.StructureID,
+                ParentID = struc.StructureEarthmatID,
+                isValid = struc.isValid
+            };
+
+            return structureFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given paleoflow.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="pf"></param>
+        /// <returns></returns>
+        public FieldNote GetPflowFieldNote(Paleoflow pf)
+        {
+
+            FieldNote pfFN = new FieldNote
+            {
+                Display_text_1 = pf.PflowAliasLight,
+                Display_text_2 = pf.PFlowClass,
+                Display_text_3 = pf.PFlowSense,
+                GenericTableName = TablePFlow,
+                GenericID = pf.PFlowID,
+                ParentID = pf.PFlowParentID,
+                isValid = pf.isValid
+            };
+
+            return pfFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given fossil.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="foss"></param>
+        /// <returns></returns>
+        public FieldNote GetFossilFieldNote(Fossil foss)
+        {
+
+            FieldNote fossFN = new FieldNote
+            {
+                Display_text_1 = foss.FossilAliasLight,
+                Display_text_2 = foss.FossilType,
+                Display_text_3 = foss.FossilNote,
+                GenericTableName = TableFossil,
+                GenericID = foss.FossilID,
+                ParentID = foss.FossilParentID,
+                isValid = foss.isValid
+            };
+
+            return fossFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given environment.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="env"></param>
+        /// <returns></returns>
+        public FieldNote GetEnvironmentFieldNote(EnvironmentModel env)
+        {
+
+            FieldNote envFN = new FieldNote
+            {
+                Display_text_1 = env.EnvironmentAliasLight,
+                Display_text_2 = env.EnvRelief,
+                Display_text_3 = env.EnvNotes,
+                GenericTableName = TableEnvironment,
+                GenericID = env.EnvID,
+                ParentID = env.EnvStationID,
+                isValid = env.isValid
+            };
+
+            return envFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given mienrals.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="min"></param>
+        /// <returns></returns>
+        public FieldNote GetMineralFieldNote(Mineral min)
+        {
+            //Find proper parent
+            int? parentID = min.MineralEMID;
+            if (parentID == null && min.MineralMAID != null)
+            {
+                parentID = min.MineralMAID;
+            }
+
+            FieldNote minFN = new FieldNote
+            {
+                Display_text_1 = min.MineralAliasLight,
+                Display_text_2 = min.MineralName,
+                Display_text_3 = min.MineralMode,
+                GenericTableName = TableMineral,
+                GenericID = min.MineralID,
+                ParentID = parentID.Value,
+                isValid = min.isValid
+            };
+
+            return minFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given mineralization.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="malt"></param>
+        /// <returns></returns>
+        public FieldNote GetMAFieldNote(MineralAlteration malt)
+        {
+            //Find proper parent
+            int? parentID = malt.MAStationID;
+            if (parentID == null && malt.MAEarthmatID != null)
+            {
+                parentID = malt.MAEarthmatID;
+            }
+
+            FieldNote malFN = new FieldNote
+            {
+                Display_text_1 = malt.MineralALterationAliasLight,
+                Display_text_2 = malt.MAMA,
+                Display_text_3 = malt.MAUnit,
+                GenericTableName = TableMineralAlteration,
+                GenericID = malt.MAID,
+                ParentID = parentID.Value,
+                isValid = malt.isValid
+            };
+
+            return malFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given location.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="loc"></param>
+        /// <returns></returns>
+        public FieldNote GetLocationFieldNote(FieldLocation loc)
+        {
+            string coordinatesFormat = string.Format("{0}° {1}°",
+                Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
+            string locDate = DateTime.MinValue.ToString("yyyy-MM-dd");
+            if (loc.LocationTimestamp != null && loc.LocationTimestamp != string.Empty)
+            {
+                locDate = loc.LocationTimestamp.Substring(0, 10);
+            }
+
+            FieldNote locFN = new FieldNote
+            {
+                Display_text_1 = loc.LocationAliasLight,
+                Display_text_2 = coordinatesFormat,
+                Display_text_3 = loc.locationNTS,
+                GenericTableName = TableLocation,
+                GenericID = loc.LocationID,
+                ParentID = loc.MetaID,
+                isValid = loc.isValid,
+                Date = locDate
+            };
+
+            return locFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given drill holes.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="dh"></param>
+        /// <returns></returns>
+        public FieldNote GetDrillFieldNote(DrillHole dh)
+        {
+            FieldNote dhFN = new FieldNote
+            {
+                Display_text_1 = dh.DrillAliasLight,
+                Display_text_2 = dh.DrillCompany,
+                Display_text_3 = dh.DrillType,
+                GenericTableName = TableDrillHoles,
+                GenericID = dh.DrillID,
+                ParentID = dh.DrillLocationID,
+                isValid = dh.isValid
+            };
+
+            return dhFN;
+        }
+
+        /// <summary>
+        /// Will return a field note object with the information from the given drill holes.
+        /// This information will be displayed in the field note page
+        /// </summary>
+        /// <param name="dh"></param>
+        /// <returns></returns>
+        public FieldNote GetLineworkFieldNote(Linework lw)
+        {
+            FieldNote lwFN = new FieldNote
+            {
+                Display_text_1 = lw.LineAliasLight,
+                Display_text_2 = lw.LineType,
+                Display_text_3 = lw.LineNotes,
+                GenericTableName = TableLinework,
+                GenericID = lw.LineID,
+                ParentID = lw.LineMetaID,
+                isValid = lw.isValid
+            };
+
+            return lwFN;
+        }
+
         #endregion
 
         #region EVENTS
@@ -2016,6 +2194,257 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Event based method to add a new record in field note page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void FieldAppPageHelper_newRecordAsync(object sender, Tuple<TableNames, object> e)
+        {
+            if (e != null)
+            {
+                Tuple<TableNames, object> newRec = (Tuple<TableNames, object>)e;
+
+                if (newRec != null)
+                {
+                    switch (newRec.Item1)
+                    {
+                        case TableNames.station:
+                            Station station = (Station)newRec.Item2;
+                            if (station != null)
+                            {
+                                FieldNote stationsFN = GetStatFieldNote(station);
+                                ObservableCollection<FieldNote> stationsFNList = new ObservableCollection<FieldNote>() { stationsFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.station], stationsFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Stations));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+
+                        case TableNames.earthmat:
+                            Earthmaterial earthmaterial = (Earthmaterial)newRec.Item2;
+
+                            if (earthmaterial != null)
+                            {
+                                FieldNote emsFN = GetEMFieldNote(earthmaterial);
+
+                                ObservableCollection<FieldNote> emsFNList = new ObservableCollection<FieldNote>() { emsFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], emsFNList);
+
+                                try
+                                {
+                                    OnPropertyChanged(nameof(EarthMats));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+
+                            }
+
+                            break;
+
+                        case TableNames.sample:
+                            Sample sample = (Sample)newRec.Item2;
+                            if (sample != null)
+                            {
+                                FieldNote samFN = GetSampleFieldNote(sample);
+                                ObservableCollection<FieldNote> samFNList = new ObservableCollection<FieldNote>() { samFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.sample], samFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Samples));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.document:
+                            Document document = (Document)newRec.Item2;
+                            if (document != null)
+                            {
+                                FieldNote dcFN = GetDocumentFieldNote(document);
+                                ObservableCollection<FieldNote> dcFNList = new ObservableCollection<FieldNote>() { dcFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], dcFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Documents));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.structure:
+                            Structure structure = (Structure)newRec.Item2;
+                            if (structure != null)
+                            {
+                                FieldNote structureFN = GetStructureFieldNote(structure);
+                                ObservableCollection<FieldNote> structureFNList = new ObservableCollection<FieldNote>() { structureFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.structure], structureFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Structures));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.pflow:
+                            Paleoflow pflow = (Paleoflow)newRec.Item2;
+                            if (pflow != null)
+                            {
+                                FieldNote pfFN = GetPflowFieldNote(pflow);
+                                ObservableCollection<FieldNote> pfFNList = new ObservableCollection<FieldNote>() { pfFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.pflow], pfFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Paleoflows));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.fossil:
+                            Fossil fossil = (Fossil)newRec.Item2;
+                            if (fossil != null)
+                            {
+                                FieldNote fossFN = GetFossilFieldNote(fossil);
+                                ObservableCollection<FieldNote> fossFNList = new ObservableCollection<FieldNote>() { fossFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.fossil], fossFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Fossils));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.environment:
+                            EnvironmentModel environment = (EnvironmentModel)newRec.Item2;
+                            if (environment != null)
+                            {
+                                FieldNote envFN = GetEnvironmentFieldNote(environment);
+                                ObservableCollection<FieldNote> envFNList = new ObservableCollection<FieldNote>() { envFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.environment], envFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Environments));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.mineral:
+                            Mineral mineral = (Mineral)newRec.Item2;
+                            if (mineral != null)
+                            {
+                                FieldNote minFN = GetMineralFieldNote(mineral);
+                                ObservableCollection<FieldNote> minFNList = new ObservableCollection<FieldNote>() { minFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.mineral], minFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Minerals));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.mineralization:
+                            MineralAlteration mineralAlteration = (MineralAlteration)newRec.Item2;
+                            if (mineralAlteration != null)
+                            {
+                                FieldNote malFN = GetMAFieldNote(mineralAlteration);
+                                ObservableCollection<FieldNote> malFNList = new ObservableCollection<FieldNote>() { malFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.mineralization], malFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(MineralizationAlterations));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.drill:
+                            DrillHole drillHole = (DrillHole)newRec.Item2;
+                            if (drillHole != null)
+                            {
+                                FieldNote dhFN = GetDrillFieldNote(drillHole);
+                                ObservableCollection<FieldNote> dhFNList = new ObservableCollection<FieldNote>() { dhFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.drill], dhFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(DrillHoles));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.location:
+                            FieldLocation location = (FieldLocation)newRec.Item2;
+                            if (location != null)
+                            {
+                                FieldNote locFN = GetLocationFieldNote(location);
+                                ObservableCollection<FieldNote> locFNList = new ObservableCollection<FieldNote>() { locFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.location], locFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Locations));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        case TableNames.linework:
+                            Linework linework = (Linework)newRec.Item2;
+                            if (linework != null)
+                            {
+                                FieldNote lwFN = GetLineworkFieldNote(linework);
+                                ObservableCollection<FieldNote> lwFNList = new ObservableCollection<FieldNote>() { lwFN };
+                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], lwFNList);
+                                try
+                                {
+                                    OnPropertyChanged(nameof(Lineworks));
+                                }
+                                catch (Exception except)
+                                {
+                                    new ErrorToLogFile(except).WriteToFile();
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
+
+        }
         #endregion
 
     }

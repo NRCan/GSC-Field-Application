@@ -450,12 +450,14 @@ namespace GSCFieldApp.ViewModel
                 if (_model.EarthMatID != 0)
                 {
                     await da.SaveItemAsync(Model, true);
+                    
                 }
                 else
                 {
                     //New entry coming from parent form
                     //Insert new record
                     await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.earthmat, Model);
                 }
 
                 //Exit
@@ -485,6 +487,7 @@ namespace GSCFieldApp.ViewModel
                 {
                     //Insert new record
                     await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.earthmat, Model);
 
                 }
 
@@ -1472,7 +1475,7 @@ namespace GSCFieldApp.ViewModel
             await InitModel();
             Earthmaterial quickEM = await da.SaveItemAsync(Model, false) as Earthmaterial;
             quickEM.IsMapPageQuick = true;
-
+            RefreshFieldNotes(TableNames.earthmat, Model);
             return quickEM;
 
         }
@@ -1516,6 +1519,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.earthmat, Model);
             }
 
         }

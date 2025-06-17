@@ -155,6 +155,7 @@ namespace GSCFieldApp.ViewModel
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.mineral, Model);
             }
 
             //Exit
@@ -183,6 +184,7 @@ namespace GSCFieldApp.ViewModel
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.mineral, Model);
             }
 
             //Show saved message

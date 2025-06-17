@@ -238,6 +238,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.drill, Model);
             }
 
         }

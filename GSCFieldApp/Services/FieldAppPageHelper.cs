@@ -47,6 +47,12 @@ namespace GSCFieldApp.Services
         //Navigation
         public static bool NavFromMapPage = false;  //Used to know where the user is coming from
 
+        //Events
+        public static EventHandler<Tuple<TableNames, object>> newRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+        public static EventHandler<Tuple<TableNames, object>> updateRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+        public static EventHandler<Tuple<TableNames, object>> deleteRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+
+
         #endregion
 
         /// <summary>
@@ -104,6 +110,22 @@ namespace GSCFieldApp.Services
             else
             {
                 await NavigateToFieldNotesOrMapPage(tableName, refreshTable);
+            }
+        }
+
+        /// <summary>
+        /// Will send a signal that a record has been created.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="recordObject"></param>
+        public static void RefreshFieldNotes(TableNames tableName, object recordObject)
+        {
+            //Send call to refresh other pages
+            EventHandler<Tuple<TableNames, object>> newRecordEvent = newRecord;
+            if (newRecordEvent != null)
+            {
+                Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
+                newRecordEvent(newRecord, tableRecordTuple);
             }
         }
 

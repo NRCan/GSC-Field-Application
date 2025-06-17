@@ -186,6 +186,7 @@ namespace GSCFieldApp.ViewModel
             else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
             {
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.document, Model);
 
             }
             else
@@ -217,6 +218,7 @@ namespace GSCFieldApp.ViewModel
             else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
             {
                 await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.document, Model);
 
             }
             else
@@ -773,6 +775,7 @@ namespace GSCFieldApp.ViewModel
                     _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
                     OnPropertyChanged(nameof(Model));
                     await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.document, Model);
                 }
 
             }
@@ -788,6 +791,7 @@ namespace GSCFieldApp.ViewModel
                     _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
                     OnPropertyChanged(nameof(Model));
                     await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.document, Model);
                 }
             }
         }

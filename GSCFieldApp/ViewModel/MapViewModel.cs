@@ -21,6 +21,7 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using BruTile.Wms;
 using Mapsui.UI.Maui;
 using NTSGeom = NetTopologySuite.Geometries;
+
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -52,6 +53,8 @@ namespace GSCFieldApp.ViewModel
         //Localization
         public LocalizationResourceManager LocalizationResourceManager
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
+        public static EventHandler<Tuple<TableNames, object>> newRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh. 
 
         #endregion
 
@@ -579,6 +582,7 @@ namespace GSCFieldApp.ViewModel
 
                 //Save
                 locationModel = await da.SaveItemAsync(locationModel, false) as FieldLocation;
+                RefreshFieldNotes(TableNames.location, locationModel);
 
                 //Return ID
                 return locationModel.LocationID;
@@ -843,6 +847,22 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region EVENTS
+
+        /// <summary>
+        /// Will send a signal that a record has been created.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="recordObject"></param>
+        public static void RefreshFieldNotes(TableNames tableName, object recordObject)
+        {
+            //Send call to refresh other pages
+            EventHandler<Tuple<TableNames, object>> newRecordEvent = newRecord;
+            if (newRecordEvent != null)
+            {
+                Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
+                newRecordEvent(newRecord, tableRecordTuple);
+            }
+        }
 
         #endregion
     }
