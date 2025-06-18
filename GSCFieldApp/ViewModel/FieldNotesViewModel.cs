@@ -1745,78 +1745,7 @@ namespace GSCFieldApp.ViewModel
                     //Best used when a delete cascade has been done and and child should be removed from page
                     tasks.Add(ValidateFillFieldNotesAsync(true));
                     break;
-                case TableNames.location:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.station:
- 
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    
-                    break;
-                case TableNames.earthmat:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
-
-                    break;
-                case TableNames.sample:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillSampleNotes(DataAccess.DbConnection));
-
-                    break;
-                case TableNames.mineralization:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.mineral:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillMineralizationAlterationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillMineralNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.document:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.structure:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStructureNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.fossil:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillFossilNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.environment:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEnvironmentNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.pflow:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillEMNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillPaleoflowNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.drill:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillDrillHoleNotes(DataAccess.DbConnection));
-                    break;
-                case TableNames.linework:
-                    //tasks.Add(FillLineworkNotes(DataAccess.DbConnection));
-                    break;
                 default:
-                    //tasks.Add(FillLocationNotes(DataAccess.DbConnection));
-                    //tasks.Add(FillStationNotes(DataAccess.DbConnection));
                     break;
             }
 
