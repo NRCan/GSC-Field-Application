@@ -42,7 +42,7 @@ public partial class DocumentPage : ContentPage
 
             DocumentViewModel vm2 = this.BindingContext as DocumentViewModel;
             //After binding context is setup fill pickers
-            if (vm2 != null)
+            if (vm2 != null && vm2.SaveCommand.ExecutionTask == null && vm2.SaveStayCommand.ExecutionTask == null)
             {
                 await Task.Run(async () => await vm2.FillPickers());
                 await Task.Run(async () => await vm2.InitModel());
