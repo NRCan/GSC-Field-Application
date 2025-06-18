@@ -50,8 +50,10 @@ namespace GSCFieldApp.Services
         //Events
         public static EventHandler<Tuple<TableNames, object>> newRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
         public static EventHandler<Tuple<TableNames, object>> updateRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
-        public static EventHandler<Tuple<TableNames, object>> deleteRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+        public static EventHandler<Tuple<TableNames, int>> deleteRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
 
+        //Enums
+        public enum refreshType { insert, update, delete}
 
         #endregion
 
@@ -118,9 +120,9 @@ namespace GSCFieldApp.Services
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="recordObject"></param>
-        public static async void RefreshFieldNotes(TableNames tableName, object recordObject, bool objectIsBeingUpdated)
+        public static async void RefreshFieldNotes(TableNames tableName, object recordObject, refreshType typeOfRefresh)
         {
-            if (objectIsBeingUpdated)
+            if (typeOfRefresh == refreshType.update)
             {
                 //Send call to refresh other pages
                 EventHandler<Tuple<TableNames, object>> updateRecordEvent = updateRecord;
@@ -130,7 +132,7 @@ namespace GSCFieldApp.Services
                     updateRecordEvent(updateRecord, tableRecordTuple);
                 }
             }
-            else
+            else if (typeOfRefresh == refreshType.insert)
             {
                 //Send call to refresh other pages
                 EventHandler<Tuple<TableNames, object>> newRecordEvent = newRecord;
@@ -138,6 +140,16 @@ namespace GSCFieldApp.Services
                 {
                     Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
                     newRecordEvent(newRecord, tableRecordTuple);
+                }
+            }
+            else if (typeOfRefresh == refreshType.delete)
+            {
+                //Send call to refresh other pages
+                EventHandler<Tuple<TableNames, int>> deleteRecordEvent = deleteRecord;
+                if (deleteRecordEvent != null)
+                {
+                    Tuple<TableNames, int> tableRecordTuple = new(tableName, (int)recordObject);
+                    deleteRecordEvent(deleteRecord, tableRecordTuple);
                 }
             }
 

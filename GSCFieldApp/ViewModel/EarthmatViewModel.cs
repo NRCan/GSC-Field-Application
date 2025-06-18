@@ -450,7 +450,7 @@ namespace GSCFieldApp.ViewModel
                 if (_model.EarthMatID != 0)
                 {
                     await da.SaveItemAsync(Model, true);
-                    RefreshFieldNotes(TableNames.earthmat, Model, true);
+                    RefreshFieldNotes(TableNames.earthmat, Model, refreshType.update);
 
                 }
                 else
@@ -458,7 +458,7 @@ namespace GSCFieldApp.ViewModel
                     //New entry coming from parent form
                     //Insert new record
                     await da.SaveItemAsync(Model, false);
-                    RefreshFieldNotes(TableNames.earthmat, Model, false);
+                    RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
                 }
 
                 //Exit
@@ -483,13 +483,13 @@ namespace GSCFieldApp.ViewModel
                 if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
                 {
                     await da.SaveItemAsync(Model, true);
-                    RefreshFieldNotes(TableNames.earthmat, Model, true);
+                    RefreshFieldNotes(TableNames.earthmat, Model, refreshType.update);
                 }
                 else
                 {
                     //Insert new record
                     await da.SaveItemAsync(Model, false);
-                    RefreshFieldNotes(TableNames.earthmat, Model, false);
+                    RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
 
                 }
 
@@ -1477,7 +1477,7 @@ namespace GSCFieldApp.ViewModel
             await InitModel();
             Earthmaterial quickEM = await da.SaveItemAsync(Model, false) as Earthmaterial;
             quickEM.IsMapPageQuick = true;
-            RefreshFieldNotes(TableNames.earthmat, Model, false);
+            RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
             return quickEM;
 
         }
@@ -1516,13 +1516,13 @@ namespace GSCFieldApp.ViewModel
             if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.earthmat, Model, true);
+                RefreshFieldNotes(TableNames.earthmat, Model, refreshType.update);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.earthmat, Model, false);
+                RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
             }
 
         }

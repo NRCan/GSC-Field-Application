@@ -78,7 +78,7 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.linework, Model, true);
+                RefreshFieldNotes(TableNames.linework, Model, refreshType.update);
 
                 //Send call that a linework has been updated
                 EventHandler<Tuple<int, string>> lineworkUpdate = lineworkHasUpdated;
@@ -92,7 +92,7 @@ namespace GSCFieldApp.ViewModel
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.linework, Model, false);
+                RefreshFieldNotes(TableNames.linework, Model, refreshType.insert);
             }
 
             //Exit

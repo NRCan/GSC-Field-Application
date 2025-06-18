@@ -82,14 +82,14 @@ namespace GSCFieldApp.ViewModel
             if ( _model.FossilID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.fossil, Model, true);
+                RefreshFieldNotes(TableNames.fossil, Model, refreshType.update);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.fossil, Model, false);
+                RefreshFieldNotes(TableNames.fossil, Model, refreshType.insert);
             }
 
             //Exit
@@ -110,14 +110,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.fossil, Model, false);
+                RefreshFieldNotes(TableNames.fossil, Model, refreshType.update);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.fossil, Model, false);
+                RefreshFieldNotes(TableNames.fossil, Model, refreshType.insert);
             }
 
             //Show saved message

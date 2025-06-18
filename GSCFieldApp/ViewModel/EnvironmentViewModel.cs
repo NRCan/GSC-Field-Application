@@ -142,14 +142,14 @@ namespace GSCFieldApp.ViewModel
             if (_model.EnvID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.environment, Model, true);
+                RefreshFieldNotes(TableNames.environment, Model, refreshType.update);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.environment, Model, false);
+                RefreshFieldNotes(TableNames.environment, Model, refreshType.insert);
             }
 
             //Exit
@@ -172,14 +172,14 @@ namespace GSCFieldApp.ViewModel
             {
 
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.environment, Model, true);
+                RefreshFieldNotes(TableNames.environment, Model, refreshType.update);
             }
             else
             {
                 //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.environment, Model, false);
+                RefreshFieldNotes(TableNames.environment, Model, refreshType.insert);
             }
 
             //Show saved message

@@ -233,13 +233,13 @@ namespace GSCFieldApp.ViewModel
             if (_model.DrillID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.drill, Model, true);
+                RefreshFieldNotes(TableNames.drill, Model, refreshType.update);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.drill, Model, false);
+                RefreshFieldNotes(TableNames.drill, Model, refreshType.insert);
             }
 
         }

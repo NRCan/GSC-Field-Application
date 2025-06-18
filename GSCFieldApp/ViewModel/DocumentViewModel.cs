@@ -182,12 +182,12 @@ namespace GSCFieldApp.ViewModel
             if (_document != null && _document.DocumentName != string.Empty && (_model.StationID != 0 || _model.DrillHoleID != 0))
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.document, Model, true);
+                RefreshFieldNotes(TableNames.document, Model, refreshType.update);
             }
             else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
             {
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.document, Model, false);
+                RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
 
             }
             else
@@ -215,12 +215,12 @@ namespace GSCFieldApp.ViewModel
             if (_document != null && _document.DocumentName != string.Empty && _model.DocumentID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.document, Model, true);
+                RefreshFieldNotes(TableNames.document, Model, refreshType.update);
             }
             else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
             {
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.document, Model, false);
+                RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
 
             }
             else
@@ -777,7 +777,7 @@ namespace GSCFieldApp.ViewModel
                     _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
                     OnPropertyChanged(nameof(Model));
                     await da.SaveItemAsync(Model, false);
-                    RefreshFieldNotes(TableNames.document, Model, false);
+                    RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
                 }
 
             }
@@ -793,7 +793,7 @@ namespace GSCFieldApp.ViewModel
                     _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
                     OnPropertyChanged(nameof(Model));
                     await da.SaveItemAsync(Model, false);
-                    RefreshFieldNotes(TableNames.document, Model, false);
+                    RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
                 }
             }
         }

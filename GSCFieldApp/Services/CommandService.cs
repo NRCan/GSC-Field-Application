@@ -154,6 +154,9 @@ namespace GSCFieldApp.Services
                     string doneTitle = LocalizationResourceManager["CommandDeleteCompleteTitle"].ToString();
                     string doneContent = String.Format(LocalizationResourceManager["CommandDeleteCompleteContent"].ToString(), itemAlias);
                     await Shell.Current.DisplayAlert(doneTitle, doneContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                    //Force refresh of field notes
+                    FieldAppPageHelper.deleteRecord?.Invoke(this, new Tuple<DatabaseLiterals.TableNames, int>(tableToDeleteItemFrom, itemID));
                 }
 
             }

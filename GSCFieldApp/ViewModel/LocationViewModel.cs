@@ -292,7 +292,7 @@ namespace GSCFieldApp.ViewModel
             if (_model.LocationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.location, Model, true);
+                RefreshFieldNotes(TableNames.location, Model, refreshType.update);
             }
         }
 

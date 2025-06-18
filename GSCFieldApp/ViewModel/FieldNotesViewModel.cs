@@ -505,6 +505,7 @@ namespace GSCFieldApp.ViewModel
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
             FieldAppPageHelper.newRecord += FieldAppPageHelper_newRecordAsync;  
             FieldAppPageHelper.updateRecord += FieldAppPageHelper_updateRecordAsync;
+            FieldAppPageHelper.deleteRecord += FieldAppPageHelper_deleteRecordAsync;
         }
 
         #region RELAY
@@ -1859,7 +1860,8 @@ namespace GSCFieldApp.ViewModel
                 GenericID = st.StationID,
                 ParentID = st.LocationID,
                 Date = st.StationVisitDate,
-                isValid = st.isValid
+                isValid = st.isValid,
+                ParentTableName = TableLocation
             };
 
             return stationsFN;
@@ -1892,7 +1894,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableEarthMat,
                 GenericID = earthmaterial.EarthMatID,
                 ParentID = parentID,
-                isValid = earthmaterial.isValid
+                isValid = earthmaterial.isValid,
+                ParentTableName = earthmaterial.EarthMatDrillHoleID.HasValue ? TableDrillHoles : TableStation,
 
             };
 
@@ -1916,7 +1919,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableSample,
                 GenericID = sam.SampleID,
                 ParentID = sam.SampleEarthmatID,
-                isValid = sam.isValid
+                isValid = sam.isValid,
+                ParentTableName = TableEarthMat
             };
 
             return samFN;
@@ -1945,7 +1949,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableDocument,
                 GenericID = dc.DocumentID,
                 ParentID = parentID.HasValue ? parentID.Value : -1, // Use a default value like -1 or handle appropriately
-                isValid = dc.isValid
+                isValid = dc.isValid,
+                ParentTableName = dc.DrillHoleID.HasValue ? TableDrillHoles : TableStation
             };
 
             return dcFN;
@@ -1968,7 +1973,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableStructure,
                 GenericID = struc.StructureID,
                 ParentID = struc.StructureEarthmatID,
-                isValid = struc.isValid
+                isValid = struc.isValid,
+                ParentTableName = TableEarthMat
             };
 
             return structureFN;
@@ -1991,7 +1997,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TablePFlow,
                 GenericID = pf.PFlowID,
                 ParentID = pf.PFlowParentID,
-                isValid = pf.isValid
+                isValid = pf.isValid,
+                ParentTableName = TableEarthMat
             };
 
             return pfFN;
@@ -2014,7 +2021,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableFossil,
                 GenericID = foss.FossilID,
                 ParentID = foss.FossilParentID,
-                isValid = foss.isValid
+                isValid = foss.isValid,
+                ParentTableName = TableEarthMat
             };
 
             return fossFN;
@@ -2037,7 +2045,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableEnvironment,
                 GenericID = env.EnvID,
                 ParentID = env.EnvStationID,
-                isValid = env.isValid
+                isValid = env.isValid,
+                ParentTableName = TableStation
             };
 
             return envFN;
@@ -2066,7 +2075,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableMineral,
                 GenericID = min.MineralID,
                 ParentID = parentID.Value,
-                isValid = min.isValid
+                isValid = min.isValid,
+                ParentTableName = min.MineralMAID.HasValue ? TableMineralAlteration : TableEarthMat
             };
 
             return minFN;
@@ -2095,7 +2105,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableMineralAlteration,
                 GenericID = malt.MAID,
                 ParentID = parentID.Value,
-                isValid = malt.isValid
+                isValid = malt.isValid,
+                ParentTableName = malt.MAEarthmatID.HasValue ? TableEarthMat : TableStation
             };
 
             return malFN;
@@ -2126,7 +2137,8 @@ namespace GSCFieldApp.ViewModel
                 GenericID = loc.LocationID,
                 ParentID = loc.MetaID,
                 isValid = loc.isValid,
-                Date = locDate
+                Date = locDate,
+                ParentTableName = TableMetadata
             };
 
             return locFN;
@@ -2148,7 +2160,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableDrillHoles,
                 GenericID = dh.DrillID,
                 ParentID = dh.DrillLocationID,
-                isValid = dh.isValid
+                isValid = dh.isValid,
+                ParentTableName = TableLocation
             };
 
             return dhFN;
@@ -2170,7 +2183,8 @@ namespace GSCFieldApp.ViewModel
                 GenericTableName = TableLinework,
                 GenericID = lw.LineID,
                 ParentID = lw.LineMetaID,
-                isValid = lw.isValid
+                isValid = lw.isValid,
+                ParentTableName = TableMetadata
             };
 
             return lwFN;
@@ -2201,6 +2215,166 @@ namespace GSCFieldApp.ViewModel
             return existingFN;
         }
 
+        /// <summary>
+        /// Will remove a field note from the collection based on the table and id.
+        /// </summary>
+        /// <param name="tableToDeleteFrom"></param>
+        /// <param name="id"></param>
+        /// <param name="genericOrParent">True if using generic id, false if using parent id</param>
+        /// <returns></returns>
+        private List<int> RemoveFieldNote(TableNames tableToDeleteFrom, int id, bool genericOrParent = true, string parentTableName = "")
+        {
+            List<int> removedIds = new List<int>();
+            List<FieldNote> existingNote = null;
+
+            //From parent ids
+            if (genericOrParent)
+            {
+                existingNote = FieldNotes[tableToDeleteFrom].Where(x => x.GenericID == id).ToList();
+            }
+            else
+            {
+                existingNote = FieldNotes[tableToDeleteFrom].Where(x => x.ParentID == id && (x.ParentTableName == parentTableName || x.ParentTableName == "")).ToList();
+            }
+
+            if (existingNote != null && existingNote.Count() > 0)
+            {
+                foreach (FieldNote note in existingNote)
+                {
+                    //Remove from the collection
+                    FieldNotes[tableToDeleteFrom].Remove(note);
+                    removedIds.Add(note.GenericID);
+                }
+            }
+
+            return removedIds;
+        }
+
+        /// <summary>
+        /// Will remove all of earth material child field notes
+        /// </summary>
+        /// <param name="tableToDeleteFrom"></param>
+        /// <param name="id"></param>
+        private void RemoveEarthmatChildFieldNotes(int id)
+        {
+
+            //Remove childs
+            List<int> removedSamples = RemoveFieldNote(TableNames.sample, id, false, TableEarthMat);
+
+            List<int> removedStructures = RemoveFieldNote(TableNames.structure, id, false, TableEarthMat);
+
+            List<int> removedPflow = RemoveFieldNote(TableNames.pflow, id, false, TableEarthMat);
+
+            List<int> removedFossil = RemoveFieldNote(TableNames.fossil, id, false, TableEarthMat);
+
+            List<int> removedMineral = RemoveFieldNote(TableNames.mineral, id, false, TableEarthMat);
+
+
+            List<int> removedMineralizations = RemoveFieldNote(TableNames.mineralization, id, false, TableEarthMat);
+            foreach (int maID in removedMineralizations)
+            {
+                RemoveMineralizationChildFieldNotes(maID);
+            }
+
+            try
+            {
+                OnPropertyChanged(nameof(Samples));
+                OnPropertyChanged(nameof(Structures));
+                OnPropertyChanged(nameof(Paleoflows));
+                OnPropertyChanged(nameof(Fossils));
+                OnPropertyChanged(nameof(Minerals));
+                OnPropertyChanged(nameof(MineralizationAlterations));
+            }
+            catch (Exception except)
+            {
+                new ErrorToLogFile(except).WriteToFile();
+            }
+        }
+
+        /// <summary>
+        /// Will remove all of station child field notes
+        /// </summary>
+        /// <param name="tableToDeleteFrom"></param>
+        /// <param name="id"></param>
+        private void RemoveStationChildFieldNotes(int id)
+        {
+
+            List<int> emREM = RemoveFieldNote(TableNames.earthmat, id, false, TableStation);
+            foreach (int remEM in emREM)
+            {
+                RemoveEarthmatChildFieldNotes(remEM);
+            }
+                
+            List<int> remMineralization = RemoveFieldNote(TableNames.mineralization, id, false, TableStation);
+            foreach (int remMz in remMineralization)
+            {
+                RemoveMineralizationChildFieldNotes(remMz);
+            }
+                
+            RemoveFieldNote(TableNames.environment, id, false, TableStation);
+
+            RemoveFieldNote(TableNames.document, id, false, TableStation);
+
+            try
+            {
+
+                OnPropertyChanged(nameof(Environments));
+                OnPropertyChanged(nameof(Documents));
+                OnPropertyChanged(nameof(MineralizationAlterations));
+            }
+            catch (Exception except)
+            {
+                new ErrorToLogFile(except).WriteToFile();
+            }
+        }
+
+        /// <summary>
+        /// Will remove all of station child field notes
+        /// </summary>
+        /// <param name="tableToDeleteFrom"></param>
+        /// <param name="id"></param>
+        private void RemoveMineralizationChildFieldNotes(int id)
+        {
+
+            List<int> removedMinerals = RemoveFieldNote(TableNames.mineral, id, false, TableMineralAlteration);
+
+            try
+            {
+                OnPropertyChanged(nameof(Minerals));
+            }
+            catch (Exception except)
+            {
+                new ErrorToLogFile(except).WriteToFile();
+            }
+        }
+
+        /// <summary>
+        /// Will remove all of drill hole child field notes
+        /// </summary>
+        /// <param name="tableToDeleteFrom"></param>
+        /// <param name="id"></param>
+        private void RemoveDrillHoleChildFieldNotes(int id)
+        {
+
+            List<int> removedEM = RemoveFieldNote(TableNames.earthmat, id, false, TableDrillHoles);
+            foreach (int rEM in removedEM)
+            {
+                RemoveEarthmatChildFieldNotes(rEM);
+            }
+
+            RemoveFieldNote(TableNames.document, id, false, TableDrillHoles);
+
+            try
+            {
+                OnPropertyChanged(nameof(Documents));
+                OnPropertyChanged(nameof(EarthMats));
+
+            }
+            catch (Exception except)
+            {
+                new ErrorToLogFile(except).WriteToFile();
+            }
+        }
         #endregion
 
         #region EVENTS
@@ -2720,7 +2894,237 @@ namespace GSCFieldApp.ViewModel
                             break;
                     }
                 }
+            }
+        }
 
+        /// <summary>
+        /// Event based method to delete a record in the field note page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void FieldAppPageHelper_deleteRecordAsync(object sender, Tuple<TableNames, int> e)
+        {
+            if (e != null)
+            {
+                Tuple<TableNames, int> delRec = (Tuple<TableNames, int>)e;
+
+                if (delRec != null)
+                {
+                    FieldNote emptyNote = null;
+
+                    switch (delRec.Item1)
+                    {
+                        case TableNames.station:
+
+                            List<int> stationRemoved = RemoveFieldNote(delRec.Item1, delRec.Item2);
+                            foreach (var st in stationRemoved)
+                            {
+                                RemoveStationChildFieldNotes(st);
+                            }
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Stations));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+
+                            break;
+
+                        case TableNames.earthmat:
+
+                            List<int> earthmatsRemoved = RemoveFieldNote(delRec.Item1, delRec.Item2);
+                            foreach (var ems in earthmatsRemoved)
+                            {
+                                RemoveEarthmatChildFieldNotes(ems);
+                            }
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(EarthMats));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+
+
+                            break;
+
+                        case TableNames.sample:
+
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Samples));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+
+                            break;
+                        case TableNames.document:
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Documents));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+                        case TableNames.structure:
+
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Structures));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+
+                            break;
+                        case TableNames.pflow:
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Paleoflows));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+                        case TableNames.fossil:
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Fossils));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+                        case TableNames.environment:
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Environments));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+                        case TableNames.mineral:
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Minerals));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+                        case TableNames.mineralization:
+
+                            List<int> mineralizationRemoved = RemoveFieldNote(delRec.Item1, delRec.Item2);
+                            foreach (var mzs in mineralizationRemoved)
+                            {
+                                RemoveMineralizationChildFieldNotes(mzs);
+                            }
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(MineralizationAlterations));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+
+                        case TableNames.drill:
+
+                            List<int> drillsRemoved = RemoveFieldNote(delRec.Item1, delRec.Item2);
+                            foreach (var dsRem in drillsRemoved)
+                            {
+                                RemoveDrillHoleChildFieldNotes(dsRem);
+                            }
+                            try
+                            {
+                                OnPropertyChanged(nameof(DrillHoles));
+                                OnPropertyChanged(nameof(MineralizationAlterations));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+
+                            break;
+                        case TableNames.location:
+
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            List<int> locationDrillsRemoved = RemoveFieldNote(TableNames.drill, delRec.Item2, false, TableLocation);
+                            foreach (int dIds in locationDrillsRemoved)
+                            {
+                                RemoveDrillHoleChildFieldNotes(dIds);
+                            }
+
+                            List<int> locationStationsRemoved = RemoveFieldNote(TableNames.station, delRec.Item2, false, TableLocation);
+                            foreach (int sIds in locationStationsRemoved)
+                            {
+                                RemoveStationChildFieldNotes(sIds);
+                            }
+
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Locations));
+                                OnPropertyChanged(nameof(Stations));
+                                OnPropertyChanged(nameof(DrillHoles));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+
+
+                            break;
+                        case TableNames.linework:
+
+                            RemoveFieldNote(delRec.Item1, delRec.Item2);
+
+                            try
+                            {
+                                OnPropertyChanged(nameof(Lineworks));
+                            }
+                            catch (Exception except)
+                            {
+                                new ErrorToLogFile(except).WriteToFile();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
         #endregion

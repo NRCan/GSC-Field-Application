@@ -193,13 +193,13 @@ namespace GSCFieldApp.ViewModel
             if (_model.MAID != 0)
             {
                 await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.mineralization, Model, true);
+                RefreshFieldNotes(TableNames.mineralization, Model, refreshType.update);
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.mineralization, Model, false);
+                RefreshFieldNotes(TableNames.mineralization, Model, refreshType.insert);
             }
         }
 
