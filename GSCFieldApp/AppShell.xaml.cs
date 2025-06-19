@@ -5,6 +5,7 @@ using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
+using Mapsui.UI.Maui.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.Maui.Controls.Xaml;
 using System.Text;
@@ -69,6 +70,20 @@ public partial class AppShell : Shell
         #endregion
 
         BindingContext = this;
+
+        #region HAMBURGER MENU STYLING
+
+#if WINDOWS
+        // Set the foreground color for the Shell on Windows to black
+        // Issue #444
+        AppTheme appTheme = Application.Current.RequestedTheme;
+        if (appTheme == AppTheme.Light)
+        {
+            Shell.SetForegroundColor(this, Mapsui.Styles.Color.Black.ToNative());
+        }
+#endif
+
+#endregion
     }
 
 }
