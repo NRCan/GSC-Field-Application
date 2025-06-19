@@ -43,7 +43,7 @@
                         <VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize DocumentPageCategory}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Label Text="{local:Localize DocumentPageCategory}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                                 <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DocumentPageCategoryPicker"
                                     ItemsSource="{Binding DocumentCategory.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedDocumentCategory}"

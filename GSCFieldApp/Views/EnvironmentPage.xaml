@@ -39,7 +39,7 @@
                                               FrameTitle="{local:Localize EnvironmentPageLandscapeTitle}">
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize EnvironmentPageRelief}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize EnvironmentPageRelief}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EnvironmentPageReliefPicker"
                                     ItemsSource="{Binding EnvironmentRelief.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"

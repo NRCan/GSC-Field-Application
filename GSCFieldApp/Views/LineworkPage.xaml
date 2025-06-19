@@ -38,7 +38,7 @@
 
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize LineworkPageLineType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize LineworkPageLineType}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                 x:Name="LineworkTypePicker" 
                                 ItemsSource="{Binding LineworkType.cboxItems}" 

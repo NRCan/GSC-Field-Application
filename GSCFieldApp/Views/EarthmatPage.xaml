@@ -41,7 +41,7 @@
 
                                 <!--Surficial lith group-->
                                 <!--Can't use converter here, else it interacts badly with bedrock form on init.-->
-                                <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppPickerLabel}" 
+                                <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" 
                                        IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
                                 <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EMLithDetailSurficialPicker"
                                 ItemsSource="{Binding EarthLithDetail.cboxItems}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"

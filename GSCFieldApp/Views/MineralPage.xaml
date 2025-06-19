@@ -55,7 +55,7 @@
                                         ItemsSource="{Binding MineralPageNameSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
                             <!-- -->
 
-                            <Label Text="{local:Localize MineralPageMode}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize MineralPageMode}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralPageModePicker"
                                     ItemsSource="{Binding MineralMode.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
@@ -121,7 +121,7 @@
 
                             <Label Text="{local:Localize MineralPageOccurence}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralPageOccurencePicker"
-                                    ItemsSource="{Binding MineralOccurence.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding MineralOccurence.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MineralOccur, 
                                         Converter={StaticResource cbox2Str},

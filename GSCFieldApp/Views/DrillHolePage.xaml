@@ -42,7 +42,7 @@
                         <VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize DrillHolePageOriginalName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Label Text="{local:Localize DrillHolePageOriginalName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                 <Entry Text="{Binding Model.DrillName, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
@@ -51,7 +51,7 @@
                                 <Entry Text="{Binding Model.DrillCompany, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
-                            <Label Text="{local:Localize DrillHolePageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize DrillHolePageType}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DrillHolePageTypePicker"
                                     ItemsSource="{Binding DrillType.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"

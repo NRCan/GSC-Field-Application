@@ -41,7 +41,7 @@
                                               FrameTitle="{local:Localize PaleoflowPageTypeTitle}">
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize PaleoflowPageClass}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize PaleoflowPageClass}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageClassPicker"
                                     ItemsSource="{Binding PaleoflowClass.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" Style="{StaticResource FieldAppMandatoryPicker}"
@@ -62,7 +62,7 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowFeature.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize PaleoflowPageSense}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize PaleoflowPageSense}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PaleoflowPageSensePicker"
                                     ItemsSource="{Binding PaleoflowSense.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" Style="{StaticResource FieldAppMandatoryPicker}"
@@ -83,7 +83,7 @@
                         <VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize PaleoflowPageAzimuth}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Label Text="{local:Localize PaleoflowPageAzimuth}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.PFlowAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>
@@ -100,7 +100,7 @@
 
                             <VerticalStackLayout>
 
-                                <Label Text="{local:Localize PaleoflowPageDipPlunge}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Label Text="{local:Localize PaleoflowPageDipPlunge}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.PFlowDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>

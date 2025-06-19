@@ -41,7 +41,7 @@
 
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize LocationPageDatumTitle}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize LocationPageDatumTitle}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}"
                                     ItemsSource="{Binding LocationGeodeticSystem.cboxItems}" 
                                     x:Name="LocationPageGeodeticPicker"
@@ -166,7 +166,7 @@
                         <VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize LocationPageElevation}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Label Text="{local:Localize LocationPageElevation}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.LocationElev, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>
@@ -182,7 +182,7 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize LocationPageAccuracy}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Label Text="{local:Localize LocationPageAccuracy}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.LocationErrorMeasure, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>

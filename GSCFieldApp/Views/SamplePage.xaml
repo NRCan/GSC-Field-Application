@@ -43,7 +43,7 @@
                                               FrameTitle="{local:Localize SamplePageDescriptionTitle}">
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize SamplePageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize SamplePageType}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding SampleType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
@@ -56,7 +56,7 @@
                             
                             <VerticalStackLayout>
                                 <!--Quirk, selecting surficial paleomag with oriented sample should enable oriented control box from bedrock-->
-                                <Label Text="{local:Localize SamplePagePurpose}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Label Text="{local:Localize SamplePagePurpose}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                                 <Picker Title="{local:Localize GenericPickerTitle}" x:Name="SamplePagePurposePicker" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding SamplePurpose.cboxItems}" SelectedIndexChanged="SamplePagePurposePicker_SelectedIndexChanged"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedSamplePurpose}"

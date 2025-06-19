@@ -41,7 +41,7 @@
 
                         <VerticalStackLayout >
 
-                            <Label Text="{local:Localize StationPageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize StationPageType}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 

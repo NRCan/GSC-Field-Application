@@ -42,7 +42,7 @@
                         <VerticalStackLayout>
 
                             <!--Quirk - Show item value instead of name, else planar and linear are missing from text-->
-                            <Label Text="{local:Localize StructurePageClass}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize StructurePageClass}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureClassPicker"
                                     ItemsSource="{Binding StructureClass.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemValue}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
@@ -52,7 +52,7 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureClass.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize StructurePageDetail}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize StructurePageDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureDetailPicker"
                                     ItemsSource="{Binding StructureDetail.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
@@ -72,7 +72,7 @@
 
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize StructurePageFormat}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize StructurePageFormat}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureFormatPicker"
                                     ItemsSource="{Binding StructureFormat.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
@@ -83,7 +83,7 @@
                                     SelectedIndex="{Binding StructureFormat.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize StructurePageAzimuth}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Label Text="{local:Localize StructurePageAzimuth}" Style="{StaticResource FieldAppPickerLabel}"/>
                                 <Entry Text="{Binding Model.StructureAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>
@@ -100,7 +100,7 @@
 
                             <VerticalStackLayout>
 
-                                <Label Text="{local:Localize StructurePageDipPlunge}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Label Text="{local:Localize StructurePageDipPlunge}" Style="{StaticResource FieldAppPickerLabel}"/>
                                 <Entry Text="{Binding Model.StructureDipPlunge,Converter={StaticResource Str2Int}, Mode=TwoWay}"
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>

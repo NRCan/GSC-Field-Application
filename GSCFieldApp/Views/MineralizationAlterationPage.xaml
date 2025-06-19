@@ -41,7 +41,7 @@
                                               FrameTitle="{local:Localize MineralizationAlterationPageTypeTitle}">
                         <VerticalStackLayout>
 
-                            <Label Text="{local:Localize MineralizationAlterationPageType}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Label Text="{local:Localize MineralizationAlterationPageType}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralizationAlterationPageTypePicker"
                                     ItemsSource="{Binding MineralizationAlteration.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
@@ -53,7 +53,7 @@
 
                             <Label Text="{local:Localize MineralizationAlterationPageUnit}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralizationAlterationPageUnitPicker"
-                                    ItemsSource="{Binding MineralizationAlterationUnit.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding MineralizationAlterationUnit.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MAUnit, 
                                         Converter={StaticResource cbox2Str},
@@ -84,7 +84,7 @@
 
                             <Label Text="{local:Localize MineralizationAlterationPagePhase}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralizationAlterationPagePhasePicker"
-                                    ItemsSource="{Binding MineralizationAlterationPhase.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding MineralizationAlterationPhase.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MAPhase, 
                                         Converter={StaticResource cbox2Str},
@@ -94,7 +94,7 @@
 
                             <Label Text="{local:Localize MineralizationAlterationPageTexture}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralizationAlterationPageTexturePicker"
-                                    ItemsSource="{Binding MineralizationAlterationTexture.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding MineralizationAlterationTexture.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MATexture, 
                                         Converter={StaticResource cbox2Str},
@@ -104,7 +104,7 @@
 
                             <Label Text="{local:Localize MineralizationAlterationPageFacies}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MineralizationAlterationPageFaciesPicker"
-                                    ItemsSource="{Binding MineralizationAlterationFacies.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding MineralizationAlterationFacies.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MAFacies, 
                                         Converter={StaticResource cbox2Str},
