@@ -202,9 +202,9 @@ namespace GSCFieldApp.Models
                     if (splitName.Length > 1)
                     {
                         int docNumber = 0;
-                        int.TryParse(splitName[1], out docNumber);
+                        int.TryParse(splitName[splitName.Length - 1], out docNumber);
 
-                        string statNumber = splitName[0].Substring(splitName[0].Length - 4).TrimStart('0');
+                        string statNumber = splitName[splitName.Length - 2].Substring(splitName[splitName.Length - 2].Length - 4).TrimStart('0');
 
                         return statNumber + DatabaseLiterals.KeywordConcatCharacter2nd + docNumber.ToString();
                     }
