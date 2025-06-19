@@ -55,6 +55,8 @@ namespace GSCFieldApp.Services
 
             if (proceedWithDelete && itemAlias != string.Empty && itemID > 0)
             {
+                DatabaseLiterals.TableNames deleteEventTableName = tableToDeleteItemFrom;
+
                 switch (tableToDeleteItemFrom)
                 {
                     case DatabaseLiterals.TableNames.meta:
@@ -71,10 +73,12 @@ namespace GSCFieldApp.Services
                         if (drillSiblings != null && drillSiblings.Count() > 0)
                         {
                             numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableStation, DatabaseLiterals.FieldStationObsID, itemID);
+                            deleteEventTableName = DatabaseLiterals.TableNames.station;
                         }
                         else
                         {
                             numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
+                            deleteEventTableName = DatabaseLiterals.TableNames.location;
                         }
                         
                         break;
@@ -128,13 +132,15 @@ namespace GSCFieldApp.Services
                         List<Station> statSiblings = await DataAccess.DbConnection.Table<Station>().Where(s => s.LocationID == itemID).ToListAsync();
                         List<DrillHole> dhSiblings = await DataAccess.DbConnection.Table<DrillHole>().Where(d => d.DrillLocationID == itemID).ToListAsync();
 
-                        if ((statSiblings != null && statSiblings.Count() > 0) || (dhSiblings != null && dhSiblings.Count() > 0))
+                        if ((statSiblings != null && statSiblings.Count() > 0) || (dhSiblings != null && dhSiblings.Count() > 1))
                         {
                             numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableDrillHoles, DatabaseLiterals.FieldDrillID, anotherID);
+                            deleteEventTableName = DatabaseLiterals.TableNames.drill;
                         }
                         else
                         {
                             numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
+                            deleteEventTableName = DatabaseLiterals.TableNames.location;
                         }
                             
                         break;
@@ -154,11 +160,10 @@ namespace GSCFieldApp.Services
                     string doneTitle = LocalizationResourceManager["CommandDeleteCompleteTitle"].ToString();
                     string doneContent = String.Format(LocalizationResourceManager["CommandDeleteCompleteContent"].ToString(), itemAlias);
                     await Shell.Current.DisplayAlert(doneTitle, doneContent, LocalizationResourceManager["GenericButtonOk"].ToString());
-
-                    //Force refresh of field notes
-                    FieldAppPageHelper.deleteRecord?.Invoke(this, new Tuple<DatabaseLiterals.TableNames, int>(tableToDeleteItemFrom, itemID));
                 }
 
+                //Force refresh of field notes
+                FieldAppPageHelper.deleteRecord?.Invoke(this, new Tuple<DatabaseLiterals.TableNames, int>(deleteEventTableName, itemID));
             }
 
             return numberOfRecordsDelete;

@@ -54,7 +54,7 @@ namespace GSCFieldApp.ViewModel
         public LocalizationResourceManager LocalizationResourceManager
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
-        public static EventHandler<Tuple<TableNames, object>> newRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh. 
+        public static EventHandler<Tuple<TableNames, object>> newMapRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh. 
 
         #endregion
 
@@ -856,11 +856,11 @@ namespace GSCFieldApp.ViewModel
         public static void RefreshFieldNotes(TableNames tableName, object recordObject)
         {
             //Send call to refresh other pages
-            EventHandler<Tuple<TableNames, object>> newRecordEvent = newRecord;
+            EventHandler<Tuple<TableNames, object>> newRecordEvent = newMapRecord;
             if (newRecordEvent != null)
             {
                 Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
-                newRecordEvent(newRecord, tableRecordTuple);
+                newRecordEvent(newMapRecord, tableRecordTuple);
             }
         }
 

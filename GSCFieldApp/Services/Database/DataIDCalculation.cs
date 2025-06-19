@@ -968,16 +968,23 @@ namespace GSCFieldApp.Services.DatabaseServices
             string finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + drillCount.ToString() + TableDrillHolePrefix;
             if (followStationAlias)
             {
-                List<Station> stations = await DataAccess.DbConnection.Table<Station>().Where(w=>w.StationObsType != DatabaseLiterals.KeywordStationWaypoint).OrderByDescending(s => s.StationAlias).ToListAsync();
+                List<Station> stations = await DataAccess.DbConnection.Table<Station>().OrderByDescending(s=>s.StationAlias).ToListAsync();
                 if (stations != null && stations.Count > 0)
                 {
-                    int stationIDNo = 0;
-                    int.TryParse(stations[0].StationAliasLight, out stationIDNo);
-
-                    //Increment only if it's higher then last station
-                    if (drillCount <= stationIDNo)
+                    foreach (Station stat in stations)
                     {
-                        drillCount = stationIDNo + 1;
+                        if (stat != null && stat.StationObsType != null && stat.StationObsType != KeywordStationWaypoint)
+                        {
+                            int stationIDNo = 0;
+                            int.TryParse(stations[0].StationAliasLight, out stationIDNo);
+
+                            //Increment only if it's higher then last station
+                            if (drillCount <= stationIDNo)
+                            {
+                                drillCount = stationIDNo + 1;
+                                break;
+                            }
+                        }
                     }
 
                 }

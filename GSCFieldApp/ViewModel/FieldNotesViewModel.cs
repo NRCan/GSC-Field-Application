@@ -506,6 +506,7 @@ namespace GSCFieldApp.ViewModel
             FieldAppPageHelper.newRecord += FieldAppPageHelper_newRecordAsync;  
             FieldAppPageHelper.updateRecord += FieldAppPageHelper_updateRecordAsync;
             FieldAppPageHelper.deleteRecord += FieldAppPageHelper_deleteRecordAsync;
+            MapViewModel.newMapRecord += FieldAppPageHelper_newRecordAsync;
         }
 
         #region RELAY
@@ -883,6 +884,7 @@ namespace GSCFieldApp.ViewModel
 
                     //Check #2 - If location record count is different, then refill all
                     List<double> countLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
+                    await da.CloseConnectionAsync();
                     if (LocationVisible && countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
                     {
                         check2 = true;
@@ -890,6 +892,7 @@ namespace GSCFieldApp.ViewModel
 
                     //Check #3 - If last location is different from last record, then refill all
                     List<double> lastLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
+                    await da.CloseConnectionAsync();
                     if (LocationVisible && lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
                     {
                         check3 = true;
@@ -1685,7 +1688,7 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Finish with lineworks
-                if (FieldNotesAll.ContainsKey(TableNames.station))
+                if (FieldNotesAll.ContainsKey(TableNames.linework))
                 {
                     //Keep stations from desired date
                     ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], FieldNotesAll[TableNames.linework].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName));
@@ -3011,7 +3014,6 @@ namespace GSCFieldApp.ViewModel
                             try
                             {
                                 OnPropertyChanged(nameof(DrillHoles));
-                                OnPropertyChanged(nameof(MineralizationAlterations));
                             }
                             catch (Exception except)
                             {
