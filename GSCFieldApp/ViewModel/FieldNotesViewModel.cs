@@ -902,18 +902,18 @@ namespace GSCFieldApp.ViewModel
                         await FillFieldNotesAsync(DataAccess.DbConnection);
                     }
 
-                    //Special linework case (user adds new linework in map page and nav here)
-                    List<double> lastLinework = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
-                    if (!check4)
-                    {
-                        //Detect changes
-                        if (LineworkVisible && (FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
-                        {
-                            await FillLineworkNotes(DataAccess.DbConnection);
+                    ////Special linework case (user adds new linework in map page and nav here)
+                    //List<double> lastLinework = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
+                    //if (!check4)
+                    //{
+                    //    //Detect changes
+                    //    if (LineworkVisible && (FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
+                    //    {
+                    //        await FillLineworkNotes(DataAccess.DbConnection);
 
-                            await DateRefreshner();
-                        }
-                    }
+                    //        await DateRefreshner();
+                    //    }
+                    //}
                 }
 
             }
@@ -1586,7 +1586,12 @@ namespace GSCFieldApp.ViewModel
                 //Clean first
                 foreach (TableNames tn in FieldNotes.Keys)
                 {
-                    FieldNotes[tn] = new ObservableCollection<FieldNote>();
+                    //Everything except linework that doesn't have any date
+                    if (tn != TableNames.linework)
+                    {
+                        FieldNotes[tn] = new ObservableCollection<FieldNote>();
+                    }
+                    
                 }
 
                 //Start with station
@@ -1679,7 +1684,13 @@ namespace GSCFieldApp.ViewModel
 
                 }
 
-                OnPropertyChanged(nameof(SelectedDate));
+                //Finish with lineworks
+                if (FieldNotesAll.ContainsKey(TableNames.station))
+                {
+                    //Keep stations from desired date
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], FieldNotesAll[TableNames.linework].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(Lineworks));
+                }
 
             }
 
@@ -2113,7 +2124,8 @@ namespace GSCFieldApp.ViewModel
                 GenericID = lw.LineID,
                 ParentID = lw.LineMetaID,
                 isValid = lw.isValid,
-                ParentTableName = TableMetadata
+                ParentTableName = TableMetadata,
+
             };
 
             return lwFN;
