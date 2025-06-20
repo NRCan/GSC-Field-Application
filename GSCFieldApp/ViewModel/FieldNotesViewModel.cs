@@ -1592,11 +1592,15 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FilterRecordsOnDate(string inDate)
         {
-            if (inDate != string.Empty && _selectedDate != null && inDate != _selectedDate)
+            if (inDate != _selectedDate)
             {
                 //Update selection on UI
                 _selectedDate = inDate;
                 OnPropertyChanged(nameof(SelectedDate));
+            }
+
+            if (inDate != string.Empty && _selectedDate != null)
+            {
                 //Clean first
                 foreach (TableNames tn in FieldNotes.Keys)
                 {
