@@ -457,6 +457,7 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(FieldbookCollection));
 
             WatermarkValidation();
+
         }
 
         /// <summary>
@@ -504,6 +505,13 @@ namespace GSCFieldApp.ViewModel
             //Reset preferred database
             da.PreferedDatabasePath = da.DatabaseFilePath;
             await da.SetConnectionAsync();
+
+            //Send call to refresh other pages
+            EventHandler<bool> newFieldBookRequest = newFieldBookSelected;
+            if (newFieldBookRequest != null)
+            {
+                newFieldBookRequest(this, true);
+            }
 
         }
 

@@ -875,6 +875,7 @@ namespace GSCFieldApp.ViewModel
                     bool check2 = false;
                     bool check3 = false;
                     bool check4 = forceRefresh; //Code needs to force a refresh
+                    bool check5 = FieldAppPageHelper.NavFromMapPage; //Check if we are coming from map page, if so, force a refresh
 
                     //Check #1 - If no records in location, then refill all
                     if (FieldNotes[TableNames.location].Count() == 0)
@@ -882,41 +883,34 @@ namespace GSCFieldApp.ViewModel
                         check1 = true;
                     }
 
-                    //Check #2 - If location record count is different, then refill all
-                    List<double> countLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
-                    await da.CloseConnectionAsync();
-                    if (LocationVisible && countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
-                    {
-                        check2 = true;
-                    }
+                    ////Check #2 - If location record count is different, then refill all
+                    //List<double> countLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1}", FieldLocationID, TableLocation));
+                    //await da.CloseConnectionAsync();
+                    //if (LocationVisible && countLocation != null && countLocation.Count() == 1 && countLocation[0].ToString() != FieldNotes[TableNames.location].Count().ToString())
+                    //{
+                    //    check2 = true;
+                    //}
 
-                    //Check #3 - If last location is different from last record, then refill all
-                    List<double> lastLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
-                    await da.CloseConnectionAsync();
-                    if (LocationVisible && lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
-                    {
-                        check3 = true;
-                    }
+                    ////Check #3 - If last location is different from last record, then refill all
+                    //List<double> lastLocation = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLocationID, TableLocation));
+                    //await da.CloseConnectionAsync();
+                    //if (LocationVisible && lastLocation != null && lastLocation.Count() == 1 && FieldNotes[TableNames.location].Count() > 0 && lastLocation[0].ToString() != FieldNotes[TableNames.location].Last().GenericID.ToString())
+                    //{
+                    //    check3 = true;
+                    //}
 
 
-                    if (check1 || check2 || check3 || check4)
+                    //Check #5 - When updating the field notes from elsewhere then field note page, when navigating back to it for some reasons
+                    // and under Android only, it duplicates every record that was seen at least once. Example, user opens app, navigates to field notes page,
+                    // then navigates to map page, then back to field notes page, it will duplicate all records that were seen at least once.
+
+                    if (check1 || check2 || check3 || check4 || check5)
                     {
                         //Refill all
                         await FillFieldNotesAsync(DataAccess.DbConnection);
                     }
 
-                    ////Special linework case (user adds new linework in map page and nav here)
-                    //List<double> lastLinework = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT max({0}) FROM {1} limit 1", FieldLineworkID, TableLinework));
-                    //if (!check4)
-                    //{
-                    //    //Detect changes
-                    //    if (LineworkVisible && (FieldNotes[TableNames.linework].Count() == 0) || (lastLinework != null && lastLinework.Count() == 1 && lastLinework[0].ToString() != FieldNotes[TableNames.linework].Last().GenericID.ToString()))
-                    //    {
-                    //        await FillLineworkNotes(DataAccess.DbConnection);
-
-                    //        await DateRefreshner();
-                    //    }
-                    //}
+                    await FillTraverseDates(DataAccess.DbConnection);
                 }
 
             }
@@ -989,7 +983,11 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Clear whatever was in there first.
-            _dates.Clear();
+            //_dates.Clear();
+
+            //List to detect dates that disapears
+            List<string> datesToRemove = new List<string>();
+            List<string> datesTotalList = new List<string>();
 
             //Get all dates from key TableNames
             List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
@@ -1018,6 +1016,7 @@ namespace GSCFieldApp.ViewModel
                     if (st.StationVisitDate != null && st.StationVisitDate != string.Empty)
                     {
                         sDate = st.StationVisitDate;
+                        datesTotalList.Add(sDate);
                     }
 
                     if (!_dates.Contains(sDate))
@@ -1038,6 +1037,7 @@ namespace GSCFieldApp.ViewModel
                     if (dr.LocationTimestamp != null && dr.LocationTimestamp != string.Empty)
                     {
                         dDate = dr.LocationTimestamp;
+                        datesTotalList.Add(dDate);
                     }
 
                     if (!_dates.Contains(dDate))
@@ -1046,6 +1046,17 @@ namespace GSCFieldApp.ViewModel
                     }
 
                 }
+            }
+
+            //Remove missing dates
+            datesToRemove = _dates.Where(d => !datesTotalList.Contains(d)).ToList();
+            if (datesToRemove != null && datesToRemove.Count() > 0)
+            {
+                foreach (string dr in datesToRemove)
+                {
+                    _dates.Remove(dr);
+                }
+
             }
 
             OnPropertyChanged(nameof(Dates));
@@ -1581,11 +1592,11 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FilterRecordsOnDate(string inDate)
         {
-            if (inDate != string.Empty)
+            if (inDate != string.Empty && _selectedDate != null && inDate != _selectedDate)
             {
                 //Update selection on UI
                 _selectedDate = inDate;
-
+                OnPropertyChanged(nameof(SelectedDate));
                 //Clean first
                 foreach (TableNames tn in FieldNotes.Keys)
                 {
@@ -2065,6 +2076,10 @@ namespace GSCFieldApp.ViewModel
         {
             string coordinatesFormat = string.Format("{0}° {1}°",
                 Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
+
+            //Date formating
+            //Note this could be different than the date in the station table
+            //Resulting in location and station related records being on different dates in the field notes
             string locDate = DateTime.MinValue.ToString("yyyy-MM-dd");
             if (loc.LocationTimestamp != null && loc.LocationTimestamp != string.Empty)
             {
@@ -2139,7 +2154,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         /// <param name="table"></param>
         /// <param name="fnToUpdate"></param>
-        private FieldNote ReplaceFieldNote(TableNames table, FieldNote fnToUpdate)
+        private async Task<FieldNote> ReplaceFieldNote(TableNames table, FieldNote fnToUpdate)
         {
 
             // Find the existing FieldNote in the collection
@@ -2147,16 +2162,48 @@ namespace GSCFieldApp.ViewModel
 
             if (existingFN != null && existingFN != fnToUpdate)
             {
+                //For current selected dates
                 int indexOfStation = FieldNotes[table].IndexOf(existingFN);
-
                 if (indexOfStation > -1)
                 {
                     FieldNotes[table].RemoveAt(indexOfStation);
                     FieldNotes[table].Insert(indexOfStation, fnToUpdate);
                 }
+
+                //For all dates
+                int indexOfStationAll = FieldNotesAll[table].IndexOf(existingFN);
+                if (indexOfStationAll > -1)
+                {
+                    FieldNotesAll[table].RemoveAt(indexOfStationAll);
+                    FieldNotesAll[table].Insert(indexOfStationAll, fnToUpdate);
+                }
             }
 
             return existingFN;
+        }
+
+        /// <summary>
+        /// Will replace a field note in the collection with the one passed in.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="fnToUpdate"></param>
+        private void AddFieldNote(TableNames table, FieldNote fnToUpdate)
+        {
+            ObservableCollection<FieldNote> addFNList = new ObservableCollection<FieldNote>() { fnToUpdate };
+
+            //Adding a new record will force a new date selection
+            if (Dates.Count() > 0 && fnToUpdate.Date != null && Dates.Contains(fnToUpdate.Date))
+            {
+                _selectedDate = fnToUpdate.Date;
+                OnPropertyChanged(nameof(SelectedDate));
+
+                // Add the new FieldNote to the collection
+                ObservableCollectionHelper.AddRange(FieldNotes[table], addFNList);
+            }
+
+            //Add to all notes collection (for date filtering mainly)
+            ObservableCollectionHelper.AddRange(FieldNotesAll[table], addFNList);
+
         }
 
         /// <summary>
@@ -2186,7 +2233,16 @@ namespace GSCFieldApp.ViewModel
                 foreach (FieldNote note in existingNote)
                 {
                     //Remove from the collection
-                    FieldNotes[tableToDeleteFrom].Remove(note);
+                    try
+                    {
+                        FieldNotes[tableToDeleteFrom].Remove(note);
+                        FieldNotesAll[tableToDeleteFrom].Remove(note);
+                    }
+                    catch (Exception e)
+                    {
+                        new ErrorToLogFile(e).WriteToFile();
+                    }
+
                     removedIds.Add(note.GenericID);
                 }
             }
@@ -2358,8 +2414,8 @@ namespace GSCFieldApp.ViewModel
                             if (station != null)
                             {
                                 FieldNote stationsFN = GetStatFieldNote(station);
-                                ObservableCollection<FieldNote> stationsFNList = new ObservableCollection<FieldNote>() { stationsFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.station], stationsFNList);
+                                AddFieldNote(TableNames.station, stationsFN);
+
                                 try
                                 {
                                     OnPropertyChanged(nameof(Stations));
@@ -2377,9 +2433,7 @@ namespace GSCFieldApp.ViewModel
                             if (earthmaterial != null)
                             {
                                 FieldNote emsFN = GetEMFieldNote(earthmaterial);
-
-                                ObservableCollection<FieldNote> emsFNList = new ObservableCollection<FieldNote>() { emsFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], emsFNList);
+                                AddFieldNote(TableNames.earthmat, emsFN);
 
                                 try
                                 {
@@ -2399,8 +2453,7 @@ namespace GSCFieldApp.ViewModel
                             if (sample != null)
                             {
                                 FieldNote samFN = GetSampleFieldNote(sample);
-                                ObservableCollection<FieldNote> samFNList = new ObservableCollection<FieldNote>() { samFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.sample], samFNList);
+                                AddFieldNote(TableNames.sample, samFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Samples));
@@ -2416,8 +2469,7 @@ namespace GSCFieldApp.ViewModel
                             if (document != null)
                             {
                                 FieldNote dcFN = GetDocumentFieldNote(document);
-                                ObservableCollection<FieldNote> dcFNList = new ObservableCollection<FieldNote>() { dcFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], dcFNList);
+                                AddFieldNote(TableNames.document, dcFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Documents));
@@ -2433,8 +2485,7 @@ namespace GSCFieldApp.ViewModel
                             if (structure != null)
                             {
                                 FieldNote structureFN = GetStructureFieldNote(structure);
-                                ObservableCollection<FieldNote> structureFNList = new ObservableCollection<FieldNote>() { structureFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.structure], structureFNList);
+                                AddFieldNote(TableNames.structure, structureFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Structures));
@@ -2450,8 +2501,7 @@ namespace GSCFieldApp.ViewModel
                             if (pflow != null)
                             {
                                 FieldNote pfFN = GetPflowFieldNote(pflow);
-                                ObservableCollection<FieldNote> pfFNList = new ObservableCollection<FieldNote>() { pfFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.pflow], pfFNList);
+                                AddFieldNote(TableNames.pflow, pfFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Paleoflows));
@@ -2467,8 +2517,7 @@ namespace GSCFieldApp.ViewModel
                             if (fossil != null)
                             {
                                 FieldNote fossFN = GetFossilFieldNote(fossil);
-                                ObservableCollection<FieldNote> fossFNList = new ObservableCollection<FieldNote>() { fossFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.fossil], fossFNList);
+                                AddFieldNote(TableNames.fossil, fossFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Fossils));
@@ -2484,8 +2533,7 @@ namespace GSCFieldApp.ViewModel
                             if (environment != null)
                             {
                                 FieldNote envFN = GetEnvironmentFieldNote(environment);
-                                ObservableCollection<FieldNote> envFNList = new ObservableCollection<FieldNote>() { envFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.environment], envFNList);
+                                AddFieldNote(TableNames.environment, envFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Environments));
@@ -2501,8 +2549,7 @@ namespace GSCFieldApp.ViewModel
                             if (mineral != null)
                             {
                                 FieldNote minFN = GetMineralFieldNote(mineral);
-                                ObservableCollection<FieldNote> minFNList = new ObservableCollection<FieldNote>() { minFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.mineral], minFNList);
+                                AddFieldNote(TableNames.mineral, minFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Minerals));
@@ -2518,8 +2565,7 @@ namespace GSCFieldApp.ViewModel
                             if (mineralAlteration != null)
                             {
                                 FieldNote malFN = GetMAFieldNote(mineralAlteration);
-                                ObservableCollection<FieldNote> malFNList = new ObservableCollection<FieldNote>() { malFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.mineralization], malFNList);
+                                AddFieldNote(TableNames.mineralization, malFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(MineralizationAlterations));
@@ -2535,8 +2581,7 @@ namespace GSCFieldApp.ViewModel
                             if (drillHole != null)
                             {
                                 FieldNote dhFN = GetDrillFieldNote(drillHole);
-                                ObservableCollection<FieldNote> dhFNList = new ObservableCollection<FieldNote>() { dhFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.drill], dhFNList);
+                                AddFieldNote(TableNames.drill, dhFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(DrillHoles));
@@ -2552,8 +2597,7 @@ namespace GSCFieldApp.ViewModel
                             if (location != null)
                             {
                                 FieldNote locFN = GetLocationFieldNote(location);
-                                ObservableCollection<FieldNote> locFNList = new ObservableCollection<FieldNote>() { locFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.location], locFNList);
+                                AddFieldNote(TableNames.location, locFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Locations));
@@ -2569,8 +2613,7 @@ namespace GSCFieldApp.ViewModel
                             if (linework != null)
                             {
                                 FieldNote lwFN = GetLineworkFieldNote(linework);
-                                ObservableCollection<FieldNote> lwFNList = new ObservableCollection<FieldNote>() { lwFN };
-                                ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], lwFNList);
+                                AddFieldNote(TableNames.linework, lwFN);
                                 try
                                 {
                                     OnPropertyChanged(nameof(Lineworks));
@@ -2595,7 +2638,7 @@ namespace GSCFieldApp.ViewModel
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private void FieldAppPageHelper_updateRecordAsync(object sender, Tuple<TableNames, object> e)
+        private async void FieldAppPageHelper_updateRecordAsync(object sender, Tuple<TableNames, object> e)
         {
             if (e != null)
             {
@@ -2611,7 +2654,7 @@ namespace GSCFieldApp.ViewModel
                             {
                                 FieldNote upStationsFN = GetStatFieldNote(station);
 
-                                ReplaceFieldNote(newRec.Item1, upStationsFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, upStationsFN);
 
                                 try
                                 {
@@ -2632,7 +2675,7 @@ namespace GSCFieldApp.ViewModel
                             {
                                 FieldNote updateEMFN = GetEMFieldNote(earthmaterial);
 
-                                ReplaceFieldNote(newRec.Item1, updateEMFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, updateEMFN);
 
                                 try
                                 {
@@ -2652,7 +2695,7 @@ namespace GSCFieldApp.ViewModel
                             if (sample != null)
                             {
                                 FieldNote samFN = GetSampleFieldNote(sample);
-                                ReplaceFieldNote(newRec.Item1, samFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, samFN);
 
                                 try
                                 {
@@ -2669,7 +2712,7 @@ namespace GSCFieldApp.ViewModel
                             if (document != null)
                             {
                                 FieldNote dcFN = GetDocumentFieldNote(document);
-                                ReplaceFieldNote(newRec.Item1, dcFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, dcFN);
 
                                 try
                                 {
@@ -2686,7 +2729,7 @@ namespace GSCFieldApp.ViewModel
                             if (structure != null)
                             {
                                 FieldNote structureFN = GetStructureFieldNote(structure);
-                                ReplaceFieldNote(newRec.Item1, structureFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, structureFN);
 
                                 try
                                 {
@@ -2703,7 +2746,7 @@ namespace GSCFieldApp.ViewModel
                             if (pflow != null)
                             {
                                 FieldNote pfFN = GetPflowFieldNote(pflow);
-                                ReplaceFieldNote(newRec.Item1, pfFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, pfFN);
 
                                 try
                                 {
@@ -2720,7 +2763,7 @@ namespace GSCFieldApp.ViewModel
                             if (fossil != null)
                             {
                                 FieldNote fossFN = GetFossilFieldNote(fossil);
-                                ReplaceFieldNote(newRec.Item1, fossFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, fossFN);
 
                                 try
                                 {
@@ -2737,7 +2780,7 @@ namespace GSCFieldApp.ViewModel
                             if (environment != null)
                             {
                                 FieldNote envFN = GetEnvironmentFieldNote(environment);
-                                ReplaceFieldNote(newRec.Item1, envFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, envFN);
 
                                 try
                                 {
@@ -2754,7 +2797,7 @@ namespace GSCFieldApp.ViewModel
                             if (mineral != null)
                             {
                                 FieldNote minFN = GetMineralFieldNote(mineral);
-                                ReplaceFieldNote(newRec.Item1, minFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, minFN);
 
                                 try
                                 {
@@ -2771,7 +2814,7 @@ namespace GSCFieldApp.ViewModel
                             if (mineralAlteration != null)
                             {
                                 FieldNote malFN = GetMAFieldNote(mineralAlteration);
-                                ReplaceFieldNote(newRec.Item1, malFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, malFN);
 
                                 try
                                 {
@@ -2788,7 +2831,7 @@ namespace GSCFieldApp.ViewModel
                             if (drillHole != null)
                             {
                                 FieldNote dhFN = GetDrillFieldNote(drillHole);
-                                ReplaceFieldNote(newRec.Item1, dhFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, dhFN);
 
                                 try
                                 {
@@ -2805,7 +2848,7 @@ namespace GSCFieldApp.ViewModel
                             if (location != null)
                             {
                                 FieldNote locFN = GetLocationFieldNote(location);
-                                ReplaceFieldNote(newRec.Item1, locFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, locFN);
 
                                 try
                                 {
@@ -2822,7 +2865,7 @@ namespace GSCFieldApp.ViewModel
                             if (linework != null)
                             {
                                 FieldNote lwFN = GetLineworkFieldNote(linework);
-                                ReplaceFieldNote(newRec.Item1, lwFN);
+                                FieldNote replacedNote = await ReplaceFieldNote(newRec.Item1, lwFN);
 
                                 try
                                 {
@@ -2847,7 +2890,7 @@ namespace GSCFieldApp.ViewModel
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private void FieldAppPageHelper_deleteRecordAsync(object sender, Tuple<TableNames, int> e)
+        private async void FieldAppPageHelper_deleteRecordAsync(object sender, Tuple<TableNames, int> e)
         {
             if (e != null)
             {
@@ -3067,6 +3110,7 @@ namespace GSCFieldApp.ViewModel
                         default:
                             break;
                     }
+
                 }
             }
         }
