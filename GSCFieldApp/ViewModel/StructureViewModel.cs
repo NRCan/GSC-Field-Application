@@ -505,14 +505,14 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Extra where clause to find only counterpart structure and not the same classes
-                if (_model.StructureClass != null && _model.StructureClass.Contains(KeywordPlanar))
-                {
-                    sts = sts.Where(s => s.StructureClass.Contains(KeywordLinear)).ToList();
-                }
-                else if (_model.StructureClass != null && _model.StructureClass.Contains(KeywordLinear))
-                {
-                    sts = sts.Where(s => s.StructureClass.Contains(KeywordPlanar)).ToList();
-                }
+                //if (_model.StructureClass != null && _model.StructureClass.Contains(KeywordPlanar))
+                //{
+                //    sts = sts.Where(s => s.StructureClass.Contains(KeywordLinear)).ToList();
+                //}
+                //else if (_model.StructureClass != null && _model.StructureClass.Contains(KeywordLinear))
+                //{
+                //    sts = sts.Where(s => s.StructureClass.Contains(KeywordPlanar)).ToList();
+                //}
 
 
                 if (sts != null && sts.Count > 0)
