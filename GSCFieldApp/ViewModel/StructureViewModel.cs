@@ -177,6 +177,7 @@ namespace GSCFieldApp.ViewModel
 
             //Reset
             await ResetModelAsync();
+            
             OnPropertyChanged(nameof(Model));
 
 
@@ -325,10 +326,10 @@ namespace GSCFieldApp.ViewModel
             if (_model != null && _model.StructureClass != null && _model.StructureClass != string.Empty)
             {
                 string[] splitStructure = _model.StructureClass.Split(KeywordConcatCharacter2nd);
-                _model.StructureClass = splitStructure[0];
+                Model.StructureClass = splitStructure[0];
                 if (splitStructure.Count() > 1)
                 {
-                    _model.StructureType = splitStructure[1];
+                    Model.StructureType = splitStructure[1];
                 }
             }
 
@@ -456,6 +457,10 @@ namespace GSCFieldApp.ViewModel
 
             Model.StructureID = 0;
 
+            //Reset struc class else combobox won't find the right value and will come back as empty onpropertychanged
+            Model.StructureClass = _model.GetClassType;
+
+
             //There is one picker that needs all brotha's and sista's listing
             _structureRelatedAlias = await FillRelatedStructureAsync();
             OnPropertyChanged(nameof(StructureRelatedAlias));
@@ -478,12 +483,12 @@ namespace GSCFieldApp.ViewModel
             }
             else
             {
-                //Else keep whatever has been passed from field notes as an existing value
-                if (_model != null && _model.StructureClass != string.Empty)
-                {
-                    strucClass = _model.StructureClass;
-                }
-                    
+                ////Else keep whatever has been passed from field notes as an existing value
+                //if (_model != null && _model.StructureClass != string.Empty)
+                //{
+                //    strucClass = _model.StructureClass;
+                //}
+
             }
 
             if (_earthmaterial != null || _structure != null)
