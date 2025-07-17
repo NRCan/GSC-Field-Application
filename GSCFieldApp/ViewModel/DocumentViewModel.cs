@@ -596,7 +596,7 @@ namespace GSCFieldApp.ViewModel
             //make sure to not process embedded picture (they have an hyperlink value)
             if (_model != null 
                 && _model.DocumentType != null 
-                && _model.Hyperlink == null)
+                && _model.Hyperlink == null && _document == null)
             {
                 _model.FileName = string.Empty;
                 string _noOlympusFileNumber = string.Empty;
