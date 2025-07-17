@@ -249,8 +249,9 @@ namespace GSCFieldApp.ViewModel
         /// structure class/type
         /// </summary>
         /// <returns></returns>
-        public async Task Fill2ndRoundPickers()
+        public async Task<bool> Fill2ndRoundPickers(bool delayPropertyChange = false)
         {
+            bool pickersFilled = false;
 
             if (_model != null && _model.StructureClass != null && _model.StructureClass != string.Empty)
             {
@@ -265,43 +266,80 @@ namespace GSCFieldApp.ViewModel
                     {
                         _structureFormat.cboxDefaultItemIndex = 0;
                     }
-
-                    OnPropertyChanged(nameof(StructureFormat));
                 }
 
                 _structureDetail.cboxItems = _structureDetailAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
-                //Selected index parsing
                 if (_structureDetail.cboxItems.Count == 1)
                 {
                     _structureDetail.cboxDefaultItemIndex = 0;
                 }
-                OnPropertyChanged(nameof(StructureDetail));
 
                 _structureAttitude.cboxItems = _structureAttitudeAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
-                //Selected index parsing
                 if (_structureAttitude.cboxItems.Count == 1)
                 {
                     _structureAttitude.cboxDefaultItemIndex = 0;
                 }
-                OnPropertyChanged(nameof(StructureAttitude));
 
                 _structureYounging.cboxItems = _structureYoungingAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
-                //Selected index parsing
                 if (_structureYounging.cboxItems.Count == 1)
                 {
                     _structureYounging.cboxDefaultItemIndex = 0;
                 }
-                OnPropertyChanged(nameof(StructureYounging));
 
                 _structureGeneration.cboxItems = _structureGenerationAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
-                //Selected index parsing
                 if (_structureGeneration.cboxItems.Count == 1)
                 {
                     _structureGeneration.cboxDefaultItemIndex = 0;
                 }
-                OnPropertyChanged(nameof(StructureGeneration));
+
+                if (!delayPropertyChange)
+                {
+                    if (_structureFormat.cboxDefaultItemIndex + 1 > _structureFormat.cboxItems.Count())
+                    {
+                        _structureFormat.cboxDefaultItemIndex = -1;
+                    }
+
+                    if (_structureDetail.cboxDefaultItemIndex + 1 > _structureDetail.cboxItems.Count())
+                    {
+                        _structureDetail.cboxDefaultItemIndex = -1;
+                    }
+
+                    if (_structureAttitude.cboxDefaultItemIndex + 1 > _structureAttitude.cboxItems.Count())
+                    {
+                        _structureAttitude.cboxDefaultItemIndex = -1;
+                    }
+
+                    if (_structureYounging.cboxDefaultItemIndex + 1 > _structureYounging.cboxItems.Count())
+                    {
+                        _structureYounging.cboxDefaultItemIndex = -1;
+                    }
+
+                    if (_structureGeneration.cboxDefaultItemIndex + 1 > _structureGeneration.cboxItems.Count())
+                    {
+                        _structureGeneration.cboxDefaultItemIndex = -1;
+                    }
+
+                    try
+                    {
+                        OnPropertyChanged(nameof(StructureFormat));
+                        OnPropertyChanged(nameof(StructureGeneration));
+                        OnPropertyChanged(nameof(StructureYounging));
+                        OnPropertyChanged(nameof(StructureAttitude));
+                        OnPropertyChanged(nameof(StructureDetail));
+
+                        pickersFilled = true;
+                    }
+                    catch (Exception e)
+                    {
+                        new ErrorToLogFile(e).WriteToFile();
+
+                    }
+
+                }
+
             }
 
+            return pickersFilled;
         }
 
 
@@ -331,6 +369,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     Model.StructureType = splitStructure[1];
                 }
+            }
+
+            //Get related structure
+            if (_structureRelatedAlias.cboxDefaultItemIndex != -1)
+            {
+                Model.StructureRelated = int.Parse(_structureRelatedAlias.cboxItems[_structureRelatedAlias.cboxDefaultItemIndex].itemValue);
             }
 
         }
@@ -371,14 +415,26 @@ namespace GSCFieldApp.ViewModel
                     _model.StructureClass = _model.GetClassType;
                 }
 
+                //Make sure to grab the related structure value
+                if (_model != null && _model.StructureRelated.HasValue)
+                {
+                    foreach (ComboBoxItem cbox in StructureRelatedAlias.cboxItems)
+                    {
+                        if (cbox.itemValue == _model.StructureRelated.Value.ToString())
+                        {
+                            _structureRelatedAlias.cboxDefaultItemIndex = _structureRelatedAlias.cboxItems.IndexOf(cbox); break;
+                        }
+                    }
+                    OnPropertyChanged(nameof(StructureRelatedAlias));
+                }
+
                 #endregion
+
+                //Fill in second round of pickers
+                await Fill2ndRoundPickers(true).ContinueWith(async antecedent => await Load2ndRound());
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
-
-                //Fill in second round of pickers
-                await Fill2ndRoundPickers().ContinueWith(async antecedent => await Load2ndRound());
-
             }
 
         }
@@ -422,14 +478,14 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(StructureGeneration));
 
-                //foreach (ComboBoxItem cbox in StructureFormat.cboxItems)
-                //{
-                //    if (cbox.itemValue == _structure.StructureFormat)
-                //    {
-                //        StructureFormat.cboxDefaultItemIndex = StructureFormat.cboxItems.IndexOf(cbox); break;
-                //    }
-                //}
-                //OnPropertyChanged(nameof(StructureFormat));
+                foreach (ComboBoxItem cbox in StructureDetail.cboxItems)
+                {
+                    if (cbox.itemValue == _structure.StructureDetail)
+                    {
+                        StructureDetail.cboxDefaultItemIndex = StructureDetail.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(StructureDetail));
 
             }
         }
