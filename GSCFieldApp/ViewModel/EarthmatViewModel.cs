@@ -1039,25 +1039,25 @@ namespace GSCFieldApp.ViewModel
             {
                 _earthLithOccursAsAll = await FillAPicker(FieldEarthMatOccurs);
             }
-            _earthLithOccurAs = _earthLithOccursAsAll;
+            //_earthLithOccurAs = _earthLithOccursAsAll;
 
             if (_earthLithTextureStructAll != null && _earthLithTextureStructAll.cboxItems.Count == 0)
             {
                 _earthLithTextureStructAll = await FillAPicker(FieldEarthMatModTextStruc);
             }
-            _earthLithTextureStruct = _earthLithTextureStructAll;
+            //_earthLithTextureStruct = _earthLithTextureStructAll;
 
             if (_earthLithQualifierAll != null && _earthLithQualifierAll.cboxItems.Count == 0)
             {
                 _earthLithQualifierAll = await FillAPicker(FieldEarthMatModComp);
             }
-            _earthLithQualifier = _earthLithQualifierAll;
+            //_earthLithQualifier = _earthLithQualifierAll;
 
             if (_earthLithGrainSizeAll != null && _earthLithGrainSizeAll.cboxItems.Count == 0)
             {
                 _earthLithGrainSizeAll = await FillAPicker(FieldEarthMatGrSize);
             }
-            _earthLithGrainSize = _earthLithGrainSizeAll;
+            //_earthLithGrainSize = _earthLithGrainSizeAll;
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -1106,6 +1106,8 @@ namespace GSCFieldApp.ViewModel
                 //_earthLithOccurAs.cboxItems.Clear();
                 try
                 {
+                    _earthLithOccurAs.cboxItems.Clear();
+                    OnPropertyChanged(nameof(EarthLithOccurAs));
                     _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithOccurAs.cboxItems.Count == 1)
                     {
@@ -1113,6 +1115,8 @@ namespace GSCFieldApp.ViewModel
                     }
                     OnPropertyChanged(nameof(EarthLithOccurAs));
 
+                    _earthLithQualifier.cboxItems.Clear();
+                    OnPropertyChanged(nameof(EarthLithQualifier));
                     _earthLithQualifier.cboxItems = _earthLithQualifierAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithQualifier.cboxItems.Count == 1)
                     {
@@ -1120,6 +1124,8 @@ namespace GSCFieldApp.ViewModel
                     }
                     OnPropertyChanged(nameof(EarthLithQualifier));
 
+                    _earthLithTextureStruct.cboxItems.Clear();
+                    OnPropertyChanged(nameof(EarthLithTextureStruct));
                     _earthLithTextureStruct.cboxItems = _earthLithTextureStructAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithTextureStruct.cboxItems.Count == 1)
                     {
@@ -1127,6 +1133,8 @@ namespace GSCFieldApp.ViewModel
                     }
                     OnPropertyChanged(nameof(EarthLithTextureStruct));
 
+                    _earthLithGrainSize.cboxItems.Clear();
+                    OnPropertyChanged(nameof(EarthLithGrainSize));
                     _earthLithGrainSize.cboxItems = _earthLithGrainSizeAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithGrainSize.cboxItems.Count == 1)
                     {
