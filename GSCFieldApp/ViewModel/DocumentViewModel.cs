@@ -739,16 +739,23 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Batch calculat alias
-                string aliasQuery_base = "UPDATE {0} SET {1} = (SELECT s.{2} FROM {3} as s where s.{4} = {8}) || {5} || {6} WHERE {6} {7} and {4} = {8}";
-                string aliasQuery00 = string.Format(aliasQuery_base,
-                    TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P00'", FieldDocumentFileNo, "<10", _model.StationID.ToString());
-                string aliasQuery0 = string.Format(aliasQuery_base,
-                    TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P0'", FieldDocumentFileNo, ">=10", _model.StationID.ToString());
-                string aliasQuery = string.Format(aliasQuery_base,
-                    TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P'", FieldDocumentFileNo, ">=100", _model.StationID.ToString());
+                //Original query
+                //------------------------
+                //with StationOrder as
+                //(
+                //    select fs.stationidname, fd.documentid, ROW_NUMBER() over(partition by fd.stationid order by fd.filenumber) as RowNumber from F_DOCUMENT fd join F_STATION fs on fd.stationid = fs.stationid where fd.stationid = 3
+                //)
+                //update F_DOCUMENT
+                //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
+                //------------------------
+
+                string aliasQuery_base = "WITH StationOrder As " +
+                    "(select fs.{0}, fd.{1}, ROW_NUMBER() OVER(PARTITION by fd.{2} ORDER BY fd.{7}) as RowNumber from {3} fd JOIN {4} fs on fd.{2} = fs.{2} where fd.{2} = {5}" +
+                    ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
+                string aliasQuery00 = string.Format(aliasQuery_base, FieldStationAlias, FieldDocumentID, FieldStationID, TableDocument, TableStation, _model.StationID.ToString(),
+                    FieldDocumentName, FieldDocumentFileNo);
                 await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
-                await DataAccess.DbConnection.ExecuteAsync(aliasQuery0);
-                await DataAccess.DbConnection.ExecuteAsync(aliasQuery);
+
 
                 IsProcessingBatch = false;
             }
