@@ -841,12 +841,12 @@ namespace GSCFieldApp.ViewModel
         {
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Document> previousRecord = await currentConnection.Table<Document>()
-                .OrderByDescending(d => d.FileNumber).ToListAsync();
+                .OrderByDescending(d => d.DocumentID).ToListAsync();
 
             if (includingSnapshot)
             {
                 previousRecord = await currentConnection.Table<Document>()
-                .OrderByDescending(d => d.DocumentName).ToListAsync();
+                .OrderByDescending(d => d.DocumentID).ToListAsync();
             }
 
             //Get caption
