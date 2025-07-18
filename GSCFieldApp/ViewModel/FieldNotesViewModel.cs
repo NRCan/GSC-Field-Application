@@ -2200,10 +2200,10 @@ namespace GSCFieldApp.ViewModel
             {
                 _selectedDate = fnToUpdate.Date;
                 OnPropertyChanged(nameof(SelectedDate));
-
-                // Add the new FieldNote to the collection
-                ObservableCollectionHelper.AddRange(FieldNotes[table], addFNList);
             }
+
+            // Add the new FieldNote to the collection
+            ObservableCollectionHelper.AddRange(FieldNotes[table], addFNList);
 
             //Add to all notes collection (for date filtering mainly)
             ObservableCollectionHelper.AddRange(FieldNotesAll[table], addFNList);
