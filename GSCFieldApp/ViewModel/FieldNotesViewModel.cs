@@ -909,8 +909,12 @@ namespace GSCFieldApp.ViewModel
                         //Refill all
                         await FillFieldNotesAsync(DataAccess.DbConnection);
                     }
-
-                    await FillTraverseDates(DataAccess.DbConnection);
+                    else
+                    {
+                        //Only filter dates
+                        await FillTraverseDates(DataAccess.DbConnection);
+                    }
+                        
                 }
 
             }
@@ -985,6 +989,11 @@ namespace GSCFieldApp.ViewModel
             //Clear whatever was in there first.
             //_dates.Clear();
 
+            if (_dates == null)
+            {
+                _dates = new ObservableCollection<string>();
+            }
+
             //List to detect dates that disapears
             List<string> datesToRemove = new List<string>();
             List<string> datesTotalList = new List<string>();
@@ -1021,7 +1030,7 @@ namespace GSCFieldApp.ViewModel
 
                     if (!_dates.Contains(sDate))
                     {
-                        _dates.Add(sDate);
+                        _dates.Insert(stats.IndexOf(st),sDate);
                     }
 
                 }
@@ -1042,7 +1051,7 @@ namespace GSCFieldApp.ViewModel
 
                     if (!_dates.Contains(dDate))
                     {
-                        _dates.Add(dDate);
+                        _dates.Insert(locs.IndexOf(dr), dDate);
                     }
 
                 }
