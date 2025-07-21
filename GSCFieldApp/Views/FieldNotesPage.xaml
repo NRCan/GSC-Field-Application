@@ -118,327 +118,333 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+            <RefreshView Grid.Row="0" Grid.Column="0" Command="{Binding HideCommand}" CommandParameter="dates">
 
-                <VerticalStackLayout VerticalOptions="Start">
+                <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0" >
 
-                    <!--Station records-->
-                    <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    <VerticalStackLayout VerticalOptions="Start">
+
+                        <!--Station records-->
+                        <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="station"/>
 
-                    <Grid IsVisible="{Binding IsStationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" 
+                        <Grid IsVisible="{Binding IsStationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" 
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Stations, Mode=TwoWay}" >
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                            </CollectionView.ItemsLayout>
-                        </CollectionView>
-                        <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
+                                </CollectionView.ItemsLayout>
+                            </CollectionView>
+                            <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}" />
-                    </Grid>
-                    
+                        </Grid>
 
-                    <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    <!--Drill Hole records-->
-                    <VerticalStackLayout IsVisible="{Binding DrillHoleVisible, Mode=TwoWay}">
-                        <Button Text="{local:Localize Key=FielNotesDrillHolesHeader}" BackgroundColor="{StaticResource FieldDrillColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                        <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                        <!--Drill Hole records-->
+                        <VerticalStackLayout IsVisible="{Binding DrillHoleVisible, Mode=TwoWay}">
+                            <Button Text="{local:Localize Key=FielNotesDrillHolesHeader}" BackgroundColor="{StaticResource FieldDrillColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="drill"/>
 
-                        <Grid IsVisible="{Binding IsDrillHoleExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsDrillHoleExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding DrillHoles}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding DrillHoles, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding DrillHoles, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding DrillHoles.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
-                    </VerticalStackLayout>
+                            <Label Text="{Binding DrillHoles.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                        </VerticalStackLayout>
 
-                    <!--Earth material records-->
-                    <VerticalStackLayout IsVisible="{Binding EarthMaterialVisible, Mode=TwoWay}">
-                        <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                        <!--Earth material records-->
+                        <VerticalStackLayout IsVisible="{Binding EarthMaterialVisible, Mode=TwoWay}">
+                            <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="earth"/>
 
-                        <Grid IsVisible="{Binding IsEarthMatExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsEarthMatExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding EarthMats, Mode=TwoWay}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding EarthMats, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding EarthMats, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
-                    </VerticalStackLayout>
+                            <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                        </VerticalStackLayout>
 
 
-                    <!--Sample records-->
-                    <VerticalStackLayout IsVisible="{Binding SampleVisible, Mode=TwoWay}">
-                        <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                        <!--Sample records-->
+                        <VerticalStackLayout IsVisible="{Binding SampleVisible, Mode=TwoWay}">
+                            <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="sample"/>
 
-                        <Grid IsVisible="{Binding IsSampleExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsSampleExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Samples}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Samples, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Samples, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Structure records-->
-                    <VerticalStackLayout IsVisible="{Binding StructureVisible, Mode=TwoWay}">
-                        <Button Text="{local:Localize Key=FielNotesStructureHeader}" BackgroundColor="{StaticResource FieldStrucColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                        <!--Structure records-->
+                        <VerticalStackLayout IsVisible="{Binding StructureVisible, Mode=TwoWay}">
+                            <Button Text="{local:Localize Key=FielNotesStructureHeader}" BackgroundColor="{StaticResource FieldStrucColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="structure"/>
 
-                        <Grid IsVisible="{Binding IsStructureExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsStructureExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Structures}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Structures, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Structures, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Structures.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
-                    </VerticalStackLayout>
+                            <Label Text="{Binding Structures.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                        </VerticalStackLayout>
 
-                    <!--Paleoflow records-->
-                    <VerticalStackLayout IsVisible="{Binding PaleoflowVisible, Mode=TwoWay}">
-                        <Button Text="{local:Localize Key=FielNotesPaleoflowHeader}" BackgroundColor="{StaticResource FieldPflowColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                        <!--Paleoflow records-->
+                        <VerticalStackLayout IsVisible="{Binding PaleoflowVisible, Mode=TwoWay}">
+                            <Button Text="{local:Localize Key=FielNotesPaleoflowHeader}" BackgroundColor="{StaticResource FieldPflowColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="pflow"/>
 
-                        <Grid IsVisible="{Binding IsPaleoflowExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsPaleoflowExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Paleoflows}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Paleoflows, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Paleoflows, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Paleoflows.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Paleoflows.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Mineral records-->
-                    <VerticalStackLayout IsVisible="{Binding MineralVisible, Mode=TwoWay}">
+                        <!--Mineral records-->
+                        <VerticalStackLayout IsVisible="{Binding MineralVisible, Mode=TwoWay}">
 
-                        <Button Text="{local:Localize Key=FielNotesMineralHeader}" BackgroundColor="{StaticResource FieldMineralColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            <Button Text="{local:Localize Key=FielNotesMineralHeader}" BackgroundColor="{StaticResource FieldMineralColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="mineral"/>
 
-                        <Grid IsVisible="{Binding IsMineralExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsMineralExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Minerals}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Minerals, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Minerals, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Minerals.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Minerals.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Mineralization Alteration records-->
-                    <VerticalStackLayout IsVisible="{Binding MineralizationVisible, Mode=TwoWay}">
+                        <!--Mineralization Alteration records-->
+                        <VerticalStackLayout IsVisible="{Binding MineralizationVisible, Mode=TwoWay}">
 
-                        <Button Text="{local:Localize Key=FielNotesMineralizationHeader}" BackgroundColor="{StaticResource FieldMineralAlterationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            <Button Text="{local:Localize Key=FielNotesMineralizationHeader}" BackgroundColor="{StaticResource FieldMineralAlterationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="mineralization"/>
 
-                        <Grid IsVisible="{Binding IsMineralizationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsMineralizationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding MineralizationAlterations}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding MineralizationAlterations, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding MineralizationAlterations, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding MineralizationAlterations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding MineralizationAlterations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
-                    
-                    <!--Fossil records-->
-                    <VerticalStackLayout IsVisible="{Binding FossilVisible, Mode=TwoWay}">
+                        </VerticalStackLayout>
 
-                        <Button Text="{local:Localize Key=FielNotesFossilHeader}" BackgroundColor="{StaticResource FieldFossilColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                        <!--Fossil records-->
+                        <VerticalStackLayout IsVisible="{Binding FossilVisible, Mode=TwoWay}">
+
+                            <Button Text="{local:Localize Key=FielNotesFossilHeader}" BackgroundColor="{StaticResource FieldFossilColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="fossil"/>
 
-                        <Grid IsVisible="{Binding IsFossilExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsFossilExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Fossils}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Fossils, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Fossils, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Fossils.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Fossils.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Environment records-->
-                    <VerticalStackLayout IsVisible="{Binding EnvironmentVisible, Mode=TwoWay}">
+                        <!--Environment records-->
+                        <VerticalStackLayout IsVisible="{Binding EnvironmentVisible, Mode=TwoWay}">
 
-                        <Button Text="{local:Localize Key=FielNotesEnvironmentHeader}" BackgroundColor="{StaticResource FieldEnvironmentColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            <Button Text="{local:Localize Key=FielNotesEnvironmentHeader}" BackgroundColor="{StaticResource FieldEnvironmentColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="environment"/>
 
-                        <Grid IsVisible="{Binding IsEnvironmentExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsEnvironmentExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Environments}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Environments, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Environments, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Environments.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Environments.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Photo/Document records-->
-                    <VerticalStackLayout IsVisible="{Binding DocumentVisible, Mode=TwoWay}">
+                        <!--Photo/Document records-->
+                        <VerticalStackLayout IsVisible="{Binding DocumentVisible, Mode=TwoWay}">
 
-                        <Button Text="{local:Localize Key=FielNotesPhotoHeader}" BackgroundColor="{StaticResource FieldPhotoColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            <Button Text="{local:Localize Key=FielNotesPhotoHeader}" BackgroundColor="{StaticResource FieldPhotoColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="document"/>
 
-                        <Grid IsVisible="{Binding IsDocumentExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsDocumentExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Documents}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Documents, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Documents, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Documents.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Documents.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Location records-->
-                    <VerticalStackLayout IsVisible="{Binding LocationVisible, Mode=TwoWay}">
+                        <!--Location records-->
+                        <VerticalStackLayout IsVisible="{Binding LocationVisible, Mode=TwoWay}">
 
-                        <Button Text="{local:Localize Key=FielNotesLocationHeader}" BackgroundColor="{StaticResource FieldObservationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            <Button Text="{local:Localize Key=FielNotesLocationHeader}" BackgroundColor="{StaticResource FieldObservationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="location"/>
 
-                        <Grid IsVisible="{Binding IsLocationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsLocationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Locations}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Locations, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Locations, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Locations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Locations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--Linework records-->
-                    <VerticalStackLayout IsVisible="{Binding LineworkVisible, Mode=TwoWay}">
+                        <!--Linework records-->
+                        <VerticalStackLayout IsVisible="{Binding LineworkVisible, Mode=TwoWay}">
 
-                        <Button Text="{local:Localize Key=FielNotesLineworkHeader}" BackgroundColor="{StaticResource FieldLinework}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            <Button Text="{local:Localize Key=FielNotesLineworkHeader}" BackgroundColor="{StaticResource FieldLinework}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="linework"/>
 
-                        <Grid IsVisible="{Binding IsLineworkExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
-                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                            <Grid IsVisible="{Binding IsLineworkExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                                <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Lineworks}"  >
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
                                     Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
-                                </CollectionView.ItemsLayout>
-                            </CollectionView>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
 
-                            <ListView ItemsSource="{Binding Lineworks, Mode=TwoWay}"
+                                <ListView ItemsSource="{Binding Lineworks, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Label Text="{Binding Lineworks.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Lineworks.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                        </VerticalStackLayout>
+
 
                     </VerticalStackLayout>
 
+                </ScrollView>
 
-                </VerticalStackLayout>
-                
-            </ScrollView>
+
+            </RefreshView>
+            
 
             <!--Date records-->
 
