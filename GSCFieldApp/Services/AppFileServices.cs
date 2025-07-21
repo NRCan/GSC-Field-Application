@@ -28,7 +28,7 @@ namespace GSCFieldApp.Services
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task SaveBackupDBFile(CancellationToken cancellationToken)
+        public async Task SaveBackupDBFile(CancellationToken cancellationToken, bool addTimeStamp = true)
         {
             DataAccess da = new DataAccess();
 
@@ -51,6 +51,12 @@ namespace GSCFieldApp.Services
 
             //Get output name
             string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
+
+            //Add timestamp to the file name
+            if (addTimeStamp)
+            {
+                outputFileName = Path.GetFileNameWithoutExtension(outputFileName) + String.Format("_{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now) + DatabaseLiterals.DBTypeSqlite;
+            }
 
             //Open save dialog
             try
