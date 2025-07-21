@@ -201,35 +201,37 @@ namespace GSCFieldApp.ViewModel
             //Fill out missing values in model
             await SetModelAsync();
 
-            //Edge case: renaming parent location alias if station is a waypoint
-            if (Model != null && Model.StationObsType == DatabaseLiterals.KeywordStationWaypoint)
+            if (Model.StationAlias != null)
             {
-                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
-
-                if (parentLocation != null && parentLocation.Count > 0)
+                //Edge case: renaming parent location alias if station is a waypoint
+                if (Model != null && Model.StationObsType == DatabaseLiterals.KeywordStationWaypoint)
                 {
-                    DataIDCalculation iDCalculation = new DataIDCalculation();
-                    parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.StationAlias);
-                    await da.SaveItemAsync(parentLocation[0], true);
+                    List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
+
+                    if (parentLocation != null && parentLocation.Count > 0)
+                    {
+                        DataIDCalculation iDCalculation = new DataIDCalculation();
+                        parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.StationAlias);
+                        await da.SaveItemAsync(parentLocation[0], true);
+                    }
                 }
-            }
 
-            //Validate if new entry or update
-            if (_model.StationID != 0)
-            {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.update);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
-            }
+                //Validate if new entry or update
+                if (_model.StationID != 0)
+                {
+                    await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                }
 
-            //Exit
-            await NavigateAfterAction(TableNames.station);
-
+                //Exit
+                await NavigateAfterAction(TableNames.station);
+            }
 
         }
 
@@ -267,26 +269,30 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_station != null && _station.StationAlias != string.Empty)
+            if (Model.StationAlias != null)
             {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.update);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                if (_station != null && _station.StationAlias != string.Empty)
+                {
+                    await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                }
+
+                //Navigate to child
+                await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Earthmaterial)] = null,
+                        [nameof(Station)] = Model
+                    }
+                );
             }
 
-            //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Earthmaterial)] = null,
-                    [nameof(Station)] = Model
-                }
-            );
         }
 
         [RelayCommand]
@@ -295,27 +301,31 @@ namespace GSCFieldApp.ViewModel
             //Fill out missing values in model
             await SetModelAsync();
 
-            //Validate if new entry or update
-            if (_station != null && _station.StationAlias != string.Empty)
+            if (Model.StationAlias != null)
             {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.update);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                //Validate if new entry or update
+                if (_station != null && _station.StationAlias != string.Empty)
+                {
+                    await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                }
+
+                //Navigate to child
+                await Shell.Current.GoToAsync($"/{nameof(DocumentPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Station)] = Model,
+                        [nameof(Document)] = null
+                    }
+                );
             }
 
-            //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(DocumentPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Station)] = Model,
-                    [nameof(Document)] = null
-                }
-            );
         }
 
         [RelayCommand]
@@ -324,27 +334,31 @@ namespace GSCFieldApp.ViewModel
             //Fill out missing values in model
             await SetModelAsync();
 
-            //Validate if new entry or update
-            if (_station != null && _station.StationAlias != string.Empty)
+            if (Model.StationAlias != null)
             {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.update);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                //Validate if new entry or update
+                if (_station != null && _station.StationAlias != string.Empty)
+                {
+                    await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                }
+
+                //Navigate to child
+                await Shell.Current.GoToAsync($"/{nameof(EnvironmentPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(EnvironmentModel)] = null,
+                        [nameof(Station)] = Model
+                    }
+                );
             }
 
-            //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(EnvironmentPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(EnvironmentModel)] = null,
-                    [nameof(Station)] = Model
-                }
-            );
         }
 
         [RelayCommand]
@@ -353,28 +367,32 @@ namespace GSCFieldApp.ViewModel
             //Fill out missing values in model
             await SetModelAsync();
 
-            //Validate if new entry or update
-            if (_station != null && _station.StationAlias != string.Empty)
+            if (Model.StationAlias != null)
             {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.update);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                //Validate if new entry or update
+                if (_station != null && _station.StationAlias != string.Empty)
+                {
+                    await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                }
+
+                //Navigate to pflow page 
+                await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(MineralAlteration)] = null,
+                        [nameof(Earthmaterial)] = null,
+                        [nameof(Station)] = Model,
+                    }
+                );
             }
 
-            //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(MineralAlteration)] = null,
-                    [nameof(Earthmaterial)] = null,
-                    [nameof(Station)] = Model,
-                }
-            );
         }
         #endregion
 

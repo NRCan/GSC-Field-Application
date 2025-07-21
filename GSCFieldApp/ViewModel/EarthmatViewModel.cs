@@ -441,7 +441,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
-            if (Model.EarthMatName != string.Empty)
+            if (Model.EarthMatName != null && Model.EarthMatName != string.Empty)
             {
                 //Fill out missing values in model
                 await SetModelAsync();
@@ -474,7 +474,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveStay()
         {
-            if (Model.EarthMatName != string.Empty)
+            if (Model.EarthMatName != null && Model.EarthMatName != string.Empty)
             {
                 //Fill out missing values in model
                 await SetModelAsync();
@@ -656,98 +656,124 @@ namespace GSCFieldApp.ViewModel
         public async Task AddSample()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedObject = await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(SamplePage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Sample)] = null,
-                    [nameof(Earthmaterial)] = Model
-                }
-            );
+            if (savedObject != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(SamplePage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Sample)] = null,
+                        [nameof(Earthmaterial)] = Model
+                    }
+                );
+            }
+
         }
 
         [RelayCommand]
         public async Task AddStructure()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedObject = await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(StructurePage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Structure)] = null,
-                    [nameof(Earthmaterial)] = Model,
-                }
-            );
+            if (savedObject != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(StructurePage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Structure)] = null,
+                        [nameof(Earthmaterial)] = Model,
+                    }
+                );
+            }
+
         }
 
         [RelayCommand]
         public async Task AddPaleoflow()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedObject = await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"/{nameof(PaleoflowPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(PaleoflowPage)] = null,
-                    [nameof(Earthmaterial)] = Model,
-                }
-            );
+            if (savedObject != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(PaleoflowPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(PaleoflowPage)] = null,
+                        [nameof(Earthmaterial)] = Model,
+                    }
+                );
+            }
+
         }
 
         [RelayCommand]
         public async Task AddFossil()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedObject = await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"/{nameof(FossilPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(FossilPage)] = null,
-                    [nameof(Earthmaterial)] = Model,
-                }
-            );
+            if (savedObject != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(FossilPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FossilPage)] = null,
+                        [nameof(Earthmaterial)] = Model,
+                    }
+                );
+            }
+
         }
 
         [RelayCommand]
         public async Task AddMineral()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedObject = await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"/{nameof(MineralPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(MineralPage)] = null,
-                    [nameof(Earthmaterial)] = Model,
-                    [nameof(MineralAlteration)] = null,
-                }
-            );
+            if (savedObject != null)
+            {
+
+                await Shell.Current.GoToAsync($"/{nameof(MineralPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(MineralPage)] = null,
+                        [nameof(Earthmaterial)] = Model,
+                        [nameof(MineralAlteration)] = null,
+                    }
+                );
+
+            }
+
         }
 
         [RelayCommand]
         public async Task AddMineralization()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedObject = await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(MineralAlteration)] = null,
-                    [nameof(Earthmaterial)] = Model,
-                    [nameof(Station)] = null,
-                }
-            );
+            if (savedObject != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(MineralAlteration)] = null,
+                        [nameof(Earthmaterial)] = Model,
+                        [nameof(Station)] = null,
+                    }
+                );
+            }
+
         }
 
         #endregion
@@ -1515,23 +1541,31 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-        public async Task SetAndSaveModelAsync()
+        public async Task<object> SetAndSaveModelAsync()
         {
+            //Validation
+            object savedObject = null;
+
             //Fill out missing values in model
             await SetModelAsync();
 
-            //Validate if new entry or update
-            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            if (Model.EarthMatName != null)
             {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.earthmat, Model, refreshType.update);
+                //Check if new entry or update
+                if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+                {
+                    savedObject = await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.earthmat, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    savedObject = await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
+                }
             }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
-            }
+
+            return savedObject;
 
         }
 

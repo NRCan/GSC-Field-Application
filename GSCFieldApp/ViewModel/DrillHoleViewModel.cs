@@ -110,10 +110,14 @@ namespace GSCFieldApp.ViewModel
         async Task Save()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateAfterAction(TableNames.drill);
+            if (savedModel != null)
+            {
+                await NavigateAfterAction(TableNames.drill);
+            }
+            
         }
 
         /// <summary>
@@ -124,15 +128,17 @@ namespace GSCFieldApp.ViewModel
         async Task SaveStay()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
-            //Show saved message
-            await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
+            if (savedModel != null)
+            {
+                //Show saved message
+                await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
 
-            //Reset
-            await ResetModelAsync();
-            OnPropertyChanged(nameof(Model));
-
+                //Reset
+                await ResetModelAsync();
+                OnPropertyChanged(nameof(Model));
+            }
 
         }
 
@@ -176,34 +182,42 @@ namespace GSCFieldApp.ViewModel
         async Task AddEarthmat()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Earthmaterial)] = null,
-                    [nameof(Station)] = null,
-                    [nameof(DrillHole)] = Model
-                }
-            );
+            if (savedModel != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Earthmaterial)] = null,
+                        [nameof(Station)] = null,
+                        [nameof(DrillHole)] = Model
+                    }
+                );
+            }
+
         }
 
         [RelayCommand]
         async Task AddDocument()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"/{nameof(DocumentPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Station)] = null,
-                    [nameof(Document)] = null,
-                    [nameof(DrillHole)] = Model
-                }
-            );
+            if (savedModel != null)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(DocumentPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Station)] = null,
+                        [nameof(Document)] = null,
+                        [nameof(DrillHole)] = Model
+                    }
+                );
+            }
+
         }
 
         #endregion
@@ -211,37 +225,44 @@ namespace GSCFieldApp.ViewModel
         #region METHODS
 
 
-        public async Task SetAndSaveModelAsync()
+        public async Task<object> SetAndSaveModelAsync()
         {
+            //Validation
+            object savedObject = null;
+
             //Fill out missing values in model
             await SetModelAsync();
 
-            //Edge case: renaming parent location alias based on drill hole alias
-            if (Model != null && Model.DrillLocationID > 0)
+            if (Model.DrillIDName != null)
             {
-                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
-
-                if (parentLocation != null && parentLocation.Count > 0)
+                //Edge case: renaming parent location alias based on drill hole alias
+                if (Model != null && Model.DrillLocationID > 0)
                 {
-                    DataIDCalculation iDCalculation = new DataIDCalculation();
-                    parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.DrillIDName);
-                    await da.SaveItemAsync(parentLocation[0], true);
+                    List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
+
+                    if (parentLocation != null && parentLocation.Count > 0)
+                    {
+                        DataIDCalculation iDCalculation = new DataIDCalculation();
+                        parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.DrillIDName);
+                        savedObject = await da.SaveItemAsync(parentLocation[0], true);
+                    }
+                }
+
+                //Validate if new entry or update
+                if (_model.DrillID != 0)
+                {
+                    savedObject = await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.drill, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    savedObject = await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.drill, Model, refreshType.insert);
                 }
             }
 
-            //Validate if new entry or update
-            if (_model.DrillID != 0)
-            {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.drill, Model, refreshType.update);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.drill, Model, refreshType.insert);
-            }
-
+            return savedObject;
         }
 
         /// <summary>

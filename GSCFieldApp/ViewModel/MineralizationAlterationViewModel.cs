@@ -122,10 +122,14 @@ namespace GSCFieldApp.ViewModel
         async Task Save()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateAfterAction(TableNames.mineralization);
+            if (savedModel != null)
+            {
+                await NavigateAfterAction(TableNames.mineralization);
+            }
+
         }
 
         /// <summary>
@@ -136,15 +140,17 @@ namespace GSCFieldApp.ViewModel
         async Task SaveStay()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
-            //Show saved message
-            await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
+            if (savedModel != null)
+            {
+                //Show saved message
+                await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
 
-            //Reset
-            await ResetModelAsync();
-            OnPropertyChanged(nameof(Model));
-
+                //Reset
+                await ResetModelAsync();
+                OnPropertyChanged(nameof(Model));
+            }
 
         }
 
@@ -165,17 +171,21 @@ namespace GSCFieldApp.ViewModel
         public async Task AddMineral()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
-            //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"/{nameof(MineralPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(MineralPage)] = null,
-                    [nameof(Earthmaterial)] = null,
-                    [nameof(MineralAlteration)] = Model,
-                }
-            );
+            if (savedModel != null)
+            {
+                //Navigate to pflow page 
+                await Shell.Current.GoToAsync($"/{nameof(MineralPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(MineralPage)] = null,
+                        [nameof(Earthmaterial)] = null,
+                        [nameof(MineralAlteration)] = Model,
+                    }
+                );
+            }
+
         }
 
         #endregion
@@ -184,23 +194,33 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
-        public async Task SetAndSaveModelAsync()
+        public async Task<Object> SetAndSaveModelAsync()
         {
+            //Validation
+            object savedObject = null;
+
             //Fill out missing values in model
             await SetModelAsync();
+
+            if (Model.MAName != null)
+            {
+
+            }
 
             //Validate if new entry or update
             if (_model.MAID != 0)
             {
-                await da.SaveItemAsync(Model, true);
+                savedObject = await da.SaveItemAsync(Model, true);
                 RefreshFieldNotes(TableNames.mineralization, Model, refreshType.update);
             }
             else
             {
                 //Insert new record
-                await da.SaveItemAsync(Model, false);
+                savedObject = await da.SaveItemAsync(Model, false);
                 RefreshFieldNotes(TableNames.mineralization, Model, refreshType.insert);
             }
+
+            return savedObject;
         }
 
         /// <summary>

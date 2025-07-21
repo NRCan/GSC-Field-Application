@@ -99,10 +99,14 @@ namespace GSCFieldApp.ViewModel
         async Task Save()
         {
             //Save
-            await SetAndSaveModelAsync();
+            object savedModel = await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateAfterAction(TableNames.location);
+            if (savedModel != null)
+            {
+                await NavigateAfterAction(TableNames.location);
+            }
+
 
         }
 
@@ -138,17 +142,21 @@ namespace GSCFieldApp.ViewModel
         {
             if (_fieldLocation != null)
             {
-                await SetAndSaveModelAsync();
+                object savedModel = await SetAndSaveModelAsync();
 
-                //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(FieldLocation)] = Model,
-                        [nameof(Metadata)] = null,
-                        [nameof(Station)] = null
-                    }
-                );
+                if (savedModel != null)
+                {
+                    //Navigate to station page and keep locationmodel for relationnal link
+                    await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = Model,
+                            [nameof(Metadata)] = null,
+                            [nameof(Station)] = null
+                        }
+                    );
+                }
+
             }
         }
 
@@ -157,19 +165,20 @@ namespace GSCFieldApp.ViewModel
         {
             if (_fieldLocation != null)
             {
-                await SetAndSaveModelAsync();
+                object savedModel = await SetAndSaveModelAsync();
 
-                //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"/{nameof(DrillHolePage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(DrillHole)] = null,
-                        [nameof(FieldLocation)] = Model
-                    }
-                );
+                if (savedModel != null)
+                {
+                    //Navigate to station page and keep locationmodel for relationnal link
+                    await Shell.Current.GoToAsync($"/{nameof(DrillHolePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(DrillHole)] = null,
+                            [nameof(FieldLocation)] = Model
+                        }
+                    );
+                }
             }
-
-
         }
 
         [RelayCommand]
@@ -283,17 +292,22 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
-        public async Task SetAndSaveModelAsync()
+        public async Task<object> SetAndSaveModelAsync()
         {
+            //Validation
+            object savedObject = null;
+
             //Make sure datum is properly set
             _model.LocationDatum = KeywordEPSGDefault.ToString();
 
             //Validate if new entry or update
-            if (_model.LocationID != 0)
+            if (Model.LocationAlias != null && _model.LocationID != 0)
             {
-                await da.SaveItemAsync(Model, true);
+                savedObject = await da.SaveItemAsync(Model, true);
                 RefreshFieldNotes(TableNames.location, Model, refreshType.update);
             }
+
+            return savedObject;
         }
 
         /// <summary>
