@@ -317,7 +317,7 @@ namespace GSCFieldApp.ViewModel
                 if (fi.Length > 0) 
                 {
                     //Get the databases but not the main default one or the legacy ones
-                    if ((fi.Extension.Contains(DBTypeSqlite) || fi.Extension.Contains(DBTypeSqliteDeprecated))
+                    if ((fi.Extension == DBTypeSqlite || fi.Extension == DBTypeSqliteDeprecated)
                         && !fi.Name.Contains(DBName) && !fi.Name.Contains("_v")
                         && !fi.Name.Contains(DBTypeGeopackageSHM)
                         && !fi.Name.Contains(DBTypeGeopackageWal))
@@ -389,7 +389,7 @@ namespace GSCFieldApp.ViewModel
                         
 
                     }
-                    else if (fi.Name.Contains(DBTypeGeopackageSHM) || fi.Name.Contains(DBTypeGeopackageWal))
+                    else if (fi.Name.Contains(DBTypeGeopackageSHM) || fi.Name.Contains(DBTypeGeopackageWal) || fi.Name.Contains(DBTypeSqliteJournal))
                     {
                         //Enforce deletion of those files
                         try

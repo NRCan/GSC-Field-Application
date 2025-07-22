@@ -418,6 +418,7 @@ namespace GSCFieldApp.Dictionaries
         public const string DBTypeSqliteName = "geopackage"; //Version 1.7
         public const string DBTypeGeopackageWal = "-wal"; //Version 1.7
         public const string DBTypeGeopackageSHM = "-shm"; //Version 1.7
+        public const string DBTypeSqliteJournal = ".sqlite-journal"; 
         public const string LayerTypeMBTiles = ".mbtiles";
         public const string LayerTypeGPKG = ".gpkg"; 
         #endregion
