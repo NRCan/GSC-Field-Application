@@ -236,7 +236,7 @@ namespace GSCFieldApp.Models
                             return "DH" + aliasNumber.ToString();
                         }
 
-                        return aliasNumber.ToString();
+                        return aliasNumber.ToString() + "XY";
                     }
                     else
                     {
