@@ -46,6 +46,8 @@ namespace GSCFieldApp.ViewModel
         [ObservableProperty]
         private string _updateTableID;
 
+        private bool _isFieldNotesRefreshing = false;
+        public bool IsFieldNotesRefreshing { get { return _isFieldNotesRefreshing; } set { _isFieldNotesRefreshing = value; } }
         /// <summary>
         /// Need to use a random id else updating twice a given table records, won't trigger
         /// </summary>
@@ -616,6 +618,9 @@ namespace GSCFieldApp.ViewModel
                 {
                     //Force refresh of all
                     await ValidateFillFieldNotesAsync(true);
+
+                    _isFieldNotesRefreshing = false;
+                    OnPropertyChanged(nameof(IsFieldNotesRefreshing));
                 }
 
             }

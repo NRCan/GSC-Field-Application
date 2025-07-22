@@ -118,7 +118,7 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <RefreshView Grid.Row="0" Grid.Column="0" Command="{Binding HideCommand}" CommandParameter="dates">
+            <RefreshView Grid.Row="0" Grid.Column="0" Command="{Binding HideCommand}" CommandParameter="dates" IsRefreshing="{Binding IsFieldNotesRefreshing}">
 
                 <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0" >
 
