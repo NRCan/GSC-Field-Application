@@ -181,7 +181,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             catch (Exception pointFromByteException)
             {
                 new ErrorToLogFile(pointFromByteException).WriteToFile();
-                await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
+                outPoint = null;
+                //await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
             }
 
             if (outPoint != NTS.Geometries.Point.Empty)
