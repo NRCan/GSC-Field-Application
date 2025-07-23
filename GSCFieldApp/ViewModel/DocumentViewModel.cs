@@ -719,6 +719,7 @@ namespace GSCFieldApp.ViewModel
                 if (_fileNumberTo != 0 && _fileNumberTo >= _model.FileNumber)
                 {
                     IsProcessingBatch = true;
+                    //List<Document> newDocuments = new List<Document>();
 
                     while (currentIteration <= _fileNumberTo)
                     {
@@ -737,11 +738,17 @@ namespace GSCFieldApp.ViewModel
 
 
                         OnPropertyChanged(nameof(Model));
+                        //newDocuments.Add(Model);
                         await Task.Run(async () => await da.SaveItemAsync(Model, false));
 
                         currentIteration++;
                     }
 
+                    //foreach (Document d in newDocuments)
+                    //{
+                    //    RefreshFieldNotes(TableNames.document, d, refreshType.insert);
+                    //}
+                        
                     //Batch calculat alias
                     //Original query
                     //------------------------
@@ -764,6 +771,9 @@ namespace GSCFieldApp.ViewModel
                     IsProcessingBatch = false;
                 }
             }
+            
+            //Force a full refresh on all document records
+            RefreshFieldNotes(TableNames.document, null, refreshType.insert);
 
             return currentIteration;
 

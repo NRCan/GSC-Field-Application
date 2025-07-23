@@ -1788,6 +1788,9 @@ namespace GSCFieldApp.ViewModel
                     //Best used when a delete cascade has been done and and child should be removed from page
                     tasks.Add(ValidateFillFieldNotesAsync(true));
                     break;
+                case TableNames.document:
+                    tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
+                    break;
                 default:
                     break;
             }
@@ -2740,6 +2743,10 @@ namespace GSCFieldApp.ViewModel
                                 {
                                     new ErrorToLogFile(except).WriteToFile();
                                 }
+                            }
+                            else
+                            {
+                                UpdateRecordList(TableNames.document);
                             }
                             break;
                         case TableNames.structure:
