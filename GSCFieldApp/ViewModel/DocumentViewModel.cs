@@ -711,54 +711,58 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task<int> BatchCreatePhotos()
         {
+            
             int currentIteration = _model.FileNumber;
 
-            if (_fileNumberTo != 0 && _fileNumberTo >= _model.FileNumber)
+            if (_model.CanBatchCreate)
             {
-                IsProcessingBatch = true;
-
-                while (currentIteration <= _fileNumberTo)
+                if (_fileNumberTo != 0 && _fileNumberTo >= _model.FileNumber)
                 {
-                    //Calculate filenumber and file name if not from embeded pictures
-                    if (_model.Hyperlink == null || _model.Hyperlink == string.Empty)
+                    IsProcessingBatch = true;
+
+                    while (currentIteration <= _fileNumberTo)
                     {
-                        _model.FileNumber = currentIteration;
-                        _model.FileName = CalculateFileName();
+                        //Calculate filenumber and file name if not from embeded pictures
+                        if (_model.Hyperlink == null || _model.Hyperlink == string.Empty)
+                        {
+                            _model.FileNumber = currentIteration;
+                            _model.FileName = CalculateFileName();
+                        }
+
+                        if (_station != null)
+                        {
+                            ///This method of calculating the alias for each record slows down the whole process
+                            //_model.DocumentName = await Task.Run(async() => await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias, sq));
+                        }
+
+
+                        OnPropertyChanged(nameof(Model));
+                        await Task.Run(async () => await da.SaveItemAsync(Model, false));
+
+                        currentIteration++;
                     }
 
-                    if (_station != null)
-                    {
-                        ///This method of calculating the alias for each record slows down the whole process
-                        //_model.DocumentName = await Task.Run(async() => await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias, sq));
-                    }
+                    //Batch calculat alias
+                    //Original query
+                    //------------------------
+                    //with StationOrder as
+                    //(
+                    //    select fs.stationidname, fd.documentid, ROW_NUMBER() over(partition by fd.stationid order by fd.filenumber) as RowNumber from F_DOCUMENT fd join F_STATION fs on fd.stationid = fs.stationid where fd.stationid = 3
+                    //)
+                    //update F_DOCUMENT
+                    //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
+                    //------------------------
+
+                    string aliasQuery_base = "WITH StationOrder As " +
+                        "(select fs.{0}, fd.{1}, ROW_NUMBER() OVER(PARTITION by fd.{2} ORDER BY fd.{7}) as RowNumber from {3} fd JOIN {4} fs on fd.{2} = fs.{2} where fd.{2} = {5}" +
+                        ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
+                    string aliasQuery00 = string.Format(aliasQuery_base, FieldStationAlias, FieldDocumentID, FieldStationID, TableDocument, TableStation, _model.StationID.ToString(),
+                        FieldDocumentName, FieldDocumentFileNo);
+                    await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
 
 
-                    OnPropertyChanged(nameof(Model));
-                    await Task.Run(async() => await da.SaveItemAsync(Model, false));
-
-                    currentIteration++;
+                    IsProcessingBatch = false;
                 }
-
-                //Batch calculat alias
-                //Original query
-                //------------------------
-                //with StationOrder as
-                //(
-                //    select fs.stationidname, fd.documentid, ROW_NUMBER() over(partition by fd.stationid order by fd.filenumber) as RowNumber from F_DOCUMENT fd join F_STATION fs on fd.stationid = fs.stationid where fd.stationid = 3
-                //)
-                //update F_DOCUMENT
-                //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
-                //------------------------
-
-                string aliasQuery_base = "WITH StationOrder As " +
-                    "(select fs.{0}, fd.{1}, ROW_NUMBER() OVER(PARTITION by fd.{2} ORDER BY fd.{7}) as RowNumber from {3} fd JOIN {4} fs on fd.{2} = fs.{2} where fd.{2} = {5}" +
-                    ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
-                string aliasQuery00 = string.Format(aliasQuery_base, FieldStationAlias, FieldDocumentID, FieldStationID, TableDocument, TableStation, _model.StationID.ToString(),
-                    FieldDocumentName, FieldDocumentFileNo);
-                await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
-
-
-                IsProcessingBatch = false;
             }
 
             return currentIteration;
@@ -811,7 +815,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public void CalculateFileNumberTo()
         {
-            if (_fileNumberTo == 0 || _fileNumberTo < _model.FileNumber)
+            if (_fileNumberTo == 0 || _fileNumberTo < _model.FileNumber || !_model.CanBatchCreate)
             {
                 _fileNumberTo = _model.FileNumber;
                 OnPropertyChanged(nameof(FileNumberTo));
