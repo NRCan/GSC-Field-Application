@@ -584,6 +584,7 @@ namespace GSCFieldApp.ViewModel
             Model.FileName = CalculateFileName();
             Model.DocumentID = 0;
             Model.FileNumber = Model.FileNumber + 1;
+            _document = null;
             CalculateFileNumberTo();
 
         }
