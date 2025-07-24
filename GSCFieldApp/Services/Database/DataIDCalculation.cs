@@ -58,57 +58,66 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                //Querying with Linq
-                string locationQuerySelect = "SELECT " + FieldLocationAlias;
-                string locationQueryFrom = " FROM " + TableLocation;
-                string locationQueryOrderbyLimit = " ORDER BY " + FieldLocationAlias + " DESC LIMIT 1;";
-                string locationQueryFinal = locationQuerySelect + locationQueryFrom + locationQueryOrderbyLimit;
-
-                List<FieldLocation> locs = await DataAccess.DbConnection.QueryAsync<FieldLocation>(locationQueryFinal);
-
-                //Get current year
-                string currentDate = DateTime.Now.Year.ToString();
-
-                //Get officer code
-                if (officerCode == string.Empty)
+                try
                 {
-                    List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
-                    officerCode = mets[0].UserCode;
+                    //Querying with Linq
+                    string locationQuerySelect = "SELECT " + FieldLocationAlias;
+                    string locationQueryFrom = " FROM " + TableLocation;
+                    string locationQueryOrderbyLimit = " ORDER BY " + FieldLocationAlias + " DESC LIMIT 1;";
+                    string locationQueryFinal = locationQuerySelect + locationQueryFrom + locationQueryOrderbyLimit;
+
+                    List<FieldLocation> locs = await DataAccess.DbConnection.QueryAsync<FieldLocation>(locationQueryFinal);
+
+                    //Get current year
+                    string currentDate = DateTime.Now.Year.ToString();
+
+                    //Get officer code
+                    if (officerCode == string.Empty)
+                    {
+                        List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                        officerCode = mets[0].UserCode;
+                    }
+
+                    //Get actual last alias and extract it's number
+                    int locationCount = locs.Count();
+                    int lastCharacterNumber = 0;
+
+                    if (locationCount > 0)
+                    {
+                        //Remove every possible suffix/prefix from the alias
+                        string lastCharacters = locs[0].LocationAliasLight.Replace(TableLocationAliasSuffix, "").Replace(KeywordStationDrillHoleLight, "").Replace(KeywordStationWaypointLight, "");
+                        lastCharacterNumber = Convert.ToInt32(lastCharacters);
+                    }
+
+                    //Increment
+                    locationCount = lastCharacterNumber + 1;
+
+                    //Pad current ID with 0 if needed
+                    string outputStringID = string.Empty;
+                    if (locationCount < 10)
+                    {
+                        outputStringID = "000" + locationCount.ToString();
+                    }
+                    else if (locationCount >= 10 && locationCount < 100)
+                    {
+                        outputStringID = "00" + locationCount.ToString();
+                    }
+                    else if (locationCount >= 100 && locationCount < 1000)
+                    {
+                        outputStringID = "0" + locationCount.ToString();
+                    }
+                    else
+                    {
+                        outputStringID = locationCount.ToString();
+                    }
+
+                    finaleLocationString = currentDate.Substring(currentDate.Length - 2) + officerCode + outputStringID + TableLocationAliasSuffix; //Ex: 16BEB001
+                }
+                catch (Exception e)
+                {
+                    new ErrorToLogFile(e).WriteToFile();
                 }
 
-                //Get actual last alias and extract it's number
-                int locationCount = locs.Count();
-                int lastCharacterNumber = 0;
-
-                if (locationCount > 0)
-                {
-                    string lastCharacters = locs[0].LocationAliasLight.Replace(TableLocationAliasSuffix, "");
-                    lastCharacterNumber = Convert.ToInt32(lastCharacters);
-                }
-
-                //Increment
-                locationCount = lastCharacterNumber + 1;
-
-                //Pad current ID with 0 if needed
-                string outputStringID = string.Empty;
-                if (locationCount < 10)
-                {
-                    outputStringID = "000" + locationCount.ToString();
-                }
-                else if (locationCount >= 10 && locationCount < 100)
-                {
-                    outputStringID = "00" + locationCount.ToString();
-                }
-                else if (locationCount >= 100 && locationCount < 1000)
-                {
-                    outputStringID = "0" + locationCount.ToString();
-                }
-                else
-                {
-                    outputStringID = locationCount.ToString();
-                }
-
-                finaleLocationString = currentDate.Substring(currentDate.Length - 2) + officerCode + outputStringID + TableLocationAliasSuffix; //Ex: 16BEB001
 
             }
 

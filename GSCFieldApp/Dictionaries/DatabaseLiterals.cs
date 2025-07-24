@@ -464,6 +464,8 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordStrucClassType = "STRUCCLASSTYPE"; //Used to detect strucclasstype picklist selection in the picklist editor, to launch a semantic zoom data update.
         public const string KeywordStrucDetail = "STRUCDETAIL"; //Used to detect strucdetail picklist selection in the picklist editor, to launch a semantic zoom data update.
         public const string KeywordStationWaypoint = "waypoint";
+        public const string KeywordStationWaypointLight = "W";
+        public const string KeywordStationDrillHoleLight = "DH";
         public const string KeywordDipDipDirectionRule = "dip"; //Used to calculate SYMANG field in structure table.
         public const string KeywordPlanar = "planar"; //Used to calculate SYMANG field in structure table.
         public const string KeywordLinear = "linear";

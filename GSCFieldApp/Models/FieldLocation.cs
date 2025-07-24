@@ -227,16 +227,16 @@ namespace GSCFieldApp.Models
                         //Case waypoint
                         if (LocationAlias.Contains(DatabaseLiterals.KeywordStationWaypoint))
                         {
-                            return "W" + aliasNumber.ToString();
+                            return DatabaseLiterals.KeywordStationWaypointLight + aliasNumber.ToString();
                         }
 
                         //Case drill holes
                         if (LocationAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
                         {
-                            return "DH" + aliasNumber.ToString();
+                            return DatabaseLiterals.KeywordStationDrillHoleLight + aliasNumber.ToString();
                         }
 
-                        return aliasNumber.ToString() + "XY";
+                        return aliasNumber.ToString() + DatabaseLiterals.TableLocationAliasSuffix;
                     }
                     else
                     {
