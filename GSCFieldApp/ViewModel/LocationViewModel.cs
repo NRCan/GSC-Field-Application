@@ -300,6 +300,11 @@ namespace GSCFieldApp.ViewModel
             //Make sure datum is properly set
             _model.LocationDatum = KeywordEPSGDefault.ToString();
 
+            //Make sure the geometry matches
+            GeopackageService gs = new GeopackageService();
+            _model.LocationGeometry = gs.CreateByteGeometryPoint(_model.LocationLong, _model.LocationLat);
+            RefreshGeometry(TableNames.location, Model); //Send signal that there is an updated geometry
+
             //Validate if new entry or update
             if (Model.LocationAlias != null && _model.LocationID != 0)
             {

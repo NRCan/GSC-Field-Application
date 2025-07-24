@@ -145,6 +145,9 @@ public partial class MapPage : ContentPage
 
             //Detect linework update (mainly for user color change)
             LineworkViewModel.lineworkHasUpdated += LineworkViewModel_lineworkHasUpdated;
+
+            //Detect location geometry update
+            FieldAppPageHelper.updateGeometry += FieldAppPageHelper_updateGeometry; 
         }
         catch (System.Exception e)
         {
@@ -154,7 +157,76 @@ public partial class MapPage : ContentPage
     }
 
 
+
+
     #region EVENTS
+
+    /// <summary>
+    /// Will force a refresh upon the loaded station graphic in the map page, coming from an edit in F_LOCATIOn form
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="updatedLocation"></param>
+    private async void FieldAppPageHelper_updateGeometry(object sender, Tuple<DatabaseLiterals.TableNames, object> updatedLocation)
+    {
+        try
+        {
+            //Get station layer
+            ILayer stationLayer = mapView.Map.Layers.Where(x => x.Name == ApplicationLiterals.aliasStations).FirstOrDefault();
+            MemoryLayer memStatLayer = stationLayer as MemoryLayer;
+            if (stationLayer != null && memStatLayer != null)
+            {
+                //Cast updated location
+                FieldLocation fl = updatedLocation.Item2 as FieldLocation;
+
+                if (fl != null)
+                {
+
+                    //Get station features
+                    List<IFeature> statFeats = memStatLayer.Features.ToList();
+
+                    foreach (IFeature sf in statFeats)
+                    {
+                        //Find the right station to update by sorting the fields from the feature
+                        string stationObsIDField = sf.Fields.Where(f => f.Contains(DatabaseLiterals.FieldStationObsID)).FirstOrDefault("");
+
+                        if (stationObsIDField != null && stationObsIDField != string.Empty)
+                        {
+                            string stationObsID = sf[DatabaseLiterals.FieldStationObsID].ToString();
+
+                            if (stationObsID != null && stationObsID != string.Empty && stationObsID == fl.LocationID.ToString())
+                            {
+                                //Cast the current station feature as a nts geometry feature to extract point geometry
+                                Mapsui.Nts.GeometryFeature geomStat = sf as Mapsui.Nts.GeometryFeature;
+
+                                if (geomStat != null)
+                                {
+                                    //Cast updated location as point to retrieve geometry
+                                    NetTopologySuite.Geometries.Point updatedPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
+
+                                    //Cast station to point also
+                                    NetTopologySuite.Geometries.Point statPoint = geomStat.Geometry as NetTopologySuite.Geometries.Point;
+
+                                    if (statPoint != null && updatedPoint != null) 
+                                    {
+                                        //Update feature
+                                        geomStat.Geometry = updatedPoint;
+                                        //Refresh map
+                                        mapView.Map.RefreshData();
+                                    }
+                                }
+                            }
+                            
+
+                        }
+                    }
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+    }
 
     /// <summary>
     /// An even that is triggered when user has updated a linework

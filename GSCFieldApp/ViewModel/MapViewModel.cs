@@ -54,10 +54,11 @@ namespace GSCFieldApp.ViewModel
         public LocalizationResourceManager LocalizationResourceManager
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+        //Events
         public static EventHandler<Tuple<TableNames, object>> newMapRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh. 
 
         #endregion
-
+         
         #region PROPERTIES
         public ObservableCollection<ILayer> LayerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
@@ -79,7 +80,6 @@ namespace GSCFieldApp.ViewModel
         {
             //Get main metadata record
             _ = GetMetadataAsync();
-
         }
 
         #region RELAY COMMANDS

@@ -48,9 +48,10 @@ namespace GSCFieldApp.Services
         public static bool NavFromMapPage = false;  //Used to know where the user is coming from
 
         //Events
-        public static EventHandler<Tuple<TableNames, object>> newRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
-        public static EventHandler<Tuple<TableNames, object>> updateRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
-        public static EventHandler<Tuple<TableNames, int>> deleteRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+        public static EventHandler<Tuple<TableNames, object>> newRecord;   
+        public static EventHandler<Tuple<TableNames, object>> updateRecord;  
+        public static EventHandler<Tuple<TableNames, int>> deleteRecord; 
+        public static EventHandler<Tuple<TableNames, object>> updateGeometry; //This event is triggered when a new geometry has been updated
 
         //Enums
         public enum refreshType { insert, update, delete}
@@ -155,5 +156,20 @@ namespace GSCFieldApp.Services
 
         }
 
+        /// <summary>
+        /// Will send a signal that a feature record has seen it's innerant geometry updated
+        /// Mainly meant for map page
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="recordObject"></param>
+        public static async void RefreshGeometry(TableNames tableName, object recordObject)
+        {
+            EventHandler<Tuple<TableNames, object>> updateGeometryEvent = updateGeometry;
+            if (updateGeometryEvent != null)
+            {
+                Tuple<TableNames, object> tableRecordTuple = new(tableName, recordObject);
+                updateGeometryEvent(tableName, tableRecordTuple);
+            }
+        }
     }
 }
