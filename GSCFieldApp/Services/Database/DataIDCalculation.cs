@@ -63,8 +63,9 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Querying with Linq
                     string locationQuerySelect = "SELECT " + FieldLocationAlias;
                     string locationQueryFrom = " FROM " + TableLocation;
+                    string locationQueryWhere = " WHERE " + TableLocation + "." + FieldLocationAlias + " NOT LIKE '" + KeywordStationWaypoint + "%'";
                     string locationQueryOrderbyLimit = " ORDER BY " + FieldLocationAlias + " DESC LIMIT 1;";
-                    string locationQueryFinal = locationQuerySelect + locationQueryFrom + locationQueryOrderbyLimit;
+                    string locationQueryFinal = locationQuerySelect + locationQueryFrom + locationQueryWhere + locationQueryOrderbyLimit;
 
                     List<FieldLocation> locs = await DataAccess.DbConnection.QueryAsync<FieldLocation>(locationQueryFinal);
 
