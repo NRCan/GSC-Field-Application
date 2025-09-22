@@ -741,7 +741,11 @@ namespace GSCFieldApp.ViewModel
                 nextVersion = DatabaseLiterals.DBVersion190;
 
             }
+            else if (dbVersion == 1.9)
+            {
+                nextVersion = DatabaseLiterals.DBVersion200;
 
+            }
             return nextVersion;
         }
 
@@ -883,6 +887,13 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableEarthMat);
                 basicInsertQueriesTables.Remove(TableStructure);
             }
+
+            if (fromDBVersion == DBVersion190)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion2_0(attachDBName));
+                basicInsertQueriesTables.Remove(TableMetadata);
+            }
+
             #endregion
 
             //Insert remaining tables
@@ -2583,6 +2594,35 @@ namespace GSCFieldApp.ViewModel
             #endregion
 
             return insertQuery_19;
+        }
+
+        /// <summary>
+        /// Will output a query to update database to version 2.0
+        /// </summary>
+        /// <param name="attachedDBName"></param>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion2_0(string attachedDBName)
+        {
+            //Schema v 2.0 
+            //https://github.com/NRCan/GSC-Field-Application/milestone/20
+            List<string> insertQuery_20 = new List<string>();
+
+            #region F_METADATA
+
+            Metadata modelMetadata= new Metadata();
+            List<string> metaFieldList = modelMetadata.getFieldList[DBVersion200];
+            List<string> metaNullFieldList = new List<string>() { FieldUserInfoSensitivity };
+            Tuple<string, string> metPrimes = new Tuple<string, string>(FieldUserInfoID, FieldUserInfoID);
+            string genericInsertQuery = GenerateInsertQueriesFromModel(metaFieldList, metaNullFieldList, TableMetadata, metPrimes, null, attachedDBName);
+
+            //Replace null with default sensitivity value
+            genericInsertQuery = genericInsertQuery.Replace("NULL as " + FieldUserInfoSensitivity, "'" + DefaultSensitivity + "' as " + FieldUserInfoSensitivity);
+
+            insertQuery_20.Add(genericInsertQuery);
+
+            #endregion
+
+            return insertQuery_20;
         }
         #endregion
 

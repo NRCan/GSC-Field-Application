@@ -64,6 +64,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldUserInfoNotes)]
         public string MetadataNotes { get; set; }
 
+        [Column(DatabaseLiterals.FieldUserInfoSensitivity)]
+        public string Sensitivity { get; set; }
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -142,6 +144,11 @@ namespace GSCFieldApp.Models
 
                 metadataFieldList[DatabaseLiterals.DBVersion] = metadataFieldListDefault;
 
+                //Revert shcema 2.0 changes
+                List<string> metadataFieldList190 = new List<string>();
+                metadataFieldList190.AddRange(metadataFieldListDefault);
+                metadataFieldList190.Remove(DatabaseLiterals.FieldUserInfoSensitivity);
+                metadataFieldList[DatabaseLiterals.DBVersion190] = metadataFieldList190;
 
                 //Revert shcema 1.7 changes
                 List<string> metadataFieldList160 = new List<string>();
