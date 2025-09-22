@@ -892,6 +892,7 @@ namespace GSCFieldApp.ViewModel
             {
                 queryList.AddRange(GetUpgradeQueryVersion2_0(attachDBName));
                 basicInsertQueriesTables.Remove(TableMetadata);
+                basicInsertQueriesTables.Add(TableLinework);
             }
 
             #endregion
