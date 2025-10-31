@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-maccatalyst;net8.0-ios;net8.0-android34.0</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.20348.0</TargetFrameworks>
+		<TargetFrameworks>net9.0-maccatalyst;net9.0-ios;net9.0-android35.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.20348.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
-		<OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
+		<OutputType Condition="'$(TargetFramework)' != 'net9.0'">Exe</OutputType>
 		<RootNamespace>GSCFieldApp</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<UseMauiEssentials>true</UseMauiEssentials>
@@ -48,9 +48,10 @@
 		<FileVersion>3.0.18</FileVersion>
 		<AssemblyVersion>3.0.18</AssemblyVersion>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/NRCan/GSC-Field-Application-3</RepositoryUrl>
+		<RepositoryUrl>https://github.com/NRCan/GSC-Field-Application</RepositoryUrl>
 		<Description>Geological Survey Canada on site data collection for geologists.</Description>
 		<Copyright>His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2025</Copyright>
+		<StartupObject></StartupObject>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
