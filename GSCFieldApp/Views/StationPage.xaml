@@ -165,9 +165,9 @@
                                     ButtonLightColor="{StaticResource FieldStationColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
-            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}">
-
-
+            <!-- Original buttons stack - hidden for waypoints -->
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" 
+                         IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay, Converter={StaticResource ReverseBool}}">
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize StationTooltipAddEM}" 
                         Margin="0,10,0,10" 
@@ -186,6 +186,17 @@
                         ToolTipProperties.Text="{local:Localize StationTooltipAddMA}"
                         Command="{Binding AddMineralizationCommand}"
                         BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        IsVisible="{Binding DocumentVisible}"
+                        ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
+                        BackgroundColor="{StaticResource FieldPhotoColorLight}"
+                        Command="{Binding AddDocumentCommand}"/>
+            </StackLayout>
+
+            <!-- NEW: Document button ONLY for waypoints -->
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" 
+                         IsVisible="{Binding Model.IsWaypoint, Mode=TwoWay}">
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
                         IsVisible="{Binding DocumentVisible}"
