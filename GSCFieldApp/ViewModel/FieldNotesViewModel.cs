@@ -2134,7 +2134,7 @@ namespace GSCFieldApp.ViewModel
             FieldNote dhFN = new FieldNote
             {
                 Display_text_1 = dh.DrillAliasLight,
-                Display_text_2 = dh.DrillCompany,
+                Display_text_2 = dh.DrillName,
                 Display_text_3 = dh.DrillType,
                 GenericTableName = TableDrillHoles,
                 GenericID = dh.DrillID,
