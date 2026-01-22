@@ -446,6 +446,49 @@ namespace GSCFieldApp.Services
 
                 if (validates)
                 {
+
+                    // Prompt to allow user to select todays photos only or all photos
+                    string action = await Shell.Current.DisplayActionSheet(
+                        "Which photos to export?",
+                        "Cancel",
+                        null,
+                        "Today's Photos",
+                        "All Photos"
+                    );
+
+                    List<string> filesToExport;
+
+                    if (action == "Today's Photos")
+                    {
+                        var today = DateTime.Today;
+                        var tomorrow = today.AddDays(1);
+
+                        filesToExport = Directory
+                            .GetFiles(userFolderPath)
+                            .Where(f =>
+                                File.GetLastWriteTime(f) >= today &&
+                                File.GetLastWriteTime(f) < tomorrow)
+                            .ToList();
+                    }
+                    else if (action == "All Photos")
+                    {
+                        filesToExport = Directory.GetFiles(userFolderPath).ToList();
+                    }
+                    else
+                    {
+                        return; // user cancelled
+                    }
+
+                    if (filesToExport.Count == 0)
+                    {
+                        await Shell.Current.DisplayAlert(
+                            "No photos",
+                            "There are no photos to export for the selected option.",
+                            "OK");
+                        return;
+                    }
+
+
                     //Clean first
                     if (File.Exists(userPhotoZipPath))
                     {
@@ -457,7 +500,7 @@ namespace GSCFieldApp.Services
                     using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                     {
                         //Get a list of photos to zip
-                        foreach (var file in Directory.GetFiles(userFolderPath))
+                        foreach (var file in filesToExport)
                         {
 
                             var entryName = Path.GetFileName(file);
