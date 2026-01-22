@@ -34,7 +34,23 @@
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
-                    
+
+                    <!--Embeded camera-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                          FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
+                          FrameTitle="{local:Localize DocumentPageEmbededTitle}">
+                                <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
+                                        IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}" 
+                                        Source="{Binding SnapshotSource}">
+                                <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ImageTappedCommand}" NumberOfTapsRequired="2"/>
+                            </Image.GestureRecognizers>
+                            <!--<Image.Source>
+                            <UriImageSource Uri="{Binding Model.Hyperlink, TargetNullValue={x:Null}, Mode=TwoWay, Converter={StaticResource image2URI}}"/>
+                            </Image.Source>-->
+                        </Image>
+                    </controls:ExpandableFrame>
+
                     <!--General description-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentDescVisibility, Mode=TwoWay}"
@@ -198,23 +214,7 @@
 
                     </controls:ExpandableFrame>
                     
-                    <!--Embeded camera-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize DocumentPageEmbededTitle}">
-                        <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
-                               IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}" 
-                               Source="{Binding SnapshotSource}">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ImageTappedCommand}" NumberOfTapsRequired="2"/>
-                            </Image.GestureRecognizers>
-                            <!--<Image.Source>
-                                <UriImageSource Uri="{Binding Model.Hyperlink, TargetNullValue={x:Null}, Mode=TwoWay, Converter={StaticResource image2URI}}"/>
-                            </Image.Source>-->
-                        </Image>
-                    </controls:ExpandableFrame>
-
-
+                    
                 </FlexLayout>
             </ScrollView>
 
