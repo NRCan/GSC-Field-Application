@@ -449,7 +449,8 @@ namespace GSCFieldApp.Services
 
                     // Prompt to allow user to select todays photos only or all photos
                     string action = await Shell.Current.DisplayActionSheet(
-                        "Which photos to export?",
+                        //"Which photos to export?",
+                        LocalizationResourceManager["ShellQuickPhotoBackupTitle"].ToString(),
                         "Cancel",
                         null,
                         "Today's Photos",
