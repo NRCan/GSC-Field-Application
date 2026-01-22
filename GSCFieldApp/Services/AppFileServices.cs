@@ -431,7 +431,7 @@ namespace GSCFieldApp.Services
                 string userFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
                 string userFolderPath = GetPhotoSubFolder();
                 string userFolderName = Path.GetFileName(userFolderPath);
-                string userZipPath = Path.Combine(userFolder, LocalizationResourceManager["ShellQuickPhotoBackupFileName"].ToString() + "_" + userFolderName);
+                string userZipPath = Path.Combine(userFolder, LocalizationResourceManager["ShellQuickPhotoBackupFileName"].ToString() + String.Format("_{0:MM_dd_HH'h'mm}", DateTime.Now) + "_" + userFolderName);
                 string userPhotoZipPath = userZipPath + ".zip";
                 bool validates = false;
 
