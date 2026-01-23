@@ -1563,4 +1563,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
     <value>Détection d'une géométrie défectueuse. La procédure va continuer, mais assurez-vous de réparer celle-ci.</value>
   </data>
+  <data name="ShellQuickPhotoBackupOptionAll" xml:space="preserve">
+    <value>Toutes les photos</value>
+  </data>
+  <data name="ShellQuickPhotoBackupOptionToday" xml:space="preserve">
+    <value>Photos de la journée</value>
+  </data>
 </root>

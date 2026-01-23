@@ -1562,4 +1562,10 @@ Enter last two digit of current year to proceed.</value>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
     <value>Broken geometry was found. Will skip for now, a repair is needed.</value>
   </data>
+  <data name="ShellQuickPhotoBackupOptionAll" xml:space="preserve">
+    <value>All photos</value>
+  </data>
+  <data name="ShellQuickPhotoBackupOptionToday" xml:space="preserve">
+    <value>Today's photo</value>
+  </data>
 </root>

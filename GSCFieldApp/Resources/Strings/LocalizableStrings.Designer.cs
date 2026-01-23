@@ -3816,6 +3816,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All photos.
+        /// </summary>
+        internal static string ShellQuickPhotoBackupOptionAll {
+            get {
+                return ResourceManager.GetString("ShellQuickPhotoBackupOptionAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today&apos;s photo.
+        /// </summary>
+        internal static string ShellQuickPhotoBackupOptionToday {
+            get {
+                return ResourceManager.GetString("ShellQuickPhotoBackupOptionToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export Photos.
         /// </summary>
         internal static string ShellQuickPhotoBackupTitle {

@@ -1,18 +1,19 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using Microsoft.Maui;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SQLite;
-using GSCFieldApp.Models;
-using CommunityToolkit.Maui.Core.Primitives;
-using System.ComponentModel.DataAnnotations;
 
 namespace GSCFieldApp.Services
 {
@@ -451,15 +452,15 @@ namespace GSCFieldApp.Services
                     string action = await Shell.Current.DisplayActionSheet(
                         //"Which photos to export?",
                         LocalizationResourceManager["ShellQuickPhotoBackupTitle"].ToString(),
-                        "Cancel",
-                        null,
-                        "Today's Photos",
-                        "All Photos"
+                        LocalizationResourceManager["GenericButtonCancel"].ToString(),
+                        null, FlowDirection.LeftToRight,
+                        LocalizationResourceManager["ShellQuickPhotoBackupOptionToday"].ToString(),
+                        LocalizationResourceManager["ShellQuickPhotoBackupOptionAll"].ToString()
                     );
 
                     List<string> filesToExport;
 
-                    if (action == "Today's Photos")
+                    if (action == LocalizationResourceManager["ShellQuickPhotoBackupOptionToday"].ToString())
                     {
                         var today = DateTime.Today;
                         var tomorrow = today.AddDays(1);
@@ -471,7 +472,7 @@ namespace GSCFieldApp.Services
                                 File.GetLastWriteTime(f) < tomorrow)
                             .ToList();
                     }
-                    else if (action == "All Photos")
+                    else if (action == LocalizationResourceManager["ShellQuickPhotoBackupOptionAll"].ToString())
                     {
                         filesToExport = Directory.GetFiles(userFolderPath).ToList();
                     }
@@ -483,9 +484,9 @@ namespace GSCFieldApp.Services
                     if (filesToExport.Count == 0)
                     {
                         await Shell.Current.DisplayAlert(
-                            "No photos",
-                            "There are no photos to export for the selected option.",
-                            "OK");
+                            LocalizationResourceManager["GenericWarningTitle"].ToString(),
+                            LocalizationResourceManager["ShellQuickPhotoBackupEmpty"].ToString(),
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
                         return;
                     }
 
