@@ -2777,10 +2777,10 @@ public partial class MapPage : ContentPage
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
                         ex.Message,
                         LocalizationResourceManager["GenericButtonOk"].ToString());
-                    //DeactivateLocationVisuals();
 
                     new ErrorToLogFile(ex).WriteToFile();
 
+                    this.WaitingCursor.IsRunning = false;
                 }
 
                 break;
