@@ -55,7 +55,7 @@ namespace GSCFieldApp.Models
         public double? LocationPDOP { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationErrorMeasure)]
-        public double LocationErrorMeasure { get; set; }
+        public double? LocationErrorMeasure { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationErrorMeasureType)]
         public string LocationErrorMeasureType { get; set; }

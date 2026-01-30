@@ -300,6 +300,12 @@ namespace GSCFieldApp.ViewModel
             //Make sure datum is properly set
             _model.LocationDatum = KeywordEPSGDefault.ToString();
 
+            //Validate error measurement on manual entries
+            if (_model.isManualEntry)
+            {
+                _model.LocationErrorMeasure = null;
+            }
+
             //Make sure the geometry matches
             GeopackageService gs = new GeopackageService();
             _model.LocationGeometry = gs.CreateByteGeometryPoint(_model.LocationLong, _model.LocationLat);

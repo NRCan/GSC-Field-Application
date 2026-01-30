@@ -1265,7 +1265,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="FieldBookPageDescription" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="PicklistPageTables	Form" xml:space="preserve">
+  <data name="PicklistPageTables" xml:space="preserve">
     <value>Notes Table</value>
   </data>
   <data name="MapPageTapCoordinateTitle" xml:space="preserve">
