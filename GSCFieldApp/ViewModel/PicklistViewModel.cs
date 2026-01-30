@@ -253,6 +253,9 @@ namespace GSCFieldApp.ViewModel
             //Cast and make sure something valid is selected
             if (_picklistFields.cboxDefaultItemIndex >= 0)
             {
+                //Clean page before refilling
+                ResetPage(false, false);
+
                 bool doesHaveParents = await FillFieldParentValuesPicklist();
                 if (!doesHaveParents)
                 {
@@ -567,7 +570,7 @@ namespace GSCFieldApp.ViewModel
                 SQLiteAsyncConnection parentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
                 List<string> parentVocabs = await parentConnection.QueryScalarsAsync<string>(query);
 
-                if (parentVocabs != null && parentVocabs.Count() > 0 && parentVocabs[0] != null)
+                if (parentVocabs != null && parentVocabs.Count() > 1 && parentVocabs[0] != null)
                 {
                     //Convert to custom picker
                     _picklistParents = da.GetComboboxListFromStrings(parentVocabs);
@@ -637,7 +640,7 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will clean the page by removing all list and selected values
         /// </summary>
-        public void ResetPage(bool withTables = true)
+        public void ResetPage(bool withTables = true, bool withFields = true)
         {
             if (withTables)
             {
@@ -645,12 +648,16 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(PicklistTables));
             }
 
-            _picklistFields.cboxItems.Clear();
-            _picklistFields.cboxDefaultItemIndex = -1;
-            OnPropertyChanged(nameof(PicklistFields));
+            if (withFields)
+            {
+                _picklistFields.cboxItems.Clear();
+                _picklistFields.cboxDefaultItemIndex = -1;
+                OnPropertyChanged(nameof(PicklistFields));
+            }
 
             _picklistParents.cboxItems.Clear();
             _picklistParents.cboxDefaultItemIndex = -1;
+            _picklistParents = new ComboBox(); //Real hard reset, else .clear() still shows some old values in the picker for some reasons
             OnPropertyChanged(nameof(PicklistParents));
 
             _picklistValues.Clear();

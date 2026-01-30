@@ -143,13 +143,12 @@
                                 <Label Text="{local:Localize PicklistPageParentValue}" Style="{StaticResource FieldAppPickerLabel}" Grid.Row="4"/>
                                 <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PicklistPageParentValuePicker" HorizontalOptions="StartAndExpand"
                                     Grid.Column="0" Grid.Row="5" WidthRequest="240" VerticalOptions="StartAndExpand"
-                                    ItemsSource="{Binding PicklistParents.cboxItems, Mode=TwoWay}" Margin="0" 
+                                    ItemsSource="{Binding PicklistParents.cboxItems}" Margin="0" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedItem="{Binding ModelPicklist.PicklistParent, 
                                         Converter={StaticResource cbox2Str},
-                                        ConverterParameter={Binding PicklistParents, Source={x:Reference PicklistPageParentValuePicker}},
-                                        Mode=TwoWay}"
-                                    SelectedIndex="{Binding PicklistParents.cboxDefaultItemIndex, Mode=TwoWay}">
+                                        ConverterParameter={Binding PicklistParents, Source={x:Reference PicklistPageParentValuePicker}}}"
+                                    SelectedIndex="{Binding PicklistParents.cboxDefaultItemIndex}">
 
                                     <Picker.Behaviors>
                                         <toolkit:EventToCommandBehavior 
@@ -190,10 +189,10 @@
                                    MaximumHeightRequest="525" MinimumWidthRequest="350" Padding="10,10,0,0"
                                    MaximumWidthRequest="550" HorizontalOptions="Start">
 
-                                <CollectionView ItemsSource="{Binding PicklistValues, Mode=TwoWay}"
+                                <CollectionView ItemsSource="{Binding PicklistValues, Mode=TwoWay}" 
                                             Margin="0,0,0,10"
                                             ItemTemplate="{StaticResource PicklistValueCollectionTemplate}"  
-                                            x:Name="PicklistCollectionControl" 
+                                            x:Name="PicklistCollectionControl"
                                             Style="{StaticResource FieldAppPickListCollectionView}"/>
 
                             </Border>
