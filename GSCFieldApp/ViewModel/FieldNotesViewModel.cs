@@ -48,6 +48,7 @@ namespace GSCFieldApp.ViewModel
 
         private bool _isFieldNotesRefreshing = false;
         public bool IsFieldNotesRefreshing { get { return _isFieldNotesRefreshing; } set { _isFieldNotesRefreshing = value; } }
+
         /// <summary>
         /// Need to use a random id else updating twice a given table records, won't trigger
         /// </summary>
@@ -1788,9 +1789,9 @@ namespace GSCFieldApp.ViewModel
                     //Best used when a delete cascade has been done and and child should be removed from page
                     tasks.Add(ValidateFillFieldNotesAsync(true));
                     break;
-                case TableNames.document:
-                    tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
-                    break;
+                //case TableNames.document:
+                //    tasks.Add(FillDocumentNotes(DataAccess.DbConnection));
+                //    break;
                 default:
                     break;
             }
