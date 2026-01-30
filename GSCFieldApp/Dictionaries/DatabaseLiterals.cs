@@ -5,7 +5,8 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const double DBVersion = 1.9; //Will be used to verify loaded projects.
+        public const double DBVersion = 2.0; //Will be used to verify loaded projects.
+        public const double DBVersion200 = 2.0; // " " "
         public const double DBVersion190 = 1.9; // " " "
         public const double DBVersion180 = 1.8; //Will be used to verify and upgrade loaded projects
         public const double DBVersion170 = 1.7; // " " "
@@ -75,6 +76,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is now accessible in F_LOCATION
         public const string FieldUserInfoNotes = "NOTES"; //Version 1.5
         public const string FieldUserInfoActivityName = "ACTIVITY_NAME"; //version 1.5
+        public const string FieldUserInfoSensitivity = "SENSITIVITY_CLASSIFICATION"; //Version 2.0
 
         public const string FieldStationID = "STATIONID";//Version 1.0
         public const string FieldStationAlias = "STATIONIDNAME";//Version 1.5
@@ -426,6 +428,7 @@ namespace GSCFieldApp.Dictionaries
         #region Database default values for field
         public const string DefaultFieldObservationType = "Outcrop";
         public const string DefaultNoData = "No Data";
+        public const string DefaultSensitivity = "unclassified";
         #endregion
 
         #region Database values for field

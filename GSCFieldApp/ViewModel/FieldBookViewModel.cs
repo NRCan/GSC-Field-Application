@@ -290,6 +290,7 @@ namespace GSCFieldApp.ViewModel
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
                 Model.IsActive = 0; //Default to inactive on new field books since they don't have any stations yet.
+                Model.Sensitivity = Dictionaries.DatabaseLiterals.DefaultSensitivity; //Default to unclassified
             }
 
             //Process pickers
