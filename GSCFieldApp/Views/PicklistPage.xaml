@@ -140,7 +140,11 @@
                                     </Picker.Behaviors>
                                 </Picker>
 
-                                <Label Text="{local:Localize PicklistPageParentValue}" Style="{StaticResource FieldAppPickerLabel}" Grid.Row="4"/>
+                                <HorizontalStackLayout Grid.Row="4">
+                                    <Label Text="{local:Localize PicklistPageParentValue}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Label Text="{Binding PicklistParents.cboxItems.Count, StringFormat=' ({0:D})'}" Style="{StaticResource FieldAppPickerLabel}" />
+                                </HorizontalStackLayout>
+                                
                                 <Picker Title="{local:Localize GenericPickerTitle}" x:Name="PicklistPageParentValuePicker" HorizontalOptions="StartAndExpand"
                                     Grid.Column="0" Grid.Row="5" WidthRequest="240" VerticalOptions="StartAndExpand"
                                     ItemsSource="{Binding PicklistParents.cboxItems}" Margin="0" 

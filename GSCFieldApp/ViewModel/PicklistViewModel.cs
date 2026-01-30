@@ -293,6 +293,7 @@ namespace GSCFieldApp.ViewModel
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+
         }
 
         #region METHODS
