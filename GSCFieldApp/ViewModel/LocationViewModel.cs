@@ -211,7 +211,7 @@ namespace GSCFieldApp.ViewModel
                             {
                                 _model.LocationEasting = Math.Round(transformedPoint.X, 4);
                                 _model.LocationNorthing = Math.Round(transformedPoint.Y, 4);
-
+                                _model.LocationEPSGProj = _model.LocationDatum;
                                 isSystemValid = true;
                                 OnPropertyChanged(nameof(Model));
                             }
@@ -297,7 +297,16 @@ namespace GSCFieldApp.ViewModel
             //Validation
             object savedObject = null;
 
-            //Make sure datum is properly set
+            //Make sure any projected coordinates are also converted back to geographic
+            if (_model.LocationEasting != null || _model.LocationNorthing != null)
+            {
+                //Keep original projected datum (geographic and projected being in the same picker)
+                _model.LocationEPSGProj = _model.LocationDatum;
+
+                await ConvertToGeographic();
+            }
+
+            //Make sure datum is properly reset to default
             _model.LocationDatum = KeywordEPSGDefault.ToString();
 
             //Validate error measurement on manual entries
