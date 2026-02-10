@@ -842,7 +842,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                currentStyling.polyFillColor = Color.Transparent;
+                currentStyling.polyVectorStyle.Fill.Color = Color.Transparent;
             }
 
             return currentStyling;
