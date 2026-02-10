@@ -1,19 +1,10 @@
 ﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Microsoft.Maui;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GSCFieldApp.Services
 {

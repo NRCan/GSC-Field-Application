@@ -235,7 +235,7 @@ namespace GSCFieldApp.ViewModel
 
             if (Model.DrillIDName != null)
             {
-                //Edge case: renaming parent location alias based on drill hole alias
+                //Sync parent location alias with drill hole one
                 if (Model != null && Model.DrillLocationID > 0)
                 {
                     List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
@@ -243,8 +243,13 @@ namespace GSCFieldApp.ViewModel
                     if (parentLocation != null && parentLocation.Count > 0)
                     {
                         DataIDCalculation iDCalculation = new DataIDCalculation();
-                        parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.DrillIDName);
-                        savedObject = await da.SaveItemAsync(parentLocation[0], true);
+                        string newAlias = await iDCalculation.CalculateLocationAliasAsync(Model.DrillIDName);
+                        if (newAlias != parentLocation[0].LocationAlias)
+                        {
+                            parentLocation[0].LocationAlias = newAlias;
+                            await da.SaveItemAsync(parentLocation[0], true);
+                            RefreshFieldNotes(TableNames.location, parentLocation[0], refreshType.update);
+                        }
                     }
                 }
 

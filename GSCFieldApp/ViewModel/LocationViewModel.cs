@@ -320,9 +320,15 @@ namespace GSCFieldApp.ViewModel
             _model.LocationGeometry = gs.CreateByteGeometryPoint(_model.LocationLong, _model.LocationLat);
             RefreshGeometry(TableNames.location, Model); //Send signal that there is an updated geometry
 
-            //Validate if new entry or update
+            //Update record
             if (Model.LocationAlias != null && _model.LocationID != 0)
             {
+                //Quick validation if record has children or not, this will change the alias naming scheme
+                string tempAlias = await idCalculator.CalculateTempLocationAliasAsync(_model.LocationID);
+                if (tempAlias != string.Empty)
+                {
+                    _model.LocationAlias = tempAlias;
+                }
                 savedObject = await da.SaveItemAsync(Model, true);
                 RefreshFieldNotes(TableNames.location, Model, refreshType.update);
             }

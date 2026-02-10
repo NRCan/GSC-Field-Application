@@ -1,10 +1,11 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using NetTopologySuite.Algorithm;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GSCFieldApp.Models;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using SQLite;
-using GSCFieldApp.Dictionaries;
 
 
 namespace GSCFieldApp.Services.DatabaseServices
@@ -119,18 +120,55 @@ namespace GSCFieldApp.Services.DatabaseServices
                     new ErrorToLogFile(e).WriteToFile();
                 }
 
-
             }
 
             return finaleLocationString;
         }
+        /// <summary>
+        /// Will calculate a new temporary location alias, used when a location doesn't have related records like a station or a drillhole.
+        /// </summary>
+        /// <param name="inStationAlias"></param>
+        /// <param name="officerCode"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateTempLocationAliasAsync(int locationID, string officerCode = "")
+        {
+            string tempLocationAlias = string.Empty;
+
+            //Get current year
+            string currentDate = DateTime.Now.Year.ToString();
+
+            //Get officer code
+            if (officerCode == string.Empty)
+            {
+                List<Metadata> mets = await DataAccess.DbConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                officerCode = mets[0].UserCode;
+            }
+
+            //Querying number of childrens
+            List<double> countStations = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1} WHERE {0} = {2}", FieldLocationID, TableStation, locationID));
+            List<double> countDrillHoles = await DataAccess.DbConnection.QueryScalarsAsync<double>(string.Format("SELECT count({0}) FROM {1} WHERE {0} = {2}", FieldLocationID, TableDrillHoles, locationID));
+            countStations.AddRange(countDrillHoles);
+
+            //Validate if there is a need for a temp alias, else return nothing.
+            double totalCount = countStations.Sum();
+            if (totalCount == 0)
+            {
+                tempLocationAlias = currentDate.Substring(currentDate.Length - 2) + officerCode + String.Format("{0:MMddHHhmm}", DateTime.Now) + TableLocationAliasSuffix;
+
+            }
+
+            return tempLocationAlias;
+
+
+        }
+
         #endregion
 
         #region METADATA/DICTIONARIES
-        /// <summary>
-        /// Will calculate a new metadata id for current user
-        /// </summary>
-        /// <returns></returns>
+            /// <summary>
+            /// Will calculate a new metadata id for current user
+            /// </summary>
+            /// <returns></returns>
         public int CalculateMetadataID()
         {
             return GetHashCodeFromGUID();

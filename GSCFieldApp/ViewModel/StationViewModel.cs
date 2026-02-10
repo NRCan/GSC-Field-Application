@@ -203,17 +203,21 @@ namespace GSCFieldApp.ViewModel
 
             if (Model.StationAlias != null)
             {
-                //Edge case: renaming parent location alias if station is a waypoint
-                if (Model != null && Model.StationObsType == DatabaseLiterals.KeywordStationWaypoint)
-                {
-                    List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
 
-                    if (parentLocation != null && parentLocation.Count > 0)
+                //Default, sync location alias with station
+                //Edge case: renaming parent location alias if station is a waypoint
+                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
+                if (parentLocation != null && parentLocation.Count > 0)
+                {
+                    DataIDCalculation iDCalculation = new DataIDCalculation();
+                    string newAlias = await iDCalculation.CalculateLocationAliasAsync(Model.StationAlias);
+                    if (newAlias != parentLocation[0].LocationAlias)
                     {
-                        DataIDCalculation iDCalculation = new DataIDCalculation();
-                        parentLocation[0].LocationAlias = await iDCalculation.CalculateLocationAliasAsync(Model.StationAlias);
+                        parentLocation[0].LocationAlias = newAlias;
                         await da.SaveItemAsync(parentLocation[0], true);
+                        RefreshFieldNotes(TableNames.location, parentLocation[0], refreshType.update);
                     }
+                    
                 }
 
                 //Validate if new entry or update
