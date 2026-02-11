@@ -53,7 +53,7 @@ namespace GSCFieldApp.Services
                 }
             }
 
-            if (proceedWithDelete && itemAlias != string.Empty && itemID > 0)
+            if (proceedWithDelete && itemID > 0)
             {
                 DatabaseLiterals.TableNames deleteEventTableName = tableToDeleteItemFrom;
 
