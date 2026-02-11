@@ -1034,10 +1034,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     foreach (Station stat in stations)
                     {
-                        if (stat != null && stat.StationObsType != null && stat.StationObsType != KeywordStationWaypoint)
+                        if (!stat.StationAlias.Contains(KeywordStationWaypoint))
                         {
                             int stationIDNo = 0;
-                            int.TryParse(stations[0].StationAliasLight, out stationIDNo);
+                            int.TryParse(stat.StationAliasLight, out stationIDNo);
 
                             //Increment only if it's higher then last station
                             if (drillCount <= stationIDNo)
