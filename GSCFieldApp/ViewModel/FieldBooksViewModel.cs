@@ -771,7 +771,8 @@ namespace GSCFieldApp.ViewModel
             {
                 TableLocation, TableMetadata, TableEarthMat, TableSample, 
                 TableStation, TableDocument, TableStructure, TableFossil, 
-                TableMineral, TableMineralAlteration, TablePFlow, TableEnvironment
+                TableMineral, TableMineralAlteration, TablePFlow, TableEnvironment,
+                TableDrillHoles, TableLinework, TableTraverseLine, TableTraversePoint
             };
 
             //List of queries to send as a batch
@@ -798,8 +799,13 @@ namespace GSCFieldApp.ViewModel
                 //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableEarthMat);
 
+                //Remove non-existing tables
+                basicInsertQueriesTables.Remove(TableDrillHoles);
+                basicInsertQueriesTables.Remove(TableLinework);
+                basicInsertQueriesTables.Remove(TableTraverseLine);
+                basicInsertQueriesTables.Remove(TableTraversePoint);
+
                 //Add deprecated
-                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
             }
@@ -811,8 +817,13 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableLocation);
                 basicInsertQueriesTables.Remove(TableMetadata);
 
+                //Remove non-existing tables
+                basicInsertQueriesTables.Remove(TableDrillHoles);
+                basicInsertQueriesTables.Remove(TableLinework);
+                basicInsertQueriesTables.Remove(TableTraverseLine);
+                basicInsertQueriesTables.Remove(TableTraversePoint);
+
                 //Add deprecated
-                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
 
@@ -830,8 +841,13 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableMetadata);
                 basicInsertQueriesTables.Remove(TableDocument);
 
+                //Remove non-existing tables
+                basicInsertQueriesTables.Remove(TableDrillHoles);
+                basicInsertQueriesTables.Remove(TableLinework);
+                basicInsertQueriesTables.Remove(TableTraverseLine);
+                basicInsertQueriesTables.Remove(TableTraversePoint);
+
                 //Add deprecated
-                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
             }
@@ -847,8 +863,13 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableMineralAlteration);
                 basicInsertQueriesTables.Remove(TableLocation);
 
-                //Tables that are either not in are can't have any data in this version
-                basicInsertQueriesTables.Remove(TableEnvironment);
+                //Remove non-existing tables
+                basicInsertQueriesTables.Remove(TableDrillHoles);
+                basicInsertQueriesTables.Remove(TableLinework);
+                basicInsertQueriesTables.Remove(TableTraverseLine);
+                basicInsertQueriesTables.Remove(TableTraversePoint);
+
+                //Add deprecated
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
 
@@ -875,6 +896,11 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableEarthMat);
                 basicInsertQueriesTables.Remove(TableTraverseLine);
                 basicInsertQueriesTables.Remove(TableTraversePoint);
+
+                //Remove non-existing tables
+                basicInsertQueriesTables.Remove(TableDrillHoles);
+                basicInsertQueriesTables.Remove(TableLinework);
+
             }
 
             if (fromDBVersion == DBVersion180)
@@ -886,6 +912,9 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableSample);
                 basicInsertQueriesTables.Remove(TableEarthMat);
                 basicInsertQueriesTables.Remove(TableStructure);
+
+                //Remove non-existing tables
+                basicInsertQueriesTables.Remove(TableLinework);
             }
 
             if (fromDBVersion == DBVersion190)
@@ -893,6 +922,7 @@ namespace GSCFieldApp.ViewModel
                 queryList.AddRange(GetUpgradeQueryVersion2_0(attachDBName));
                 basicInsertQueriesTables.Remove(TableMetadata);
                 basicInsertQueriesTables.Add(TableLinework);
+
             }
 
             #endregion
