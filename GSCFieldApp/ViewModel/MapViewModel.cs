@@ -240,33 +240,26 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddLocation()
         {
-            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+
+            //Create a location record
+            int locationID = await SaveLocationModelAsync();
+
+            //Change entry type for manual
+            locationModel.LocationEntryType = locationEntryTypeManual;
+
+            //Navigate to structure page 
+            if (locationID > 0)
             {
-                //Create a location record
-                int locationID = await SaveLocationModelAsync();
-
-                //Change entry type for manual
-                locationModel.LocationEntryType = locationEntryTypeManual;
-
-                //Navigate to structure page 
-                if (locationID > 0)
-                {
-                    await Shell.Current.GoToAsync($"/{nameof(LocationPage)}/",
-                        new Dictionary<string, object>
-                        {
-                            [nameof(FieldLocation)] = locationModel,
-                        }
-                    );
-                }
-                else
-                {
-                    await ShowMissingFieldBookMesasge();
-                }
-
+                await Shell.Current.GoToAsync($"/{nameof(LocationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FieldLocation)] = locationModel,
+                    }
+                );
             }
             else
             {
-                DisplayAddError();
+                await ShowMissingFieldBookMesasge();
             }
 
         }
