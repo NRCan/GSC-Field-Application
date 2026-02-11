@@ -222,7 +222,7 @@ namespace GSCFieldApp.Models
                         int.TryParse(LocationAlias.Substring(LocationAlias.Length - 8, 4), out aliasNumber);
                     }
 
-                    if (aliasNumber > 0 && LocationAlias.Length < 12)
+                    if (aliasNumber > 0 && LocationAlias.Length < 14)
                     {
                         //Case waypoint
                         if (LocationAlias.Contains(DatabaseLiterals.KeywordStationWaypoint))
