@@ -99,7 +99,17 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            await Shell.Current.GoToAsync("..");
+
+            //Make sure to delete station and location records if user is coming from map page
+            if (_model != null && _model.DrillID == 0)
+            {
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _fieldLocation.LocationAlias, _fieldLocation.LocationID, true);
+            }
+
+            //Exit
+            await NavigateAfterAction(TableNames.drill);
+     
         }
 
         /// <summary>

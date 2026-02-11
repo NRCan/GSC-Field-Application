@@ -176,7 +176,8 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, fieldLocation.LocationAlias, fieldLocation.LocationID, true);
             }
 
-            await Shell.Current.GoToAsync("..");
+            //Exit
+            await NavigateAfterAction(TableNames.station);
 
         }
 
