@@ -77,10 +77,20 @@ public partial class MapPage : ContentPage
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
+
+#if ANDROID
     private ParallelOptions _parallelOptions = new()
     {
         MaxDegreeOfParallelism = 10
     };
+#else
+    private ParallelOptions _parallelOptions = new()
+    {
+        MaxDegreeOfParallelism = 4
+    };
+
+#endif
+
     private WKTReader _wellKnownTextReader = new WKTReader();
     private GeopackageService _geopackageService = new GeopackageService();
 
