@@ -351,11 +351,20 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location access denied.
+        ///   Looks up a localized string similar to Location access failed.
         /// </summary>
         internal static string DisplayAlertGPSDenied {
             get {
                 return ResourceManager.GetString("DisplayAlertGPSDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to retrieve location, would you like to retry?.
+        /// </summary>
+        internal static string DisplayAlertGPSDeniedMessage {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSDeniedMessage", resourceCulture);
             }
         }
         

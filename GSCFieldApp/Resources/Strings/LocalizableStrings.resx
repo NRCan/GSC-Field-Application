@@ -168,7 +168,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Location</value>
   </data>
   <data name="DisplayAlertGPSDenied" xml:space="preserve">
-    <value>Location access denied</value>
+    <value>Location access failed</value>
   </data>
   <data name="DisplayAlertGPSMessage" xml:space="preserve">
     <value>Access to location service is currently disabled. Would you like to fix the problem?</value>
@@ -1265,9 +1265,6 @@ Enter last two digit of current year to proceed.</value>
   <data name="FieldBookPageDescription" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="PicklistPageTables" xml:space="preserve">
-    <value>Notes Table</value>
-  </data>
   <data name="MapPageTapCoordinateTitle" xml:space="preserve">
     <value>Coordinates</value>
   </data>
@@ -1567,5 +1564,8 @@ Enter last two digit of current year to proceed.</value>
   </data>
   <data name="ShellQuickPhotoBackupOptionToday" xml:space="preserve">
     <value>Today's photo</value>
+  </data>
+  <data name="DisplayAlertGPSDeniedMessage" xml:space="preserve">
+    <value>Failed to retrieve location, would you like to retry?</value>
   </data>
 </root>

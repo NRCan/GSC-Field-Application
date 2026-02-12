@@ -2726,7 +2726,7 @@ public partial class MapPage : ContentPage
                         LocalizationResourceManager["GenericButtonOk"].ToString());
                     DeactivateLocationVisuals();
 
-                    new ErrorToLogFile(fnsEx).WriteToFile();
+                    new ErrorToLogFile(string.Format("FeatureNotSupportedException: {0}", fnsEx.Message)).WriteToFile();
 
                 }
                 catch (FeatureNotEnabledException fneEx)
@@ -2758,12 +2758,18 @@ public partial class MapPage : ContentPage
                     //If after 10 attemps it's still not enabled, stop trying
                     if (_locationSettingEnabledAttempt <= 10)
                     {
+                        new ErrorToLogFile(string.Format("FeatureNotEnabledException: Attempts {0} - Error message: {1}", _locationSettingEnabledAttempt.ToString(), fneEx.Message)).WriteToFile();
+
                         //Increment atempt
                         _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
 
                         await Task.Delay(1000).ContinueWith(async antecedent => await StartGPS());
 
-                        new ErrorToLogFile(fneEx).WriteToFile();
+                        
+                    }
+                    else
+                    {
+                        new ErrorToLogFile(string.Format("FeatureNotEnabledException: 10 attempts were made to get a location, without success location. {0}", fneEx.Message)).WriteToFile();
                     }
 
                 }
@@ -2777,18 +2783,25 @@ public partial class MapPage : ContentPage
 
                     DeactivateLocationVisuals();
 
-                    new ErrorToLogFile(pEx).WriteToFile();
+                    new ErrorToLogFile(string.Format("PermissionException: {0}", pEx.Message)).WriteToFile();
 
                 }
                 catch (System.Exception ex)
                 {
 
                     // Unable to get location
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        ex.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                    bool restartGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                        LocalizationResourceManager["DisplayAlertGPSDeniedMessage"].ToString(),
+                        LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
 
-                    new ErrorToLogFile(ex).WriteToFile();
+                    new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
+
+                    await StopGPSAsync();
+
+                    if (restartGPS)
+                    {
+                        await StartGPS();
+                    }
 
                     this.WaitingCursor.IsRunning = false;
                 }
