@@ -24,6 +24,7 @@
         <conv:DD2DMSConverter x:Key="DD2DMS" />
         <conv:ElevationConverter x:Key="FormatElevation" />
         <conv:VisibilityFromILayer x:Key="layerButtonVisibility"/>
+        <conv:UrlDetectionConverter x:Key="UrlDetection" />
 
         <!-- Layer Properties -->
         <DataTemplate  x:Key="MapLayersTemplate" x:DataType="maplayer:ILayer">
@@ -86,7 +87,13 @@
                     <Label Text="{Binding FieldName}" FontAttributes="Bold" Padding="0" MaximumWidthRequest="100" LineBreakMode="TailTruncation"
                        VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
                     <Label Text="{Binding FieldValue}" Padding="0" LineBreakMode="TailTruncation"
-                       VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1"/>
+                       VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1"
+                       TextColor="{Binding FieldValue, Converter={StaticResource UrlDetection}, ConverterParameter=Color}"
+                       TextDecorations="{Binding FieldValue, Converter={StaticResource UrlDetection}, ConverterParameter=Underline}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnMapInfoUrlTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
             </Grid>
 
