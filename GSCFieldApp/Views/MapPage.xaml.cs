@@ -41,6 +41,8 @@ using SkiaSharp.Views.Maui.Controls;
 using System.Globalization;
 using Microsoft.Maui.Storage;
 using ProjNet.Geometries;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Networking;
 
 
 
@@ -2435,11 +2437,11 @@ public partial class MapPage : ContentPage
         if (layers != null && layers.Count() > 0)
         {
 
-            WritableLayer writeLayer = layers.First() as WritableLayer;
-            if (writeLayer != null)
+            WritableLayer tLayer = layers.First() as WritableLayer;
+            if (tLayer != null)
             {
                 // Clean layer of any drawn geometries
-                writeLayer.Clear();
+                tLayer.Clear();
                 mapView.Map.RefreshGraphics();
 
                 _drawableLineGeometry = null;
@@ -2509,7 +2511,7 @@ public partial class MapPage : ContentPage
             }
             catch (System.Exception e)
             {
-                new ErrorToLogFile(e.Message).WriteToFile();
+                new ErrorToLogFile(e).WriteToFile();
 
                 return Color.Grey;
             }
@@ -2702,7 +2704,7 @@ public partial class MapPage : ContentPage
 
                     if (success)
                     {
-                        _locationSettingEnabledAttempt = 0; //Reset attempt
+                        _locationSettingEnabledAttempt = 0; //Reset
 
                         //Force location change event
                         await BackgroundTimer(_refreshRate);
@@ -2763,7 +2765,7 @@ public partial class MapPage : ContentPage
                         //Increment atempt
                         _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
 
-                        await Task.Delay(1000).ContinueWith(async antecedent => await StartGPS());
+                        await Task.Delay(1000).ContinueWith(async a => await StartGPS());
 
                         
                     }
@@ -3046,4 +3048,62 @@ public partial class MapPage : ContentPage
 
     #endregion
 
+    // Add this event handler for TapGestureRecognizer
+    private async void OnMapInfoUrlTapped(object sender, EventArgs e)
+    {
+        try
+        {
+            Label tappedLabel = sender as Label;
+            if (tappedLabel != null && tappedLabel.Text != null)
+            {
+                string labelText = tappedLabel.Text.Trim();
+                
+                // Check if the text is a valid URL
+                Uri uriResult = null;
+                bool isValidUri = false;
+                
+                try
+                {
+                    // If the URL doesn't start with a scheme, add https://
+                    string urlToValidate = labelText;
+                    if (!labelText.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && 
+                        !labelText.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    {
+                        urlToValidate = "https://" + labelText;
+                    }
+                    
+                    uriResult = new Uri(urlToValidate, UriKind.Absolute);
+                    isValidUri = uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps;
+                }
+                catch
+                {
+                    uriResult = null;
+                    isValidUri = false;
+                }
+
+                if (isValidUri && uriResult != null)
+                {
+                    // Open the URL in the browser
+                    await Browser.Default.OpenAsync(uriResult, BrowserLaunchMode.SystemPreferred);
+                }
+                else
+                {
+                    // If not a valid URL, you could handle it differently (e.g., copy to clipboard)
+                    await Clipboard.Default.SetTextAsync(labelText);
+                    await Shell.Current.DisplayAlert(
+                        LocalizationResourceManager["GenericInfoTitle"].ToString(),
+                        LocalizationResourceManager["GenericCopiedToClipboard"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            new ErrorToLogFile(ex).WriteToFile();
+            await Shell.Current.DisplayAlert(
+                LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                ex.Message,
+                LocalizationResourceManager["GenericButtonOk"].ToString());
+        }
+    }
 }
