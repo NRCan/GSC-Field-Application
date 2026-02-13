@@ -1,9 +1,14 @@
 ﻿using CommunityToolkit.Maui;
 using GSCFieldApp.Services;
+using GSCFieldApp.Services.Abstraction;
 using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+
+#if ANDROID
+using GSCFieldApp.Platforms.Android.Services;     // PhotoEditorLauncher
+#endif
 
 
 //#if WINDOWS10_0_19041_0_OR_GREATER
@@ -122,6 +127,15 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+
+        // === Dependency Injection registrations ===
+#if ANDROID
+        builder.Services.AddSingleton<IPhotoEditorLauncher, PhotoEditorLauncher>();
+#else
+        builder.Services.AddSingleton<IPhotoEditorLauncher, NoopPhotoEditorLauncher>();
+#endif
+
+
+        return builder.Build();
 	}
 }
