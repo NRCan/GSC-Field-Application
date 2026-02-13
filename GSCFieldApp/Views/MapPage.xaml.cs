@@ -958,6 +958,71 @@ public partial class MapPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Triggered when user taps on an attribute value in the map info pop-up
+    /// It'll will show hyperlinks if any, else it'll copy the information in
+    /// the clipboard.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void OnMapInfoUrlTapped(object sender, EventArgs e)
+    {
+        try
+        {
+            Label tappedLabel = sender as Label;
+            if (tappedLabel != null && tappedLabel.Text != null)
+            {
+                string labelText = tappedLabel.Text.Trim();
+
+                // Check if the text is a valid URL
+                Uri uriResult = null;
+                bool isValidUri = false;
+
+                try
+                {
+                    // If the URL doesn't start with a scheme, add https://
+                    string urlToValidate = labelText;
+                    if (!labelText.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                        !labelText.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    {
+                        urlToValidate = "https://" + labelText;
+                    }
+
+                    uriResult = new Uri(urlToValidate, UriKind.Absolute);
+                    isValidUri = uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps;
+                }
+                catch
+                {
+                    uriResult = null;
+                    isValidUri = false;
+                }
+
+                if (isValidUri && uriResult != null)
+                {
+                    // Open the URL in the browser
+                    await Browser.Default.OpenAsync(uriResult, BrowserLaunchMode.SystemPreferred);
+                }
+                else
+                {
+                    // If not a valid URL, you could handle it differently (e.g., copy to clipboard)
+                    await Clipboard.Default.SetTextAsync(labelText);
+                    await Shell.Current.DisplayAlert(
+                        LocalizationResourceManager["GenericInfoTitle"].ToString(),
+                        LocalizationResourceManager["GenericCopiedToClipboard"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            new ErrorToLogFile(ex).WriteToFile();
+            await Shell.Current.DisplayAlert(
+                LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                ex.Message,
+                LocalizationResourceManager["GenericButtonOk"].ToString());
+        }
+    }
+
     #endregion
 
     #region METHODS
@@ -3187,68 +3252,5 @@ public partial class MapPage : ContentPage
 
     #endregion
 
-    /// <summary>
-    /// Triggered when user taps on an attribute value in the map info pop-up
-    /// It'll will show hyperlinks if any, else it'll copy the information in
-    /// the clipboard.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void OnMapInfoUrlTapped(object sender, EventArgs e)
-    {
-        try
-        {
-            Label tappedLabel = sender as Label;
-            if (tappedLabel != null && tappedLabel.Text != null)
-            {
-                string labelText = tappedLabel.Text.Trim();
-                
-                // Check if the text is a valid URL
-                Uri uriResult = null;
-                bool isValidUri = false;
-                
-                try
-                {
-                    // If the URL doesn't start with a scheme, add https://
-                    string urlToValidate = labelText;
-                    if (!labelText.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && 
-                        !labelText.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                    {
-                        urlToValidate = "https://" + labelText;
-                    }
-                    
-                    uriResult = new Uri(urlToValidate, UriKind.Absolute);
-                    isValidUri = uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps;
-                }
-                catch
-                {
-                    uriResult = null;
-                    isValidUri = false;
-                }
 
-                if (isValidUri && uriResult != null)
-                {
-                    // Open the URL in the browser
-                    await Browser.Default.OpenAsync(uriResult, BrowserLaunchMode.SystemPreferred);
-                }
-                else
-                {
-                    // If not a valid URL, you could handle it differently (e.g., copy to clipboard)
-                    await Clipboard.Default.SetTextAsync(labelText);
-                    await Shell.Current.DisplayAlert(
-                        LocalizationResourceManager["GenericInfoTitle"].ToString(),
-                        LocalizationResourceManager["GenericCopiedToClipboard"].ToString(),
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
-                }
-            }
-        }
-        catch (System.Exception ex)
-        {
-            new ErrorToLogFile(ex).WriteToFile();
-            await Shell.Current.DisplayAlert(
-                LocalizationResourceManager["GenericErrorTitle"].ToString(),
-                ex.Message,
-                LocalizationResourceManager["GenericButtonOk"].ToString());
-        }
-    }
 }
