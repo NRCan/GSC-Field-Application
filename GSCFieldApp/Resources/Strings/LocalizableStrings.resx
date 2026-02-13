@@ -1568,4 +1568,10 @@ Enter last two digit of current year to proceed.</value>
   <data name="ShellQuickPhotoBackupOptionToday" xml:space="preserve">
     <value>Today's photo</value>
   </data>
+  <data name="GenericInfoTitle" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="GenericCopiedToClipboard" xml:space="preserve">
+    <value>Copied</value>
+  </data>
 </root>

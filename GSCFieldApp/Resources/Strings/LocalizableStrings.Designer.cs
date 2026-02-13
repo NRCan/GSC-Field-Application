@@ -2079,11 +2079,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copied.
+        /// </summary>
+        internal static string GenericCopiedToClipboard {
+            get {
+                return ResourceManager.GetString("GenericCopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string GenericErrorTitle {
             get {
                 return ResourceManager.GetString("GenericErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string GenericInfoTitle {
+            get {
+                return ResourceManager.GetString("GenericInfoTitle", resourceCulture);
             }
         }
         
