@@ -327,6 +327,7 @@
 
 	<ItemGroup>
 	  <Compile Remove="Models\FieldAppLocation.cs" />
+	  <Compile Remove="Services\UrlDetectionConverter.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
