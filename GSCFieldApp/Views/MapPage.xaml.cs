@@ -125,7 +125,6 @@ public partial class MapPage : ContentPage
     }
 
     #endregion
-
     public MapPage(MapViewModel vm)
     {
         try
@@ -165,9 +164,6 @@ public partial class MapPage : ContentPage
         }
 
     }
-
-
-
 
     #region EVENTS
 
@@ -981,7 +977,11 @@ public partial class MapPage : ContentPage
                 }
 
                 //Zoom to initial extent of the station layer
-                SetExtent(mls[0]);
+                if (mls[0].Features.Count() != 0)
+                {
+                    SetExtent(mls[0]);
+                }
+                
 
             }
         }
@@ -1085,7 +1085,7 @@ public partial class MapPage : ContentPage
                 }
 
                 //Zoom to extent of stations
-                if (layerToReload == defaultLayerList.Stations)
+                if (layerToReload == defaultLayerList.Stations && databaseCount != 0)
                 {
                     SetExtent(mapMemoryLayer);
                 }
