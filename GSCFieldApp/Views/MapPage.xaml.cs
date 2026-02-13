@@ -44,8 +44,6 @@ using ProjNet.Geometries;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Networking;
 
-
-
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -1504,13 +1502,33 @@ public partial class MapPage : ContentPage
                                             if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
+                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryMultiPolygonFromByte(geomBytes));
 
                                                 //Get feature 
                                                 if (multiPolygon != null)
                                                 {
                                                     //Build feature metadata
                                                     feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
+
+                                                    //Get default or user line style 
+                                                    feat.Styles.Add(styling.polyVectorStyle);
+                                                }
+                                                else
+                                                {
+                                                    hitError = true;
+                                                }
+
+                                            }
+                                            else if (geomType.ToLower() == Geometry.TypeNamePolygon.ToLower())
+                                            {
+                                                //Run on another thread else progress bar gets jammed and won't update in the UI
+                                                NetTopologySuite.Geometries.Polygon polygons = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
+
+                                                //Get feature 
+                                                if (polygons != null)
+                                                {
+                                                    //Build feature metadata
+                                                    feat = new GeometryFeature(wellKnownTextReader.Read(polygons.AsText()));
 
                                                     //Get default or user line style 
                                                     feat.Styles.Add(styling.polyVectorStyle);
@@ -1566,6 +1584,26 @@ public partial class MapPage : ContentPage
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
                                                 Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
+
+                                                //Get feature 
+                                                if (pnts != null)
+                                                {
+                                                    //Build feature metadata
+                                                    feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
+
+                                                    //Style point
+                                                    feat.Styles.Add(styling.pointVectorStyle);
+                                                }
+                                                else
+                                                {
+                                                    hitError = true;
+                                                }
+
+                                            }
+                                            else if (geomType.ToLower() == Geometry.TypeNameMultiPoint.ToLower())
+                                            {
+                                                //Run on another thread else progress bar gets jammed and won't update in the UI
+                                                MultiPoint pnts = await Task.Run(async () => await gpkgService.GetGeometryMultiPointFromByteAsync(geomBytes));
 
                                                 //Get feature 
                                                 if (pnts != null)

@@ -1,38 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GSCFieldApp.Services.DatabaseServices;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Collections.ObjectModel;
-using System.Transactions;
-using NTS = NetTopologySuite;
-using GSCFieldApp.Models;
-using NetTopologySuite.IO;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using Mapsui.Nts.Extensions;
+using Mapsui.Styles;
+using NetTopologySuite;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Index;
+using NetTopologySuite.IO;
+using ProjNet.CoordinateSystems;
 //using GeoAPI.CoordinateSystems;
 //using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems.Projections;
-using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
-using NetTopologySuite;
-using System.Runtime.CompilerServices;
-using Mapsui.Nts.Extensions;
-using CommunityToolkit.Maui.Core.Extensions;
-using Mapsui.Styles;
 using SQLite;
-using Color = Mapsui.Styles.Color;
+using SQLitePCL;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using SQLitePCL;
-using NetTopologySuite.Index;
-using System.Diagnostics;
+using Color = Mapsui.Styles.Color;
+using NTS = NetTopologySuite;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -207,6 +207,76 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return outPoint;
         }
+
+        /// <summary>
+        /// From a given byte array that defines a geometry, will return a point object
+        /// TODO make this working, incoming geometry has a SRID = -1 so we can't convert incoming points
+        /// </summary>
+        /// <param name="geomBytes">The byte array to transform into a point object</param>
+        /// <returns></returns>
+        public async Task<NTS.Geometries.MultiPoint> GetGeometryMultiPointFromByteAsync(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSRID = DatabaseLiterals.KeywordEPSGMapsuiDefault)
+        {
+
+            NTS.Geometries.MultiPoint outPoint = new NTS.Geometries.MultiPoint(new NTS.Geometries.Point[] { });
+            NTS.Geometries.Point[] outPointArray = new NTS.Geometries.Point[] { };
+
+            //build geopackage reader to get geometry as proper object
+            PrecisionModel precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
+            CoordinateSequenceFactory coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
+            GeoPackageGeoReader geoReader = new GeoPackageGeoReader(coordinateSequenceFactory, precisionModel);
+            geoReader.HandleSRID = true;
+
+            try
+            {
+                NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
+
+                if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiPoint)
+                {
+                    outPoint = geom as NTS.Geometries.MultiPoint;
+                }
+            }
+            catch (Exception pointFromByteException)
+            {
+                new ErrorToLogFile(pointFromByteException).WriteToFile();
+                outPoint = null;
+                //await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
+            }
+
+            if (outPoint != NTS.Geometries.MultiPoint.Empty)
+            {
+                if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
+                {
+                    //Create a coord factory for incoming traverses
+                    CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outPoint.SRID);
+
+                    //Default map page coordinate
+                    CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSRID);
+
+                    //Transform
+                    //outPoint = await TransformPointCoordinates(outPoint, incomingProjection, outgoingProjection);
+
+                    //Transform
+                    int index = 0;
+                    outPointArray = new NTS.Geometries.Point[outPoint.Count];
+                    foreach (NTS.Geometries.Point ps in outPoint)
+                    {
+                        NTS.Geometries.Point newPoint = await TransformPointCoordinates(ps, incomingProjection, outgoingProjection);
+                        outPointArray[index] = newPoint;
+                        index++;
+                    }
+
+                    outPoint = new NTS.Geometries.MultiPoint(outPointArray);
+                }
+            }
+            else
+            {
+                new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryMultiPointFromByteAsync)) + ").").WriteToFile();
+                outPoint = null;
+            }
+
+            return outPoint;
+        }
+
 
         /// <summary>
         /// From a given byte array that defines a geometry, will return a line object
@@ -427,7 +497,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="inCoordSystem"></param>
         /// <param name="outCoordSystem"></param>
         /// <returns></returns>
-        public static async Task<NTS.Geometries.MultiPolygon> TransformPolygonCoordinates(NTS.Geometries.MultiPolygon inPolyCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        public static async Task<NTS.Geometries.MultiPolygon> TransformMultiPolygonCoordinates(NTS.Geometries.MultiPolygon inPolyCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
         {
             //Init
             NTS.Geometries.MultiPolygon outPoly = new NTS.Geometries.MultiPolygon(new Polygon[] { });
@@ -563,7 +633,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="geomBytes">The byte array to transform into a point object</param>
         /// <returns></returns>
-        public async Task<NTS.Geometries.MultiPolygon> GetGeometryPolygonFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
+        public async Task<NTS.Geometries.MultiPolygon> GetGeometryMultiPolygonFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             //Init
             NTS.Geometries.MultiPolygon outPolygon = new NTS.Geometries.MultiPolygon(new Polygon[] { });
@@ -608,7 +678,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
 
                     //Transform
-                    outPolygon = await TransformPolygonCoordinates(outPolygon, incomingProjection, outgoingProjection);
+                    outPolygon = await TransformMultiPolygonCoordinates(outPolygon, incomingProjection, outgoingProjection);
                 }
 
             }
@@ -621,6 +691,77 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return outPolygon;
         }
+
+        /// <summary>
+        /// From a given byte array that defines a geometry, will return a polygon object
+        /// WARNING: About EPSG3857 and it's Y-axis problem
+        /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
+        /// </summary>
+        /// <param name="geomBytes">The byte array to transform into a point object</param>
+        /// <returns></returns>
+        public async Task<NTS.Geometries.Polygon> GetGeometryPolygonFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
+        {
+            //Init
+            NTS.Geometries.Polygon outPolygon = new NTS.Geometries.Polygon(null);
+
+            //Build geopackage reader to get geometry as it's own object
+            _geoReader.HandleSRID = true;
+            NTS.Geometries.Geometry geom = _geoReader.Read(geomBytes);
+
+            //Cast just to make sure
+            if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.Polygon)
+            {
+                outPolygon = geom as NTS.Geometries.Polygon;
+            }
+
+            if (outPolygon != MultiPolygon.Empty)
+            {
+                //Transform geometry if needed
+                if (outPolygon != null && outPolygon.SRID != -1 && outPolygon.SRID != outSrid)
+                {
+                    //Create a coord factory for incoming geometries
+                    CoordinateSystem incomingProjection = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
+                    if (outSrid != DatabaseLiterals.KeywordEPSGDefault)
+                    {
+                        //Manage SRID that are different from parameter and geometry
+                        if (outPolygon.SRID != srid)
+                        {
+                            incomingProjection = await SridReader.GetCSbyID(srid);
+                        }
+                        else
+                        {
+                            incomingProjection = await SridReader.GetCSbyID(outPolygon.SRID);
+                        }
+                    }
+
+
+                    //Default map page coordinate
+                    CoordinateSystem outgoingProjection = ProjNet.CoordinateSystems.ProjectedCoordinateSystem.WebMercator;
+                    if (outSrid != DatabaseLiterals.KeywordEPSGMapsuiDefault)
+                    {
+                        outgoingProjection = await SridReader.GetCSbyID(outSrid);
+                    }
+
+
+                    //Transform
+                    MultiPolygon transformedPoly = await TransformMultiPolygonCoordinates(new MultiPolygon(new Polygon[] { outPolygon }), incomingProjection, outgoingProjection);
+                    if (transformedPoly != null && transformedPoly.Count() > 0)
+                    {
+                        outPolygon = transformedPoly.Geometries.First() as Polygon;
+                    }
+                }
+
+            }
+            else
+            {
+                new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryPolygonFromByte)) + ").").WriteToFile();
+                outPolygon = null;
+            }
+
+
+            return outPolygon;
+        }
+
 
         /// <summary>
         /// Will return a default or user style from the geopackage style table. It'll be set as the incoming geometry type.
@@ -662,15 +803,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                             }
 
                             //Get style based on geometry type (point,lines or polygons)
-                            if (geometry.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
+                            if (geometry.ToLower() == Geometry.TypeNameMultiPolygon.ToLower() || geometry.ToLower() == Geometry.TypeNamePolygon.ToLower())
                             {
                                 ruleStyling = GetGeopackagePolyStyle(ruleElement, ruleStyling);
                             }
-                            else if (geometry.ToLower() == Geometry.TypeNameLineString.ToLower())
+                            else if (geometry.ToLower() == Geometry.TypeNameLineString.ToLower() || geometry.ToLower() == Geometry.TypeNameMultiLineString.ToLower())
                             {
                                 ruleStyling = GetGeopackageLineStyle(ruleElement, ruleStyling);
                             }
-                            else if (geometry.ToLower() == Geometry.TypeNamePoint.ToLower())
+                            else if (geometry.ToLower() == Geometry.TypeNamePoint.ToLower() || geometry.ToLower() == Geometry.TypeNameMultiPoint.ToLower())
                             {
                                 ruleStyling = GetGeopackagePointStyle(ruleElement, ruleStyling);
                             }
