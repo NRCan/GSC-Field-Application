@@ -3048,7 +3048,13 @@ public partial class MapPage : ContentPage
 
     #endregion
 
-    // Add this event handler for TapGestureRecognizer
+    /// <summary>
+    /// Triggered when user taps on an attribute value in the map info pop-up
+    /// It'll will show hyperlinks if any, else it'll copy the information in
+    /// the clipboard.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void OnMapInfoUrlTapped(object sender, EventArgs e)
     {
         try

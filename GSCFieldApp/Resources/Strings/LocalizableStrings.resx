@@ -1572,6 +1572,6 @@ Enter last two digit of current year to proceed.</value>
     <value>Info</value>
   </data>
   <data name="GenericCopiedToClipboard" xml:space="preserve">
-    <value>Copied</value>
+    <value>Text was copied to clipboard</value>
   </data>
 </root>

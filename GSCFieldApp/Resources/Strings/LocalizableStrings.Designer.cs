@@ -2088,7 +2088,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copied.
+        ///   Looks up a localized string similar to Text was copied to clipboard.
         /// </summary>
         internal static string GenericCopiedToClipboard {
             get {

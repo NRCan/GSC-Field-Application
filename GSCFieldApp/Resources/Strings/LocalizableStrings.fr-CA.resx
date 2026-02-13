@@ -1569,6 +1569,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DisplayAlertGPSDeniedMessage" xml:space="preserve">
     <value>Positionnement non disponible, voulez-vous tenter de nouveau?</value>
   </data>
+  <data name="GenericInfoTitle" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="GenericCopiedToClipboard" xml:space="preserve">
+    <value>Texte copié dans le presse-papiers.</value>
+  </data>
   <data name="PicklistPageTables	Form" xml:space="preserve">
     <value>Table de notes</value>
   </data>
