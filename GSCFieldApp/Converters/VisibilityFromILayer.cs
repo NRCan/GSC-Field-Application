@@ -20,7 +20,8 @@ namespace GSCFieldApp.Converters
                 value.ToString() != ApplicationLiterals.aliasStations && 
                 value.ToString() != ApplicationLiterals.aliasOSM && 
                 value.ToString() != ApplicationLiterals.aliasLinework &&
-                value.ToString() != ApplicationLiterals.aliasTraversePoint)
+                value.ToString() != ApplicationLiterals.aliasTraversePoint &&
+                value.ToString() != ApplicationLiterals.aliasDrillHoles)
             {
                 return true;
             }

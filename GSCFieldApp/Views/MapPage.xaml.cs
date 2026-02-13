@@ -66,7 +66,7 @@ public partial class MapPage : ContentPage
     private bool _isDrawingLine = false;
     private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
     private double _viewportWidthRatio = 1;
-    private enum defaultLayerList { Stations, Linework, Traverses }
+    private enum defaultLayerList { Linework, Traverses, Drills, Stations }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
     private Drawable _drawable = new Drawable(); //Meant to be used for linework
     private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
@@ -99,6 +99,7 @@ public partial class MapPage : ContentPage
     //Symbols
     private int bitmapLocationSymbolId = -1; //Current localisation point symbol
     private int bitmapLineworkPointSymbolId = -1; //Linework vertices point symbol
+    private int bitmapLocationDrillSymbolId = -1; //Drill holes vertices point symbol
 
     #region Properties
 
@@ -347,7 +348,13 @@ public partial class MapPage : ContentPage
                                     featureIDFieldName,
                                     featureValue);
                                 }
-
+                                else if (l.Name == ApplicationLiterals.aliasDrillHoles)
+                                {
+                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                    DatabaseLiterals.TableDrillHoles,
+                                    featureIDFieldName,
+                                    featureValue);
+                                }
 
 
                                 //Get clicked feature record values
@@ -484,6 +491,7 @@ public partial class MapPage : ContentPage
             //Manage symbol and layers
             await Task.Run(async () => await AddLocationSymbolToRegistry());
             await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
+            await Task.Run(async () => await AddLocationDrillSymbolToRegistry());
 
             //Freshen up the default layers
             await Task.Run(async () => await RefreshDefaultFeatureLayer());
@@ -984,7 +992,6 @@ public partial class MapPage : ContentPage
                     SetExtent(mls[0]);
                 }
                 
-
             }
         }
 
@@ -1002,7 +1009,7 @@ public partial class MapPage : ContentPage
         foreach (var item in mapView.Map.Layers)
         {
             if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework 
-                || item.Name == ApplicationLiterals.aliasTraversePoint)
+                || item.Name == ApplicationLiterals.aliasTraversePoint || item.Name == ApplicationLiterals.aliasDrillHoles)
             {
                 //Get map layer
                 ILayer mapLayer = mapView.Map.Layers.Where(x => x.Name == item.Name).First();
@@ -1015,17 +1022,22 @@ public partial class MapPage : ContentPage
 
                 if (item.Name == ApplicationLiterals.aliasStations)
                 {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(FieldLocation)));  
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(FieldLocation)));
                 }
                 else if (item.Name == ApplicationLiterals.aliasLinework)
                 {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Linework)));  
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Linework)));
                     layerToReload = defaultLayerList.Linework;
                 }
-                else if (true)
+                else if (item.Name == ApplicationLiterals.aliasTraversePoint)
                 {
                     databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(TraversePoint)));
                     layerToReload = defaultLayerList.Traverses;
+                }
+                else if (item.Name == ApplicationLiterals.aliasDrillHoles)
+                {
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(DrillHole)));
+                    layerToReload = defaultLayerList.Drills;
                 }
 
                 //Check with record count if diff add last or remove missing
@@ -1228,6 +1240,7 @@ public partial class MapPage : ContentPage
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
+                prefLayerNames.Add(ApplicationLiterals.aliasDrillHoles);
 
                 ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
                 if (layerToRemove.Count() > 0)
@@ -1246,7 +1259,8 @@ public partial class MapPage : ContentPage
                     {
                         if (mpl.LayerName != ApplicationLiterals.aliasStations 
                             && mpl.LayerName != ApplicationLiterals.aliasLinework
-                            && mpl.LayerName != ApplicationLiterals.aliasTraversePoint)
+                            && mpl.LayerName != ApplicationLiterals.aliasTraversePoint
+                            && mpl.LayerName != ApplicationLiterals.aliasDrillHoles)
                         {
                             if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
                             {
@@ -1946,13 +1960,40 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
+    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
+    /// </summary>
+    /// <returns></returns>
+    public async Task<int> AddLocationDrillSymbolToRegistry()
+    {
+        //Make sure it's not already registered
+        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationDrillSymbolId), out bitmapLocationDrillSymbolId))
+        {
+            //Stream the pnt for the symbol
+            await using (Stream pointDBitmap = await FileSystem.OpenAppPackageFileAsync(@"pointDrills.png"))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                pointDBitmap.CopyTo(memoryStream);
+
+                //Register
+                bitmapLocationDrillSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationDrillSymbolId));
+
+            }
+
+            return bitmapLocationDrillSymbolId;
+        }
+        else
+        {
+            return bitmapLocationDrillSymbolId;
+        }
+    }
+
+    /// <summary>
     /// Will open a file picker dialog with custom extension set to mbtiles
     /// </summary>
     /// <returns></returns>
     public async Task<FileResult> PickLayer()
     {
 
-        
         try
         {
             // NOTE: for Android application/mbtiles doesn't work
@@ -2050,9 +2091,17 @@ public partial class MapPage : ContentPage
 
                     enumFeat = await Task.Run(async () => await GetPointTraversesAsync(offset)); 
                     break;
+
                 case defaultLayerList.Linework:
+
                     enumFeat = await Task.Run(async () => await GetLineworkAsync(offset)); 
                     break;
+
+                case defaultLayerList.Drills:
+
+                    enumFeat = await Task.Run(async () => await GetDrillLocationsAsync(offset));
+                    break;
+
                 default:
                     enumFeat = await Task.Run(async () => await GetStationLocationsAsync(offset)); 
 
@@ -2104,23 +2153,24 @@ public partial class MapPage : ContentPage
                     if (station != null)
                     {
                         label = station.StationAliasLight;
+
+                        //Build feature 
+                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
+                        feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
+                        LabelStyle lStyle = new LabelStyle
+                        {
+                            BackColor = labelStyle.BackColor,
+                            HorizontalAlignment = labelStyle.HorizontalAlignment,
+                            BorderThickness = labelStyle.BorderThickness,
+                            Offset = offset,
+                            Text = label
+                        };
+
+                        feat.Styles.Add(lStyle);
+
+                        enumFeat = enumFeat.Append(feat);
                     }
 
-                    //Build feature 
-                    Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
-                    feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
-                    LabelStyle lStyle = new LabelStyle
-                    {
-                        BackColor = labelStyle.BackColor,
-                        HorizontalAlignment = labelStyle.HorizontalAlignment,
-                        BorderThickness = labelStyle.BorderThickness,
-                        Offset = offset,
-                        Text = label
-                    };
-
-                    feat.Styles.Add(lStyle);
-
-                    enumFeat = enumFeat.Append(feat);
                 }
             });
 
@@ -2128,6 +2178,69 @@ public partial class MapPage : ContentPage
 
         return enumFeat;
 
+    }
+
+    /// <summary>
+    /// Will query the database to retrive some basic information about location
+    /// and drill holes
+    /// </summary>
+    /// <returns></returns>
+    private async Task<IEnumerable<IFeature>> GetDrillLocationsAsync(Offset offset)
+    {
+        IEnumerable<IFeature> enumFeat = new IFeature[] { };
+
+        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+        {
+            //Prep
+            List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
+            List<DrillHole> fieldStat = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
+
+            LabelStyle labelStyle = new LabelStyle
+            {
+                BackColor = new Brush(Color.WhiteSmoke),
+                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                BorderThickness = 2,
+                Offset = offset
+            };
+
+            await Parallel.ForEachAsync(fieldLoc, _parallelOptions, async (fl, token) =>
+            {
+
+                //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
+                //Build geometry
+                NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
+
+                if (locationPoint != null)
+                {
+                    //Get some station info for labelling
+                    string label = fl.LocationAliasLight;
+                    DrillHole drill = fieldStat.Where(n => n.DrillLocationID == fl.LocationID).FirstOrDefault();
+                    if (drill != null)
+                    {
+                        label = drill.DrillAliasLightWithSuffix;
+
+                        //Build feature 
+                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
+                        feat[DatabaseLiterals.FieldDrillLocationID] = fl.LocationID;
+                        LabelStyle lStyle = new LabelStyle
+                        {
+                            BackColor = labelStyle.BackColor,
+                            HorizontalAlignment = labelStyle.HorizontalAlignment,
+                            BorderThickness = labelStyle.BorderThickness,
+                            Offset = offset,
+                            Text = label
+                        };
+
+                        feat.Styles.Add(lStyle);
+
+                        enumFeat = enumFeat.Append(feat);
+                    }
+                }
+            });
+
+        }
+
+        return enumFeat;
     }
 
     /// <summary>
@@ -2266,6 +2379,7 @@ public partial class MapPage : ContentPage
 
     /// <summary>
     /// Will set style of stations on map
+    /// Taken from GSC Symbol Standard 1 font no. 83, as per CGM standard
     /// </summary>
     /// <returns></returns>
     private SymbolStyle CreateLocationBitmapStyle()
@@ -2275,6 +2389,20 @@ public partial class MapPage : ContentPage
         // else.
 
         return new SymbolStyle { BitmapId = bitmapLocationSymbolId, SymbolScale = 0.75 };
+    }
+
+    /// <summary>
+    /// Will set style of drill holes on map
+    /// Taken from GSC Symbol Standard 1 font no.55 as per CGM standards
+    /// </summary>
+    /// <returns></returns>
+    private SymbolStyle CreateLocationDrillsBitmapStyle()
+    {
+        // For this sample we get the bitmap from an embedded resouce
+        // but you could get the data stream from the web or anywhere
+        // else.
+
+        return new SymbolStyle { BitmapId = bitmapLocationDrillSymbolId, SymbolScale = 0.45 };
     }
 
     /// <summary>
@@ -2559,6 +2687,17 @@ public partial class MapPage : ContentPage
                     Tag = da.PreferedDatabasePath,
                 };
 
+            }
+            else if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasDrillHoles)
+            {
+                defaultLayer = new MemoryLayer()
+                {
+                    Name = Enum.GetName(defaultLayerName),
+                    IsMapInfoLayer = true,
+                    Features = dFeats,
+                    Style = CreateLocationDrillsBitmapStyle(),
+                    Tag = da.PreferedDatabasePath,
+                };
             }
             else
             {

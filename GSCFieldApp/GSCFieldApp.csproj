@@ -539,6 +539,9 @@
 	  <MauiAsset Update="Resources\Raw\point.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\pointDrills.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
 	  <MauiAsset Update="Resources\Raw\SRID.csv">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiAsset>

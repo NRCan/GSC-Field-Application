@@ -277,7 +277,7 @@ namespace GSCFieldApp.ViewModel
         async Task EditTappedFeature()
         {
             //Variables
-            List<string> keyIDField = new List<string>() { DatabaseLiterals.FieldStationID, DatabaseLiterals.FieldLineworkID};
+            List<string> keyIDField = new List<string>() { DatabaseLiterals.FieldStationID, DatabaseLiterals.FieldLineworkID, DatabaseLiterals.FieldDrillID};
             bool foundKeyField = false;
 
             //Will popup the tapped feature if station or linework
@@ -327,6 +327,27 @@ namespace GSCFieldApp.ViewModel
                                     new Dictionary<string, object>
                                     {
                                         [nameof(Linework)] = tappedL,
+                                    }
+                                );
+                            }
+                        }
+                        else if (mi.FieldName == keyIDField[2])
+                        {
+                            foundKeyField = true;
+                            int idValue = int.Parse(mi.FieldValue);
+                            List<DrillHole> tappedLine = await DataAccess.DbConnection.Table<DrillHole>().Where(i => i.DrillID == idValue).ToListAsync();
+
+                            //Navigate to linework page
+                            if (tappedLine != null && tappedLine.Count() == 1)
+                            {
+                                //Adapt for map page nav
+                                DrillHole tappedL = tappedLine[0];
+                                tappedL.IsMapPageQuick = true;
+
+                                await Shell.Current.GoToAsync($"/{nameof(DrillHolePage)}/",
+                                    new Dictionary<string, object>
+                                    {
+                                        [nameof(DrillHole)] = tappedL,
                                     }
                                 );
                             }
@@ -642,7 +663,7 @@ namespace GSCFieldApp.ViewModel
                         _layerCollection.Add(layer);
 
                         if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
-                            layer.Name != ApplicationLiterals.aliasTraversePoint && layer.Name != ApplicationLiterals.aliasLinework)
+                            layer.Name != ApplicationLiterals.aliasTraversePoint && layer.Name != ApplicationLiterals.aliasLinework && layer.Name != ApplicationLiterals.aliasDrillHoles)
                         {
                             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
                             if (!_customLayerCollection.Contains(mplb.GetMapPageLayer(layer, index)))

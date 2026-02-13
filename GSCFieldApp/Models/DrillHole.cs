@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
 {
@@ -155,5 +156,31 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string DrillAliasLightWithSuffix
+        {
+            get
+            {
+                if (DrillAliasLight != string.Empty)
+                {
+                    return DrillAliasLight + DatabaseLiterals.KeywordStationDrillHoleLight;
+                }
+                else
+                {
+                    return DrillIDName;
+                }
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Will be used to trigger a cascade delete coming from location record
+        /// </summary>
+        [Ignore]
+        public bool IsMapPageQuick { get; set; } = false;
     }
 }
