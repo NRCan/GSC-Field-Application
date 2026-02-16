@@ -15,6 +15,9 @@ using System.Security.Cryptography;
 using GSCFieldApp.Dictionaries;
 using Microsoft.Maui.Storage;
 using System.IO;
+using Microsoft.Maui.Controls;
+using GSCFieldApp.Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace GSCFieldApp.ViewModel
@@ -384,7 +387,16 @@ namespace GSCFieldApp.ViewModel
         {
             if (File.Exists(_model.Hyperlink))
             {
-                await Launcher.Default.OpenAsync(new OpenFileRequest("popoverTitle", new ReadOnlyFile(_model.Hyperlink)));
+#if ANDROID
+                var photoEditor = IPlatformApplication.Current.Services.GetService<IPhotoEditorLauncher>();
+                if (photoEditor != null)
+                {
+                    await photoEditor.EditAsync(_model.Hyperlink);
+                }
+#else
+                await Launcher.Default.OpenAsync(new OpenFileRequest("Title", new ReadOnlyFile(_model.Hyperlink)));
+
+#endif
 
                 //Force refresh of image (might have been edited by user)
                 OnPropertyChanged(nameof(Model));
@@ -394,7 +406,7 @@ namespace GSCFieldApp.ViewModel
             
         }
 
-        #endregion
+#endregion
 
         #region METHODS
 
