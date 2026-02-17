@@ -33,7 +33,7 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
             if (!string.IsNullOrWhiteSpace(absoluteImagePath) || File.Exists(absoluteImagePath))
             {
                 //Get FileProvider path, so the image path is as seen from an external app 
-                string workingPath = await EnsureUnderExternalFilesAsync(context, absoluteImagePath, ct);
+                string workingPath = await EnsureUnderFilesAsync(context, absoluteImagePath, ct);
 
                 //Build proper URI for the file with FileProvider 
                 var authority = $"{context.PackageName}.fileprovider"; // must match AndroidManifest.xml
@@ -75,31 +75,31 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
     private static string? GetMimeFromExtension(string? ext)
     {
         if (string.IsNullOrWhiteSpace(ext)) return null;
-        var clean = ext.TrimStart('.').ToLowerInvariant();
+        string clean = ext.TrimStart('.').ToLowerInvariant();
         if (string.IsNullOrEmpty(clean)) return null;
         return MimeTypeMap.Singleton.GetMimeTypeFromExtension(clean);
     }
 
     /// <summary>
-    /// Will copy the local stored file into an output path
+    /// Will copy the local stored file into the files paths accessible by external apps
     /// </summary>
     /// <param name="ctx"></param>
     /// <param name="path"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    private static async Task<string> EnsureUnderExternalFilesAsync(Context ctx, string path, CancellationToken ct)
+    private static async Task<string> EnsureUnderFilesAsync(Context ctx, string path, CancellationToken ct)
     {
         // Prefer app's external files directory so it’s covered by <external-files-path>
-        var extDir = ctx.FilesDir;
-        var targetDir = extDir!.AbsolutePath; // /storage/emulated/0/Android/data/<pkg>/files
-        var target = Path.Combine(targetDir, Path.GetFileName(path));
+        Java.IO.File extDir = ctx.FilesDir;
+        string targetDir = extDir!.AbsolutePath; // /storage/emulated/0/Android/data/<pkg>/files
+        string target = Path.Combine(targetDir, Path.GetFileName(path));
 
         // If already under target directory, keep it; else copy
         if (!Path.GetFullPath(path).StartsWith(Path.GetFullPath(targetDir), StringComparison.OrdinalIgnoreCase))
         {
             // Copy (overwrite OK)
-            using var input = File.OpenRead(path);
-            using var output = File.Create(target);
+            using FileStream input = File.OpenRead(path);
+            using FileStream output = File.Create(target);
             await input.CopyToAsync(output, ct).ConfigureAwait(false);
         }
         else
@@ -132,7 +132,7 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
 
             //Force write/read permissions
             IList<ResolveInfo> candidates = ctx.PackageManager!.QueryIntentActivities(editIntent, PackageInfoFlags.MatchAll);
-            foreach (var ri in candidates)
+            foreach (ResolveInfo ri in candidates)
             {
                 string pkg = ri.ActivityInfo?.PackageName;
                 if (!string.IsNullOrEmpty(pkg))
@@ -145,8 +145,8 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
             //Present editor options to user and again force read/write permissions
             Intent chooser = Intent.CreateChooser(editIntent, "", null);
             chooser.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
-
             ctx.StartActivity(chooser);
+            
             return true;
         }
         catch (ActivityNotFoundException)
@@ -166,6 +166,7 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
     {
         try
         {
+
             //Set URI
             string displayName = Path.GetFileName(path);
             ContentResolver resolver = ctx.ContentResolver!;
@@ -183,8 +184,8 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
             if (mediaUri != null)
             {
                 //Copy file content into the new media URI
-                using (var src = File.OpenRead(path))
-                using (var dst = resolver.OpenOutputStream(mediaUri, "w"))
+                using (FileStream src = File.OpenRead(path))
+                using (Stream dst = resolver.OpenOutputStream(mediaUri, "w"))
                 {
                     if (dst != null)
                     { 
