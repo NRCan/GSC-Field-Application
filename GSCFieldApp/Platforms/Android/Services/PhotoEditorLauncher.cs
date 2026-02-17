@@ -5,7 +5,9 @@ using Android.Content.PM;
 using Android.Provider;
 using Android.Webkit;
 using AndroidX.Core.Content;
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.Abstraction;
+using GSCFieldApp.Services.DatabaseServices;
 using Microsoft.Maui.ApplicationModel; // Platform
 using FileProvider = AndroidX.Core.Content.FileProvider;
 using Uri = Android.Net.Uri;
@@ -36,19 +38,19 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
                 string workingPath = await EnsureUnderFilesAsync(context, absoluteImagePath, ct);
 
                 //Build proper URI for the file with FileProvider 
-                var authority = $"{context.PackageName}.fileprovider"; // must match AndroidManifest.xml
-                var file = new Java.IO.File(workingPath);
+                string authority = $"{context.PackageName}.fileprovider"; // must match AndroidManifest.xml
+                Java.IO.File file = new Java.IO.File(workingPath);
                 Uri fpUri = FileProvider.GetUriForFile(context, authority, file);
 
                 //Build MIME type or use generic one for images
-                var mime = GetMimeFromExtension(Path.GetExtension(workingPath));
+                string mime = GetMimeFromExtension(Path.GetExtension(workingPath));
                 if (mime is null)
                 {
                     mime = "image/*";
-                } 
+                }
 
                 //Copy photo to shared media store (Pictures/GSCFieldApp)
-                var mediaUri = await ImportToMediaStoreAsync(context, file.Path, mime, ct);
+                Uri mediaUri = await ImportToMediaStoreAsync(context, file.Path, mime, ct);
                 if (mediaUri is null) return false;
 
                 //Launches the photo editor selected by user
@@ -166,7 +168,6 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
     {
         try
         {
-
             //Set URI
             string displayName = Path.GetFileName(path);
             ContentResolver resolver = ctx.ContentResolver!;
@@ -176,7 +177,7 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
             ContentValues values = new ContentValues();
             values.Put(MediaStore.IMediaColumns.DisplayName, displayName);
             values.Put(MediaStore.IMediaColumns.MimeType, mime);
-            values.Put(MediaStore.Images.ImageColumns.RelativePath, "Pictures/GSCFieldApp");
+            values.Put(MediaStore.IMediaColumns.RelativePath, System.IO.Path.Combine("Pictures", ApplicationLiterals.androidPictureFolder));
             values.Put(MediaStore.IMediaColumns.IsPending, true);
 
             //Set new URI

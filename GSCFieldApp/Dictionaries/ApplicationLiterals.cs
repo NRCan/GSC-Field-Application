@@ -106,6 +106,7 @@
         public const string errorLogFileNameExt = "GSCField_DebugLog.txt"; //Will be used to save all error logs into a single file
         public const string gpsLogFileNameExt = "GSCField_GPSLog.txt"; //Will be used to save all gps positions into a single file
         public const string photoFolderSuffix = "_Photos"; //Will be used to create subfolders containing all photos for a given field book. Easier when zipping for backup.
+        public const string androidPictureFolder = "GSCFieldApp"; //Will be used to store photos in Android MediaStore
         #endregion
 
         #region Easter eggs

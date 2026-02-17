@@ -4,6 +4,7 @@ using GSCFieldApp.Services.Abstraction;
 using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 #if ANDROID
@@ -38,27 +39,48 @@ public static class MauiProgram
                 fonts.AddFont("STENCIL.TTF", "Stencil");
             });
 
-//#if WINDOWS
-//            builder.ConfigureLifecycleEvents(events =>
-//            {
-//                events.AddWindows(wndLifeCycleBuilder =>
-//                {
-//                    wndLifeCycleBuilder.OnWindowCreated(window =>
-//                    {
-//                        window.CenterOnScreen(1024,768); //Set size and center on screen using WinUIEx extension method
+        //#if WINDOWS
+        //            builder.ConfigureLifecycleEvents(events =>
+        //            {
+        //                events.AddWindows(wndLifeCycleBuilder =>
+        //                {
+        //                    wndLifeCycleBuilder.OnWindowCreated(window =>
+        //                    {
+        //                        window.CenterOnScreen(1024,768); //Set size and center on screen using WinUIEx extension method
 
-//                        var manager = WinUIEx.WindowManager.Get(window);
-//                        manager.PersistenceId = "MainWindowPersistanceId"; // Remember window position and size across runs
-//                        manager.MinWidth = 640;
-//                        manager.MinHeight = 480;
-//                    });
-//                });
-//            });
-//#endif
+        //                        var manager = WinUIEx.WindowManager.Get(window);
+        //                        manager.PersistenceId = "MainWindowPersistanceId"; // Remember window position and size across runs
+        //                        manager.MinWidth = 640;
+        //                        manager.MinHeight = 480;
+        //                    });
+        //                });
+        //            });
+        //#endif
+
+#if ANDROID
+        //Tracks app lifecycle events to refresh annotated pictures when app resumes
+        builder.ConfigureLifecycleEvents(events =>
+        {
+
+            events.AddAndroid(android => android
+                .OnStop(activity =>
+                {
+                    IDocumentRefreshService svc = IPlatformApplication.Current.Services.GetRequiredService<IDocumentRefreshService>();
+                    svc.MarkBackgroundTimestamp(DateTime.UtcNow);
+                })
+                .OnResume(activity =>
+                {
+                    IDocumentRefreshService svc = IPlatformApplication.Current.Services.GetRequiredService<IDocumentRefreshService>();
+                    _ = Microsoft.Maui.ApplicationModel.MainThread.InvokeOnMainThreadAsync(
+                        async () => await svc.RefreshIfNeededAsync(DateTime.UtcNow));
+                })
+            );
+        });
+ #endif       
 
         // Need to add these to actually create them on start
         //Singleton will be created once
-        builder.Services.AddSingleton<SettingsPage>();
+                builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddSingleton<SettingsViewModel>();
 
 		builder.Services.AddSingleton<FieldBooksPage>();
@@ -131,10 +153,11 @@ public static class MauiProgram
         // === Dependency Injection registrations ===
 #if ANDROID
         builder.Services.AddSingleton<IPhotoEditorLauncher, PhotoEditorLauncher>();
+        builder.Services.AddSingleton<IDocumentRefreshService, DocumentRefreshService>();
 #else
         builder.Services.AddSingleton<IPhotoEditorLauncher, NoopPhotoEditorLauncher>();
+        builder.Services.AddSingleton<IDocumentRefreshService, NoopDocumentRefreshService>();
 #endif
-
 
         return builder.Build();
 	}
