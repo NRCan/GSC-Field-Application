@@ -38,7 +38,7 @@
                     <!--Embeded camera-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                           FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
-                          FrameTitle="{local:Localize DocumentPageEmbededTitle}">
+                          FrameTitle="{local:Localize DocumentPageEmbededTitle}" InfoAlertVisibility="True" InfoAlertParameter="{local:Localize DocumentPageInfoAlertThumbnail}">
                                 <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
                                         IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}" 
                                         Source="{Binding SnapshotSource}">

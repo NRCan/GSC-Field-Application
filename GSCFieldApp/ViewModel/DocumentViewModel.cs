@@ -406,7 +406,17 @@ namespace GSCFieldApp.ViewModel
             
         }
 
-#endregion
+        [RelayCommand]
+        public async Task InfoAlert()
+        {
+            //Display an info bubble to tel user double tapping thumbnail they can annotate the picture
+            string doneTitle = LocalizationResourceManager["GenericInfoDidYouKnow"].ToString();
+            string doneContent = LocalizationResourceManager["DocumentPageInfoAlertThumbnail"].ToString();
+            
+            await Shell.Current.DisplayAlert(doneTitle, doneContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+
+        }
+        #endregion
 
         #region METHODS
 

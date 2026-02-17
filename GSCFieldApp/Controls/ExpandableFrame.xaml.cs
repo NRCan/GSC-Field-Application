@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using DotSpatial.Projections.Transforms;
+using GSCFieldApp.Services;
 using Mapsui.UI.Maui.Extensions;
 using System.Reflection;
 
@@ -7,6 +8,10 @@ namespace GSCFieldApp.Controls;
 
 public partial class ExpandableFrame : ContentView
 {
+    //Localize
+    public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
     public static readonly BindableProperty FrameColorProperty =
         BindableProperty.Create(nameof(FrameColor), typeof(Color), typeof(ExpandableFrame), Mapsui.Styles.Color.FromString("Grey").ToNative());
 
@@ -16,6 +21,11 @@ public partial class ExpandableFrame : ContentView
     public static readonly BindableProperty FrameTitleProperty =
         BindableProperty.Create(nameof(FrameTitle), typeof(string), typeof(ExpandableFrame), "");
 
+    public static readonly BindableProperty InfoAlertVisibilityProperty =
+        BindableProperty.Create(nameof(InfoAlertVisibility), typeof(bool), typeof(ExpandableFrame), false);
+
+    public static readonly BindableProperty IInfoAlertParameterProperty =
+        BindableProperty.Create(nameof(InfoAlertParameter), typeof(string), typeof(ExpandableFrame), "");
 
     public Color FrameColor
     {
@@ -35,6 +45,18 @@ public partial class ExpandableFrame : ContentView
         set => SetValue(FrameContentVisibilityProperty, value);
     }
 
+    public bool InfoAlertVisibility
+    {
+        get => (bool)GetValue(InfoAlertVisibilityProperty);
+        set => SetValue(InfoAlertVisibilityProperty, value);
+    }
+
+    public string InfoAlertParameter
+    {
+        get => (string)GetValue(IInfoAlertParameterProperty);
+        set => SetValue(IInfoAlertParameterProperty, value);
+    }
+
     /// <summary>
     /// Hide command to hide group of controls
     /// </summary>
@@ -44,6 +66,18 @@ public partial class ExpandableFrame : ContentView
     {
         // Reverse
         FrameContentVisibility = FrameContentVisibility ? false : true;
+
+    }
+
+    /// <summary>
+    /// InfoAlert pop-up command to show a "Did you know?" message
+    /// </summary>
+    /// <returns></returns>
+    [RelayCommand]
+    public async Task InfoAlert()
+    {
+        string title = LocalizationResourceManager["GenericInfoDidYouKnow"].ToString();
+        await Shell.Current.DisplayAlert(title, InfoAlertParameter, LocalizationResourceManager["GenericButtonOk"].ToString());
 
     }
 

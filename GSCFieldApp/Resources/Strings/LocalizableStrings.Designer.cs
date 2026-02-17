@@ -531,6 +531,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Double tap the snapshot thumbnail to annotate or draw on the picture..
+        /// </summary>
+        internal static string DocumentPageInfoAlertThumbnail {
+            get {
+                return ResourceManager.GetString("DocumentPageInfoAlertThumbnail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load Previous Caption.
         /// </summary>
         internal static string DocumentPageLoadPreviousCaption {
@@ -2102,6 +2111,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string GenericErrorTitle {
             get {
                 return ResourceManager.GetString("GenericErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Did you know?.
+        /// </summary>
+        internal static string GenericInfoDidYouKnow {
+            get {
+                return ResourceManager.GetString("GenericInfoDidYouKnow", resourceCulture);
             }
         }
         

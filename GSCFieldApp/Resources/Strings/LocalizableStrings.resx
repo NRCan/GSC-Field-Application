@@ -1574,4 +1574,10 @@ Enter last two digit of current year to proceed.</value>
   <data name="GenericCopiedToClipboard" xml:space="preserve">
     <value>Text was copied to clipboard</value>
   </data>
+  <data name="DocumentPageInfoAlertThumbnail" xml:space="preserve">
+    <value>Double tap the snapshot thumbnail to annotate or draw on the picture.</value>
+  </data>
+  <data name="GenericInfoDidYouKnow" xml:space="preserve">
+    <value>Did you know?</value>
+  </data>
 </root>

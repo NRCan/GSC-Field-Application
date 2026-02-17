@@ -13,14 +13,28 @@
             <Border Stroke="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionBorder}">
 
                 <!--Tap to hide content-->
-                <Border.GestureRecognizers>
+                <!--<Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
-                </Border.GestureRecognizers>
+                </Border.GestureRecognizers>-->
 
                 <VerticalStackLayout>
 
                     <!--Title that won't be hidden-->
-                    <Label Style="{StaticResource FieldAppTitle}"  Text="{TemplateBinding FrameTitle}"/>
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{TemplateBinding FrameTitle}" HorizontalOptions="Start">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label TextColor="{StaticResource Blue100Accent}" FontSize="Medium" HorizontalTextAlignment="End"
+                               Text="&#xF02FD;" FontFamily="MatDesign" 
+                               IsVisible="{TemplateBinding InfoAlertVisibility}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{TemplateBinding InfoAlertCommand}" NumberOfTapsRequired="1" CommandParameter="{TemplateBinding InfoAlertParameter}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    
 
                     <!--Stack that will be hidden-->
                     <VerticalStackLayout IsVisible="{TemplateBinding FrameContentVisibility}">
