@@ -80,7 +80,7 @@ public static class MauiProgram
 
         // Need to add these to actually create them on start
         //Singleton will be created once
-                builder.Services.AddSingleton<SettingsPage>();
+        builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddSingleton<SettingsViewModel>();
 
 		builder.Services.AddSingleton<FieldBooksPage>();
@@ -161,4 +161,5 @@ public static class MauiProgram
 
         return builder.Build();
 	}
+
 }

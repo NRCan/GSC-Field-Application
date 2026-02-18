@@ -1,6 +1,7 @@
 ﻿#if ANDROID
 using Android.Content;
 using Android.Database;
+using Android.Media.TV;
 using Android.Net;
 using Android.Provider;
 using GSCFieldApp.Dictionaries;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using static AndroidX.Concurrent.Futures.CallbackToFutureAdapter;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.Services
 {
@@ -21,12 +23,14 @@ namespace GSCFieldApp.Services
     {
         private DateTime _lastBackgroundUtc = DateTime.UtcNow;
         private Android.Net.Uri? _mediaUri = null;
-        private string? _displayName = null;
+        private string _displayName = string.Empty;
         private string? _mime = null;
         private Context _ctx = null;
 
         public void MarkBackgroundTimestamp(DateTime utcNow)
             => _lastBackgroundUtc = utcNow;
+
+        public static event EventHandler<string>? newAnnotatedDocument;
 
         public async Task RefreshIfNeededAsync(DateTime sinceUtc, CancellationToken ct = default)
         {
@@ -51,7 +55,7 @@ namespace GSCFieldApp.Services
                 //Set some arugments to filter the results
                 string[] argsPreferred = new[]
                 {
-                    "%Pictures/GSCFieldApp%",
+                    string.Format("%Pictures/{0}%",ApplicationLiterals.androidPictureFolder),
                     sinceSeconds.ToString(CultureInfo.InvariantCulture)
                 };
 
@@ -78,29 +82,28 @@ namespace GSCFieldApp.Services
                     var destPath = Path.Combine(projectPhotoFolder, _displayName);
 
                     //Stream the file from the content resolver to the destination path
-                    using Stream inStream = resolver.OpenInputStream(_mediaUri);
-                    if (inStream != null)
+                    using (Stream inStream = resolver.OpenInputStream(_mediaUri))
                     {
-                        using FileStream outStream = File.Create(destPath);
-                        await inStream.CopyToAsync(outStream, ct).ConfigureAwait(false);
+                        if (inStream != null)
+                        {
+                            using (FileStream outStream = File.Create(destPath))
+                            {
+                                await inStream.CopyToAsync(outStream, ct);
+                            }
 
-                        //TODO event to track new picture name and force a thumbnail refresh
+                            //Send call to refresh thumbnail in document page and image hyperlink in database
+                            newAnnotatedDocument?.Invoke(this, destPath);
+
+                        }
                     }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    return; 
-                }
-                  
+                }               
             }
             catch
             {
                 //Skip
             }
+
+            return;
         }
 
         //Query files and get the one that matches the selection

@@ -388,11 +388,13 @@ namespace GSCFieldApp.ViewModel
             if (File.Exists(_model.Hyperlink))
             {
 #if ANDROID
-                var photoEditor = IPlatformApplication.Current.Services.GetService<IPhotoEditorLauncher>();
+                IPhotoEditorLauncher photoEditor = IPlatformApplication.Current.Services.GetService<IPhotoEditorLauncher>();
                 if (photoEditor != null)
                 {
                     await photoEditor.EditAsync(_model.Hyperlink);
                 }
+                //Track even of new annotated photo that has been copied over from user pictures to field app files
+                DocumentRefreshService.newAnnotatedDocument += DocumentRefreshService_newAnnotatedDocument; 
 #else
                 await Launcher.Default.OpenAsync(new OpenFileRequest("Title", new ReadOnlyFile(_model.Hyperlink)));
 
@@ -404,6 +406,25 @@ namespace GSCFieldApp.ViewModel
                 imageTapped = true;
             }
             
+        }
+
+        /// <summary>
+        /// Event to detect newly annotated pictures on Android. Will force a refresh of the thumbnail
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DocumentRefreshService_newAnnotatedDocument(object sender, string e)
+        {
+
+            if (e != string.Empty)
+            {
+                _model.Hyperlink = e;
+
+                //Force refresh of image
+                UpdateThumbnail(e);
+
+            }
+
         }
 
         [RelayCommand]
@@ -904,18 +925,26 @@ namespace GSCFieldApp.ViewModel
         /// <param name="filePath"></param>
         public void UpdateThumbnail(string filePath = "")
         {
-            //Take what's in the model first
-            if (filePath == string.Empty)
+            try
             {
-                filePath = Model.Hyperlink;
+                //Take what's in the model first
+                if (filePath == string.Empty)
+                {
+                    filePath = Model.Hyperlink;
+                }
+
+                FileStream snapStream = File.OpenRead(filePath);
+                _snapshotSource = ImageSource.FromStream(() => snapStream);
+                OnPropertyChanged(nameof(SnapshotSource));
+
+                //Unset image tapped
+                imageTapped = false;
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
             }
 
-            FileStream snapStream = File.OpenRead(filePath);
-            _snapshotSource = ImageSource.FromStream(() => snapStream);
-            OnPropertyChanged(nameof(SnapshotSource));
-
-            //Unset image tapped
-            imageTapped = false;
         }
 
         #endregion

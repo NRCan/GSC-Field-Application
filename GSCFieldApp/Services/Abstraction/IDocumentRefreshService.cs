@@ -11,6 +11,8 @@ namespace GSCFieldApp.Services.Abstraction
     /// </summary>
     public interface IDocumentRefreshService
     {
+        public static event EventHandler<string> newAnnotatedDocument; //This event is triggered when a document is edited in an external editor and a new copy is created and available for thumbnail refresh.
+
         /// <summary>
         /// Record the moment just before launching the editor (or app going background).
         /// </summary>
