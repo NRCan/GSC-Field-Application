@@ -165,21 +165,6 @@
                                     ButtonLightColor="{StaticResource FieldStationColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
-
-            <!--<StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="Center" HorizontalOptions="Center">
-                
-                <controls:SaveSwipeItem  ButtonColor="{StaticResource FieldStationColor}" 
-                                    ButtonLightColor="{StaticResource FieldStationColorLight}"
-                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
-
-
-                <Button Text="&#x2191;"
-                        Style="{StaticResource FieldAppButonSave}" FontSize="Large" FontAttributes="Bold"
-                        BackgroundColor="{StaticResource FieldObservationColorLight}"/>
-
-            </StackLayout>-->
-            
-
             <!-- Original buttons stack - hidden for waypoints -->
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
 
