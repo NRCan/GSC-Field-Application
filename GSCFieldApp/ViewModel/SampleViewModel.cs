@@ -297,6 +297,42 @@ namespace GSCFieldApp.ViewModel
         {
             await CalculateSampleCoreToValue();
         }
+
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_model.SampleID != 0)
+            {
+
+                await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.sample, Model, refreshType.update);
+            }
+            else
+            {
+                //New entry coming from parent form
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.sample, Model, refreshType.insert);
+            }
+
+            //Navigate to earth material page
+            List<Earthmaterial> parentEarth = await DataAccess.DbConnection.Table<Earthmaterial>().Where(x => x.EarthMatID == Model.SampleEarthmatID).ToListAsync();
+            if (parentEarth != null && parentEarth.Count > 0)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Earthmaterial)] = parentEarth[0],
+                });
+            }
+
+
+
+        }
         #endregion
 
         #region METHODS
@@ -382,6 +418,8 @@ namespace GSCFieldApp.ViewModel
 
             #endregion
 
+            //Keep track of page being already filled or not
+            IsLoaded = true;
         }
 
         /// <summary>

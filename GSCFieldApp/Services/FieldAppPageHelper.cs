@@ -56,6 +56,9 @@ namespace GSCFieldApp.Services
         //Enums
         public enum refreshType { insert, update, delete}
 
+        //UI
+        public bool IsLoaded { get; set; } = false; //Used to know when the page is loaded and filled out to prevent back button reloading data
+
         #endregion
 
         /// <summary>

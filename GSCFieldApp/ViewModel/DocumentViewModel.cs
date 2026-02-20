@@ -408,6 +408,44 @@ namespace GSCFieldApp.ViewModel
             
         }
 
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+
+            //Validate if new entry or update
+            if (_document != null && _document.DocumentName != string.Empty && _model.DocumentID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.document, Model, refreshType.update);
+            }
+            else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
+            {
+                await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
+
+            }
+            else
+            {
+                //Insert new records as batch if needed
+                await Task.Run(async () => await BatchCreatePhotos());
+            }
+
+            //Navigate to station page 
+            List<Station> parentStation= await DataAccess.DbConnection.Table<Station>().Where(x => x.StationID == Model.StationID).ToListAsync();
+            if (parentStation != null && parentStation.Count > 0)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Station)] = parentStation[0],
+                });
+            }
+
+        }
+
         /// <summary>
         /// Event to detect newly annotated pictures on Android. Will force a refresh of the thumbnail
         /// </summary>
@@ -488,6 +526,9 @@ namespace GSCFieldApp.ViewModel
 
             //Make sure file number to is not lower than file number from
             CalculateFileNumberTo();
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
 
         }
 

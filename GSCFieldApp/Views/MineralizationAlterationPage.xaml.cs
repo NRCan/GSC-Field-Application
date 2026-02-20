@@ -14,8 +14,12 @@ public partial class MineralizationAlterationPage : ContentPage
         base.OnNavigatedTo(args);
 
 		MineralizationAlterationViewModel vm2 = BindingContext as MineralizationAlterationViewModel;
-		await vm2.FillPickers();
-		await vm2.InitModel();
-		await vm2.Load();
+		if (!vm2.IsLoaded)
+		{
+            await vm2.FillPickers();
+            await vm2.InitModel();
+            await vm2.Load();
+        }
+
     }
 }

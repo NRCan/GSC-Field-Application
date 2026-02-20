@@ -188,6 +188,46 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            object savedModel = await SetAndSaveModelAsync();
+
+            if (savedModel != null)
+            {
+
+                //Navigate to parent
+                if (_model.IsStationAParent)
+                {
+                    List<Station> parentStation = await DataAccess.DbConnection.Table<Station>().Where(x => x.StationID == Model.MAStationID).ToListAsync();
+                    if (parentStation != null && parentStation.Count > 0)
+                    {
+                        await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Station)] = parentStation[0],
+                        });
+                    }
+                }
+                else
+                {
+                    List<Earthmaterial> parentEarth= await DataAccess.DbConnection.Table<Earthmaterial>().Where(x => x.EarthMatID == Model.MAEarthmatID).ToListAsync();
+                    if (parentEarth != null && parentEarth.Count > 0)
+                    {
+                        await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Earthmaterial)] = parentEarth[0],
+                        });
+                    }
+                }
+
+
+            }
+
+
+        }
         #endregion
 
         public MineralizationAlterationViewModel() { }
@@ -250,6 +290,9 @@ namespace GSCFieldApp.ViewModel
                 //Force null in earthmat id
                 Model.MAEarthmatID = null;
             }
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
         }
 
         /// <summary>

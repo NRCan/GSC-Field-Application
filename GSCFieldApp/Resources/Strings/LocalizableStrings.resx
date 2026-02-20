@@ -1580,4 +1580,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="GenericInfoDidYouKnow" xml:space="preserve">
     <value>Did you know?</value>
   </data>
+  <data name="ButtonNavigateToParent" xml:space="preserve">
+    <value>Tap to navigate to parent record.</value>
+  </data>
 </root>

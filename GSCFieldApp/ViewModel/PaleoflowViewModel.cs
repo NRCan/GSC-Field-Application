@@ -121,20 +121,7 @@ namespace GSCFieldApp.ViewModel
         async Task Save()
         {
 
-            //Validate if new entry or update
-            if (_model.PFlowID != 0)
-            {
-
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.pflow, Model, refreshType.update);
-            }
-            else
-            {
-                //New entry coming from parent form
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.pflow, Model, refreshType.insert);
-            }
+            await SetAndSaveModelAsync();
 
             //Exit 
             await NavigateAfterAction(TableNames.pflow);
@@ -149,20 +136,7 @@ namespace GSCFieldApp.ViewModel
         async Task SaveStay()
         {
 
-            //Validate if new entry or update
-            if (_paleoflow != null && _paleoflow.ParentName != string.Empty && _model.PFlowID != 0)
-            {
-
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.pflow, Model, refreshType.update);
-            }
-            else
-            {
-                //New entry coming from parent form
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.pflow, Model, refreshType.insert);
-            }
+            await SetAndSaveModelAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -184,6 +158,30 @@ namespace GSCFieldApp.ViewModel
 
             //Exit
             await NavigateAfterAction(TableNames.pflow);
+
+        }
+
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            object savedModel = await SetAndSaveModelAsync();
+
+            if (savedModel != null)
+            {
+
+                //Navigate to location page 
+                List<Earthmaterial> parentLocation = await DataAccess.DbConnection.Table<Earthmaterial>().Where(x => x.EarthMatID == Model.PFlowParentID).ToListAsync();
+                if (parentLocation != null && parentLocation.Count > 0)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Earthmaterial)] = parentLocation[0],
+                    });
+                }
+
+            }
 
         }
 
@@ -336,6 +334,36 @@ namespace GSCFieldApp.ViewModel
 
             Model.PFlowID = 0;
 
+        }
+
+        /// <summary>
+        /// Will set the model with some missing values and will make sure to save properly
+        /// </summary>
+        /// <returns></returns>
+        public async Task<object> SetAndSaveModelAsync()
+        {
+            //Validation
+            object savedObject = null;
+
+            //Validate if new entry or update
+            if (_paleoflow != null && _paleoflow.ParentName != string.Empty && _model.PFlowID != 0)
+            {
+
+                savedObject = await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.pflow, Model, refreshType.update);
+            }
+            else
+            {
+                //New entry coming from parent form
+                //Insert new record
+                savedObject = await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.pflow, Model, refreshType.insert);
+            }
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
+
+            return savedObject;
         }
 
         #endregion

@@ -232,6 +232,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to navigate to parent record..
+        /// </summary>
+        internal static string ButtonNavigateToParent {
+            get {
+                return ResourceManager.GetString("ButtonNavigateToParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string ButtonSave {

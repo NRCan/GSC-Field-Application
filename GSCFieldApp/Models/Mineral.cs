@@ -171,5 +171,30 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Will return true if earth material id is not null or false if it has an mineralization/alterationid instead
+        /// </summary>
+        [Ignore]
+        public bool IsEMAParent
+        {
+            get
+            {
+                if (MineralEMID != null)
+                {
+                    return true;
+                }
+                else if (MineralMAID != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+
+        }
+
     }
 }

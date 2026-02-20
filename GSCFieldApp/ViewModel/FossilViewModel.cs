@@ -77,20 +77,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
-
-            //Validate if new entry or update
-            if ( _model.FossilID != 0)
-            {
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.fossil, Model, refreshType.update);
-            }
-            else
-            {
-                //New entry coming from parent form
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.fossil, Model, refreshType.insert);
-            }
+            await SetAndSaveModelAsync();
 
             //Exit
             await NavigateAfterAction(TableNames.fossil);
@@ -105,20 +92,7 @@ namespace GSCFieldApp.ViewModel
         async Task SaveStay()
         {
 
-            //Validate if new entry or update
-            if (_fossil != null && _fossil.FossilIDName != string.Empty && _model.FossilID != 0)
-            {
-
-                await da.SaveItemAsync(Model, true);
-                RefreshFieldNotes(TableNames.fossil, Model, refreshType.update);
-            }
-            else
-            {
-                //New entry coming from parent form
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-                RefreshFieldNotes(TableNames.fossil, Model, refreshType.insert);
-            }
+            await SetAndSaveModelAsync();
 
             //Show saved message
             await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
@@ -140,6 +114,29 @@ namespace GSCFieldApp.ViewModel
 
             //Exit
             await NavigateAfterAction(TableNames.fossil);
+
+        }
+
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            object savedModel = await SetAndSaveModelAsync();
+
+
+            //Navigate to earth material page 
+            if (savedModel != null)
+            {
+                List<Earthmaterial> parentEarth = await DataAccess.DbConnection.Table<Earthmaterial>().Where(x => x.EarthMatID == Model.FossilParentID).ToListAsync();
+                if (parentEarth != null && parentEarth.Count > 0)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Earthmaterial)] = parentEarth[0],
+                    });
+                }
+            }
 
         }
 
@@ -235,6 +232,35 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will set the model with some missing values and will make sure to save properly
+        /// </summary>
+        /// <returns></returns>
+        public async Task<object> SetAndSaveModelAsync()
+        {
+            //Validation
+            object savedObject = null;
+
+            //Validate if new entry or update
+            if (_fossil != null && _fossil.FossilIDName != string.Empty && _model.FossilID != 0)
+            {
+
+                savedObject = await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.fossil, Model, refreshType.update);
+            }
+            else
+            {
+                //New entry coming from parent form
+                //Insert new record
+                savedObject = await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.fossil, Model, refreshType.insert);
+            }
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
+
+            return savedObject;
+        }
         #endregion
     }
 }

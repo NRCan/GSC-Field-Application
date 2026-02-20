@@ -8,7 +8,7 @@
 
             <VerticalStackLayout>
 
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}">
 
                     <!--Delete hint-->
                     <StackLayout Orientation="Vertical">
@@ -17,7 +17,7 @@
                     </StackLayout>
                     
                     <!--For mobile and touch screens-->
-                    <SwipeView Threshold="110" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}" ToolTipProperties.Text="{local:Localize ButtonSaveSwipeTooltip}" >
+                    <SwipeView Threshold="110" ToolTipProperties.Text="{local:Localize ButtonSaveSwipeTooltip}" >
                         <SwipeView.LeftItems>
                             <SwipeItems Mode="Execute">
                                 <SwipeItem x:Name="ButtonSaveStay" 
@@ -48,8 +48,6 @@
 
                 </StackLayout>
                 
-
-
                 <!--For desktop winui3 doesn't support mouse on swipeitems-->
                 <!--https://github.com/dotnet/maui/issues/16287-->
                 <Grid IsVisible="{OnIdiom Tablet=False, Phone=False, Desktop=True}">

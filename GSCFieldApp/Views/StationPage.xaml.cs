@@ -23,16 +23,19 @@ public partial class StationPage : ContentPage
 
         //After binding context is setup fill pickers
         StationViewModel vm2 = this.BindingContext as StationViewModel;
-        await vm2.FillPickers();
-        await vm2.InitModel();
-        await vm2.Load(); //In case it is coming from an existing record in field notes
 
-        //Set the title if waypoint
-        if (vm2.Station != null && vm2.Station.IsWaypoint)
+        if (!vm2.IsLoaded)
         {
-            this.Title = LocalizationResourceManager["StationPageWaypoint"].ToString();
-        }
+            await vm2.FillPickers();
+            await vm2.InitModel();
+            await vm2.Load(); //In case it is coming from an existing record in field notes
 
+            //Set the title if waypoint
+            if (vm2.Station != null && vm2.Station.IsWaypoint)
+            {
+                this.Title = LocalizationResourceManager["StationPageWaypoint"].ToString();
+            }
+        }
     }
 
 }

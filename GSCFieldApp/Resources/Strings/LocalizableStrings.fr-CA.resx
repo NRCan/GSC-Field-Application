@@ -1575,13 +1575,16 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GenericCopiedToClipboard" xml:space="preserve">
     <value>Texte copié dans le presse-papiers.</value>
   </data>
-  <data name="PicklistPageTables	Form" xml:space="preserve">
-    <value>Table de notes</value>
-  </data>
   <data name="DocumentPageInfoAlertThumbnail" xml:space="preserve">
     <value>Taper deux fois sur l'image pour pouvoir l'annoter ou l'éditer.</value>
   </data>
   <data name="GenericInfoDidYouKnow" xml:space="preserve">
     <value>Saviez-vous?</value>
+  </data>
+  <data name="PicklistPageTables	Form" xml:space="preserve">
+    <value>Table de notes</value>
+  </data>
+  <data name="ButtonNavigateToParent" xml:space="preserve">
+    <value>Presser pour ouvrir l'enregistrement parent.</value>
   </data>
 </root>

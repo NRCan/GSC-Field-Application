@@ -23,8 +23,7 @@
         <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
         <conv:ImageSourceConverter x:Key="image2URI"/>
-        <conv:VisibilityFromReverseBoolConverter x:Key="reverseBool"/>
-
+        <conv:VisibilityFromReverseBoolConverter x:Key="ReverseBool"/>
     </ContentPage.Resources>
 
     <ContentPage.Content>
@@ -167,6 +166,24 @@
             <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldMineralColor}"
                                     ButtonLightColor="{StaticResource FieldMineralColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+
+                <!--Earth material parent navigation, if any-->
+                <Button Style="{StaticResource FieldAppHeaderParentButton}" 
+                        WidthRequest="40" Margin="0,10,0,70" IsVisible="{Binding Model.IsEMAParent}"
+                        ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
+                        BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
+                        Command="{Binding NavParentCommand}"/>
+
+                <!--Minearlization/alteration parent navigation, if any-->
+                <Button Style="{StaticResource FieldAppHeaderParentButton}" IsVisible="{Binding Model.IsEMAParent, Mode=TwoWay, Converter={StaticResource ReverseBool}}"
+                        WidthRequest="40" Margin="0,10,0,70"
+                        ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
+                        BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"
+                        Command="{Binding NavParentCommand}"/>
+
+            </StackLayout>
 
         </Grid>
     </ContentPage.Content>

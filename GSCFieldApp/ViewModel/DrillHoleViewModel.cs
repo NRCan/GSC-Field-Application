@@ -230,11 +230,38 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Save
+            object savedModel = await SetAndSaveModelAsync();
+
+            //Exit
+            if (savedModel != null)
+            {
+                //Navigate to location page 
+                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.DrillLocationID).ToListAsync();
+                if (parentLocation != null && parentLocation.Count > 0)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(LocationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FieldLocation)] = parentLocation[0],
+                    });
+                }
+
+            }
+
+        }
+
         #endregion
 
         #region METHODS
 
-
+        /// <summary>
+        /// Will set the model with some missing values and will make sure to save properly
+        /// </summary>
+        /// <returns></returns>
         public async Task<object> SetAndSaveModelAsync()
         {
             //Validation
@@ -316,6 +343,9 @@ namespace GSCFieldApp.ViewModel
                 Model.DrillRelogIntervals = ConcatenatedCombobox.PipeValues(DrillHoleLogIntervalCollection); //process list of values so they are concatenated.
             }
             #endregion
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
         }
 
         /// <summary>

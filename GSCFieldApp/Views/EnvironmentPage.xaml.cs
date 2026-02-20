@@ -17,9 +17,13 @@ public partial class EnvironmentPage : ContentPage
 
         //After binding context is setup fill pickers
         EnvironmentViewModel vm2 = this.BindingContext as EnvironmentViewModel;
-        await vm2.FillPickers();
-        await vm2.InitModel();
-        await vm2.Load(); //In case it is coming from an existing record in field notes
+        if (!vm2.IsLoaded)
+        {
+            await vm2.FillPickers();
+            await vm2.InitModel();
+            await vm2.Load(); //In case it is coming from an existing record in field notes
+        }
+
     }
 
 }

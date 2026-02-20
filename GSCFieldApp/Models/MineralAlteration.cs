@@ -159,5 +159,29 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Will return true if station is not null or false if it has an earth mat id instead
+        /// </summary>
+        [Ignore]
+        public bool IsStationAParent
+        {
+            get
+            {
+                if (MAStationID != null)
+                {
+                    return true;
+                }
+                else if (MAEarthmatID != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+
+        }
     }
 }

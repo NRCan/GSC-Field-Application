@@ -18,9 +18,13 @@ public partial class MineralPage : ContentPage
         base.OnNavigatedTo(args);
 
 		MineralViewModel viewModel = BindingContext as MineralViewModel;
-		await viewModel.FillPickers();
-        await viewModel.InitModel();
-        await viewModel.Load();
+        if (!viewModel.IsLoaded)
+        {
+            await viewModel.FillPickers();
+            await viewModel.InitModel();
+            await viewModel.Load();
+        }
+
     }
 
     /// <summary>

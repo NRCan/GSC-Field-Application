@@ -242,6 +242,55 @@ namespace GSCFieldApp.ViewModel
 
             OnPropertyChanged(nameof(MineralPageNameSearchResults));
         }
+
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_model.MineralID != 0)
+            {
+
+                await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.mineral, Model, refreshType.update);
+            }
+            else
+            {
+                //New entry coming from parent form
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.mineral, Model, refreshType.insert);
+            }
+
+            //Navigate to parent
+            if (_model.IsEMAParent)
+            {
+                List<Earthmaterial> parentEarth = await DataAccess.DbConnection.Table<Earthmaterial>().Where(x => x.EarthMatID == Model.MineralEMID).ToListAsync();
+                if (parentEarth != null && parentEarth.Count > 0)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(EarthmatPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Earthmaterial)] = parentEarth[0],
+                    });
+                }
+            }
+            else
+            {
+                List<MineralAlteration> parentMineralization= await DataAccess.DbConnection.Table<MineralAlteration>().Where(x => x.MAID == Model.MineralMAID).ToListAsync();
+                if (parentMineralization != null && parentMineralization.Count > 0)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(MineralAlteration)] = parentMineralization[0],
+                    });
+                }
+            }
+
+        }
         #endregion
 
         #region METHODS
@@ -288,6 +337,9 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.MineralFormHabit = ConcatenatedCombobox.PipeValues(MineralFormHabitCollection); //process list of values so they are concatenated.
             }
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
         }
 
         /// <summary>

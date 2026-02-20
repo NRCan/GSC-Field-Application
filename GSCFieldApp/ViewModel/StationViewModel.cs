@@ -399,6 +399,42 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            if (Model.StationAlias != null)
+            {
+                //Validate if new entry or update
+                if (_station != null && _station.StationAlias != string.Empty)
+                {
+                    await da.SaveItemAsync(Model, true);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.update);
+                }
+                else
+                {
+                    //Insert new record
+                    await da.SaveItemAsync(Model, false);
+                    RefreshFieldNotes(TableNames.station, Model, refreshType.insert);
+                }
+
+                //Navigate to location page 
+                List<FieldLocation> parentLocation = await DataAccess.DbConnection.Table<FieldLocation>().Where(x => x.LocationID == Model.LocationID).ToListAsync();
+                if (parentLocation != null && parentLocation.Count > 0)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(LocationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FieldLocation)] = parentLocation[0],
+                    });
+                }
+
+            }
+
+        }
         #endregion
 
         #region METHODS
@@ -488,7 +524,10 @@ namespace GSCFieldApp.ViewModel
 
             //Process Air Photo and Traverse numbers
             FillAirPhotoTraverseNo();
- 
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
+
         }
 
         /// <summary>

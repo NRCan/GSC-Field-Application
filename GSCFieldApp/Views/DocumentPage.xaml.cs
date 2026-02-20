@@ -41,13 +41,17 @@ public partial class DocumentPage : ContentPage
             base.OnNavigatedTo(args);
 
             DocumentViewModel vm2 = this.BindingContext as DocumentViewModel;
-            //After binding context is setup fill pickers
-            if (vm2 != null && vm2.SaveCommand.ExecutionTask == null && vm2.SaveStayCommand.ExecutionTask == null)
+            if (!vm2.IsLoaded)
             {
-                await Task.Run(async () => await vm2.FillPickers());
-                await Task.Run(async () => await vm2.InitModel());
-                await vm2.Load(); //In case it is coming from an existing record in field notes
+                //After binding context is setup fill pickers
+                if (vm2 != null && vm2.SaveCommand.ExecutionTask == null && vm2.SaveStayCommand.ExecutionTask == null)
+                {
+                    await Task.Run(async () => await vm2.FillPickers());
+                    await Task.Run(async () => await vm2.InitModel());
+                    await vm2.Load(); //In case it is coming from an existing record in field notes
+                }
             }
+
 
         }
         catch (Exception e)

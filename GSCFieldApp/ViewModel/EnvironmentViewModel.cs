@@ -205,7 +205,38 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task NavParent()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
 
+            //Validate if new entry or update
+            if (_model.EnvID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+                RefreshFieldNotes(TableNames.environment, Model, refreshType.update);
+            }
+            else
+            {
+                //New entry coming from parent form
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+                RefreshFieldNotes(TableNames.environment, Model, refreshType.insert);
+            }
+
+            //Navigate to station page 
+            List<Station> parentStation = await DataAccess.DbConnection.Table<Station>().Where(x => x.StationID == Model.EnvStationID).ToListAsync();
+            if (parentStation != null && parentStation.Count > 0)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Station)] = parentStation[0],
+                });
+            }
+
+        }
         #endregion
 
         public EnvironmentViewModel()
@@ -341,6 +372,9 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EnvGroundPattern = ConcatenatedCombobox.PipeValues(EnvironmentPatternCollection); //process list of values so they are concatenated.
             }
+
+            //Keep track of page being already filled or not
+            IsLoaded = true;
 
         }
 

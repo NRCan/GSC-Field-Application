@@ -15,9 +15,13 @@ public partial class DrillHolePage : ContentPage
         base.OnNavigatedTo(args);	
 
 		DrillHoleViewModel vm2 = BindingContext as DrillHoleViewModel;
-		_ = vm2.FillPickers();
-        _ = vm2.InitModel();
-        _ = vm2.Load();
+        if (!vm2.IsLoaded)
+        {
+            _ = vm2.FillPickers();
+            _ = vm2.InitModel();
+            _ = vm2.Load();
+        }
+
     }
 
     private void DrillHolePageHoleSizePicker_SelectedIndexChanged(object sender, EventArgs e)
