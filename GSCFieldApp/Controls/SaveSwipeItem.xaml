@@ -8,28 +8,47 @@
 
             <VerticalStackLayout>
 
-                <!--For mobile and touch screens-->
-                <SwipeView Threshold="110" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}" ToolTipProperties.Text="{local:Localize ButtonSaveSwipeTooltip}">
-                    <SwipeView.LeftItems>
-                        <SwipeItems Mode="Execute">
-                            <SwipeItem x:Name="ButtonSaveStay" 
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+
+                    <!--Delete hint-->
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="&#x2190;" TextColor="LightGray" HorizontalOptions="End" FontSize="Title"/>
+                        <Label Text="{local:Localize ButtonSaveDelete}" TextColor="LightGray" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+                    
+                    <!--For mobile and touch screens-->
+                    <SwipeView Threshold="110" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}" ToolTipProperties.Text="{local:Localize ButtonSaveSwipeTooltip}" >
+                        <SwipeView.LeftItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem x:Name="ButtonSaveStay" 
                                 Text="{local:Localize ButtonSaveStay}" BackgroundColor="{TemplateBinding ButtonLightColor}"
                                 Command="{Binding SaveStayCommand}"/>
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
 
-                    <SwipeView.RightItems>
-                        <SwipeItems Mode="Execute">
-                            <SwipeItem x:Name="ButtonSaveDelete" 
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem x:Name="ButtonSaveDelete" 
                                 Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
                                 Command="{Binding SaveDeleteCommand}"/>
-                        </SwipeItems>
-                    </SwipeView.RightItems>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
 
-                    <Button Text="{local:Localize ButtonSave}" 
+                        <Button Text="{local:Localize ButtonSave}" 
                         Style="{StaticResource FieldAppButonSave}" BackgroundColor="{TemplateBinding ButtonColor}"
                         Command="{Binding SaveCommand}"/>
-                </SwipeView>
+                    </SwipeView>
+
+                    <!--Copy and stay hint-->
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="&#x2192;" TextColor="LightGray" HorizontalOptions="Start" FontSize="Title"/>
+                        <Label Text="{local:Localize ButtonSaveStay}" TextColor="LightGray" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+
+                </StackLayout>
+                
+
 
                 <!--For desktop winui3 doesn't support mouse on swipeitems-->
                 <!--https://github.com/dotnet/maui/issues/16287-->
