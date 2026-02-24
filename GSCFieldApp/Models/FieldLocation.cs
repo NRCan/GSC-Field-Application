@@ -199,6 +199,7 @@ namespace GSCFieldApp.Models
 
         /// <summary>
         /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// Example: 26GHV0001XY --> 1XY
         /// </summary>
         [Ignore]
         public string LocationAliasLight
@@ -251,6 +252,63 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// Example: 26GHV0001XY --> 1
+        /// </summary>
+        [Ignore]
+        public string LocationAliasSuperLight
+        {
+            get
+            {
+                if (LocationAlias != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(LocationAlias.Substring(LocationAlias.Length - 6, 4), out aliasNumber);
+
+                    //Case waypoint
+                    if (LocationAlias.Contains(DatabaseLiterals.KeywordStationWaypoint))
+                    {
+                        int.TryParse(LocationAlias.Substring(LocationAlias.Length - 5, 3), out aliasNumber);
+                    }
+
+                    //Case drill holes
+                    if (LocationAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                    {
+                        int.TryParse(LocationAlias.Substring(LocationAlias.Length - 8, 4), out aliasNumber);
+                    }
+
+                    if (aliasNumber > 0 && LocationAlias.Length < 14)
+                    {
+                        //Case waypoint
+                        if (LocationAlias.Contains(DatabaseLiterals.KeywordStationWaypoint))
+                        {
+                            return DatabaseLiterals.KeywordStationWaypointLight + aliasNumber.ToString();
+                        }
+
+                        //Case drill holes
+                        if (LocationAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                        {
+                            return DatabaseLiterals.KeywordStationDrillHoleLight + aliasNumber.ToString();
+                        }
+
+                        return aliasNumber.ToString();
+                    }
+                    else
+                    {
+                        return LocationAlias;
+                    }
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
+
 
         /// <summary>
         /// Will be used to trigger a cascade delete coming from location record

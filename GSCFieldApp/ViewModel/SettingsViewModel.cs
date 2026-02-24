@@ -16,6 +16,9 @@ namespace GSCFieldApp.ViewModel
 {
     public partial class SettingsViewModel: ObservableObject
     {
+        //Events
+        public static EventHandler<bool> fieldNoteFilteringSettingChanged; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+
         #region PROPERTIES
         public LocalizationResourceManager LocalizationResourceManager
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -136,6 +139,23 @@ namespace GSCFieldApp.ViewModel
         {
             get { return Preferences.Get(nameof(DeveloperModeActivated), false); }
             set { }
+        }
+
+        public bool FilteringByDateOrLocation
+        {
+            get { return Preferences.Get(nameof(FilteringByDateOrLocation), true); }
+            set 
+            {
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNoteFilteringSettingChangedRequest = fieldNoteFilteringSettingChanged;
+                if (fieldNoteFilteringSettingChangedRequest != null)
+                {
+                    fieldNoteFilteringSettingChangedRequest(this, true);
+                }
+
+                //keep in pref
+                Preferences.Set(nameof(FilteringByDateOrLocation), value); 
+            }
         }
 
         private bool _isWaiting = false;

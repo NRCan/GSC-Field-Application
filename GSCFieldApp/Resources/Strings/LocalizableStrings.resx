@@ -603,7 +603,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Missing date</value>
   </data>
   <data name="FielNotesDateHeader" xml:space="preserve">
-    <value>Traverse Dates</value>
+    <value>Filter by date</value>
   </data>
   <data name="FielNotesDrillHolesHeader" xml:space="preserve">
     <value>Drill Holes</value>
@@ -1582,5 +1582,17 @@ Enter last two digit of current year to proceed.</value>
   </data>
   <data name="ButtonNavigateToParent" xml:space="preserve">
     <value>Tap to navigate to parent record.</value>
+  </data>
+  <data name="PicklistPageTables	Form" xml:space="preserve">
+    <value>Notes Table</value>
+  </data>
+  <data name="SettingPageFieldNoteFiltering" xml:space="preserve">
+    <value>Location or Traverse Dates</value>
+  </data>
+  <data name="SettingPageFieldNoteFilteringTitle" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FielNotesFilterLocationHeader" xml:space="preserve">
+    <value>Filter by location</value>
   </data>
 </root>

@@ -1881,7 +1881,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Traverse Dates.
+        ///   Looks up a localized string similar to Filter by date.
         /// </summary>
         internal static string FielNotesDateHeader {
             get {
@@ -1913,6 +1913,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FielNotesEnvironmentHeader {
             get {
                 return ResourceManager.GetString("FielNotesEnvironmentHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter by location.
+        /// </summary>
+        internal static string FielNotesFilterLocationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesFilterLocationHeader", resourceCulture);
             }
         }
         
@@ -3605,6 +3614,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SettingPageDebugLogUsage {
             get {
                 return ResourceManager.GetString("SettingPageDebugLogUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location or Traverse Dates.
+        /// </summary>
+        internal static string SettingPageFieldNoteFiltering {
+            get {
+                return ResourceManager.GetString("SettingPageFieldNoteFiltering", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        internal static string SettingPageFieldNoteFilteringTitle {
+            get {
+                return ResourceManager.GetString("SettingPageFieldNoteFilteringTitle", resourceCulture);
             }
         }
         

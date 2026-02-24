@@ -604,7 +604,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Date manquante</value>
   </data>
   <data name="FielNotesDateHeader" xml:space="preserve">
-    <value>Dates de traverses</value>
+    <value>Filtrer par date</value>
   </data>
   <data name="FielNotesDrillHolesHeader" xml:space="preserve">
     <value>Forages</value>
@@ -1581,10 +1581,19 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GenericInfoDidYouKnow" xml:space="preserve">
     <value>Saviez-vous?</value>
   </data>
+  <data name="ButtonNavigateToParent" xml:space="preserve">
+    <value>Presser pour ouvrir l'enregistrement parent.</value>
+  </data>
   <data name="PicklistPageTables	Form" xml:space="preserve">
     <value>Table de notes</value>
   </data>
-  <data name="ButtonNavigateToParent" xml:space="preserve">
-    <value>Presser pour ouvrir l'enregistrement parent.</value>
+  <data name="SettingPageFieldNoteFiltering" xml:space="preserve">
+    <value>Localisation ou date de traverses</value>
+  </data>
+  <data name="SettingPageFieldNoteFilteringTitle" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="FielNotesFilterLocationHeader" xml:space="preserve">
+    <value>Filtrer par localisation</value>
   </data>
 </root>

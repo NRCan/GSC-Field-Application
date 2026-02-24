@@ -8,6 +8,7 @@ using Mapsui.UI.Maui;
 using SQLite;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml.Linq;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using static GSCFieldApp.Services.ObservableCollectionHelper;
@@ -35,6 +36,9 @@ namespace GSCFieldApp.ViewModel
         private Dictionary<TableNames, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<TableNames, ObservableCollection<FieldNote>>(); //Used to populate records in each headers
         private Dictionary<TableNames, ObservableCollection<FieldNote>> FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(); //Safe variable for refiltering datasets
 
+        //UI tracking
+        private FieldNote _lastFilterItemTapped = null; //Added because WinUI and Android do not fill the property _selectedLocation or _selectedDate at the same time when tapped by user
+
         #region PROPERTIES
 
         /// <summary>
@@ -58,6 +62,7 @@ namespace GSCFieldApp.ViewModel
             UpdateRecordList(_updateTable);
         }
 
+        #region EXPAND BOXES
         private bool _isStationExpanded = true;
         public bool IsStationExpanded
         {
@@ -149,6 +154,9 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsLineworkExpanded), value); }
         }
 
+        #endregion
+
+        #region VISIBILITY BOXES
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
@@ -221,6 +229,15 @@ namespace GSCFieldApp.ViewModel
             set { }
         }
 
+        #endregion
+
+        public bool FilteringByDateOrLocation
+        {
+            get { return Preferences.Get(nameof(FilteringByDateOrLocation), true); }
+            set { }
+        }
+
+        #region DATA COLLECTION
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
         { 
@@ -467,14 +484,28 @@ namespace GSCFieldApp.ViewModel
             set { _lineworks = value; }
         }
 
-        private string _selectedDate = string.Empty;
-        public string SelectedDate { get { return _selectedDate; } set { _selectedDate = value; } }
+        #endregion
 
-        private ObservableCollection<string> _dates = new ObservableCollection<string>();
-        public ObservableCollection<string> Dates
+        //Filtering by dates or locations
+
+        private FieldNote _selectedDate = null;
+        public FieldNote SelectedDate { get { return _selectedDate; } set { _selectedDate = value; } }
+
+        private ObservableCollection<FieldNote> _dates = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Dates
         {
             get { return _dates; }
             set { _dates = value; }
+        }
+
+        private FieldNote _selectedLocation = null;
+        public FieldNote SelectedLocation { get { return _selectedLocation; } set { _selectedLocation = value; } }
+
+        private ObservableCollection<FieldNote> _filterLocations = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> FilterLocations
+        {
+            get { return _filterLocations; }
+            set { _filterLocations = value; }
         }
 
         private bool _isWaiting = false;
@@ -499,7 +530,8 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.drill, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.linework, new ObservableCollection<FieldNote>());
 
-            _dates = new ObservableCollection<string>();
+            _dates = new ObservableCollection<FieldNote>();
+            _filterLocations = new ObservableCollection<FieldNote>();
 
             //Init all records
             _ = Task.Run(async () => await ValidateFillFieldNotesAsync());
@@ -510,6 +542,9 @@ namespace GSCFieldApp.ViewModel
             FieldAppPageHelper.updateRecord += FieldAppPageHelper_updateRecordAsync;
             FieldAppPageHelper.deleteRecord += FieldAppPageHelper_deleteRecordAsync;
             MapViewModel.newMapRecord += FieldAppPageHelper_newRecordAsync;
+
+            //Detect new setting for filtering by date or location
+            SettingsViewModel.fieldNoteFilteringSettingChanged += SettingsViewModel_fieldNoteFilteringSettingChangedAsync;
         }
 
         #region RELAY
@@ -520,9 +555,17 @@ namespace GSCFieldApp.ViewModel
         /// <param name="incomingDate"></param>
         /// <returns></returns>
         [RelayCommand]
-        async Task TapDateGestureRecognizer(string incomingDate)
+        async Task TapDateGestureRecognizer(FieldNote incomingSelection)
         {
-            await FilterRecordsOnDate(incomingDate);
+            if (FilteringByDateOrLocation)
+            {
+                await FilterRecordsOnDate(incomingSelection);
+            }
+            else
+            {
+                await FilterRecordsOnLocation(incomingSelection);
+            }
+            
         }
 
         /// <summary>
@@ -918,7 +961,7 @@ namespace GSCFieldApp.ViewModel
                     else
                     {
                         //Only filter dates
-                        await FillTraverseDates(DataAccess.DbConnection);
+                        await FillFilter(DataAccess.DbConnection);
                     }
                         
                 }
@@ -932,6 +975,23 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
+        /// Will either filter by traverse date or location, based on user preference
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public async Task FillFilter(SQLiteAsyncConnection connection)
+        {
+            if (FilteringByDateOrLocation)
+            {
+                await FillTraverseDates(connection);
+            }
+            else
+            {
+                await FillFilterLocation(connection);
+            }
+        }
+
+        /// <summary>
         /// First run on filling all the notes from the database
         /// </summary>
         /// <param name="connection"></param>
@@ -939,7 +999,7 @@ namespace GSCFieldApp.ViewModel
         public async Task FillFieldNotesAsync(SQLiteAsyncConnection connection)
         {
             List<Task> tasks = new List<Task>();
-            tasks.Add(FillTraverseDates(connection));
+            tasks.Add(FillFilter(connection));
             tasks.Add(FillStationNotes(connection));
             tasks.Add(FillEMNotes(connection));
             tasks.Add(FillSampleNotes(connection));
@@ -971,7 +1031,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public async Task DateRefreshner()
         {
-            if ((Dates != null && Dates.Count == 1) || (_selectedDate != null && _selectedDate == string.Empty))
+            if ((Dates != null && Dates.Count == 1) || (_selectedDate != null))
             {
                 await FilterRecordsOnDate(Dates.First());
 
@@ -985,7 +1045,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will fill the traverse date section of the notes
+        /// Will fill the filtering section with traverse dates
         /// </summary>
         /// <param name="inConnection"></param>
         /// <returns></returns>
@@ -997,12 +1057,12 @@ namespace GSCFieldApp.ViewModel
 
             if (_dates == null)
             {
-                _dates = new ObservableCollection<string>();
+                _dates = new ObservableCollection<FieldNote>();
             }
 
             //List to detect dates that disapears
-            List<string> datesToRemove = new List<string>();
-            List<string> datesTotalList = new List<string>();
+            List<FieldNote> datesToRemove = new List<FieldNote>();
+            List<FieldNote> datesTotalList = new List<FieldNote>();
 
             //Get all dates from key TableNames
             List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
@@ -1026,11 +1086,10 @@ namespace GSCFieldApp.ViewModel
             {
                 foreach (Station st in stats)
                 {
-                    string sDate = LocalizationResourceManager["FieldNotesEmptyDate"].ToString();
-
+                    FieldNote sDate = new FieldNote() { Display_text_1 = LocalizationResourceManager["FieldNotesEmptyDate"].ToString() };
                     if (st.StationVisitDate != null && st.StationVisitDate != string.Empty)
                     {
-                        sDate = st.StationVisitDate;
+                        sDate = new FieldNote() { Display_text_1 = st.StationVisitDate };
                         datesTotalList.Add(sDate);
                     }
 
@@ -1046,12 +1105,11 @@ namespace GSCFieldApp.ViewModel
             {
                 foreach (FieldLocation dr in locs)
                 {
-
-                    string dDate = LocalizationResourceManager["FieldNotesEmptyDate"].ToString();
+                    FieldNote dDate = new FieldNote() { Display_text_1 = LocalizationResourceManager["FieldNotesEmptyDate"].ToString() };
 
                     if (dr.LocationTimestamp != null && dr.LocationTimestamp != string.Empty)
                     {
-                        dDate = dr.LocationTimestamp;
+                        dDate = new FieldNote() { Display_text_1 = dr.LocationTimestamp};
                         datesTotalList.Add(dDate);
                     }
 
@@ -1067,7 +1125,7 @@ namespace GSCFieldApp.ViewModel
             datesToRemove = _dates.Where(d => !datesTotalList.Contains(d)).ToList();
             if (datesToRemove != null && datesToRemove.Count() > 0)
             {
-                foreach (string dr in datesToRemove)
+                foreach (FieldNote dr in datesToRemove)
                 {
                     _dates.Remove(dr);
                 }
@@ -1076,6 +1134,67 @@ namespace GSCFieldApp.ViewModel
 
             OnPropertyChanged(nameof(Dates));
         }
+
+        /// <summary>
+        /// Will fill the filtering section of the notes with location ids
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillFilterLocation(SQLiteAsyncConnection inConnection)
+        {
+            try
+            {
+                if (_filterLocations == null)
+                {
+                    _filterLocations = new ObservableCollection<FieldNote>();
+                }
+
+                //List to detect locations that disapears
+                List<FieldNote> locsToRemove = new List<FieldNote>();
+                List<FieldNote> locsTotalList = new List<FieldNote>();
+
+                //Get all locations from key TableNames
+                List<FieldLocation> locs = await inConnection.QueryAsync<FieldLocation>(string.Format("select distinct {0},{1} from {2} order by {0},{3} desc",
+                    FieldLocationAlias, FieldLocationID, TableLocation, FieldLocationTimestamp));
+
+                //Get all datlocaes from database
+                if (locs != null && locs.Count > 0)
+                {
+                    foreach (FieldLocation loc in locs)
+                    {
+                        FieldNote locNote = new FieldNote() { Display_text_1 = loc.LocationAliasSuperLight, GenericID = loc.LocationID, GenericTableName = TableLocation.ToString() };
+                        if (loc.LocationID != 0)
+                        {
+                            locsTotalList.Add(locNote); 
+                        }
+
+                        if (!_filterLocations.Contains(locNote))
+                        {
+                            _filterLocations.Insert(locs.IndexOf(loc), locNote);
+                        }
+                    }
+                }
+
+                //Remove missing locations
+                locsToRemove = _filterLocations.Where(d => !locsTotalList.Contains(d)).ToList();
+                if (locsToRemove != null && locsToRemove.Count() > 0)
+                {
+                    foreach (FieldNote dr in locsToRemove)
+                    {
+                        _filterLocations.Remove(dr);
+                    }
+
+                }
+
+                OnPropertyChanged(nameof(FilterLocations));
+            }
+            catch (Exception FillFilterLocationException)
+            {
+                new ErrorToLogFile(FillFilterLocationException).WriteToFile();
+            }
+
+        }
+
 
         /// <summary>
         /// Will get all database stations to fill station cards
@@ -1605,7 +1724,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         /// <param name="inDate"></param>
         /// <returns></returns>
-        public async Task FilterRecordsOnDate(string inDate)
+        public async Task FilterRecordsOnDate(FieldNote inDate)
         {
             if (inDate != _selectedDate)
             {
@@ -1613,8 +1732,14 @@ namespace GSCFieldApp.ViewModel
                 _selectedDate = inDate;
                 OnPropertyChanged(nameof(SelectedDate));
             }
+            else
+            {
+                //If it's the same date that was tapped twice, unselect it and show all records
+                _selectedDate = null;
+            }
+            OnPropertyChanged(nameof(SelectedLocation));
 
-            if (inDate != string.Empty && _selectedDate != null)
+            if (inDate.Display_text_1 != string.Empty && _selectedDate != null)
             {
                 //Clean first
                 foreach (TableNames tn in FieldNotes.Keys)
@@ -1631,7 +1756,7 @@ namespace GSCFieldApp.ViewModel
                 if (FieldNotesAll.ContainsKey(TableNames.station))
                 {
                     //Keep stations from desired date
-                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.station], FieldNotesAll[TableNames.station].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName));
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.station], FieldNotesAll[TableNames.station].Where(x => x.Date == inDate.Display_text_1).OrderBy(x => x.GenericAliasName));
                     OnPropertyChanged(nameof(Stations));
 
                     //Resulting ids as a list for 
@@ -1672,7 +1797,7 @@ namespace GSCFieldApp.ViewModel
                 //Continue with other children of location
                 if (FieldNotesAll.ContainsKey(TableNames.location))
                 {
-                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.location], FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName).ToList());
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.location], FieldNotesAll[TableNames.location].Where(x => x.Date == inDate.Display_text_1).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Locations));
 
                     //Children
@@ -1721,10 +1846,14 @@ namespace GSCFieldApp.ViewModel
                 if (FieldNotesAll.ContainsKey(TableNames.linework))
                 {
                     //Keep stations from desired date
-                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], FieldNotesAll[TableNames.linework].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName));
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], FieldNotesAll[TableNames.linework].Where(x => x.Date == inDate.Display_text_1).OrderBy(x => x.GenericAliasName));
                     OnPropertyChanged(nameof(Lineworks));
                 }
 
+            }
+            else
+            {
+                await ValidateFillFieldNotesAsync(true);
             }
 
         }
@@ -1769,6 +1898,148 @@ namespace GSCFieldApp.ViewModel
 
             ObservableCollectionHelper.AddRange(FieldNotes[TableNames.mineral], FieldNotesAll[TableNames.mineral].Where(x => maIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
             OnPropertyChanged(nameof(Minerals));
+        }
+
+        /// <summary>
+        /// A method that will filter out all records in field note page
+        /// based on a desire date
+        /// </summary>
+        /// <param name="inDate"></param>
+        /// <returns></returns>
+        public async Task FilterRecordsOnLocation(FieldNote inFilter)
+        {
+
+            if (inFilter != _lastFilterItemTapped)
+            {
+                //Update selection on UI
+                _selectedLocation = _lastFilterItemTapped = inFilter;
+            }
+            else 
+            {
+                //If it's the same loc that was tapped twice, unselect it and show all records
+                _selectedLocation = _lastFilterItemTapped = null;
+            }
+            
+            OnPropertyChanged(nameof(SelectedLocation));
+
+
+            if (inFilter.Display_text_1 != string.Empty && _selectedLocation != null)
+            {
+                //Clean first
+                foreach (TableNames tn in FieldNotes.Keys)
+                {
+                    //Everything except linework that doesn't have any date
+                    if (tn != TableNames.linework)
+                    {
+                        FieldNotes[tn] = new ObservableCollection<FieldNote>();
+                    }
+
+                }
+
+                //Start with station
+                if (FieldNotesAll.ContainsKey(TableNames.station))
+                {
+                    //Keep stations from desired date
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.station], FieldNotesAll[TableNames.station].Where(x => x.ParentID == inFilter.GenericID).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(Stations));
+
+                    //Resulting ids as a list for 
+                    List<int> stationIds = new List<int>();
+                    foreach (FieldNote sids in FieldNotes[TableNames.station])
+                    {
+                        stationIds.Add(sids.GenericID);
+                    }
+
+                    #region Station - First order children
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(EarthMats));
+
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(Documents));
+
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.environment], FieldNotesAll[TableNames.environment].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(Environments));
+
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.mineralization], FieldNotesAll[TableNames.mineralization].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(MineralizationAlterations));
+                    #endregion
+
+                    #region Earth Mat - Second order children
+
+                    SetEarthMatSecondOrderChildren();
+
+                    #endregion
+
+                    #region Mineralization - Third order childrens
+
+                    SetMineralizationThirdOrderChildren();
+
+                    #endregion
+
+                }
+
+                //Continue with other children of location
+                if (FieldNotesAll.ContainsKey(TableNames.location))
+                {
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.location], FieldNotesAll[TableNames.location].Where(x => x.GenericID == inFilter.GenericID).OrderBy(x => x.GenericAliasName).ToList());
+                    OnPropertyChanged(nameof(Locations));
+
+                    //Children
+                    List<int> locIds = new List<int>();
+                    foreach (FieldNote lids in FieldNotes[TableNames.location])
+                    {
+                        locIds.Add(lids.GenericID);
+                    }
+
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.drill], FieldNotesAll[TableNames.drill].Where(x => locIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    OnPropertyChanged(nameof(DrillHoles));
+
+
+                    #region Drill Holes - First order children
+
+                    List<int> drillIds = new List<int>();
+                    foreach (FieldNote ds in FieldNotes[TableNames.drill])
+                    {
+                        drillIds.Add(ds.GenericID);
+                    }
+
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(EarthMats));
+
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(Documents));
+
+                    #endregion
+
+                    #region Earth Mat - Second order children
+
+                    SetEarthMatSecondOrderChildren();
+
+                    #endregion
+
+                    #region Mineralization - Third order childrens
+
+                    SetMineralizationThirdOrderChildren();
+
+                    #endregion
+
+
+                }
+
+                //Finish with lineworks
+                if (FieldNotesAll.ContainsKey(TableNames.linework))
+                {
+                    //Keep stations from desired date
+                    ObservableCollectionHelper.AddRange(FieldNotes[TableNames.linework], FieldNotesAll[TableNames.linework].Where(x => x.ParentID == inFilter.GenericID).OrderBy(x => x.GenericAliasName));
+                    OnPropertyChanged(nameof(Lineworks));
+                }
+
+            }
+            else
+            {
+                await ValidateFillFieldNotesAsync(true);
+            }
+
         }
 
         /// <summary>
@@ -2214,9 +2485,9 @@ namespace GSCFieldApp.ViewModel
             ObservableCollection<FieldNote> addFNList = new ObservableCollection<FieldNote>() { fnToUpdate };
 
             //Adding a new record will force a new date selection
-            if (Dates.Count() > 0 && fnToUpdate.Date != null && Dates.Contains(fnToUpdate.Date))
+            if (Dates.Count() > 0 && fnToUpdate != null && Dates.Contains(fnToUpdate))
             {
-                _selectedDate = fnToUpdate.Date;
+                _selectedDate = fnToUpdate;
                 OnPropertyChanged(nameof(SelectedDate));
             }
 
@@ -2397,7 +2668,7 @@ namespace GSCFieldApp.ViewModel
                 new ErrorToLogFile(except).WriteToFile();
             }
         }
-        #endregion
+#endregion
 
         #region EVENTS
 
@@ -2414,6 +2685,21 @@ namespace GSCFieldApp.ViewModel
                 await ValidateFillFieldNotesAsync(true);
             }
 
+        }
+
+        /// <summary>
+        /// Event triggered when user changes the filtering method (date or location)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private async void SettingsViewModel_fieldNoteFilteringSettingChangedAsync(object sender, bool e)
+        {
+            //Reload all notes
+            await ValidateFillFieldNotesAsync(true);
+
+            //Refresh UI
+            OnPropertyChanged(nameof(FilteringByDateOrLocation));
         }
 
         /// <summary>

@@ -12,8 +12,8 @@
 
                     <!--Delete hint-->
                     <StackLayout Orientation="Vertical">
-                        <Label Text="&#x2190;" TextColor="LightGray" HorizontalOptions="End" FontSize="Title"/>
-                        <Label Text="{local:Localize ButtonSaveDelete}" TextColor="LightGray" VerticalTextAlignment="Center"/>
+                        <Label Text="&#x2190;" TextColor="LightGray" HorizontalOptions="End" FontSize="Title" Padding="{OnPlatform WinUI='10,0,10,0'}"/>
+                        <Label Text="{local:Localize ButtonSaveDelete}" TextColor="LightGray" VerticalTextAlignment="Center" Padding="{OnPlatform WinUI='10,0,10,0'}"/>
                     </StackLayout>
                     
                     <!--For mobile and touch screens-->
@@ -41,8 +41,8 @@
 
                     <!--Copy and stay hint-->
                     <StackLayout Orientation="Vertical">
-                        <Label Text="&#x2192;" TextColor="LightGray" HorizontalOptions="Start" FontSize="Title"/>
-                        <Label Text="{local:Localize ButtonSaveStay}" TextColor="LightGray" VerticalTextAlignment="Center"/>
+                        <Label Text="&#x2192;" TextColor="LightGray" HorizontalOptions="Start" FontSize="Title" Padding="{OnPlatform WinUI='10,0,10,0'}"/>
+                        <Label Text="{local:Localize ButtonSaveStay}" TextColor="LightGray" VerticalTextAlignment="Center" Padding="{OnPlatform WinUI='10,0,10,0'}"/>
                     </StackLayout>
 
 

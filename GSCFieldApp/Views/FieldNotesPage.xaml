@@ -18,7 +18,8 @@
     <ContentPage.Resources>
 
         <converters:ColorFromBoolConverter x:Key="colorFromBool"/>
-
+        <converters:VisibilityFromReverseBoolConverter x:Key="reverseBool"/>
+        
         <!-- Tablet/Desktop Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
@@ -68,10 +69,10 @@
         </DataTemplate>
 
         <!--Note traverse cards-->
-        <DataTemplate x:Key="FieldNoteTraversesCard" x:DataType="x:String">
+        <DataTemplate x:Key="FieldNoteTraversesCard" x:DataType="models:FieldNote">
 
             <VerticalStackLayout>
-                <Border HeightRequest="45" WidthRequest="155" Stroke="Transparent">
+                <Border HeightRequest="45"  MinimumWidthRequest="50" Padding="10,0,10,0" Stroke="Transparent">
                     <Grid >
                         <Grid.GestureRecognizers>
 
@@ -81,7 +82,7 @@
                         </Grid.GestureRecognizers>
 
                         <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
-                            Text="{Binding}" />
+                            Text="{Binding Display_text_1}" />
 
                     </Grid>
                 </Border>
@@ -448,7 +449,7 @@
 
             <!--Date records-->
 
-            <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+            <VerticalStackLayout Grid.Row="1" Grid.Column="0" IsVisible="{Binding FilteringByDateOrLocation, Mode=TwoWay}">
                 <Button x:Name="FieldNoteDatesHeader" Text="{local:Localize Key=FielNotesDateHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
                 <ScrollView Orientation="Horizontal" >
@@ -456,10 +457,28 @@
                             ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" 
                                     SelectedItem="{Binding SelectedDate, Mode=TwoWay}"
                                     HeightRequest="45" >
-                        <CollectionView.ItemsLayout>
+                            <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Horizontal"/>
                         </CollectionView.ItemsLayout>
                         
+                    </CollectionView>
+                </ScrollView>
+            </VerticalStackLayout>
+
+            <!--Location filtering records-->
+            <VerticalStackLayout Grid.Row="1" Grid.Column="0" IsVisible="{Binding FilteringByDateOrLocation, Mode=TwoWay, Converter={StaticResource reverseBool}}">
+                <Button x:Name="FieldNotelocationHeader" Text="{local:Localize Key=FielNotesFilterLocationHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="dates"/>
+                <ScrollView Orientation="Horizontal" >
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"
+                            ItemsSource="{Binding FilterLocations, Mode=TwoWay}" SelectionMode="Single" 
+                                    SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
+                                    HeightRequest="45">
+
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Horizontal"/>
+                        </CollectionView.ItemsLayout>
+
                     </CollectionView>
                 </ScrollView>
             </VerticalStackLayout>

@@ -105,6 +105,21 @@
                                 </Grid>
                             </Border>
 
+                            <!--Data filtering-->
+                            <Label Text="{local:Localize SettingPageFieldNoteFilteringTitle}" Style="{StaticResource FieldAppSettingTitles}"  HorizontalOptions="Start" FontSize="Medium"/>
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{local:Localize SettingPageFieldNoteFiltering}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                    <Switch x:Name="filtering" IsToggled="{Binding FilteringByDateOrLocation, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+                                    
+                                </Grid>
+                            </Border>
+
                         </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
