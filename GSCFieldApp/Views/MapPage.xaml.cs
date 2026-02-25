@@ -330,9 +330,11 @@ public partial class MapPage : ContentPage
         //easily
         if (!MapInfoResultsFrame.IsVisible && !_isTapMode)
         {
+
             //Retrieve clicked feature information
-            ILayer l = e.MapInfo?.Layer;
-            IFeature feature = e.MapInfo?.Feature;
+            MapInfo mapInfo = e.GetMapInfo(mapView.Map.Layers);
+            ILayer l = mapInfo.Layer;
+            IFeature feature = mapInfo.Feature;
             if (feature != null)
             {
                 //Get feature id for sql query
