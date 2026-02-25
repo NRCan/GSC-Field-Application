@@ -1,48 +1,58 @@
 using GSCFieldApp.ViewModel;
-using Mapsui.Extensions;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Models;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services;
+
+using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Http;
+
+using Mapsui;
+using Mapsui.Extensions;
 using Mapsui.Styles;
 using Mapsui.UI.Maui;
 using Mapsui.Layers;
 using Mapsui.Projections;
-using BruTile;
-using SQLite;
-using BruTile.MbTiles;
 using Mapsui.Tiling.Layers;
-using Mapsui;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
 using Color = Mapsui.Styles.Color;
 using Brush = Mapsui.Styles.Brush;
 using Mapsui.UI.Maui.Extensions;
-using GSCFieldApp.Services;
-using BruTile.Predefined;
 using Mapsui.Extensions.Cache;
+using Mapsui.Providers.Wms;
+using Mapsui.Nts;
+using Mapsui.UI.Objects;
+using Mapsui.Tiling;
+
+using BruTile;
+using BruTile.MbTiles;
+using BruTile.Predefined;
 using BruTile.Web;
 using BruTile.Wmsc;
-using System.Collections.ObjectModel;
-using Mapsui.Providers.Wms;
-using Sensor = Microsoft.Maui.Devices.Sensors;
-using System.Diagnostics;
-using System;
-using NetTopologySuite.Operation.Distance;
 using BruTile.Wms;
-using Mapsui.Nts;
+using BruTile.Cache;
+
+using SQLite;
+
+using NetTopologySuite.Operation.Distance;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
-using GeoAPI.Geometries;
-using Mapsui.UI.Objects;
 using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
-using System.Collections.Generic;
+
+using Sensor = Microsoft.Maui.Devices.Sensors;
+using GeoAPI.Geometries;
 using SkiaSharp.Views.Maui.Controls;
-using System.Globalization;
 using Microsoft.Maui.Storage;
-using ProjNet.Geometries;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Networking;
+using ProjNet.Geometries;
+
 
 #if ANDROID
 using Android.Content;
@@ -77,6 +87,9 @@ public partial class MapPage : ContentPage
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
+
+    private static readonly HttpClient SharedHttpClient = new HttpClient();
+    IPersistentCache<byte[]>? persistentCache = null;
 
 #if ANDROID
     private ParallelOptions _parallelOptions = new()
@@ -1861,7 +1874,7 @@ public partial class MapPage : ContentPage
                 schema = tileSchema4326;
             }
 
-            WmscRequest request = new WmscRequest(new Uri(wmsURL), schema, [layerID]);
+            WmscUrlBuilder request = new WmscUrlBuilder(new Uri(wmsURL), schema, [layerID]);
             
             if (request != null)
             {
@@ -1871,9 +1884,16 @@ public partial class MapPage : ContentPage
                     wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'));
                 }
 
-                HttpTileProvider provider = new HttpTileProvider(request, wmsCache);
-                TileSource t = new TileSource(provider, schema);
-                TileLayer tl = new TileLayer(t);
+                HttpTileSource httpTileSource = new HttpTileSource(
+                    schema,
+                    urlBuilder: request,
+                    persistentCache: wmsCache,
+                    configureHttpRequestMessage: r =>
+                    {
+                        r.Headers.TryAddWithoutValidation("User-Agent", "GSC-Field-App/3.x (+https://github.com/NRCan/GSC-Field-Application)");
+                    });
+
+                TileLayer tl = new TileLayer(httpTileSource);
                 tl.Name = layerName;
                 tl.Tag = wmsURL;
 
