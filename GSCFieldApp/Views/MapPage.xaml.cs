@@ -1259,7 +1259,7 @@ public partial class MapPage : ContentPage
         foreach (ILayer layer in layerList)
         {
             //Detect a valid layer (not field book, visible, not drawables)
-            if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && layer.IsMapInfoLayer && layer.Enabled
+            if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && (layer.Tag is LayerData { IsMapInfoLayer: true} ) && layer.Enabled
                 && layer.Tag != null && layer.Tag.ToString().Contains("gpkg") && !layer.Tag.ToString().Contains("version"))
             {
 
@@ -1660,10 +1660,9 @@ public partial class MapPage : ContentPage
                         MemoryLayer newMemLayer = new MemoryLayer()
                         {
                             Name = features,
-                            IsMapInfoLayer = true,
+                            Tag = new LayerData { IsMapInfoLayer = true, DataPath = gpkgPath },
                             Features = feats,
-                            Style = null,
-                            Tag = gpkgPath,
+                            Style = null
                         };
 
                         //If full object is passed, get extra info in
@@ -2617,8 +2616,7 @@ public partial class MapPage : ContentPage
                     Outline = null,
                     Line = { Color = Color.FromString("Black"), Width = 2 }
                 },
-                IsMapInfoLayer = true,
-
+                Tag = new LayerData { IsMapInfoLayer = true}
             };
 
             mapView.Map.Layers.Add(layerToAdd);
@@ -2633,7 +2631,7 @@ public partial class MapPage : ContentPage
             {
                 Name = ApplicationLiterals.aliasLineworkVerticesEdit,
                 Style = CreateVectorBitmapStyle(),
-                IsMapInfoLayer = true,
+                Tag = new LayerData { IsMapInfoLayer = true},
 
             };
 
@@ -2784,10 +2782,9 @@ public partial class MapPage : ContentPage
                 defaultLayer = new MemoryLayer()
                 {
                     Name = Enum.GetName(defaultLayerName),
-                    IsMapInfoLayer = true,
+                    Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
                     Style = CreateLocationBitmapStyle(),
-                    Tag = da.PreferedDatabasePath,
                 };
 
             }
@@ -2796,10 +2793,9 @@ public partial class MapPage : ContentPage
                 defaultLayer = new MemoryLayer()
                 {
                     Name = Enum.GetName(defaultLayerName),
-                    IsMapInfoLayer = true,
+                    Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
                     Style = CreateLocationDrillsBitmapStyle(),
-                    Tag = da.PreferedDatabasePath,
                 };
             }
             else
@@ -2807,10 +2803,9 @@ public partial class MapPage : ContentPage
                 defaultLayer = new MemoryLayer()
                 {
                     Name = Enum.GetName(defaultLayerName),
-                    IsMapInfoLayer = true,
+                    Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
                     Style = null,
-                    Tag = da.PreferedDatabasePath,
                 };
             }
 
@@ -3291,4 +3286,15 @@ public partial class MapPage : ContentPage
     #endregion
 
 
+    /// <summary>
+    /// Needed to fix break change from Mapsui 4 to 5.
+    /// The attribute has disapeared and will be used in the Tag instead.
+    /// Tag that was already use in the code to store some paths.
+    /// </summary>
+    public class LayerData
+    { 
+        public bool IsMapInfoLayer { get; set; }
+
+        public string DataPath { get; set; }
+    }
 }
