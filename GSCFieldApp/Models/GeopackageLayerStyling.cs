@@ -83,7 +83,7 @@ namespace GSCFieldApp.Models
             pointOutlineColor = Color.FromString("Black");
             pointOutlineWidth = 1;
 
-            pointVectorStyle = new SymbolStyle { BlendModeColor = pointFillColor, SymbolScale = 0.5, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
+            pointVectorStyle = new SymbolStyle { SymbolScale = 0.5, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
 
             return pointStyle;
         }
