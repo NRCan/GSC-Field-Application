@@ -9,10 +9,10 @@ public partial class SaveSwipeItem : ContentView
     /// So the control gets whatever color is coming from the parent form
     /// </summary>
     public static readonly BindableProperty ButtonColorProperty =
-        BindableProperty.Create(nameof(ButtonColor), typeof(Color), typeof(SaveSwipeItem), Mapsui.Styles.Color.FromString("Grey").ToNative());
+        BindableProperty.Create(nameof(ButtonColor), typeof(Color), typeof(SaveSwipeItem), Mapsui.Styles.Color.FromString("Grey").ToMaui());
 
     public static readonly BindableProperty ButtonLightColorProperty =
-    BindableProperty.Create(nameof(ButtonLightColor), typeof(Color), typeof(SaveSwipeItem), Mapsui.Styles.Color.FromString("Grey").ToNative());
+    BindableProperty.Create(nameof(ButtonLightColor), typeof(Color), typeof(SaveSwipeItem), Mapsui.Styles.Color.FromString("Grey").ToMaui());
 
     public Color ButtonColor
     {

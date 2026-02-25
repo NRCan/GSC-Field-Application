@@ -135,8 +135,8 @@ public partial class MapPage : ContentPage
             BindingContext = vm;
 
             //Initialize grid background
-            mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
-            GPSMode.TextColor = Mapsui.Styles.Color.FromString("White").ToNative();
+            mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToMaui();
+            GPSMode.TextColor = Mapsui.Styles.Color.FromString("White").ToMaui();
             mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
             {
                 TextAlignment = Mapsui.Widgets.Alignment.Center,
@@ -1236,7 +1236,7 @@ public partial class MapPage : ContentPage
                     { 
 
                         GetFeatureInfo gfi = new GetFeatureInfo();
-                        gfi.Request(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
+                        gfi.RequestAsync(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
                             mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
                             (int)mapControl.Width, (int)mapControl.Height);
                         gfi.IdentifyFinished += Gfi_IdentifyFinished;

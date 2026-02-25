@@ -79,11 +79,11 @@ public partial class AppShell : Shell
         AppTheme appTheme = Application.Current.RequestedTheme;
         if (appTheme == AppTheme.Light)
         {
-            Shell.SetForegroundColor(this, Mapsui.Styles.Color.Black.ToNative());
+            Shell.SetForegroundColor(this, Mapsui.Styles.Color.Black.ToMaui());
         }
 #endif
 
-#endregion
+        #endregion
     }
 
 }
