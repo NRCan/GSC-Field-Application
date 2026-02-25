@@ -579,17 +579,6 @@ public partial class MapPage : ContentPage
         //MapInfoResultsFrame.IsVisible = false;
     }
 
-    /// <summary>
-    /// Whenever a get feature info is finished on a WMS layer
-    /// Show results on screen
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="featureInfo"></param>
-    private void Gfi_IdentifyFinished(object sender, FeatureInfo featureInfo)
-    {
-        DisplayAlert("test", featureInfo.FeatureInfos.ToString(), "OK");
-    }
-
     #region Buttons
 
     /// <summary>
@@ -1228,7 +1217,7 @@ public partial class MapPage : ContentPage
     /// Will try to do a get feature info from a WMS service
     /// TODO find why it doesn't work and why x and y are int rather then doubles
     /// </summary>
-    public void GetWMSFeatureInfo(Mapsui.UI.Maui.Position inMouseClickPosition)
+    public async void GetWMSFeatureInfo(Mapsui.UI.Maui.Position inMouseClickPosition)
     {
         //Detect if top layer is wms
         List<ILayer> layerList = mapControl.Map.Layers.ToList();
@@ -1249,10 +1238,9 @@ public partial class MapPage : ContentPage
                     { 
 
                         GetFeatureInfo gfi = new GetFeatureInfo();
-                        gfi.RequestAsync(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
+                        FeatureInfo featureInfo = await gfi.RequestAsync(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
                             mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
                             (int)mapControl.Width, (int)mapControl.Height);
-                        gfi.IdentifyFinished += Gfi_IdentifyFinished;
                     }
                 }
                 break;
