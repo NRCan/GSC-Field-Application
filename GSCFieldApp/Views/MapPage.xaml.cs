@@ -161,7 +161,7 @@ public partial class MapPage : ContentPage
             mapView.Map = mapControl.Map;
             mapView.Map.Info += Map_Info; //Get feature info event for loaded layers
             this.Loaded += MapPage_Loaded;
-            this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
+            this.mapControl.Map.Layers.Changed += Layers_Changed;
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -177,6 +177,28 @@ public partial class MapPage : ContentPage
             new ErrorToLogFile(e).WriteToFile();
         }
 
+    }
+
+    /// <summary>
+    /// Make sure to close the waiting cursor
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void Layers_Changed(object sender, LayerCollectionChangedEventArgs args)
+    {
+        if (args.AddedLayers != null && args.AddedLayers.Count() > 0)
+        {
+            try
+            {
+                //Make sure to disable the waiting cursor
+                this.WaitingCursor.IsRunning = false;
+            }
+            catch (System.Exception e)
+            {
+                //Might crash because of thread
+                new ErrorToLogFile(e).WriteToFile();
+            }
+        }
     }
 
     #region EVENTS
@@ -423,30 +445,6 @@ public partial class MapPage : ContentPage
             await Task.Run(async () => await QuickRefreshDefaultFeatureLayer(false));
 
             _isInitialLoadingDone = true;
-        }
-
-    }
-
-    /// <summary>
-    /// Will be triggered whenever a layer has been added. 
-    /// This will make sure to close the waiting cursor
-    /// </summary>
-    /// <param name="layer"></param>
-    private void Layers_LayerAdded(ILayer layer)
-    {
-        if (layer != null)
-        {
-            try
-            {
-                //Make sure to disable the waiting cursor
-                this.WaitingCursor.IsRunning = false;
-            }
-            catch (System.Exception e)
-            {
-                //Might crash because of thread
-                new ErrorToLogFile(e).WriteToFile();
-            }
-
         }
 
     }
