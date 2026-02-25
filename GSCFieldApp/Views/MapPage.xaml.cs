@@ -486,10 +486,10 @@ public partial class MapPage : ContentPage
             //Setting map page background default data
             SetOpenStreetMap();
 
-            //Manage symbol and layers
-            await Task.Run(async () => await AddLocationSymbolToRegistry());
-            await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
-            await Task.Run(async () => await AddLocationDrillSymbolToRegistry());
+            ////Manage symbol and layers
+            //await Task.Run(async () => await AddLocationSymbolToRegistry());
+            //await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
+            //await Task.Run(async () => await AddLocationDrillSymbolToRegistry());
 
             //Freshen up the default layers
             await Task.Run(async () => await RefreshDefaultFeatureLayer());
@@ -2009,85 +2009,85 @@ public partial class MapPage : ContentPage
     /// Must add all image in bitmap registry for mapsui to use them as symbol styles
     /// </summary>
     /// <returns></returns>
-    public async Task<int> AddLocationSymbolToRegistry()
-    {
-        //Make sure it's not already registered
-        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationSymbolId), out bitmapLocationSymbolId))
-        {
-            //Stream the pnt for the symbol
-            await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png"))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                pointBitmap.CopyTo(memoryStream);
+    //public async Task<int> AddLocationSymbolToRegistry()
+    //{
+    //    //Make sure it's not already registered
+    //    if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationSymbolId), out bitmapLocationSymbolId))
+    //    {
+    //        //Stream the pnt for the symbol
+    //        await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png"))
+    //        {
+    //            MemoryStream memoryStream = new MemoryStream();
+    //            pointBitmap.CopyTo(memoryStream);
 
-                //Register
-                bitmapLocationSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationSymbolId));
+    //            //Register
+    //            bitmapLocationSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationSymbolId));
 
-            }
+    //        }
 
-            return bitmapLocationSymbolId;
-        }
-        else
-        {
-            return bitmapLocationSymbolId;
-        }
-    }
-
-    /// <summary>
-    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
-    /// </summary>
-    /// <returns></returns>
-    public async Task<int> AddLineworkPointSymbolToRegistry()
-    {
-        //Make sure it's not already registered
-        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLineworkPointSymbolId), out bitmapLineworkPointSymbolId))
-        {
-            //Stream the pnt for the symbol
-            await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"vector-point.png"))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                pointBitmap.CopyTo(memoryStream);
-
-                //Register
-                bitmapLineworkPointSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLineworkPointSymbolId));
-
-            }
-
-            return bitmapLineworkPointSymbolId;
-        }
-        else
-        {
-            return bitmapLineworkPointSymbolId;
-        }
-    }
+    //        return bitmapLocationSymbolId;
+    //    }
+    //    else
+    //    {
+    //        return bitmapLocationSymbolId;
+    //    }
+    //}
 
     /// <summary>
     /// Must add all image in bitmap registry for mapsui to use them as symbol styles
     /// </summary>
     /// <returns></returns>
-    public async Task<int> AddLocationDrillSymbolToRegistry()
-    {
-        //Make sure it's not already registered
-        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationDrillSymbolId), out bitmapLocationDrillSymbolId))
-        {
-            //Stream the pnt for the symbol
-            await using (Stream pointDBitmap = await FileSystem.OpenAppPackageFileAsync(@"pointDrills.png"))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                pointDBitmap.CopyTo(memoryStream);
+    //public async Task<int> AddLineworkPointSymbolToRegistry()
+    //{
+    //    //Make sure it's not already registered
+    //    if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLineworkPointSymbolId), out bitmapLineworkPointSymbolId))
+    //    {
+    //        //Stream the pnt for the symbol
+    //        await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"vector-point.png"))
+    //        {
+    //            MemoryStream memoryStream = new MemoryStream();
+    //            pointBitmap.CopyTo(memoryStream);
 
-                //Register
-                bitmapLocationDrillSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationDrillSymbolId));
+    //            //Register
+    //            bitmapLineworkPointSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLineworkPointSymbolId));
 
-            }
+    //        }
 
-            return bitmapLocationDrillSymbolId;
-        }
-        else
-        {
-            return bitmapLocationDrillSymbolId;
-        }
-    }
+    //        return bitmapLineworkPointSymbolId;
+    //    }
+    //    else
+    //    {
+    //        return bitmapLineworkPointSymbolId;
+    //    }
+    //}
+
+    /// <summary>
+    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
+    /// </summary>
+    /// <returns></returns>
+    //public async Task<int> AddLocationDrillSymbolToRegistry()
+    //{
+    //    //Make sure it's not already registered
+    //    if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationDrillSymbolId), out bitmapLocationDrillSymbolId))
+    //    {
+    //        //Stream the pnt for the symbol
+    //        await using (Stream pointDBitmap = await FileSystem.OpenAppPackageFileAsync(@"pointDrills.png"))
+    //        {
+    //            MemoryStream memoryStream = new MemoryStream();
+    //            pointDBitmap.CopyTo(memoryStream);
+
+    //            //Register
+    //            bitmapLocationDrillSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationDrillSymbolId));
+
+    //        }
+
+    //        return bitmapLocationDrillSymbolId;
+    //    }
+    //    else
+    //    {
+    //        return bitmapLocationDrillSymbolId;
+    //    }
+    //}
 
     /// <summary>
     /// Will open a file picker dialog with custom extension set to mbtiles
@@ -2486,11 +2486,12 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private SymbolStyle CreateLocationBitmapStyle()
     {
-        // For this sample we get the bitmap from an embedded resouce
-        // but you could get the data stream from the web or anywhere
-        // else.
 
-        return new SymbolStyle { BitmapId = bitmapLocationSymbolId, SymbolScale = 0.75 };
+        SymbolStyle stationStyle = new SymbolStyle();
+        stationStyle.Fill.Image = new Mapsui.Styles.Image { Source = $"file://{FileSystem.AppDataDirectory}/point.png" };
+        stationStyle.SymbolScale = 0.75;
+
+        return stationStyle;
     }
 
     /// <summary>
@@ -2500,24 +2501,25 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private SymbolStyle CreateLocationDrillsBitmapStyle()
     {
-        // For this sample we get the bitmap from an embedded resouce
-        // but you could get the data stream from the web or anywhere
-        // else.
 
-        return new SymbolStyle { BitmapId = bitmapLocationDrillSymbolId, SymbolScale = 0.45 };
+        SymbolStyle drillStyle = new SymbolStyle();
+        drillStyle.Fill.Image = new Mapsui.Styles.Image { Source = $"file://{FileSystem.AppDataDirectory}/pointDrills.png" };
+        drillStyle.SymbolScale = 0.45;
+
+        return drillStyle;
     }
 
     /// <summary>
-    /// Will set style of stations on map
+    /// Will set style of linework feature on map
     /// </summary>
     /// <returns></returns>
     private SymbolStyle CreateVectorBitmapStyle()
     {
-        // For this sample we get the bitmap from an embedded resouce
-        // but you could get the data stream from the web or anywhere
-        // else.
+        SymbolStyle lineworkStyle = new SymbolStyle();
+        lineworkStyle.Fill.Image = new Mapsui.Styles.Image { Source = $"file://{FileSystem.AppDataDirectory}/vector-point.png" };
+        lineworkStyle.SymbolScale = 1.5;
 
-        return new SymbolStyle { BitmapId = bitmapLineworkPointSymbolId, SymbolScale = 1.5 };
+        return lineworkStyle;
     }
 
     /// <summary>
