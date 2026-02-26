@@ -14,6 +14,7 @@ using NetTopologySuite.Index.HPRtree;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using System.Globalization;
 using Mapsui.Utilities;
+using SQLitePCL;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -55,6 +56,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Init database
             if (DbConnection == null)
             {
+                // Initialize SQLitePCL provider
+                Batteries.Init();
+
                 //Create the database connection object
                 DbConnection = new SQLiteAsyncConnection(PreferedDatabasePath);
             }
