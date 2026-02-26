@@ -149,7 +149,12 @@
             <!--TODO Check of mapsui map control can work with view model, it wasn't a feature when we started this app-->
             <mapsui:MapView x:Name="mapView" Grid.Row ="1" Margin="10" HorizontalOptions="FillAndExpand"
                             IsVisible="true" MapClicked="mapView_MapClicked" 
-                            VerticalOptions="FillAndExpand" SingleTap="mapView_SingleTap" LongTap="mapView_LongTap"/>
+                            VerticalOptions="FillAndExpand" >
+                <mapsui:MapView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="mapView_SingleTap" NumberOfTapsRequired="1" />
+                    <TapGestureRecognizer Tapped="mapView_LongTap" NumberOfTapsRequired="2" />
+                </mapsui:MapView.GestureRecognizers>
+            </mapsui:MapView>
 
             <!--Coordinates Bar-->
             <HorizontalStackLayout Grid.Row="2" x:Name="info" HorizontalOptions="CenterAndExpand">

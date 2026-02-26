@@ -847,7 +847,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void mapView_SingleTap(object sender, Mapsui.UI.TappedEventArgs e)
+    public void mapView_SingleTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
         if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
         {
@@ -3307,4 +3307,5 @@ public partial class MapPage : ContentPage
 
         public string DataPath { get; set; }
     }
+
 }
