@@ -1,5 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+	<!--https://github.com/dotnet/maui/issues/32683-->
+	<Target Name="AfterAddPriPayloadFilesToCopyToOutputDirectoryItems"
+			AfterTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems">
+		<ItemGroup>
+			<_ExtraFilesToRemove Include="@(_AllChildProjectItemsWithTargetPath)" Condition="'%(Filename)%(Extension)' == 'HybridWebView.js' Or '%(Filename)%(Extension)' == 'WebView2Loader.dll'" />
+			<_AllChildProjectItemsWithTargetPath Remove="@(_ExtraFilesToRemove)" />
+		</ItemGroup>
+	</Target>
+	
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-maccatalyst;net9.0-ios;net9.0-android35.0</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.20348.0</TargetFrameworks>
