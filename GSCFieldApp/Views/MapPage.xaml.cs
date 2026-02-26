@@ -1,57 +1,52 @@
-using GSCFieldApp.ViewModel;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Services;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net.Http;
-
-using Mapsui;
-using Mapsui.Extensions;
-using Mapsui.Styles;
-using Mapsui.UI.Maui;
-using Mapsui.Layers;
-using Mapsui.Projections;
-using Mapsui.Tiling.Layers;
-using Color = Mapsui.Styles.Color;
-using Brush = Mapsui.Styles.Brush;
-using Mapsui.UI.Maui.Extensions;
-using Mapsui.Extensions.Cache;
-using Mapsui.Providers.Wms;
-using Mapsui.Nts;
-using Mapsui.UI.Objects;
-using Mapsui.Tiling;
-
 using BruTile;
+using BruTile.Cache;
 using BruTile.MbTiles;
 using BruTile.Predefined;
 using BruTile.Web;
-using BruTile.Wmsc;
 using BruTile.Wms;
-using BruTile.Cache;
-
-using SQLite;
-
-using NetTopologySuite.Operation.Distance;
-using NetTopologySuite.Geometries;
-using NetTopologySuite.IO;
-using Point = NetTopologySuite.Geometries.Point;
-using Coordinate = NetTopologySuite.Geometries.Coordinate;
-using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
-
-using Sensor = Microsoft.Maui.Devices.Sensors;
+using BruTile.Wmsc;
 using GeoAPI.Geometries;
-using SkiaSharp.Views.Maui.Controls;
-using Microsoft.Maui.Storage;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModel;
+using Mapsui;
+using Mapsui.Extensions;
+using Mapsui.Extensions.Cache;
+using Mapsui.Layers;
+using Mapsui.Nts;
+using Mapsui.Projections;
+using Mapsui.Providers.Wms;
+using Mapsui.Styles;
+using Mapsui.Tiling;
+using Mapsui.Tiling.Layers;
+using Mapsui.UI;
+using Mapsui.UI.Maui;
+using Mapsui.UI.Maui.Extensions;
+using Mapsui.UI.Objects;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Networking;
+using Microsoft.Maui.Storage;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using NetTopologySuite.Operation.Distance;
 using ProjNet.Geometries;
+using SkiaSharp.Views.Maui.Controls;
+using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Net.Http;
+using Brush = Mapsui.Styles.Brush;
+using Color = Mapsui.Styles.Color;
+using Coordinate = NetTopologySuite.Geometries.Coordinate;
+using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
+using Point = NetTopologySuite.Geometries.Point;
+using Sensor = Microsoft.Maui.Devices.Sensors;
 
 
 #if ANDROID
@@ -149,13 +144,30 @@ public partial class MapPage : ContentPage
 
             //Initialize grid background
             mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToMaui();
-            GPSMode.TextColor = Mapsui.Styles.Color.FromString("White").ToMaui();
+            GPSMode.TextColor = Mapsui.Styles.Color.FromString("Black").ToMaui();
+
             mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
             {
                 TextAlignment = Mapsui.Widgets.Alignment.Center,
                 HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
-                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
+                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom,
             });
+            mapControl.Map.Widgets.Add(new Mapsui.Widgets.InfoWidgets.RulerWidget()
+            {
+                HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
+                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Center,
+                Color = Mapsui.Styles.Color.FromString("Black"),
+            });
+
+            //Debug widget
+            if (Preferences.Get("DeveloperModeActivated", false))
+            {
+                Mapsui.Widgets.InfoWidgets.LoggingWidget.ShowLoggingInMap = Mapsui.Widgets.ActiveMode.Yes;
+            }
+            else
+            {
+                Mapsui.Widgets.InfoWidgets.LoggingWidget.ShowLoggingInMap = Mapsui.Widgets.ActiveMode.No;
+            }
 
             //Set map and start listenning to layer events
             mapView.Map = mapControl.Map;
