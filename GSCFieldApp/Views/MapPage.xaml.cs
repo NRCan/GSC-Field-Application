@@ -83,7 +83,8 @@ public partial class MapPage : ContentPage
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
-
+    private ImageStyle _stationStyle = null;
+    private ImageStyle _drillStyle = null;
     private static readonly HttpClient SharedHttpClient = new HttpClient();
     IPersistentCache<byte[]>? persistentCache = null;
 
@@ -175,8 +176,6 @@ public partial class MapPage : ContentPage
         }
 
     }
-
-
 
     #region EVENTS
 
@@ -2499,14 +2498,16 @@ public partial class MapPage : ContentPage
     /// Taken from GSC Symbol Standard 1 font no. 83, as per CGM standard
     /// </summary>
     /// <returns></returns>
-    private SymbolStyle CreateLocationBitmapStyle()
+    private ImageStyle CreateLocationBitmapStyle()
     {
+        if (_stationStyle == null)
+        {
+            _stationStyle = new ImageStyle();
+            _stationStyle.Image = new Mapsui.Styles.Image { Source = "embedded://GSCFieldApp.Resources.Raw.point.png" };
+            _stationStyle.SymbolScale = 0.75;
+        }
 
-        SymbolStyle stationStyle = new SymbolStyle();
-        stationStyle.Fill.Image = new Mapsui.Styles.Image { Source = $"file://{FileSystem.AppDataDirectory}/point.png" };
-        stationStyle.SymbolScale = 0.75;
-
-        return stationStyle;
+        return _stationStyle;
     }
 
     /// <summary>
@@ -2514,14 +2515,17 @@ public partial class MapPage : ContentPage
     /// Taken from GSC Symbol Standard 1 font no.55 as per CGM standards
     /// </summary>
     /// <returns></returns>
-    private SymbolStyle CreateLocationDrillsBitmapStyle()
+    private ImageStyle CreateLocationDrillsBitmapStyle()
     {
+        if (_drillStyle == null)
+        {
+            _drillStyle = new ImageStyle();
+            _drillStyle.Image = new Mapsui.Styles.Image { Source = "embedded://GSCFieldApp.Resources.Raw.pointDrills.png" };
+            _drillStyle.SymbolScale = 0.45;
+        }
+        
 
-        SymbolStyle drillStyle = new SymbolStyle();
-        drillStyle.Fill.Image = new Mapsui.Styles.Image { Source = $"file://{FileSystem.AppDataDirectory}/pointDrills.png" };
-        drillStyle.SymbolScale = 0.45;
-
-        return drillStyle;
+        return _drillStyle;
     }
 
     /// <summary>
@@ -2801,7 +2805,7 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
-                    Style = null, //Style = CreateLocationBitmapStyle(),
+                    Style = CreateLocationBitmapStyle(),
                 };
 
             }
@@ -2812,7 +2816,7 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
-                    Style = null, //Style = CreateLocationDrillsBitmapStyle(),
+                    Style = CreateLocationDrillsBitmapStyle(),
                 };
             }
             else

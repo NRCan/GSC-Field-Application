@@ -338,6 +338,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiAsset Remove="Resources\Raw\point.png" />
+	  <MauiAsset Remove="Resources\Raw\pointDrills.png" />
+	  <MauiAsset Remove="Resources\Raw\vector-point.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="Platforms\Android\Linker.xml" />
 		<None Remove="Platforms\iOS\Linker.xml" />
 		<None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
@@ -356,6 +362,18 @@
 		<None Remove="Resources\Raw\GSCFieldwork_V180.gpkg" />
 		
 		<None Remove="Resources\Raw\SRID.csv" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Raw\point.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Resources\Raw\pointDrills.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Resources\Raw\vector-point.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -545,16 +563,7 @@
 	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v190.gpkg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\point.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\pointDrills.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
 	  <MauiAsset Update="Resources\Raw\SRID.csv">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\vector-point.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiAsset>
 	</ItemGroup>
