@@ -147,15 +147,15 @@ public partial class MapPage : ContentPage
             //Initialize grid background
             mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToMaui();
             GPSMode.TextColor = Mapsui.Styles.Color.FromString("Black").ToMaui();
-  
-            //Init map
-            SetMapControls();
 
             //Set map and start listenning to layer events
             mapView.Map = mapControl.Map;
             mapView.Map.Info += Map_Info; //Get feature info event for loaded layers
             this.Loaded += MapPage_Loaded;
             this.mapControl.Map.Layers.Changed += Layers_Changed;
+
+            //Init map widgets
+            SetMapControls();
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -211,7 +211,6 @@ public partial class MapPage : ContentPage
             }
         }
     }
-
 
     /// <summary>
     /// Will force a refresh upon the loaded station graphic in the map page, coming from an edit in F_LOCATIOn form
@@ -1107,7 +1106,6 @@ public partial class MapPage : ContentPage
 
         }
 
-        //TODO find why this doesn't remove the info loggin from the map
         mapControl?.RefreshGraphics();
     }
 
@@ -1136,9 +1134,14 @@ public partial class MapPage : ContentPage
                 }
 
                 //Zoom to initial extent of the station layer
-                if (mls[0].Features.Count() != 0)
+                MemoryLayer stationLayer = mls.Where(l => l.Name == ApplicationLiterals.aliasStations).FirstOrDefault();
+                if (stationLayer != null && stationLayer.Features.Count() != 0)
                 {
-                    SetExtent(mls[0]);
+                    SetExtent(stationLayer);
+                }
+                else
+                {
+                    SetExtent();
                 }
                 
             }
@@ -1831,18 +1834,28 @@ public partial class MapPage : ContentPage
     /// <param name="inLayer"></param>
     public void SetExtent(ILayer inLayer = null)
     {
+        // Fit to Canada with a 25km buffer
+        double currentArea = mapView.Map.Navigator.Viewport.ToExtent().GetArea();
+        MRect fieldDataExtent = new MRect(-15658662, 5533994, -5231695, 11534073).Grow(25000);
+
+        //Initial zoom
+        if (currentArea == 0)
+        {
+            mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
+        }
+
         if (inLayer != null && inLayer.Extent != null)
         {
             // Extend a bit more the rectangle by 2.5km
-            var fieldDataExtent = new MRect(inLayer.Extent.MinX,
+            fieldDataExtent = new MRect(inLayer.Extent.MinX,
                 inLayer.Extent.MinY,
                 inLayer.Extent.MaxX,
                 inLayer.Extent.MaxY).Grow(2500);
-            double currentArea = mapView.Map.Navigator.Viewport.ToExtent().GetArea();
+            
             double zoomingToArea = fieldDataExtent.GetArea();
 
             //Zoom to extent of all stations, unless current extent is already smaller
-            if (inLayer.Name == ApplicationLiterals.aliasStations && currentArea > zoomingToArea)
+            if (inLayer.Name == ApplicationLiterals.aliasStations && (currentArea > zoomingToArea || currentArea == 0))
             {
                 mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
             }
@@ -1850,16 +1863,7 @@ public partial class MapPage : ContentPage
             {
                 mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
             }
-
         }
-        else
-        {
-            // Fit to Canada with a 25km buffer
-            var fieldDataExtent = new MRect(-15658662, 5533994, -5231695, 11534073).Grow(25000);
-            mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
-        }
-
-
     }
 
     /// <summary>
@@ -1898,6 +1902,8 @@ public partial class MapPage : ContentPage
                     mapControl.Map.Layers.Insert(0, osmLayer);
                 }
             }
+
+            mapControl.Map.Refresh();
         }
 
 
