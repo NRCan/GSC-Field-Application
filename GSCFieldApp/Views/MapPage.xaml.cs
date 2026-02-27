@@ -146,7 +146,7 @@ public partial class MapPage : ContentPage
 
             //Initialize grid background
             mapPageGrid.BackgroundColor = Microsoft.Maui.Graphics.Color.FromArgb("#FFFFFF");
-            GPSMode.TextColor = Microsoft.Maui.Graphics.Color.FromArgb("#000000");
+            GPSMode.TextColor = Microsoft.Maui.Graphics.Color.FromArgb("#FFFFFF");
 
             //Set map and start listenning to layer events
             mapView.Map = mapControl.Map;
@@ -164,7 +164,7 @@ public partial class MapPage : ContentPage
             LineworkViewModel.lineworkHasUpdated += LineworkViewModel_lineworkHasUpdated;
 
             //Detect location geometry update
-            FieldAppPageHelper.updateGeometry += FieldAppPageHelper_updateGeometry; 
+            FieldAppPageHelper.updateGeometry += FieldAppPageHelper_updateGeometry;
 
             //Detect dev mode
             AboutPageViewModel.devModeChanged += AboutPageViewModel_devModeChanged;
@@ -478,8 +478,11 @@ public partial class MapPage : ContentPage
             await Task.Run(async () => await QuickRefreshDefaultFeatureLayer());
 
             //Close things that might be open
-            MapInfoResultsFrame.IsVisible = false;
-
+            if (MapInfoResultsFrame != null)
+            {
+                MapInfoResultsFrame.IsVisible = false;
+            }
+            
             //Keep where user is coming from
             //It'll help when saving a form to nav back to map page
             FieldAppPageHelper.NavFromMapPage = true;
@@ -507,11 +510,12 @@ public partial class MapPage : ContentPage
         {
             //Setting map page background default data
             SetOpenStreetMap();
+            SetExtent();
 
-            ////Manage symbol and layers
-            //await Task.Run(async () => await AddLocationSymbolToRegistry());
-            //await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
-            //await Task.Run(async () => await AddLocationDrillSymbolToRegistry());
+            //////Manage symbol and layers
+            ////await Task.Run(async () => await AddLocationSymbolToRegistry());
+            ////await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
+            ////await Task.Run(async () => await AddLocationDrillSymbolToRegistry());
 
             //Freshen up the default layers
             await Task.Run(async () => await RefreshDefaultFeatureLayer());
@@ -1139,11 +1143,7 @@ public partial class MapPage : ContentPage
                 {
                     SetExtent(stationLayer);
                 }
-                else
-                {
-                    SetExtent();
-                }
-                
+
             }
         }
 
@@ -1156,110 +1156,114 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private async Task QuickRefreshDefaultFeatureLayer(bool lightClean = true)
     {
-        //In case user is coming from field notes
-        //They might have deleted some stations or linework, make sure to refresh
-        foreach (var item in mapView.Map.Layers)
+        if (mapView != null)
         {
-            if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework 
-                || item.Name == ApplicationLiterals.aliasTraversePoint || item.Name == ApplicationLiterals.aliasDrillHoles)
+            //In case user is coming from field notes
+            //They might have deleted some stations or linework, make sure to refresh
+            foreach (var item in mapView.Map.Layers)
             {
-                //Get map layer
-                ILayer mapLayer = mapView.Map.Layers.Where(x => x.Name == item.Name).First();
-                MemoryLayer mapMemoryLayer = mapLayer as MemoryLayer;
+                if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework
+                    || item.Name == ApplicationLiterals.aliasTraversePoint || item.Name == ApplicationLiterals.aliasDrillHoles)
+                {
+                    //Get map layer
+                    ILayer mapLayer = mapView.Map.Layers.Where(x => x.Name == item.Name).First();
+                    MemoryLayer mapMemoryLayer = mapLayer as MemoryLayer;
 
-                //Get counts
-                int databaseCount = 0;
-                int mapLayerCount = mapMemoryLayer.Features.Count();
-                defaultLayerList layerToReload = defaultLayerList.Stations;
+                    //Get counts
+                    int databaseCount = 0;
+                    int mapLayerCount = mapMemoryLayer.Features.Count();
+                    defaultLayerList layerToReload = defaultLayerList.Stations;
 
-                if (item.Name == ApplicationLiterals.aliasStations)
-                {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(FieldLocation)));
-                }
-                else if (item.Name == ApplicationLiterals.aliasLinework)
-                {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Linework)));
-                    layerToReload = defaultLayerList.Linework;
-                }
-                else if (item.Name == ApplicationLiterals.aliasTraversePoint)
-                {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(TraversePoint)));
-                    layerToReload = defaultLayerList.Traverses;
-                }
-                else if (item.Name == ApplicationLiterals.aliasDrillHoles)
-                {
-                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(DrillHole)));
-                    layerToReload = defaultLayerList.Drills;
-                }
-
-                //Check with record count if diff add last or remove missing
-                if (databaseCount != mapLayerCount)
-                {
-                    //Get latest features
-                    MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
-
-                    //Detect missing features (user delete from field notes) and remove them
-                    if (refreshLayer != null)
+                    if (item.Name == ApplicationLiterals.aliasStations)
                     {
-                        //Feature list to modify
-                        List<IFeature> mapFeatures = mapMemoryLayer.Features.ToList();
+                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(FieldLocation)));
+                    }
+                    else if (item.Name == ApplicationLiterals.aliasLinework)
+                    {
+                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Linework)));
+                        layerToReload = defaultLayerList.Linework;
+                    }
+                    else if (item.Name == ApplicationLiterals.aliasTraversePoint)
+                    {
+                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(TraversePoint)));
+                        layerToReload = defaultLayerList.Traverses;
+                    }
+                    else if (item.Name == ApplicationLiterals.aliasDrillHoles)
+                    {
+                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(DrillHole)));
+                        layerToReload = defaultLayerList.Drills;
+                    }
 
-                        //Light clean case
-                        if (lightClean)
+                    //Check with record count if diff add last or remove missing
+                    if (databaseCount != mapLayerCount)
+                    {
+                        //Get latest features
+                        MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
+
+                        //Detect missing features (user delete from field notes) and remove them
+                        if (refreshLayer != null)
                         {
-                            //Remove case
-                            if (databaseCount < mapLayerCount)
+                            //Feature list to modify
+                            List<IFeature> mapFeatures = mapMemoryLayer.Features.ToList();
+
+                            //Light clean case
+                            if (lightClean)
                             {
-                                foreach (IFeature feat in mapMemoryLayer.Features)
+                                //Remove case
+                                if (databaseCount < mapLayerCount)
                                 {
-                                    if (refreshLayer.Features.Where(f => f.ToDisplayText() == feat.ToDisplayText()).Count() == 0)
+                                    foreach (IFeature feat in mapMemoryLayer.Features)
                                     {
-                                        mapFeatures.Remove(feat);
+                                        if (refreshLayer.Features.Where(f => f.ToDisplayText() == feat.ToDisplayText()).Count() == 0)
+                                        {
+                                            mapFeatures.Remove(feat);
+                                        }
                                     }
                                 }
-                            }
 
-                            //Add case
-                            if (databaseCount > mapLayerCount)
-                            {
-                                foreach (IFeature rFeat in refreshLayer.Features)
+                                //Add case
+                                if (databaseCount > mapLayerCount)
                                 {
-                                    if (mapFeatures.Where(f => f.ToDisplayText() == rFeat.ToDisplayText()).Count() == 0)
+                                    foreach (IFeature rFeat in refreshLayer.Features)
                                     {
-                                        mapFeatures.Add(rFeat);
+                                        if (mapFeatures.Where(f => f.ToDisplayText() == rFeat.ToDisplayText()).Count() == 0)
+                                        {
+                                            mapFeatures.Add(rFeat);
+                                        }
                                     }
                                 }
+
+                            }
+                            else
+                            {
+                                //Hard clean case
+                                mapFeatures = refreshLayer.Features.ToList();
                             }
 
+                            //Transform back
+                            IEnumerable<IFeature> sourceEnumFeatures = mapFeatures.AsEnumerable();
+
+                            //Reset
+                            mapMemoryLayer.Tag = refreshLayer.Tag; //Keep tag, it contains db path, meant for map info
+                            mapMemoryLayer.Features = sourceEnumFeatures;
+                            mapView.Map.Layers.Remove(mapLayer);
+                            mapView.Map.Layers.Add(mapMemoryLayer);
+
                         }
-                        else
-                        {
-                            //Hard clean case
-                            mapFeatures = refreshLayer.Features.ToList();
-                        }
+                    }
 
-                        //Transform back
-                        IEnumerable<IFeature> sourceEnumFeatures = mapFeatures.AsEnumerable();
-
-                        //Reset
-                        mapMemoryLayer.Tag = refreshLayer.Tag; //Keep tag, it contains db path, meant for map info
-                        mapMemoryLayer.Features = sourceEnumFeatures;
-                        mapView.Map.Layers.Remove(mapLayer);
-                        mapView.Map.Layers.Add(mapMemoryLayer);
-
+                    //Zoom to extent of stations
+                    if (layerToReload == defaultLayerList.Stations && databaseCount != 0)
+                    {
+                        SetExtent(mapMemoryLayer);
                     }
                 }
-
-                //Zoom to extent of stations
-                if (layerToReload == defaultLayerList.Stations && databaseCount != 0)
-                {
-                    SetExtent(mapMemoryLayer);
-                }
             }
+
+            //Force redraw of all
+            mapView.Map.RefreshData();
         }
 
-        //Force redraw of all
-        mapView.Map.RefreshData();
     }
 
     /// <summary>
@@ -2169,7 +2173,7 @@ public partial class MapPage : ContentPage
 
             if (dLayer != null)
             {
-                dLayer.Tag = da.PreferedDatabasePath; //Keep database path for map info button and zoom to extent
+                //dLayer.Tag = da.PreferedDatabasePath; //Keep database path for map info button and zoom to extent
                 defaultLayers.Add(dLayer);
             }
         }
@@ -2254,41 +2258,40 @@ public partial class MapPage : ContentPage
                 Offset = offset
             };
 
-            await Parallel.ForEachAsync(fieldLoc, _parallelOptions, async (fl, token) =>
+            if (fieldStat != null)
             {
-
-                //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
-                //Build geometry
-                NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
-
-                if (locationPoint != null)
+                await Parallel.ForEachAsync(fieldStat, _parallelOptions, async (fs, token) =>
                 {
-                    //Get some station info for labelling
-                    string label = fl.LocationAliasLight;
-                    Station station = fieldStat.Where(n => n.LocationID == fl.LocationID).FirstOrDefault();
-                    if (station != null)
+                    FieldLocation fl = fieldLoc.Where(n => n.LocationID == fs.LocationID).FirstOrDefault();
+
+                    if (fl != null)
                     {
-                        label = station.StationAliasLight;
+                        //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
+                        //Build geometry
+                        NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
 
-                        //Build feature 
-                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
-                        feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
-                        LabelStyle lStyle = new LabelStyle
+                        if (locationPoint != null)
                         {
-                            BackColor = labelStyle.BackColor,
-                            HorizontalAlignment = labelStyle.HorizontalAlignment,
-                            BorderThickness = labelStyle.BorderThickness,
-                            Offset = offset,
-                            Text = label
-                        };
+                            //Get some station info for labelling
+                            string label = fs.StationAliasLight;
 
-                        feat.Styles.Add(lStyle);
+                            //Build feature 
+                            Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
+                            feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
+                            labelStyle.Text = label;
 
-                        enumFeat = enumFeat.Append(feat);
+                            feat.Styles.Add(labelStyle);
+
+                            enumFeat = enumFeat.Append(feat);
+                            
+
+                        }
                     }
 
-                }
-            });
+                });
+
+            }
+
 
         }
 
@@ -2309,7 +2312,7 @@ public partial class MapPage : ContentPage
         {
             //Prep
             List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
-            List<DrillHole> fieldStat = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
+            List<DrillHole> fieldDrill = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
 
             LabelStyle labelStyle = new LabelStyle
             {
@@ -2319,41 +2322,39 @@ public partial class MapPage : ContentPage
                 Offset = offset
             };
 
-            await Parallel.ForEachAsync(fieldLoc, _parallelOptions, async (fl, token) =>
+            if (fieldDrill.Count() > 0)
             {
-
-                //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
-                //Build geometry
-                NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
-
-                if (locationPoint != null)
+                await Parallel.ForEachAsync(fieldDrill, _parallelOptions, async (fd, token) =>
                 {
-                    //Get some station info for labelling
-                    string label = fl.LocationAliasLight;
-                    DrillHole drill = fieldStat.Where(n => n.DrillLocationID == fl.LocationID).FirstOrDefault();
-                    if (drill != null)
+
+                    FieldLocation fl = fieldLoc.Where(n => n.LocationID == fd.DrillLocationID).FirstOrDefault();
+
+                    if (fl != null)
                     {
-                        label = drill.DrillAliasLightWithSuffix;
+                        //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
+                        //Build geometry
+                        NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
 
-                        //Build feature 
-                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
-                        feat[DatabaseLiterals.FieldDrillLocationID] = fl.LocationID;
-                        LabelStyle lStyle = new LabelStyle
+                        if (locationPoint != null)
                         {
-                            BackColor = labelStyle.BackColor,
-                            HorizontalAlignment = labelStyle.HorizontalAlignment,
-                            BorderThickness = labelStyle.BorderThickness,
-                            Offset = offset,
-                            Text = label
-                        };
+                            //Get some station info for labelling
+                            string label = fd.DrillAliasLightWithSuffix;
 
-                        feat.Styles.Add(lStyle);
+                            //Build feature 
+                            Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
+                            feat[DatabaseLiterals.FieldDrillLocationID] = fl.LocationID;
+                            labelStyle.Text = label;
 
-                        enumFeat = enumFeat.Append(feat);
+                            feat.Styles.Add(labelStyle);
+
+                            enumFeat = enumFeat.Append(feat);
+                            
+                        }
                     }
-                }
-            });
 
+
+                });
+            }
         }
 
         return enumFeat;
@@ -2800,7 +2801,7 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
-                    Style = CreateLocationBitmapStyle(),
+                    Style = null, //Style = CreateLocationBitmapStyle(),
                 };
 
             }
@@ -2811,7 +2812,7 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
-                    Style = CreateLocationDrillsBitmapStyle(),
+                    Style = null, //Style = CreateLocationDrillsBitmapStyle(),
                 };
             }
             else

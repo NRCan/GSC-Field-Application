@@ -62,7 +62,6 @@ namespace GSCFieldApp.Services
             }
             catch (Exception ex)
             {
-                new ErrorToLogFile(ex).WriteToFile();
                 return false;
             }
 
