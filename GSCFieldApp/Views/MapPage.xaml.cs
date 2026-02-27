@@ -25,6 +25,7 @@ using Mapsui.UI;
 using Mapsui.UI.Maui;
 using Mapsui.UI.Maui.Extensions;
 using Mapsui.UI.Objects;
+using Mapsui.Widgets;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Networking;
 using Microsoft.Maui.Storage;
@@ -134,6 +135,7 @@ public partial class MapPage : ContentPage
     }
 
     #endregion
+
     public MapPage(MapViewModel vm)
     {
         try
@@ -145,29 +147,9 @@ public partial class MapPage : ContentPage
             //Initialize grid background
             mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToMaui();
             GPSMode.TextColor = Mapsui.Styles.Color.FromString("Black").ToMaui();
-
-            mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
-            {
-                TextAlignment = Mapsui.Widgets.Alignment.Center,
-                HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
-                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom,
-            });
-            mapControl.Map.Widgets.Add(new Mapsui.Widgets.InfoWidgets.RulerWidget()
-            {
-                HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
-                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Center,
-                Color = Mapsui.Styles.Color.FromString("Black"),
-            });
-
-            //Debug widget
-            if (Preferences.Get("DeveloperModeActivated", false))
-            {
-                Mapsui.Widgets.InfoWidgets.LoggingWidget.ShowLoggingInMap = Mapsui.Widgets.ActiveMode.Yes;
-            }
-            else
-            {
-                Mapsui.Widgets.InfoWidgets.LoggingWidget.ShowLoggingInMap = Mapsui.Widgets.ActiveMode.No;
-            }
+  
+            //Init map
+            SetMapControls();
 
             //Set map and start listenning to layer events
             mapView.Map = mapControl.Map;
@@ -183,12 +165,29 @@ public partial class MapPage : ContentPage
 
             //Detect location geometry update
             FieldAppPageHelper.updateGeometry += FieldAppPageHelper_updateGeometry; 
+
+            //Detect dev mode
+            AboutPageViewModel.devModeChanged += AboutPageViewModel_devModeChanged;
         }
         catch (System.Exception e)
         {
             new ErrorToLogFile(e).WriteToFile();
         }
 
+    }
+
+
+
+    #region EVENTS
+
+    /// <summary>
+    /// Will show the map logs on screen
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void AboutPageViewModel_devModeChanged(object sender, bool e)
+    {
+        SetDevMapsui();
     }
 
     /// <summary>
@@ -213,7 +212,6 @@ public partial class MapPage : ContentPage
         }
     }
 
-    #region EVENTS
 
     /// <summary>
     /// Will force a refresh upon the loaded station graphic in the map page, coming from an edit in F_LOCATIOn form
@@ -1038,6 +1036,80 @@ public partial class MapPage : ContentPage
     #endregion
 
     #region METHODS
+
+    /// <summary>
+    /// Will initialize all the map controls and widgets
+    /// </summary>
+    private void SetMapControls()
+    {
+        //Scalebar
+        SetScaleBar();
+
+        //mapControl.Map.Widgets.Add(new Mapsui.Widgets.InfoWidgets.RulerWidget()
+        //{
+        //    HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
+        //    VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Center,
+        //    Color = Mapsui.Styles.Color.FromString("Black"),
+        //});
+
+        //Debug
+        SetDevMapsui();
+    }
+
+    /// <summary>
+    /// Add scale bar lower left
+    /// </summary>
+    private void SetScaleBar()
+    {
+        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
+        {
+            TextAlignment = Mapsui.Widgets.Alignment.Center,
+            HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
+            VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom,
+        });
+    }
+
+    /// <summary>
+    /// Will add the debug widget in the map
+    /// </summary>
+    /// <returns></returns>
+    private void SetDevMapsui()
+    {
+        List<IWidget> widgets = mapControl.Map.Widgets.ToList();
+
+        foreach (IWidget w in widgets)
+        {
+            if (w is Mapsui.Widgets.InfoWidgets.LoggingWidget)
+            {
+                if (Preferences.Get("DeveloperModeActivated", false))
+                {
+                    Mapsui.Widgets.InfoWidgets.LoggingWidget.ShowLoggingInMap = Mapsui.Widgets.ActiveMode.Yes;
+                    w.Enabled = true;
+                }
+                else
+                {
+                    Mapsui.Widgets.InfoWidgets.LoggingWidget.ShowLoggingInMap = Mapsui.Widgets.ActiveMode.No;
+                    w.Enabled = false;
+                }
+            }
+
+            if (w is Mapsui.Widgets.InfoWidgets.PerformanceWidget)
+            {
+                if (Preferences.Get("DeveloperModeActivated", false))
+                {
+                    w.Enabled = true;
+                }
+                else
+                {
+                    w.Enabled = false;
+                }
+            }
+
+        }
+
+        //TODO find why this doesn't remove the info loggin from the map
+        mapControl?.RefreshGraphics();
+    }
 
     /// <summary>
     /// Will force a quick refresh on the feature layers like station and traverses
@@ -2024,90 +2096,6 @@ public partial class MapPage : ContentPage
             }
         }
     }
-
-    /// <summary>
-    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
-    /// </summary>
-    /// <returns></returns>
-    //public async Task<int> AddLocationSymbolToRegistry()
-    //{
-    //    //Make sure it's not already registered
-    //    if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationSymbolId), out bitmapLocationSymbolId))
-    //    {
-    //        //Stream the pnt for the symbol
-    //        await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png"))
-    //        {
-    //            MemoryStream memoryStream = new MemoryStream();
-    //            pointBitmap.CopyTo(memoryStream);
-
-    //            //Register
-    //            bitmapLocationSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationSymbolId));
-
-    //        }
-
-    //        return bitmapLocationSymbolId;
-    //    }
-    //    else
-    //    {
-    //        return bitmapLocationSymbolId;
-    //    }
-    //}
-
-    /// <summary>
-    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
-    /// </summary>
-    /// <returns></returns>
-    //public async Task<int> AddLineworkPointSymbolToRegistry()
-    //{
-    //    //Make sure it's not already registered
-    //    if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLineworkPointSymbolId), out bitmapLineworkPointSymbolId))
-    //    {
-    //        //Stream the pnt for the symbol
-    //        await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"vector-point.png"))
-    //        {
-    //            MemoryStream memoryStream = new MemoryStream();
-    //            pointBitmap.CopyTo(memoryStream);
-
-    //            //Register
-    //            bitmapLineworkPointSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLineworkPointSymbolId));
-
-    //        }
-
-    //        return bitmapLineworkPointSymbolId;
-    //    }
-    //    else
-    //    {
-    //        return bitmapLineworkPointSymbolId;
-    //    }
-    //}
-
-    /// <summary>
-    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
-    /// </summary>
-    /// <returns></returns>
-    //public async Task<int> AddLocationDrillSymbolToRegistry()
-    //{
-    //    //Make sure it's not already registered
-    //    if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationDrillSymbolId), out bitmapLocationDrillSymbolId))
-    //    {
-    //        //Stream the pnt for the symbol
-    //        await using (Stream pointDBitmap = await FileSystem.OpenAppPackageFileAsync(@"pointDrills.png"))
-    //        {
-    //            MemoryStream memoryStream = new MemoryStream();
-    //            pointDBitmap.CopyTo(memoryStream);
-
-    //            //Register
-    //            bitmapLocationDrillSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationDrillSymbolId));
-
-    //        }
-
-    //        return bitmapLocationDrillSymbolId;
-    //    }
-    //    else
-    //    {
-    //        return bitmapLocationDrillSymbolId;
-    //    }
-    //}
 
     /// <summary>
     /// Will open a file picker dialog with custom extension set to mbtiles
@@ -3270,15 +3258,18 @@ public partial class MapPage : ContentPage
         TimeSpan _previousSpan = _refreshRate;
 
         //Set
-        if (GPSHighRateEnabled)
+        if (this.mapViewHighRateGPSIcon != null)
         {
-            this.mapViewHighRateGPSIcon.IsVisible = true;
-            _refreshRate = TimeSpan.FromMilliseconds(350);
-        }
-        else
-        {
-            this.mapViewHighRateGPSIcon.IsVisible = false;
-            _refreshRate = TimeSpan.FromMilliseconds(1000);
+            if (GPSHighRateEnabled)
+            {
+                this.mapViewHighRateGPSIcon.IsVisible = true;
+                _refreshRate = TimeSpan.FromMilliseconds(350);
+            }
+            else
+            {
+                this.mapViewHighRateGPSIcon.IsVisible = false;
+                _refreshRate = TimeSpan.FromMilliseconds(1000);
+            }
         }
 
         //Force refresh of GPS location even only if value has changed
@@ -3306,7 +3297,6 @@ public partial class MapPage : ContentPage
     }
 
     #endregion
-
 
     /// <summary>
     /// Needed to fix break change from Mapsui 4 to 5.

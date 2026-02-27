@@ -20,6 +20,9 @@ namespace GSCFieldApp.ViewModel
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+        //Events
+        public static EventHandler<bool> devModeChanged; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh. 
+
         // Launcher.OpenAsync is provided by Essentials.
         public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(url));
 
@@ -58,6 +61,13 @@ namespace GSCFieldApp.ViewModel
                 else
                 {
                     await Toast.Make(LocalizationResourceManager["ToastDevModeDeactivated"].ToString()).Show(CancellationToken.None);
+                }
+
+                //Send call to refresh other pages
+                EventHandler<bool> devModeHasChanged = devModeChanged;
+                if (devModeHasChanged != null)
+                {
+                    devModeHasChanged(devModeChanged, DeveloperModeActivated);
                 }
 
             }
