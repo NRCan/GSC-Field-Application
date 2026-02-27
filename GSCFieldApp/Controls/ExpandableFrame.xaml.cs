@@ -13,7 +13,7 @@ public partial class ExpandableFrame : ContentView
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
     public static readonly BindableProperty FrameColorProperty =
-        BindableProperty.Create(nameof(FrameColor), typeof(Color), typeof(ExpandableFrame), Mapsui.Styles.Color.FromString("Grey").ToMaui());
+        BindableProperty.Create(nameof(FrameColor), typeof(Color), typeof(ExpandableFrame), Color.FromArgb("#808080"));
 
     public static readonly BindableProperty FrameContentVisibilityProperty =
         BindableProperty.Create(nameof(FrameContentVisibility), typeof(bool), typeof(ExpandableFrame), true);

@@ -86,33 +86,41 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddStation()
         {
-            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+            try
             {
-                int locId = await SaveLocationModelAsync();
-
-                if (locId != -1)
+                if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
                 {
-                    //Navigate to station page and keep locationmodel for relationnal link
-                    await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
-                        new Dictionary<string, object>
-                        {
-                            [nameof(FieldLocation)] = locationModel,
-                            [nameof(Metadata)] = metadataModel,
-                            [nameof(Station)] = null,
+                    int locId = await SaveLocationModelAsync();
 
-                        }
-                    );
+                    if (locId != -1)
+                    {
+                        //Navigate to station page and keep locationmodel for relationnal link
+                        await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                            new Dictionary<string, object>
+                            {
+                                [nameof(FieldLocation)] = locationModel,
+                                [nameof(Metadata)] = metadataModel,
+                                [nameof(Station)] = null,
+
+                            }
+                        );
+                    }
+                    else
+                    {
+                        await ShowMissingFieldBookMesasge();
+                    }
+
                 }
                 else
                 {
-                    await ShowMissingFieldBookMesasge();
+                    DisplayAddError();
                 }
-
             }
-            else 
+            catch (System.Exception e)
             {
-                DisplayAddError();
+                new ErrorToLogFile(e).WriteToFile();
             }
+
         }
 
         [RelayCommand]

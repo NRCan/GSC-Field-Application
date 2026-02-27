@@ -145,8 +145,8 @@ public partial class MapPage : ContentPage
             BindingContext = vm;
 
             //Initialize grid background
-            mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToMaui();
-            GPSMode.TextColor = Mapsui.Styles.Color.FromString("Black").ToMaui();
+            mapPageGrid.BackgroundColor = Microsoft.Maui.Graphics.Color.FromArgb("#FFFFFF");
+            GPSMode.TextColor = Microsoft.Maui.Graphics.Color.FromArgb("#000000");
 
             //Set map and start listenning to layer events
             mapView.Map = mapControl.Map;
