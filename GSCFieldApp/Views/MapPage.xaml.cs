@@ -104,11 +104,6 @@ public partial class MapPage : ContentPage
     private WKTReader _wellKnownTextReader = new WKTReader();
     private GeopackageService _geopackageService = new GeopackageService();
 
-    //Symbols
-    private int bitmapLocationSymbolId = -1; //Current localisation point symbol
-    private int bitmapLineworkPointSymbolId = -1; //Linework vertices point symbol
-    private int bitmapLocationDrillSymbolId = -1; //Drill holes vertices point symbol
-
     #region Properties
 
     private bool GPSLogEnabled
@@ -2257,7 +2252,7 @@ public partial class MapPage : ContentPage
                 Offset = offset
             };
 
-            if (fieldStat != null)
+            if (fieldStat != null && fieldStat.Count() > 0)
             {
                 await Parallel.ForEachAsync(fieldStat, _parallelOptions, async (fs, token) =>
                 {
