@@ -338,7 +338,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (geomLine != LineString.Empty)
                 {
-                    if (geomLine != null && geomLine.SRID != -1 && outLgeomLineine.SRID != outSrid)
+                    if (geomLine != null && geomLine.SRID != -1 && geomLine.SRID != outSrid)
                     {
                         //Create a coord factory for incoming traverses
                         CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(geomLine.SRID);

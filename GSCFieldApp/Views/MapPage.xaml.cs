@@ -2244,14 +2244,6 @@ public partial class MapPage : ContentPage
             List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
             List<Station> fieldStat = await DataAccess.DbConnection.Table<Station>().ToListAsync();
 
-            LabelStyle labelStyle = new LabelStyle
-            {
-                BackColor = new Brush(Color.WhiteSmoke),
-                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                BorderThickness = 2,
-                Offset = offset
-            };
-
             if (fieldStat != null && fieldStat.Count() > 0)
             {
                 await Parallel.ForEachAsync(fieldStat, _parallelOptions, async (fs, token) =>
@@ -2266,6 +2258,15 @@ public partial class MapPage : ContentPage
 
                         if (locationPoint != null)
                         {
+                            //Recreate each time, else it doesn't work well with the parallel loop for obvious reason
+                            LabelStyle labelStyle = new LabelStyle
+                            {
+                                BackColor = new Brush(Color.WhiteSmoke),
+                                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                                BorderThickness = 2,
+                                Offset = offset
+                            };
+
                             //Get some station info for labelling
                             string label = fs.StationAliasLight;
 
@@ -2308,14 +2309,6 @@ public partial class MapPage : ContentPage
             List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
             List<DrillHole> fieldDrill = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
 
-            LabelStyle labelStyle = new LabelStyle
-            {
-                BackColor = new Brush(Color.WhiteSmoke),
-                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                BorderThickness = 2,
-                Offset = offset
-            };
-
             if (fieldDrill.Count() > 0)
             {
                 await Parallel.ForEachAsync(fieldDrill, _parallelOptions, async (fd, token) =>
@@ -2331,6 +2324,15 @@ public partial class MapPage : ContentPage
 
                         if (locationPoint != null)
                         {
+                            //Recreate each time, else it doesn't work well with the parallel loop for obvious reason
+                            LabelStyle labelStyle = new LabelStyle
+                            {
+                                BackColor = new Brush(Color.WhiteSmoke),
+                                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                                BorderThickness = 2,
+                                Offset = offset
+                            };
+
                             //Get some station info for labelling
                             string label = fd.DrillAliasLightWithSuffix;
 
