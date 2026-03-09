@@ -75,7 +75,7 @@ namespace GSCFieldApp.Models
                             mpl.LayerID = lid[1];
                         }
                     }
-                    else if (mpl.LayerPathOrURL.Contains("gpkg"))
+                    else if (mpl.LayerPathOrURL != null && mpl.LayerPathOrURL.Contains("gpkg"))
                     {
                         mpl.LayerType = MapPageLayer.LayerTypes.gpkg;
                     }

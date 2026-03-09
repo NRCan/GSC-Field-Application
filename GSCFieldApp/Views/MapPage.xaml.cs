@@ -189,7 +189,7 @@ public partial class MapPage : ContentPage
             mapView_SingleTap(sender, e);
         }
 
-        if (e.GestureType == Mapsui.Manipulations.GestureType.LongPress)
+        if (e.GestureType == Mapsui.Manipulations.GestureType.LongPress || e.GestureType == Mapsui.Manipulations.GestureType.DoubleTap)
         {
             mapView_LongTap(sender, e);
         }
@@ -1350,41 +1350,6 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Will try to do a get feature info from a geopackage layer on screen
-    /// </summary>
-    /// <param name="inMouseClickPosition"></param>
-    public void GetGpkgFeatureInfo(Mapsui.UI.Maui.Position inMouseClickPosition)
-    {
-        //Detect if top layer is wms
-        List<ILayer> layerList = mapControl.Map.Layers.ToList();
-        foreach (ILayer layer in layerList)
-        {
-            //Detect a valid layer (not field book, visible, not drawables)
-            if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && (layer.Tag is LayerData { IsMapInfoLayer: true} ) && layer.Enabled
-                && layer.Tag != null)
-            {
-                LayerData tagData = layer.Tag as LayerData;
-                if (tagData != null && tagData.DataPath.Contains(".gpkg") && !tagData.DataPath.Contains("version"))
-                {
-                    ////Get wms version
-                    //string wmsVersion = topLayerTag.Split("wms?version=")[1].Split("&")[0];
-                    //if (wmsVersion != string.Empty)
-                    //{
-                    //    GetFeatureInfo gp = Mapsui.Providers.MemoryProvider.
-                    //    GetFeatureInfo gfi = new GetFeatureInfo();
-                    //    gfi.Request(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
-                    //        mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
-                    //        (int)mapControl.Width, (int)mapControl.Height);
-                    //    gfi.IdentifyFinished += Gfi_IdentifyFinished;
-                    //}
-
-                    break;
-                }
-            }
-        }
-    }
-
-    /// <summary>
     /// On init will reload user prefered layers from saved JSON file.
     /// It'll also do some clean up making sure only desired layers are loaded.
     /// </summary>
@@ -2478,7 +2443,7 @@ public partial class MapPage : ContentPage
                 foreach (Linework lw in fieldLinework)
                 {
                     //Build geometry
-                    LineString inLineString = await Task.Run(async () => await _geopackageService.GetGeometryLineFromByte(lw.LineGeom)); 
+                    LineString inLineString = await Task.Run(async () => await _geopackageService.GetGeometryLineFromByte(lw.LineGeom, 3857, 3857)); 
 
                     if (inLineString != null)
                     {
@@ -2496,7 +2461,7 @@ public partial class MapPage : ContentPage
                             Color lineColor = GetColorFromString(lw.LineSymbol);
                             
                             //Style line and label
-                            feat.Styles.Add(new VectorStyle { Line = new Pen(lineColor, 3) });
+                            feat.Styles.Add(new VectorStyle { Line = new Pen(lineColor, 3) , Outline = null, Fill = null});
                             feat.Styles.Add(new LabelStyle
                             {
                                 Text = lw.LineAliasLight,
@@ -2556,10 +2521,10 @@ public partial class MapPage : ContentPage
     /// Will set style of linework feature on map
     /// </summary>
     /// <returns></returns>
-    private SymbolStyle CreateVectorBitmapStyle()
+    private ImageStyle CreateVectorBitmapStyle()
     {
-        SymbolStyle lineworkStyle = new SymbolStyle();
-        lineworkStyle.Fill.Image = new Mapsui.Styles.Image { Source = $"file://{FileSystem.AppDataDirectory}/vector-point.png" };
+        ImageStyle lineworkStyle = new ImageStyle();
+        lineworkStyle.Image = new Mapsui.Styles.Image { Source = "embedded://GSCFieldApp.Resources.Raw.vector-point.png" };
         lineworkStyle.SymbolScale = 1.5;
 
         return lineworkStyle;
@@ -2659,7 +2624,7 @@ public partial class MapPage : ContentPage
                 {
                     Fill = null,
                     Outline = null,
-                    Line = { Color = Color.FromString("Black"), Width = 2 }
+                    Line = { Color = Color.Black, Width = 2 }
                 },
                 Tag = new LayerData { IsMapInfoLayer = true}
             };
@@ -2850,7 +2815,7 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = true, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
-                    Style = null,
+                    Style = null
                 };
             }
 
