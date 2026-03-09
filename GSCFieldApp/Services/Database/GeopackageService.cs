@@ -40,8 +40,10 @@ namespace GSCFieldApp.Services.DatabaseServices
     {
 
         public DataAccess da = new DataAccess();
-        public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
-        public static GeometryFactory defaultMapsuiGeometryFactory = new GeometryFactory();
+        // Create a geometry factory with the spatial reference id 4326
+        public static GeometryFactory defaultGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGDefault);
+        //Create another one with the default spatial reference from Mapsui
+        public static GeometryFactory defaultMapsuiGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGMapsuiDefault);
         public LocalizationResourceManager LocalizationResourceManager 
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
@@ -128,11 +130,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                 new NTS.Geometries.CoordinateEqualityComparer()
             );
 
-            // Create a geometry factory with the spatial reference id 4326
-            defaultGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGDefault);
+            //// Create a geometry factory with the spatial reference id 4326
+            //defaultGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGDefault);
 
-            //Create another one with the default spatial reference from Mapsui
-            defaultMapsuiGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGMapsuiDefault);
+            ////Create another one with the default spatial reference from Mapsui
+            //defaultMapsuiGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGMapsuiDefault);
 
         }
 
@@ -154,7 +156,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else if (srid == DatabaseLiterals.KeywordEPSGMapsuiDefault)
             {
-                if (_srid4326 == null)
+                if (_srid3857 == null)
                 {
                     _srid3857 = await SridReader.GetCSbyID(DatabaseLiterals.KeywordEPSGMapsuiDefault);
                 }
@@ -197,7 +199,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<NTS.Geometries.Point> GetGeometryPointFromByteAsync(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSRID = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             CoordinateSequence coordinateSequence = _coordinateSequenceFactory.Create(new Coordinate[] { new Coordinate(0, 0) });
-            NTS.Geometries.Point outPoint = new NTS.Geometries.Point(coordinateSequence, defaultMapsuiGeometryFactory);
+            NTS.Geometries.Point geomPoint = new NTS.Geometries.Point(coordinateSequence, defaultMapsuiGeometryFactory);
 
             try
             {
@@ -207,7 +209,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.Point)
                     {
-                        outPoint = geom as NTS.Geometries.Point;
+                        geomPoint = geom as NTS.Geometries.Point;
+                        geomPoint.SRID = srid;
                     }
                 }
 
@@ -215,31 +218,31 @@ namespace GSCFieldApp.Services.DatabaseServices
             catch (Exception pointFromByteException)
             {
                 new ErrorToLogFile(pointFromByteException).WriteToFile();
-                outPoint = null;
+                geomPoint = null;
                 //await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
             }
 
-            if (outPoint != NTS.Geometries.Point.Empty)
+            if (geomPoint != NTS.Geometries.Point.Empty)
             {
-                if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
+                if (geomPoint != null && geomPoint.SRID != -1 && geomPoint.SRID != outSRID)
                 {
                     //Create a coord factory for incoming traverses
-                    CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(outPoint.SRID);
+                    CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(geomPoint.SRID);
 
                     //Default map page coordinate
                     CoordinateSystem outgoingProjection = await GetCoordinateSystemAsync(outSRID);
 
                     //Transform
-                    outPoint = await TransformPointCoordinates(outPoint, incomingProjection, outgoingProjection);
+                    geomPoint = await TransformPointCoordinates(geomPoint, incomingProjection, outgoingProjection);
                 }
             }
             else
             {
                 new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryPointFromByteAsync)) + ").").WriteToFile();
-                outPoint = null;
+                geomPoint = null;
             }
 
-            return outPoint;
+            return geomPoint;
         }
 
         /// <summary>
@@ -251,8 +254,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<NTS.Geometries.MultiPoint> GetGeometryMultiPointFromByteAsync(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSRID = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
 
-            NTS.Geometries.MultiPoint outPoint = new NTS.Geometries.MultiPoint(new NTS.Geometries.Point[] { }, defaultMapsuiGeometryFactory);
-            NTS.Geometries.Point[] outPointArray = new NTS.Geometries.Point[] { };
+            NTS.Geometries.MultiPoint geomPoint = new NTS.Geometries.MultiPoint(new NTS.Geometries.Point[] { }, defaultMapsuiGeometryFactory);
+            NTS.Geometries.Point[] geomPointArray = new NTS.Geometries.Point[] { };
 
             try
             {
@@ -262,7 +265,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiPoint)
                     {
-                        outPoint = geom as NTS.Geometries.MultiPoint;
+                        geomPoint = geom as NTS.Geometries.MultiPoint;
+                        geomPoint.SRID = srid;
                     }
                 }
 
@@ -270,16 +274,16 @@ namespace GSCFieldApp.Services.DatabaseServices
             catch (Exception pointFromByteException)
             {
                 new ErrorToLogFile(pointFromByteException).WriteToFile();
-                outPoint = null;
+                geomPoint = null;
                 //await Shell.Current.DisplayAlert("Geometry Error", pointFromByteException.Message, "Ok");
             }
 
-            if (outPoint != NTS.Geometries.MultiPoint.Empty)
+            if (geomPoint != NTS.Geometries.MultiPoint.Empty)
             {
-                if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
+                if (geomPoint != null && geomPoint.SRID != -1 && geomPoint.SRID != outSRID)
                 {
                     //Create a coord factory for incoming traverses
-                    CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(outPoint.SRID);
+                    CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(geomPoint.SRID);
 
                     //Default map page coordinate
                     CoordinateSystem outgoingProjection = await GetCoordinateSystemAsync(outSRID);
@@ -289,24 +293,24 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Transform
                     int index = 0;
-                    outPointArray = new NTS.Geometries.Point[outPoint.Count];
-                    foreach (NTS.Geometries.Point ps in outPoint)
+                    geomPointArray = new NTS.Geometries.Point[geomPoint.Count];
+                    foreach (NTS.Geometries.Point ps in geomPoint)
                     {
                         NTS.Geometries.Point newPoint = await TransformPointCoordinates(ps, incomingProjection, outgoingProjection);
-                        outPointArray[index] = newPoint;
+                        geomPointArray[index] = newPoint;
                         index++;
                     }
 
-                    outPoint = new NTS.Geometries.MultiPoint(outPointArray);
+                    geomPoint = new NTS.Geometries.MultiPoint(geomPointArray);
                 }
             }
             else
             {
                 new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryMultiPointFromByteAsync)) + ").").WriteToFile();
-                outPoint = null;
+                geomPoint = null;
             }
 
-            return outPoint;
+            return geomPoint;
         }
 
 
@@ -320,7 +324,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<NTS.Geometries.LineString> GetGeometryLineFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             //Init
-            NTS.Geometries.LineString outLine = new NTS.Geometries.LineString(new Coordinate[] { });
+            NTS.Geometries.LineString geomLine = new NTS.Geometries.LineString(new Coordinate[] { });
 
             if (geomBytes != null)
             {
@@ -328,31 +332,32 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.LineString)
                 {
-                    outLine = geom as NTS.Geometries.LineString;
+                    geomLine = geom as NTS.Geometries.LineString;
+                    geomLine.SRID = srid;
                 }
 
-                if (outLine != LineString.Empty)
+                if (geomLine != LineString.Empty)
                 {
-                    if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
+                    if (geomLine != null && geomLine.SRID != -1 && outLgeomLineine.SRID != outSrid)
                     {
                         //Create a coord factory for incoming traverses
-                        CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(outLine.SRID);
+                        CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(geomLine.SRID);
 
                         //Default map page coordinate
                         CoordinateSystem outgoingProjection = await GetCoordinateSystemAsync(outSrid);
 
                         //Transform
-                        outLine = await TransformLineCoordinates(outLine, incomingProjection, outgoingProjection);
+                        geomLine = await TransformLineCoordinates(geomLine, incomingProjection, outgoingProjection);
                     }
                 }
                 else
                 {
                     new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryLineFromByte)) + ").").WriteToFile();
-                    outLine = null;
+                    geomLine = null;
                 }
             }
 
-            return outLine;
+            return geomLine;
         }
 
         /// <summary>
@@ -365,8 +370,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task<NTS.Geometries.MultiLineString> GetGeometryMultiLineFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             //Init
-            NTS.Geometries.MultiLineString outLine = new NTS.Geometries.MultiLineString(new LineString[] { });
-            NTS.Geometries.LineString[] outLineArray = new LineString[] { };
+            NTS.Geometries.MultiLineString geomLine = new NTS.Geometries.MultiLineString(new LineString[] { });
+            NTS.Geometries.LineString[] geomLineArray = new LineString[] { };
 
             if (geomBytes != null)
             {
@@ -374,40 +379,41 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiLineString)
                 {
-                    outLine = geom as NTS.Geometries.MultiLineString;
+                    geomLine = geom as NTS.Geometries.MultiLineString;
+                    geomLine.SRID = srid;
                 }
 
-                if (outLine != MultiLineString.Empty)
+                if (geomLine != MultiLineString.Empty)
                 {
-                    if (outLine != null && outLine.SRID != -1 && outLine.SRID != outSrid)
+                    if (geomLine != null && geomLine.SRID != -1 && geomLine.SRID != outSrid)
                     {
                         //Create a coord factory for incoming traverses
-                        CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(outLine.SRID);
+                        CoordinateSystem incomingProjection = await GetCoordinateSystemAsync(geomLine.SRID);
 
                         //Default map page coordinate
                         CoordinateSystem outgoingProjection = await GetCoordinateSystemAsync(outSrid);
 
                         //Transform
                         int index = 0;
-                        outLineArray = new LineString[outLine.Count];
-                        foreach (LineString ls in outLine)
+                        geomLineArray = new LineString[geomLine.Count];
+                        foreach (LineString ls in geomLine)
                         {
                             LineString newLine = await TransformLineCoordinates(ls, incomingProjection, outgoingProjection);
-                            outLineArray[index] = newLine;
+                            geomLineArray[index] = newLine;
                             index++;
                         }
 
-                        outLine = new NTS.Geometries.MultiLineString(outLineArray);
+                        geomLine = new NTS.Geometries.MultiLineString(geomLineArray);
                     }
                 }
                 else
                 {
                     new ErrorToLogFile(LocalizationResourceManager["GeopackageServiceEmptyGeometry"].ToString() + " (" + (nameof(GetGeometryMultiLineFromByte)) + ").").WriteToFile();
-                    outLine = null;
+                    geomLine = null;
                 }
             }
 
-            return outLine;
+            return geomLine;
         }
 
         /// <summary>
