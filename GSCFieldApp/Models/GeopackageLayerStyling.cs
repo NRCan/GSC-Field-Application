@@ -49,7 +49,7 @@ namespace GSCFieldApp.Models
         public GeopackageLayerStyling SetDefaultLineStyle()
         {
             GeopackageLayerStyling lineStyle = new GeopackageLayerStyling();
-            lineStrokeColor = Color.FromString("Grey");
+            lineStrokeColor = Color.Grey;
             lineStrokeWidth = 3;
             lineVectorStyle = new VectorStyle { Line = new Pen(lineStrokeColor, lineStrokeWidth) };
 
@@ -63,8 +63,8 @@ namespace GSCFieldApp.Models
         public GeopackageLayerStyling SetDefaultPolyStyle()
         {
             GeopackageLayerStyling polyStyle = new GeopackageLayerStyling();
-            polyFillColor = Color.FromString("LightGrey");
-            polyOutlineColor = Color.FromString("Black");
+            polyFillColor = Color.LightGrey;
+            polyOutlineColor = Color.Black;
             polyOutlineWidth = 1;
 
             polyVectorStyle = new VectorStyle { Fill = new Mapsui.Styles.Brush(polyFillColor), Outline = new Pen(polyOutlineColor, polyOutlineWidth) };
@@ -79,8 +79,8 @@ namespace GSCFieldApp.Models
         public GeopackageLayerStyling SetDefaultPointStyle()
         {
             GeopackageLayerStyling pointStyle = new GeopackageLayerStyling();
-            pointFillColor = Color.FromString("LightGrey");
-            pointOutlineColor = Color.FromString("Black");
+            pointFillColor = Color.LightGrey;
+            pointOutlineColor = Color.Black;
             pointOutlineWidth = 1;
 
             pointVectorStyle = new SymbolStyle { SymbolScale = 0.5, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
