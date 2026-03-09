@@ -149,6 +149,7 @@ public partial class MapPage : ContentPage
             mapView.Map.Info += Map_Info; //Get feature info event for loaded layers
             this.Loaded += MapPage_Loaded;
             this.mapControl.Map.Layers.Changed += Layers_Changed;
+            mapView.Map.Tapped += mapWasTapped;
 
             //Init map widgets
             SetMapControls();
@@ -172,7 +173,27 @@ public partial class MapPage : ContentPage
 
     }
 
+
+
     #region EVENTS
+
+    /// <summary>
+    /// Tap even manager for the map, will detect if it's a single tap or a long press and trigger the right method for each of them
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void mapWasTapped(object sender, MapEventArgs e)
+    {
+        if (e.GestureType == Mapsui.Manipulations.GestureType.SingleTap)
+        {
+            mapView_SingleTap(sender, e);
+        }
+
+        if (e.GestureType == Mapsui.Manipulations.GestureType.LongPress)
+        {
+            mapView_LongTap(sender, e);
+        }
+    }
 
     /// <summary>
     /// Will show the map logs on screen
@@ -535,58 +556,6 @@ public partial class MapPage : ContentPage
         }
     }
 
-    /// <summary>
-    /// Clicked event made on the map
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void mapView_MapClicked(object sender, MapClickedEventArgs e)
-    {
-
-        //NOT WORKING --> Get feature info
-        //GetWMSFeatureInfo(e.Point);
-        //GetGpkgFeatureInfo(e.Point);
-
-        //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (_isTapMode && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
-        {
-            //Convert incoming geographic coordinates and transform into DMS
-            DD2DMS dmsLongitude = DD2DMS.FromDouble(e.Point.ToPoint().X);
-            DD2DMS dmsLatitude = DD2DMS.FromDouble(e.Point.ToPoint().Y);
-
-            //Build alert content with DMS values
-            string content = string.Format("{0}\n{1}", 
-                LocalizationResourceManager["MapPageTapCoordinateContent"].ToString(),
-                e.Point.ToString()
-                );
-
-            //Show dialog
-            bool answer = await Shell.Current.DisplayAlert(
-                LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
-                content,
-                LocalizationResourceManager["GenericButtonYes"].ToString(),
-                LocalizationResourceManager["GenericButtonNo"].ToString());
-
-            //Pop station form
-            if (answer)
-            {
-                //Refresh view with tap
-                mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(e.Point.Latitude, e.Point.Longitude));
-                mapView.RefreshGraphics();
-
-                //Init record creation
-                MapViewModel mvm = BindingContext as MapViewModel;
-                mvm.RefreshCoordinatesFromTap(e.Point);
-                mvm.AddStationCommand.Execute(mvm);
-            }
-        }
-
-        //Make sure to disable map layer frame
-        MapLayerFrame.IsVisible = false;
-
-        //MapInfoResultsFrame.IsVisible = false;
-    }
-
     #region Buttons
 
     /// <summary>
@@ -852,12 +821,16 @@ public partial class MapPage : ContentPage
 
     /// <summary>
     /// Track single tap on screen. 
-    /// If drawing line is enabled it will start creating a new one
+    /// If drawing line is enabled it will start creating a new one, else it should do a map info on the clicked geometry and open the 
+    /// attribute table of it
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public void mapView_SingleTap(object sender, Mapsui.UI.TappedEventArgs e)
+    public async void mapView_SingleTap(object sender, MapEventArgs e)
     {
+        //Make sure to disable map layer frame
+        MapLayerFrame.IsVisible = false;
+
         if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
         {
             //Get screen ratio between skia and mapsui
@@ -869,6 +842,45 @@ public partial class MapPage : ContentPage
             //Add to linework layer
             FillLinework(clickedPoint.Item1, clickedPoint.Item2);
         }
+
+        //NOT WORKING --> Get feature info
+        //GetWMSFeatureInfo(e.Point);
+        //GetGpkgFeatureInfo(e.Point);
+
+        //Detect if in tap mode or drawing lines to show tapped coordinates on screen
+        if (_isTapMode && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
+        {
+            //Convert to degree position
+            Mapsui.UI.Maui.Position mapPosition = e.WorldPosition.ToMaui();
+
+            //Convert incoming geographic coordinates and transform into DMS
+            DD2DMS dmsLongitude = DD2DMS.FromDouble(mapPosition.Longitude);
+            DD2DMS dmsLatitude = DD2DMS.FromDouble(mapPosition.Latitude);
+
+            //Build alert content with DMS values
+            string content = string.Format("{0}\n{1}",
+                LocalizationResourceManager["MapPageTapCoordinateContent"].ToString(),
+                e.WorldPosition.ToString()
+                );
+
+            //Show dialog
+            bool answer = await Shell.Current.DisplayAlert(
+                LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+                content,
+                LocalizationResourceManager["GenericButtonYes"].ToString(),
+                LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            //Pop station form
+            if (answer)
+            {
+                //Init record creation
+                MapViewModel mvm = BindingContext as MapViewModel;
+                mvm.RefreshCoordinatesFromTap(mapPosition);
+                mvm.AddStationCommand.Execute(mvm);
+            }
+        }
+
+
     }
 
     /// <summary>
@@ -876,7 +888,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void mapView_LongTap(object sender, Mapsui.UI.TappedEventArgs e)
+    private async void mapView_LongTap(object sender, MapEventArgs e)
     {
         if (_isDrawingLine)
         {
@@ -2714,7 +2726,7 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will save, show note page and refresh linework edit layer
     /// </summary>
-    private async void FinalizeLinework(Mapsui.UI.TappedEventArgs tappedEventArgs)
+    private async void FinalizeLinework(MapEventArgs tappedEventArgs)
     {
         //Ask user if a save process can be initiated
         bool canSave = await DisplayAlert(LocalizationResourceManager["MapPageAddLineworkDialogTitle"].ToString(),
