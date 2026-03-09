@@ -174,7 +174,6 @@ public partial class MapPage : ContentPage
     }
 
 
-
     #region EVENTS
 
     /// <summary>
@@ -527,11 +526,6 @@ public partial class MapPage : ContentPage
             //Setting map page background default data
             SetOpenStreetMap();
             SetExtent();
-
-            //////Manage symbol and layers
-            ////await Task.Run(async () => await AddLocationSymbolToRegistry());
-            ////await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
-            ////await Task.Run(async () => await AddLocationDrillSymbolToRegistry());
 
             //Freshen up the default layers
             await Task.Run(async () => await RefreshDefaultFeatureLayer());
@@ -1184,7 +1178,7 @@ public partial class MapPage : ContentPage
 
                     if (item.Name == ApplicationLiterals.aliasStations)
                     {
-                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(FieldLocation)));
+                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Station)));
                     }
                     else if (item.Name == ApplicationLiterals.aliasLinework)
                     {
@@ -1203,7 +1197,7 @@ public partial class MapPage : ContentPage
                     }
 
                     //Check with record count if diff add last or remove missing
-                    if (databaseCount != mapLayerCount)
+                    if (databaseCount != mapLayerCount && databaseCount != 0)
                     {
                         //Get latest features
                         MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
@@ -1257,14 +1251,13 @@ public partial class MapPage : ContentPage
                             mapView.Map.Layers.Remove(mapLayer);
                             mapView.Map.Layers.Add(mapMemoryLayer);
 
+                            //Zoom to extent of stations
+                            SetExtent(mapMemoryLayer);
+
                         }
                     }
 
-                    //Zoom to extent of stations
-                    if (layerToReload == defaultLayerList.Stations && databaseCount != 0)
-                    {
-                        SetExtent(mapMemoryLayer);
-                    }
+
                 }
             }
 
@@ -1840,14 +1833,7 @@ public partial class MapPage : ContentPage
             double zoomingToArea = fieldDataExtent.GetArea();
 
             //Zoom to extent of all stations, unless current extent is already smaller
-            if (inLayer.Name == ApplicationLiterals.aliasStations && (currentArea > zoomingToArea || currentArea == 0))
-            {
-                mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
-            }
-            else if (inLayer.Name != ApplicationLiterals.aliasStations)
-            {
-                mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
-            }
+            mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
         }
     }
 
