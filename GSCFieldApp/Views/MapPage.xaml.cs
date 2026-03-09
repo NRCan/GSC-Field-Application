@@ -346,84 +346,85 @@ public partial class MapPage : ContentPage
                 if (feature is GeometryFeature geometryFeature)
                 {
                     //Get database path stashed in the tag
-                    if (l.Tag != null && l.Tag.ToString() != string.Empty && featureValueText != string.Empty && featureValueText.Contains(":"))
+                    if (l.Tag != null && featureValueText != string.Empty && featureValueText.Contains(":"))
                     {
-
-                        SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(l.Tag.ToString());
-
-                        try
+                        LayerData tagData = l.Tag as LayerData;
+                        if (tagData != null)
                         {
-                            if (infoConnection != null)
+                            SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(tagData.DataPath);
+
+                            try
                             {
-                                //Build query to extract record
-                                //Is using hex(geometry) field for user loaded geopackage
-                                string featureIDFieldName = featureValueText.Split(":")[0];
-                                string featureValue = featureValueText.Split(":")[1];
-                                string gfiQuery = string.Format("SELECT * FROM {0} WHERE hex({1}) = '{2}';",
-                                    l.Name,
-                                    featureIDFieldName,
-                                    featureValue);
-
-                                //Parse field app default layer name for real feature name
-                                if (l.Name == ApplicationLiterals.aliasTraversePoint)
+                                if (infoConnection != null)
                                 {
-                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
-                                    DatabaseLiterals.TableTraversePoint,
-                                    featureIDFieldName,
-                                    featureValue);
-                                }
-                                else if (l.Name == ApplicationLiterals.aliasStations)
-                                {
-                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
-                                    DatabaseLiterals.TableStation,
-                                    featureIDFieldName,
-                                    featureValue);
-                                }
-                                else if (l.Name == ApplicationLiterals.aliasLinework)
-                                {
-                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
-                                    DatabaseLiterals.TableLinework,
-                                    featureIDFieldName,
-                                    featureValue);
-                                }
-                                else if (l.Name == ApplicationLiterals.aliasDrillHoles)
-                                {
-                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
-                                    DatabaseLiterals.TableDrillHoles,
-                                    featureIDFieldName,
-                                    featureValue);
-                                }
+                                    //Build query to extract record
+                                    //Is using hex(geometry) field for user loaded geopackage
+                                    string featureIDFieldName = featureValueText.Split(":")[0];
+                                    string featureValue = featureValueText.Split(":")[1];
+                                    string gfiQuery = string.Format("SELECT * FROM {0} WHERE hex({1}) = '{2}';",
+                                        l.Name,
+                                        featureIDFieldName,
+                                        featureValue);
+
+                                    //Parse field app default layer name for real feature name
+                                    if (l.Name == ApplicationLiterals.aliasTraversePoint)
+                                    {
+                                        gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                        DatabaseLiterals.TableTraversePoint,
+                                        featureIDFieldName,
+                                        featureValue);
+                                    }
+                                    else if (l.Name == ApplicationLiterals.aliasStations)
+                                    {
+                                        gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                        DatabaseLiterals.TableStation,
+                                        featureIDFieldName,
+                                        featureValue);
+                                    }
+                                    else if (l.Name == ApplicationLiterals.aliasLinework)
+                                    {
+                                        gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                        DatabaseLiterals.TableLinework,
+                                        featureIDFieldName,
+                                        featureValue);
+                                    }
+                                    else if (l.Name == ApplicationLiterals.aliasDrillHoles)
+                                    {
+                                        gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                        DatabaseLiterals.TableDrillHoles,
+                                        featureIDFieldName,
+                                        featureValue);
+                                    }
 
 
-                                //Get clicked feature record values
-                                object?[][]? results = GeopackageService.RunGenericQuery(l.Tag.ToString(), gfiQuery);
+                                    //Get clicked feature record values
+                                    object?[][]? results = GeopackageService.RunGenericQuery(tagData.DataPath, gfiQuery);
 
-                                if (results != null)
-                                {
-                                    //Show a pop-up with the result
-                                    MapViewModel vm = BindingContext as MapViewModel;
-                                    vm.FillMapInfoCollection(results);
+                                    if (results != null)
+                                    {
+                                        //Show a pop-up with the result
+                                        MapViewModel vm = BindingContext as MapViewModel;
+                                        vm.FillMapInfoCollection(results);
 
-                                    MapInfoResultsFrame.IsVisible = true;
+                                        MapInfoResultsFrame.IsVisible = true;
+                                    }
+
                                 }
 
+                                await infoConnection.CloseAsync();
                             }
+                            catch (System.Exception gfiError)
+                            {
+                                await infoConnection.CloseAsync();
 
-                            await infoConnection.CloseAsync();
+                                await Shell.Current.DisplayAlert(
+                                    LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                                    gfiError.Message,
+                                    LocalizationResourceManager["GenericButtonOk"].ToString());
+                                new ErrorToLogFile(gfiError).WriteToFile();
+                            }
                         }
-                        catch (System.Exception gfiError)
-                        {
-                            await infoConnection.CloseAsync();
-
-                            await Shell.Current.DisplayAlert(
-                                LocalizationResourceManager["GenericErrorTitle"].ToString(),
-                                gfiError.Message,
-                                LocalizationResourceManager["GenericButtonOk"].ToString());
-                            new ErrorToLogFile(gfiError).WriteToFile();
-                        }
-
                     }
-
                 }
             }
         }
@@ -601,9 +602,10 @@ public partial class MapPage : ContentPage
         if (zoomToLayer != null)
         {
             string pathToLayer = string.Empty;
-            if (zoomToLayer.Tag != null)
+            if (zoomToLayer.Tag != null && zoomToLayer.Tag is LayerData)
             {
-                pathToLayer = zoomToLayer.Tag.ToString();
+                LayerData tagData = zoomToLayer.Tag as LayerData;
+                pathToLayer = tagData.DataPath;
             }
             
             if (zoomToLayer.Name != ApplicationLiterals.aliasOSM && !pathToLayer.Contains("wms") && !pathToLayer.Contains("ows"))
@@ -1314,16 +1316,17 @@ public partial class MapPage : ContentPage
             {
                 //Get top layer
                 ILayer topLayer = layerList[layerList.IndexOf(layer) - 1];
-                string topLayerTag = topLayer.Tag.ToString();
-                if (topLayerTag.Contains("wms") && topLayerTag.Contains("version"))
+                LayerData tagData = topLayer.Tag as LayerData;
+
+                if (tagData != null && tagData.DataPath.Contains("wms") && tagData.DataPath.Contains("version"))
                 {
                     //Get wms version
-                    string wmsVersion = topLayerTag.Split("wms?version=")[1].Split("&")[0];
+                    string wmsVersion = tagData.DataPath.Split("wms?version=")[1].Split("&")[0];
                     if (wmsVersion != string.Empty)
                     { 
 
                         GetFeatureInfo gfi = new GetFeatureInfo();
-                        FeatureInfo featureInfo = await gfi.RequestAsync(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
+                        FeatureInfo featureInfo = await gfi.RequestAsync(tagData.DataPath, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
                             mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
                             (int)mapControl.Width, (int)mapControl.Height);
                     }
@@ -1346,24 +1349,26 @@ public partial class MapPage : ContentPage
         {
             //Detect a valid layer (not field book, visible, not drawables)
             if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && (layer.Tag is LayerData { IsMapInfoLayer: true} ) && layer.Enabled
-                && layer.Tag != null && layer.Tag.ToString().Contains("gpkg") && !layer.Tag.ToString().Contains("version"))
+                && layer.Tag != null)
             {
+                LayerData tagData = layer.Tag as LayerData;
+                if (tagData != null && tagData.DataPath.Contains(".gpkg") && !tagData.DataPath.Contains("version"))
+                {
+                    ////Get wms version
+                    //string wmsVersion = topLayerTag.Split("wms?version=")[1].Split("&")[0];
+                    //if (wmsVersion != string.Empty)
+                    //{
+                    //    GetFeatureInfo gp = Mapsui.Providers.MemoryProvider.
+                    //    GetFeatureInfo gfi = new GetFeatureInfo();
+                    //    gfi.Request(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
+                    //        mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
+                    //        (int)mapControl.Width, (int)mapControl.Height);
+                    //    gfi.IdentifyFinished += Gfi_IdentifyFinished;
+                    //}
 
-                ////Get wms version
-                //string wmsVersion = topLayerTag.Split("wms?version=")[1].Split("&")[0];
-                //if (wmsVersion != string.Empty)
-                //{
-                //    GetFeatureInfo gp = Mapsui.Providers.MemoryProvider.
-                //    GetFeatureInfo gfi = new GetFeatureInfo();
-                //    gfi.Request(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
-                //        mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
-                //        (int)mapControl.Width, (int)mapControl.Height);
-                //    gfi.IdentifyFinished += Gfi_IdentifyFinished;
-                //}
-                
-                break;
+                    break;
+                }
             }
-
         }
     }
 
@@ -1452,8 +1457,13 @@ public partial class MapPage : ContentPage
                 byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
                 TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+                LayerData layerData = new LayerData
+                {
+                    DataPath = mbTilePath,
+                    IsMapInfoLayer = false,
+                };
                 newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
-                newTileLayer.Tag = mbTilePath;
+                newTileLayer.Tag = layerData;
 
                 //If full object is passed, get extra info in
                 if (pageLayer != null)
@@ -1970,8 +1980,13 @@ public partial class MapPage : ContentPage
                     });
 
                 TileLayer tl = new TileLayer(httpTileSource);
+                LayerData layerData = new LayerData
+                {
+                    DataPath = wmsURL,
+                    IsMapInfoLayer = false,
+                };
                 tl.Name = layerName;
-                tl.Tag = wmsURL;
+                tl.Tag = layerData;
 
                 if (pageLayer != null)
                 {
@@ -3305,17 +3320,5 @@ public partial class MapPage : ContentPage
     }
 
     #endregion
-
-    /// <summary>
-    /// Needed to fix break change from Mapsui 4 to 5.
-    /// The attribute has disapeared and will be used in the Tag instead.
-    /// Tag that was already use in the code to store some paths.
-    /// </summary>
-    public class LayerData
-    { 
-        public bool IsMapInfoLayer { get; set; }
-
-        public string DataPath { get; set; }
-    }
 
 }

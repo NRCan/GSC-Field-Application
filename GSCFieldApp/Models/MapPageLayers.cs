@@ -54,9 +54,10 @@ namespace GSCFieldApp.Models
                 mpl.LayerID = string.Empty;
 
                 //Retrieve hidden info from tag
-                if (inLayer.Tag != null)
+                if (inLayer.Tag != null && inLayer.Tag is LayerData)
                 {
-                    mpl.LayerPathOrURL = inLayer.Tag.ToString();
+                    LayerData tagData = (LayerData)inLayer.Tag;
+                    mpl.LayerPathOrURL = tagData.DataPath;
 
                     TileLayer isTileLayer = inLayer as TileLayer;
                     if (isTileLayer != null && mpl.LayerPathOrURL.Contains(DatabaseLiterals.LayerTypeMBTiles))
@@ -87,4 +88,15 @@ namespace GSCFieldApp.Models
         }
     }
 
+    /// <summary>
+    /// Needed to fix break change from Mapsui 4 to 5.
+    /// The attribute has disapeared and will be used in the Tag instead.
+    /// Tag that was already use in the code to store some paths.
+    /// </summary>
+    public class LayerData
+    {
+        public bool IsMapInfoLayer { get; set; }
+
+        public string DataPath { get; set; }
+    }
 }
