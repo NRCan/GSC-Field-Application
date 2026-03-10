@@ -138,6 +138,12 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(MineralizationVisible), true); }
             set { Preferences.Set(nameof(MineralizationVisible), value); }
         }
+
+        public bool DailyTraverseIncrementaionEnabled
+        {
+            get { return Preferences.Get(nameof(DailyTraverseIncrementaionEnabled), true); }
+            set { }
+        }
         #endregion 
 
         public StationViewModel()
@@ -522,65 +528,39 @@ namespace GSCFieldApp.ViewModel
                 Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
             }
 
-            //Process Air Photo and Traverse numbers
-            FillAirPhotoTraverseNo();
-
             //Keep track of page being already filled or not
             IsLoaded = true;
 
         }
 
         /// <summary>
-        /// TODO: Make sure this feature is still relevant. Not sure many people are using it.
         /// Will prefill air photo number and traverse number from the last entered values by user.
         /// </summary>
-        private void FillAirPhotoTraverseNo()
+        private async void FillAirPhotoTraverseNo()
         {
-            ////Special case for air photo and traverse numbers, get the last numbers
-            //string tableName = Dictionaries.TableStation;
-            //string querySelectFrom = "SELECT * FROM " + tableName;
-            //string queryOrder1 = " ORDER BY " + tableName + "." + Dictionaries.FieldStationVisitDate + " DESC";
-            //string queryOrder2 = ", " + tableName + "." + Dictionaries.FieldStationVisitTime + " DESC";
-            //string queryLimit = " LIMIT 1";
-            //string finaleQuery = querySelectFrom + queryOrder1 + queryOrder2 + queryLimit;
+            if (DailyTraverseIncrementaionEnabled)
+            {
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<Station> stations = await currentConnection.Table<Station>().OrderByDescending(s => s.StationVisitDate).ThenByDescending(s => s.StationVisitTime).ToListAsync();
 
-            //List<object> stationTableRaw = accessData.ReadTable(StationModel.GetType(), finaleQuery);
-            //IEnumerable<Station> stationFiltered = stationTableRaw.Cast<Station>(); //Cast to proper list type
-            //if (stationFiltered.Count() != 0 || stationFiltered != null)
-            //{
-            //    foreach (Station sts in stationFiltered)
-            //    {
-            //        _stationTravNo = sts.StationTravNo.ToString();
+                if (stations != null && stations.Count() > 0)
+                {
+                    Station sts = stations.First();
 
-            //        //Make check on date if newer, increment traverse no. if wanted by user
-            //        if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) == null ||
-            //            (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null &&
-            //            localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordStationTraverseNo)))
-            //        {
-            //            string currentDate = DateTime.Now.ToShortDateString();
-            //            DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
-            //            DateTime currentDateDT = DateTime.Parse(currentDate);
-            //            if (lastStationDate != null && currentDateDT != null)
-            //            {
-            //                int dateComparisonResult = DateTime.Compare(lastStationDate, currentDateDT);
-            //                if (lastStationDate != null && dateComparisonResult < 0)
-            //                {
-            //                    _stationTravNo = (sts.StationTravNo + 1).ToString();
-            //                }
-            //            }
+                    string currentDate = DateTime.Now.ToShortDateString();
+                    DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
+                    DateTime currentDateDT = DateTime.Parse(currentDate);
 
-            //        }
-
-
-
-
-            //        _airno = sts.StationAirNo;
-            //    }
-
-            //}
-
-            //RaisePropertyChanged("TraverseNo");
-            //RaisePropertyChanged("AirPhoto");
+                    
+                    int dateComparisonResult = DateTime.Compare(lastStationDate, currentDateDT);
+                    if (dateComparisonResult < 0)
+                    {
+                        _model.StationTravNo = sts.StationTravNo + 1;
+                        OnPropertyChanged(nameof(Model));
+                    }
+                    
+                }
+            }
         }
 
         /// <summary>
@@ -642,7 +622,9 @@ namespace GSCFieldApp.ViewModel
                     Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
                 }
 
-                 OnPropertyChanged(nameof(Model));
+                FillAirPhotoTraverseNo();
+
+                OnPropertyChanged(nameof(Model));
 
             }
         }

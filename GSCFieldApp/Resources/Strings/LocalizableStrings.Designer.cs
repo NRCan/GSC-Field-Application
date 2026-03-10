@@ -3744,6 +3744,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stations.
+        /// </summary>
+        internal static string SettingPageOtherHeadingStation {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daily incremental traverse numbering.
+        /// </summary>
+        internal static string SettingPageOtherHeadingStationToggle {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingStationToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repair geometry (location).
         /// </summary>
         internal static string SettingPageRepairGeometryDownload {

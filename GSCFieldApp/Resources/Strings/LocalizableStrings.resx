@@ -1598,4 +1598,10 @@ Enter last two digit of current year to proceed.</value>
   <data name="MapPageRulerMode" xml:space="preserve">
     <value>Tap to use a ruler to make a measurement</value>
   </data>
+  <data name="SettingPageOtherHeadingStation" xml:space="preserve">
+    <value>Stations</value>
+  </data>
+  <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
+    <value>Daily incremental traverse numbering</value>
+  </data>
 </root>

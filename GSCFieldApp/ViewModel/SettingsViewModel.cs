@@ -132,6 +132,11 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(InternalCameraFirstEnabled), value); }
         }
 
+        public bool DailyTraverseIncrementaionEnabled
+            {
+            get { return Preferences.Get(nameof(DailyTraverseIncrementaionEnabled), true); }
+            set { Preferences.Set(nameof(DailyTraverseIncrementaionEnabled), value); }
+        }
         /// <summary>
         /// Property saved in the about page
         /// </summary>
