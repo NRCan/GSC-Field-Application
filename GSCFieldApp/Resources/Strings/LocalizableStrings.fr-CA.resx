@@ -1596,4 +1596,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesFilterLocationHeader" xml:space="preserve">
     <value>Filtrer par localisation</value>
   </data>
+  <data name="MapPageRulerMode" xml:space="preserve">
+    <value>Utiliser une règle pour mesurer.</value>
+  </data>
 </root>

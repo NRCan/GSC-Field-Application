@@ -26,6 +26,7 @@ using Mapsui.UI.Maui;
 using Mapsui.UI.Maui.Extensions;
 using Mapsui.UI.Objects;
 using Mapsui.Widgets;
+using Mapsui.Widgets.InfoWidgets;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Networking;
 using Microsoft.Maui.Storage;
@@ -68,6 +69,7 @@ public partial class MapPage : ContentPage
     private bool _isCheckingGeolocation = false;
     private bool _isTapMode = false;
     private bool _isDrawingLine = false;
+    private bool _isRulerMode = false;
     private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
     private double _viewportWidthRatio = 1;
     private enum defaultLayerList { Linework, Traverses, Drills, Stations }
@@ -677,6 +679,11 @@ public partial class MapPage : ContentPage
         {
             ToggleDrawing();
         }
+
+        if (_isRulerMode)
+        {
+            ToggleRuler();
+        }
         
     }
 
@@ -763,6 +770,32 @@ public partial class MapPage : ContentPage
     private void DrawLine_Clicked(object sender, EventArgs e)
     {
         ToggleDrawing();
+
+        if (_isTapMode)
+        {
+            ToggleTapEntry();
+        }
+
+        if (_isRulerMode)
+        {
+            ToggleRuler();
+        }
+
+    }
+
+    /// <summary>
+    /// Will enable/disable tap entry, and will make sure to shut down line drawing if enabled
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void RulerMode_Clicked(object sender, EventArgs e)
+    {
+        ToggleRuler();
+
+        if (_isDrawingLine)
+        {
+            ToggleDrawing();
+        }
 
         if (_isTapMode)
         {
@@ -1050,12 +1083,11 @@ public partial class MapPage : ContentPage
         //Scalebar
         SetScaleBar();
 
-        //mapControl.Map.Widgets.Add(new Mapsui.Widgets.InfoWidgets.RulerWidget()
-        //{
-        //    HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
-        //    VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Center,
-        //    Color = Mapsui.Styles.Color.FromString("Black"),
-        //});
+        //Ruler
+        mapControl.Map.Widgets.Add(new Mapsui.Widgets.InfoWidgets.RulerWidget()
+        {
+            IsActive = _isRulerMode
+        });
 
         //Debug
         SetDevMapsui();
@@ -2855,6 +2887,36 @@ public partial class MapPage : ContentPage
         {
             //Keep as default
             this.TapMode.TextColor = Microsoft.Maui.Graphics.Colors.White;
+        }
+    }
+
+    /// <summary>
+    /// Will enable/disable the user to make a tap entry for a new station
+    /// </summary>
+    private void ToggleRuler()
+    {
+        //Revert current state of drawing lines
+        _isRulerMode = !_isRulerMode;
+
+        RulerWidget rulerWidget = mapView.Map.Widgets.OfType<RulerWidget>().First();
+        if (rulerWidget != null)
+        {
+            rulerWidget.IsActive = _isRulerMode;
+            mapView.Map.RefreshGraphics();
+        }
+        
+
+        //Change font color to indicate it's activated
+        if (_isRulerMode && App.Current.Resources.TryGetValue("Secondary", out var colorValue))
+        {
+            var activeColor = (Microsoft.Maui.Graphics.Color)colorValue;
+
+            this.RulerMode.TextColor = activeColor;
+        }
+        else
+        {
+            //Keep as default
+            this.RulerMode.TextColor = Microsoft.Maui.Graphics.Colors.White;
         }
     }
 

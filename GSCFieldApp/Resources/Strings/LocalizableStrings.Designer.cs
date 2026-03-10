@@ -2664,6 +2664,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to use a ruler to make a measurement.
+        /// </summary>
+        internal static string MapPageRulerMode {
+            get {
+                return ResourceManager.GetString("MapPageRulerMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Would you like to create a new station from this point?.
         /// </summary>
         internal static string MapPageTapCoordinateContent {
