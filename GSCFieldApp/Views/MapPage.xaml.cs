@@ -1284,7 +1284,7 @@ public partial class MapPage : ContentPage
                             mapView.Map.Layers.Add(mapMemoryLayer);
 
                             //Zoom to extent of stations
-                            SetExtent(mapMemoryLayer);
+                            //SetExtent(mapMemoryLayer);
 
                         }
                     }
