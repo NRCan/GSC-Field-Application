@@ -868,6 +868,7 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableLinework);
                 basicInsertQueriesTables.Remove(TableTraverseLine);
                 basicInsertQueriesTables.Remove(TableTraversePoint);
+                basicInsertQueriesTables.Remove(TableEnvironment); //Added for edit in version 1.6
 
                 //Add deprecated
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
@@ -921,8 +922,6 @@ namespace GSCFieldApp.ViewModel
             {
                 queryList.AddRange(GetUpgradeQueryVersion2_0(attachDBName));
                 basicInsertQueriesTables.Remove(TableMetadata);
-                basicInsertQueriesTables.Add(TableLinework);
-
             }
 
             #endregion
@@ -1897,7 +1896,7 @@ namespace GSCFieldApp.ViewModel
             #region F_METADATA
 
             Metadata modelMetadata = new Metadata();
-            List<string> metadataFieldList = modelMetadata.getFieldList[DBVersion];
+            List<string> metadataFieldList = modelMetadata.getFieldList[DBVersion190];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             string metaView = ViewPrefix + TableMetadata;

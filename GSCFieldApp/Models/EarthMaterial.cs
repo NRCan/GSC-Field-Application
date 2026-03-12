@@ -205,6 +205,7 @@ namespace GSCFieldApp.Models
                 }
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
+                earthmatFieldList[DatabaseLiterals.DBVersion190] = earthmatFieldList[DatabaseLiterals.DBVersion200];
 
                 //Revert shcema 1.9 changes
                 List<string> earthmatFieldList180 = new List<string>();

@@ -380,6 +380,7 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DBVersion] = structureFieldListDefault;
+                structureFieldList[DBVersion190] = structureFieldList[DBVersion200];
 
                 //Revert schema 1.9 changes. 
                 List<string> structureFieldList180 = new List<string>();

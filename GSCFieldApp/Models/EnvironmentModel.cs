@@ -97,6 +97,13 @@ namespace GSCFieldApp.Models
                 envFieldList160.Remove(FieldGenericRowID);
                 envFieldList[DBVersion160] = envFieldList160;
 
+                //Revert schema 1.6 changes
+                List<string> envFieldList150 = new List<string>();
+                envFieldList150.AddRange(envFieldList160);
+                envFieldList150.Add(FieldEnvMineralization);
+                envFieldList150.Add(FieldEnvMineralizationNote);
+                envFieldList150.Add(FieldEnvGossan);
+                envFieldList[DBVersion150] = envFieldList160;
 
                 return envFieldList;
             }
