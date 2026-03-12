@@ -340,6 +340,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 outputStringID = waypointLastNumber.ToString();
             }
 
+            await currentConnection.CloseAsync();
+
             string finaleWaypointString = KeywordStationWaypoint + currentGeolcode + outputStringID;  //prefix is waypoint
 
             return finaleWaypointString;
@@ -429,6 +431,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finaleEarthmatString = parentAlias + CalculateAlphabeticID(true, 1); ;
             }
 
+            await currentConnection.CloseAsync();
+
             return finaleEarthmatString;
         }
 
@@ -484,6 +488,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                     }
                 }
             }
+
+            await currentConnection.CloseAsync();
 
             return finaleSampleString;
         }
@@ -660,6 +666,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finaleStructureString = parentAlias + "0" + newID;
             }
 
+            await currentConnection.CloseAsync();
+
             return finaleStructureString;
         }
 
@@ -724,6 +732,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finalPflowString = parentAlias + "0" + newID;
             }
 
+            await currentConnection.CloseAsync();
+
             return finalPflowString;
         }
 
@@ -787,6 +797,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 finalFossilString = parentAlias + "0" + newID;
             }
+
+            await currentConnection.CloseAsync();
 
             return finalFossilString;
         }
@@ -861,6 +873,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finaleMineralString = finaleMineralString + "0" + newID;
             }
 
+            await currentConnection.CloseAsync();
+
             return finaleMineralString;
         }
 
@@ -929,6 +943,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finaleMAString = parentAlias + TableMineralAlterationPrefix + newAlias;
             }
 
+            await currentConnection.CloseAsync();
+
             return finaleMAString;
         }
 
@@ -995,6 +1011,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 finaleEnvironmentString = parentAlias + TableEnvironmentPrefix + newAlias;
             }
+
+            await currentConnection.CloseAsync();
 
             return finaleEnvironmentString;
         }

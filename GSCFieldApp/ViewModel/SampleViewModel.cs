@@ -178,7 +178,7 @@ namespace GSCFieldApp.ViewModel
                 //Get parent record
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 Station sRecord = await currentConnection.Table<Station>().Where(s => s.StationID == _earthmaterial.EarthMatStatID).FirstAsync();
-
+                await currentConnection.CloseAsync();
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, sRecord.StationAlias, sRecord.LocationID, true);
 
