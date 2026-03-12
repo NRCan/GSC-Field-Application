@@ -46,6 +46,7 @@ using System.Net.Http;
 using Brush = Mapsui.Styles.Brush;
 using Color = Mapsui.Styles.Color;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
+using Layer = Mapsui.Layers.Layer;
 using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
 using Point = NetTopologySuite.Geometries.Point;
 using Sensor = Microsoft.Maui.Devices.Sensors;
@@ -470,7 +471,7 @@ public partial class MapPage : ContentPage
 
             //Reload user datasets
             await LoadPreferedLayers();
-            await Task.Run(async () => await QuickRefreshDefaultFeatureLayer(false));
+            await Task.Run(async () => await RefreshDefaultFeatureLayer());
 
             _isInitialLoadingDone = true;
         }
@@ -1163,12 +1164,19 @@ public partial class MapPage : ContentPage
             {
                 foreach (MemoryLayer ml in mls)
                 {
-                    //Verify if doesn't exist and add
+                    //Make sure to remove all layers, memory layer tend to stick around and refreshing them 
+                    //won't do much.
+                    if (mapControl.Map.Layers.Where(m => m.Name == ml.Name).Count() > 0)
+                    {
+                        mapControl.Map.Layers.Remove(ml);
+                    }
+
+                    //Force a refresh
                     if (mapView.Map.Layers.Where(x => x.Name == ml.Name).Count() == 0)
                     {
                         mapView.Map.Layers.Add(ml);
                     }
-
+ 
                 }
 
                 //Zoom to initial extent of the station layer
@@ -1179,6 +1187,7 @@ public partial class MapPage : ContentPage
                 }
 
             }
+
         }
 
     }
@@ -1502,7 +1511,7 @@ public partial class MapPage : ContentPage
                 GeopackageService gpkgService = new GeopackageService();
                 bool hitError = false; //to break all loops in case of error
                 WKTReader wellKnownTextReader = new WKTReader();
-                Color defaultColor = GetColorFromString("Grey");
+                Color defaultColor = Color.Grey;
 
                 foreach (string features in featuresToAdd)
                 {
