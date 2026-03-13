@@ -26,6 +26,7 @@ using NTS = NetTopologySuite;
 using NetTopologySuite.Geometries;
 using ProjNet.CoordinateSystems;
 using System.Data;
+using NetTopologySuite.IO;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -618,6 +619,9 @@ namespace GSCFieldApp.ViewModel
                     //Upgrade geometries
                     bool upgradeGeometriesWorked = await UpgradeGeometries(legacyDBFrom, upgradeDBConnection, _dbVersion, _dbNextVersion, true);
 
+                    //Get back styling  table if there was any
+                    bool upgradeStylingWorked = await CopyStylingTable(legacyDBFrom, upgradeDBConnection, true);
+
                     //Manage errors
                     if (!upgradeVocabWorked || !upgradeTableWorked || !upgradeGeometriesWorked)
                     {
@@ -1088,6 +1092,51 @@ namespace GSCFieldApp.ViewModel
             }
 
             return upgradeGeometriesWorked;
+        }
+
+        public async Task<bool> CopyStylingTable(string fromDBPath, SQLiteAsyncConnection toDBConnection, bool closeConnection = true)
+        {
+            //output
+            bool copiedStyling = true;
+
+            try
+            {
+                //Build attach db query
+                string attachQuery = "ATTACH '" + fromDBPath + "' AS styleDB; ";
+                await toDBConnection.ExecuteAsync(attachQuery);
+
+                //Get geopackage layer styling table schema
+                GeopackageService geopackageService = new GeopackageService();
+                string stylingSchema = string.Empty;
+                string schemaQuery = string.Format("SELECT sql from sqlite_schema where name='{0}';", GeopackageService.GpkgTableStyle);
+
+                object?[][] layerStyleTable = GeopackageService.RunGenericQuery(fromDBPath, schemaQuery);
+
+                if (layerStyleTable != null && layerStyleTable.Count() > 1 && layerStyleTable[1][0].ToString() != string.Empty)
+                {
+                    stylingSchema = layerStyleTable[1][0].ToString();
+
+                    //Create new styling table
+                    await toDBConnection.ExecuteAsync(stylingSchema);
+
+                    //Insert
+                    string insertQuery = string.Format("INSERT INTO {0} SELECT * FROM styleDB.{0};", GeopackageService.GpkgTableStyle);
+                    await toDBConnection.ExecuteAsync(insertQuery);
+                }
+
+                //Close if needed
+                if (closeConnection)
+                {
+                    await toDBConnection.CloseAsync();
+                }
+            }
+            catch (Exception CopyStylingTableException)
+            {
+                new ErrorToLogFile(CopyStylingTableException).WriteToFile();
+            }
+
+
+            return copiedStyling;
         }
 
         /// <summary>
