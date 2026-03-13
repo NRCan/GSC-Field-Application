@@ -478,6 +478,7 @@ namespace GSCFieldApp.Dictionaries
         public const int KeywordEPSGDefault = 4326; //WGS 84
         public const int KeywordEPSGMapsuiDefault = 3857; // WGS84 Spherical mercator
         public const int KeywordEPSGAtlas = 3978; //Canadian LCC
+        public const int KeywordEPSGTraverses = 3978; // Canadian LCC
         public const string KeywordEPSG = "EPSG:";//For string building
         public const string KeywordColourGeneric = "COLOUR_GENERIC"; //Name of the generic colour picklist within M_DICTIONNARY_MANAGER
         public const string KeywordColourIntensity = "COLOUR_INTENSITY"; //Name of the intensity colour picklist within M_DICTIONNARY_MANAGER

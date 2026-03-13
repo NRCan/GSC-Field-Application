@@ -2410,7 +2410,7 @@ public partial class MapPage : ContentPage
                 await Parallel.ForEachAsync(fieldTravPoint, _parallelOptions, async (tp, token) =>
                 {
                     //Build geometry
-                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom));
+                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom, DatabaseLiterals.KeywordEPSGTraverses));
 
                     if (travPointString != null)
                     {
