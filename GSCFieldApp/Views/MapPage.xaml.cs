@@ -50,6 +50,8 @@ using Layer = Mapsui.Layers.Layer;
 using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
 using Point = NetTopologySuite.Geometries.Point;
 using Sensor = Microsoft.Maui.Devices.Sensors;
+using Mapsui.Nts.Providers;
+
 
 
 #if ANDROID
@@ -1552,8 +1554,19 @@ public partial class MapPage : ContentPage
                             features);
                         List<string> typeGeometries = await gpkgConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
 
-                        if (typeGeometries != null && typeGeometries.Count() > 0)
+                        //Get geometry SRID
+                        string getGeomSRIDQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';",
+                            GeopackageService.GpkgFieldSRID,
+                            GeopackageService.GpkgTableGeometry,
+                            GeopackageService.GpkgFieldTableName,
+                            features);
+                        List<string> geomSRID = await gpkgConnection.QueryScalarsAsync<string>(getGeomSRIDQuery);
+
+                        if (typeGeometries != null && typeGeometries.Count() > 0 && geomSRID != null && geomSRID.Count() > 0)
                         {
+                            int srid = DatabaseLiterals.KeywordEPSGAtlas;
+                            int.TryParse(geomSRID[0], out srid);
+
                             //Keep track of loading progress if coming from button and not preloading prefered layers
                             if (pageLayer == null)
                             {
@@ -1609,7 +1622,7 @@ public partial class MapPage : ContentPage
                                             if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryMultiPolygonFromByte(geomBytes));
+                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryMultiPolygonFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (multiPolygon != null)
@@ -1629,7 +1642,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNamePolygon.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                NetTopologySuite.Geometries.Polygon polygons = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
+                                                NetTopologySuite.Geometries.Polygon polygons = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (polygons != null)
@@ -1649,7 +1662,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
+                                                LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (lines != null)
@@ -1669,7 +1682,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNameMultiLineString.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiLineString lines = await Task.Run(async () => await gpkgService.GetGeometryMultiLineFromByte(geomBytes));
+                                                MultiLineString lines = await Task.Run(async () => await gpkgService.GetGeometryMultiLineFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (lines != null)
@@ -1690,7 +1703,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
+                                                Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (pnts != null)
@@ -1710,7 +1723,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNameMultiPoint.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiPoint pnts = await Task.Run(async () => await gpkgService.GetGeometryMultiPointFromByteAsync(geomBytes));
+                                                MultiPoint pnts = await Task.Run(async () => await gpkgService.GetGeometryMultiPointFromByteAsync(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (pnts != null)
