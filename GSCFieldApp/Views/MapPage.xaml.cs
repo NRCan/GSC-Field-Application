@@ -1238,7 +1238,7 @@ public partial class MapPage : ContentPage
                     }
 
                     //Check with record count if diff add last or remove missing
-                    if (databaseCount != mapLayerCount && databaseCount != 0)
+                    if (databaseCount != mapLayerCount)
                     {
                         //Get latest features
                         MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
