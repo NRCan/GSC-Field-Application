@@ -89,7 +89,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StructurePageMinSize}"/>
                                 <Entry Text="{Binding Model.MineralSizeMin, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
@@ -106,7 +106,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StructurePageMaxSize}"/>
                                 <Entry Text="{Binding Model.MineralSizeMax, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"

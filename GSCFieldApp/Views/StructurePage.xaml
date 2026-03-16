@@ -85,7 +85,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StructurePageAzimuth}" Style="{StaticResource FieldAppPickerLabel}"/>
                                 <Entry Text="{Binding Model.StructureAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
@@ -103,7 +103,7 @@
 
                                 <Label Text="{local:Localize StructurePageDipPlunge}" Style="{StaticResource FieldAppPickerLabel}"/>
                                 <Entry Text="{Binding Model.StructureDipPlunge,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"

@@ -115,7 +115,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize SamplePageAzimuth}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.SampleAzim, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
@@ -133,9 +133,9 @@
                                 
                                 <Label Text="{local:Localize SamplePageDipPlunge}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.SampleDiplunge,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
-                                        <toolkit:NumericValidationBehavior 
+                                        <toolkit:NumericValidationBehavior
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
                                             ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
@@ -208,7 +208,7 @@
 
                                 <Label Text="{local:Localize SamplePageDepthMin}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.SampleDepthMin, Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}"/>
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
                             </VerticalStackLayout>
 
@@ -216,7 +216,7 @@
 
                                 <Label Text="{local:Localize SamplePageDepthMax}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.SampleDepthMax,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}"/>
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
                             </VerticalStackLayout>
 
@@ -253,21 +253,25 @@
                             <VerticalStackLayout>
                                 <!--Quirk, this along next control should automatically calculate Core length "to" value-->
                                 <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}" Unfocused="Entry_Unfocused"/>
+                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  
+                                       Keyboard="Numeric"
+                                       ReturnCommand="{Binding SampleCoreCalculatToCommand}" Unfocused="Entry_Unfocused"/>
 
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <!--Quirk, this along previous control should automatically calculate Core length "to" value-->
                                 <Label Text="{local:Localize SamplePageCoreLength}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}" 
+                                       Keyboard="Numeric"
+                                       ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
 
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
 
                                 <Label Text="{local:Localize SamplePageCoreTo}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreTo, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"/>
+                                <Entry Text="{Binding Model.SampleCoreTo, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
                             </VerticalStackLayout>
 

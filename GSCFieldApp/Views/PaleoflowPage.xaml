@@ -85,7 +85,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize PaleoflowPageAzimuth}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.PFlowAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
@@ -103,7 +103,7 @@
 
                                 <Label Text="{local:Localize PaleoflowPageDipPlunge}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.PFlowDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"

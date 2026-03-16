@@ -74,7 +74,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DrillHolePageAzimuth}"/>
                                 <Entry Text="{Binding Model.DrillAzim, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
@@ -92,7 +92,7 @@
 
                                 <Label Text="{local:Localize DrillHolePageDip}"/>
                                 <Entry Text="{Binding Model.DrillDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"> 
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"

@@ -115,7 +115,9 @@
                                     <Label FontAttributes="Italic" Text="{Binding EarthResidualText, Mode=TwoWay}" Style="{StaticResource FieldAppEntryTitle}" TextColor="Grey"/>
                                 </HorizontalStackLayout>
                                     
-                                <Entry Text="{Binding Model.EarthMatPercent, Mode=TwoWay, Converter={StaticResource str2int}}"  Style="{StaticResource FieldAppNumBox}" TextChanged="Entry_TextChanged"/>
+                                <Entry Text="{Binding Model.EarthMatPercent, Mode=TwoWay, Converter={StaticResource str2int}}"  
+                                       Keyboard="Numeric"
+                                       Style="{StaticResource FieldAppNumBox}" TextChanged="Entry_TextChanged"/>
                                     
 
                             </VerticalStackLayout>
@@ -281,7 +283,9 @@
                             <VerticalStackLayout x:Name="EarthColourIndex" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
                                 <Label Text="{local:Localize EarthmatColourIndex}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatColourInd, Mode=TwoWay, Converter={StaticResource str2int}}"  Style="{StaticResource FieldAppNumBox}"/>
+                                <Entry Text="{Binding Model.EarthMatColourInd, Mode=TwoWay, Converter={StaticResource str2int}}" 
+                                       Keyboard="Numeric"
+                                       Style="{StaticResource FieldAppNumBox}"/>
 
                             </VerticalStackLayout>
 
@@ -404,7 +408,7 @@
                             <VerticalStackLayout x:Name="EarthMagSusc">
 
                                 <Label Text="{local:Localize EarthmatPageMagSusc}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatMagSuscept, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+                                <Entry Text="{Binding Model.EarthMatMagSuscept, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
                             </VerticalStackLayout>
 
@@ -460,13 +464,13 @@
                             <VerticalStackLayout x:Name="EarthMagDepthMin">
 
                                 <Label Text="{local:Localize EarthmatPageDepthMin}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatDepthMin, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+                                <Entry Text="{Binding Model.EarthMatDepthMin, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
                             </VerticalStackLayout>
                             <VerticalStackLayout x:Name="EarthMagDepthMax">
 
                                 <Label Text="{local:Localize EarthmatPageDepthMax}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatDepthMax, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+                                <Entry Text="{Binding Model.EarthMatDepthMax, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
                             </VerticalStackLayout>
 
