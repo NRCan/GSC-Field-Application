@@ -918,7 +918,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                         try
                         {
-                            currentStyling.lineVectorStyle.Line.Width = double.Parse(linesStrokes.Value);
+                            double lineWidth = 0.0;
+                            double.TryParse(linesStrokes.Value, out lineWidth);
+                            currentStyling.lineVectorStyle.Line.Width = lineWidth;
                         }
                         catch (Exception e)
                         {
@@ -970,7 +972,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                             try
                             {
-                                currentStyling.polyVectorStyle.Outline.Width = double.Parse(linesStrokes.Value);
+                                double lineWidth = 0.0;
+                                double.TryParse(linesStrokes.Value, out lineWidth);
+                                currentStyling.polyVectorStyle.Outline.Width = lineWidth;
                             }
                             catch (Exception e)
                             {
@@ -1059,7 +1063,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                             try
                             {
-                                currentStyling.pointVectorStyle.Outline.Width = double.Parse(linesStrokes.Value);
+                                double lineWidth = 0.0;
+                                double.TryParse(linesStrokes.Value, out lineWidth);
+                                currentStyling.pointVectorStyle.Outline.Width = lineWidth;
                             }
                             catch (Exception e)
                             {
