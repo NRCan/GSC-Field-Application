@@ -230,8 +230,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                 string lastNumber = string.Empty;
                 foreach (char c in lastNumbers)
                 {
-                    //Rebuild number
-                    lastNumber = lastNumber + c;
+
+                    if (char.IsNumber(c))
+                    {
+                        //Rebuild number
+                        lastNumber = lastNumber + c;
+                    }
+
                 }
                 int lastCharacterNumber = Convert.ToInt32(lastNumber);
 
@@ -1151,8 +1156,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                 string lastNumber = string.Empty;
                 foreach (char c in lastNumbers)
                 {
-                    //Rebuild number
-                    lastNumber = lastNumber + c;
+
+                    if (char.IsNumber(c))
+                    {
+                        //Rebuild number
+                        lastNumber = lastNumber + c;
+                    }
+
                 }
 
                 lastCharacterNumber = Convert.ToInt32(lastNumber);
