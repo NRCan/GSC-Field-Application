@@ -563,6 +563,10 @@
     <Style TargetType="Entry" x:Key="FieldAppNumBoxInvalid">
         <Setter Property="TextColor" Value="Red" />
     </Style>
+
+    <Style TargetType="Entry" x:Key="FieldAppNumBoxValid">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+    </Style>
     
     <!--Mandatory controls-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">

@@ -93,6 +93,7 @@
                                             <!--Source: https://en.wikipedia.org/wiki/Decimal_degrees-->
                                             <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="-180"
                                             MaximumValue="180"
