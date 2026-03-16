@@ -347,7 +347,7 @@ namespace GSCFieldApp.ViewModel
             Model.SampleCoreTo = Model.SampleCoreFrom + Model.SampleCoreLength / 100;
 
             //Modify sample name if needed
-            if (CustomSampleNameEnabled)
+            if (CustomSampleNameEnabled && _earthmaterial != null)
             {
                 Model.SampleName = await idCalculator.CalculateSampleAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, Model.SampleCoreFrom.ToString());
             }
