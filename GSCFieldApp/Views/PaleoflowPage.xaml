@@ -89,6 +89,7 @@
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="360"
@@ -106,6 +107,7 @@
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="90"

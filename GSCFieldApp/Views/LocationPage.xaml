@@ -74,6 +74,7 @@
                                             <!--Source: https://en.wikipedia.org/wiki/Decimal_degrees-->
                                             <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="-90"
                                             MaximumValue="90"
@@ -125,6 +126,7 @@
                                         <!--Source: https://www.maptools.com/tutorials/utm/details-->
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="160000"
                                             MaximumValue="834000"
@@ -143,6 +145,7 @@
                                         <!--Source: https://www.maptools.com/tutorials/utm/details-->
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="10000000"
@@ -172,6 +175,7 @@
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="10000"
@@ -188,6 +192,7 @@
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="10000"
