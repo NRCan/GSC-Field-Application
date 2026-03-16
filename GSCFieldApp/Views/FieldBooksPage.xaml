@@ -190,7 +190,7 @@
             </StackLayout>
 
             <!--Waiting indication-->
-            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" 
+            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" Color="White"
                                Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="0"/>
 
         </Grid>
