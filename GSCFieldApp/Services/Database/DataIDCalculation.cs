@@ -88,7 +88,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         //Remove every possible suffix/prefix from the alias
                         string lastCharacters = locs[0].LocationAliasLight.Replace(TableLocationAliasSuffix, "").Replace(KeywordStationDrillHoleLight, "").Replace(KeywordStationWaypointLight, "");
-                        lastCharacterNumber = Convert.ToInt32(lastCharacters);
+                        if (lastCharacters != null)
+                        {
+                            lastCharacterNumber = Convert.ToInt32(lastCharacters);
+                        }
+                        
                     }
 
                     //Increment
