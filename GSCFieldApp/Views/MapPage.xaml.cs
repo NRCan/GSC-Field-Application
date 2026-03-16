@@ -969,12 +969,14 @@ public partial class MapPage : ContentPage
                     List<string> geopackageFeatureNames = new List<string>();
                     bool isGeopackage = true;
 
-                    this.WaitingCursor.IsRunning = true;
+                    
 
                     foreach (MapPageLayerSelection mpls in _vm.FeatureCollection)
                     {
                         if (mpls.Selected)
                         {
+                            this.WaitingCursor.IsRunning = true;
+
                             geopackageFeatureNames.Add(mpls.Name);
                             gpkgPath = mpls.Path;
 
@@ -1003,7 +1005,7 @@ public partial class MapPage : ContentPage
                         await AddGPKG(geopackageFeatureNames, gpkgPath, null, true);
                     }
 
-                    this.WaitingCursor.IsRunning = false;
+                    
                 }
             }
         }
@@ -1941,6 +1943,7 @@ public partial class MapPage : ContentPage
     /// <param name="withCache"></param>
     public async Task<bool> AddAWMSAsync(string wmsURL, string layerName, string layerID, bool withCache = true, MapPageLayer pageLayer = null)
     {
+
         bool hasError = false;
 
         if (wmsURL != null && wmsURL != string.Empty)
@@ -1984,7 +1987,7 @@ public partial class MapPage : ContentPage
                 SqlitePersistentCache wmsCache = null;
                 if (withCache)
                 {
-                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'));
+                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
                 }
 
                 HttpTileSource httpTileSource = new HttpTileSource(
