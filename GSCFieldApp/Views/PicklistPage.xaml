@@ -119,6 +119,7 @@
                                     <Picker.Behaviors>
                                         <toolkit:EventToCommandBehavior 
                                             EventName="SelectedIndexChanged"
+                                            BindingContext="{Binding Path=BindingContext, Source={x:Reference PicklistPageTablesPicker}, x:DataType=Picker}"
                                             Command="{Binding PicklistPageTablesPickerChangedCommand}"/>
                                     </Picker.Behaviors>
                                 </Picker>
@@ -136,6 +137,7 @@
                                     <Picker.Behaviors>
                                         <toolkit:EventToCommandBehavior 
                                             EventName="SelectedIndexChanged"
+                                            BindingContext="{Binding Path=BindingContext, Source={x:Reference PicklistPageFieldsPicker}, x:DataType=Picker}"
                                             Command="{Binding PicklistPageFieldsPickerChangedCommand}"/>
                                     </Picker.Behaviors>
                                 </Picker>
@@ -157,6 +159,7 @@
                                     <Picker.Behaviors>
                                         <toolkit:EventToCommandBehavior 
                                             EventName="SelectedIndexChanged"
+                                            BindingContext="{Binding Path=BindingContext, Source={x:Reference PicklistPageParentValuePicker}, x:DataType=Picker}"
                                             Command="{Binding PicklistPageParentPickerChangedCommand}"/>
                                     </Picker.Behaviors>
 
