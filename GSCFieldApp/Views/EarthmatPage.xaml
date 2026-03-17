@@ -32,10 +32,21 @@
 
 
                     <!--Lithologies-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMLithoVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageLithoTitle}">
-                        <VerticalStackLayout>
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="LithoFrame"
+                            StyleId="LithoFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageLithoTitle}">
+
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+                            <VerticalStackLayout>
                             
                             <VerticalStackLayout>
 
@@ -168,13 +179,25 @@
                             
 
                     </controls:ExpandableFrame>
+                        </AbsoluteLayout>
 
                     <!--Lithologie modifiers-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EarthLithModifierVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageLithoModTitle}">
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="LithoModFrame"
+                            StyleId="LithoModFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageLithoModTitle}">
 
-                        <VerticalStackLayout>
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize EarthmatPageLithTextStruc}" Style="{StaticResource FieldAppPickerLabel}" />
@@ -228,13 +251,25 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
+                        </AbsoluteLayout>
                     
                     <!--Colours-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMColourVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageColourTitle}">
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="ColourFrame"
+                            StyleId="ColourFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageColourTitle}">
 
-                        <VerticalStackLayout >
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
 
                             <Label Text="{local:Localize EarthmatPageColourGeneric}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourGenericPicker"
@@ -292,13 +327,25 @@
                         </VerticalStackLayout>
                         
                     </controls:ExpandableFrame>
+                        </AbsoluteLayout>
 
                     <!--Metamorphic facies-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMMetaFaciesVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageMetaFaciesTitle}">
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="MetaFaciesFrame"
+                            StyleId="MetaFaciesFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageMetaFaciesTitle}">
 
-                        <VerticalStackLayout >
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
 
                             <Label Text="{local:Localize EarthmatPageMetaFacies}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesPicker"
@@ -323,13 +370,25 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
+                        </AbsoluteLayout>
                
                     <!--Contact-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMContactVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageContactTitle}">
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="ContactFrame"
+                            StyleId="ContactFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageContactTitle}">
 
-                        <VerticalStackLayout >
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
 
                             <Label Text="{local:Localize EarthmatPageContactUpper}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactUpperPicker"
@@ -362,13 +421,25 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
+                        </AbsoluteLayout>
                 
                     <!--Contact relation to other EM -->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMContactRelVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageContactRelTitle}">
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="ContactRelFrame"
+                            StyleId="ContactRelFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageContactRelTitle}">
 
-                        <VerticalStackLayout >
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
 
                             <Label Text="{local:Localize EarthmatPageContactType}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactTypePicker"
@@ -397,12 +468,23 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
+                        </AbsoluteLayout>
                              
                     <!--Magnetism-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMMagVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageMagTitle}">
+                    <AbsoluteLayout>
+                    <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="MagnetismFrame"
+                            StyleId="MagnetismFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageMagTitle}">
 
+                        <controls:ExpandableFrame.GestureRecognizers>
+                            <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                        </controls:ExpandableFrame.GestureRecognizers>
                         <VerticalStackLayout >
 
                             <VerticalStackLayout x:Name="EarthMagSusc">
@@ -424,13 +506,26 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
-                
-                    <!--Interpretation-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageInterpretationTitle}">
+                        </AbsoluteLayout>
+                            
+                            <!--Interpretation-->
+                    <AbsoluteLayout>
 
-                        <VerticalStackLayout >
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="InterpFrame"
+                            StyleId="InterpFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageInterpretationTitle}">
+
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
 
                             <Label Text="{local:Localize EarthmatPageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ConfidencePicker"
@@ -453,13 +548,25 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
+                    </AbsoluteLayout>
 
                     <!--Depth-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageDepthTitle}">
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="DepthFrame"
+                            StyleId="DepthFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageDepthTitle}">
 
-                        <VerticalStackLayout >
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
 
                             <VerticalStackLayout x:Name="EarthMagDepthMin">
 
@@ -477,13 +584,26 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
-
+                    </AbsoluteLayout>
+                   
 
                     <!--General-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMGeneralVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageGeneralTitle}">
-                        <VerticalStackLayout >
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+                            ControlTemplate="{StaticResource ExpandableFrameControl}"
+                            x:Name="GeneralFrame"
+                            StyleId="GeneralFrame"
+                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="None"
+                            FrameColor="{StaticResource FieldEarthMaterialColor}"
+                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                            FrameTitle="{local:Localize EarthmatPageGeneralTitle}">
+
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+                            
+                            <VerticalStackLayout >
 
                             <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
                             <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
@@ -492,7 +612,7 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
-               
+                    </AbsoluteLayout>
 
                 </FlexLayout>
 

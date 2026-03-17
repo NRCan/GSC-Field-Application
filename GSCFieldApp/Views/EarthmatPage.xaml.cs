@@ -12,8 +12,36 @@ public partial class EarthmatPage : ContentPage
 	{
 		InitializeComponent();
         BindingContext = vm;
+
+        RestoreFramePosition(InterpFrame);
+        RestoreFramePosition(DepthFrame);
+        RestoreFramePosition(GeneralFrame);
+        RestoreFramePosition(MagnetismFrame);
+        RestoreFramePosition(ContactRelFrame);
+        RestoreFramePosition(ContactFrame);
+        RestoreFramePosition(MetaFaciesFrame);
+        RestoreFramePosition(ColourFrame);
+        RestoreFramePosition(LithoModFrame);
+        RestoreFramePosition(LithoFrame);
+
+        //double savedX = Preferences.Get("InterpFrameX", 0.0);
+        //double savedY = Preferences.Get("InterpFrameY", 0.0);
+
+        //InterpFrame.TranslationX = savedX;
+        //InterpFrame.TranslationY = savedY;
     }
 
+    void RestoreFramePosition(View frame)
+    {
+        string keyX = $"{frame.StyleId}X";
+        string keyY = $"{frame.StyleId}Y";
+
+        double savedX = Preferences.Get(keyX, 0.0);
+        double savedY = Preferences.Get(keyY, 0.0);
+
+        frame.TranslationX = savedX;
+        frame.TranslationY = savedY;
+    }
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         try
@@ -116,5 +144,32 @@ public partial class EarthmatPage : ContentPage
         }
 
     }
+    double xOffset = 0;
+    double yOffset = 0;
 
+    void OnInterpFramePanUpdated(object sender, PanUpdatedEventArgs e)
+    {
+        var frame = (View)sender; // This is the specific ExpandableFrame
+
+        string keyX = $"{frame.StyleId}X";
+        string keyY = $"{frame.StyleId}Y";
+
+        switch (e.StatusType)
+        {
+            case GestureStatus.Started:
+                xOffset = frame.TranslationX;
+                yOffset = frame.TranslationY;
+                break;
+
+            case GestureStatus.Running:
+                frame.TranslationX = xOffset + e.TotalX;
+                frame.TranslationY = yOffset + e.TotalY;
+                break;
+
+            case GestureStatus.Completed:
+                Preferences.Set(keyX, frame.TranslationX);
+                Preferences.Set(keyY, frame.TranslationY);
+                break;
+        }
+    }
 }
