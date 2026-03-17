@@ -28,8 +28,10 @@
             
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
-                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
-
+                <!--
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}"> 
+                -->
+                <VerticalStackLayout Style="{StaticResource FieldAppFormFlexLayout}">
 
                     <!--Lithologies-->
                     <AbsoluteLayout>
@@ -46,61 +48,62 @@
                             <controls:ExpandableFrame.GestureRecognizers>
                                 <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
                             </controls:ExpandableFrame.GestureRecognizers>
-                            <VerticalStackLayout>
-                            
+
                             <VerticalStackLayout>
 
-                                <!--Surficial lith group-->
-                                <!--Can't use converter here, else it interacts badly with bedrock form on init.-->
-                                <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" 
+                                <VerticalStackLayout>
+
+                                    <!--Surficial lith group-->
+                                    <!--Can't use converter here, else it interacts badly with bedrock form on init.-->
+                                    <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" 
                                        IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
-                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EMLithDetailSurficialPicker"
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="EMLithDetailSurficialPicker"
                                 ItemsSource="{Binding EarthLithDetail.cboxItems}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedIndex="{Binding EarthLithDetail.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                    <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
-                                    <!-- Group type picker (approx. 65 items in bedrock) -->
-                                    <Label Text="{local:Localize EarthmatPageLithoTypeTitle}" Style="{StaticResource FieldAppEntryTitleMandatory}" Margin="0,10"/>
-                                    <Label Text="{local:Localize EarthmatPageLithoType}" Style="{StaticResource FieldAppPickerLabel}" />
-                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                        <!-- Group type picker (approx. 65 items in bedrock) -->
+                                        <Label Text="{local:Localize EarthmatPageLithoTypeTitle}" Style="{StaticResource FieldAppEntryTitleMandatory}" Margin="0,10"/>
+                                        <Label Text="{local:Localize EarthmatPageLithoType}" Style="{StaticResource FieldAppPickerLabel}" />
+                                        <Picker Title="{local:Localize GenericPickerTitle}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                         ItemsSource="{Binding EarthLithoGroup.cboxItems}" SelectedIndexChanged="LithoGroupPicker_SelectedIndexChanged"
                                         ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithoGroup}"
                                         SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                    <!-- Detail search bar (approx >450 items in bedrock only) -->
-                                    <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" Margin="0,10"/>
-                                    <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
+                                        <!-- Detail search bar (approx >450 items in bedrock only) -->
+                                        <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" Margin="0,10"/>
+                                        <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
                                         x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }" TextChanged="lithoSearchBar_TextChanged"
                                         SearchCommand="{Binding PerformDetailSearchCommand}" 
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
-                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"
+                                        <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"
                                         x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
                                         ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True">
-                                    </ListView>
+                                        </ListView>
+
+                                    </VerticalStackLayout>
+
 
                                 </VerticalStackLayout>
 
+                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-
-                                <Label Text="{local:Localize EarthmatPageLithQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
-                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="QualifierPicker"
+                                    <Label Text="{local:Localize EarthmatPageLithQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="QualifierPicker"
                                 ItemsSource="{Binding EarthLithQualifier.cboxItems}"
                                 ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
                                 SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <!--Custom control to concatenate multiple values into one field-->
-                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
                                                                 ConcatSource="{Binding EarthLithQualifierCollection}" />
-                                    
-                            </VerticalStackLayout>
 
-                            <Label Text="{local:Localize EarthmatPageLithOccurAs}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"/>
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="OccurAsPicker"
+                                </VerticalStackLayout>
+
+                                <Label Text="{local:Localize EarthmatPageLithOccurAs}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"/>
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="OccurAsPicker"
                                 ItemsSource="{Binding EarthLithOccurAs.cboxItems}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedItem="{Binding Model.EarthMatOccurs, 
@@ -109,8 +112,8 @@
                                     Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageLithMapUnit}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MapUnitPicker"
+                                <Label Text="{local:Localize EarthmatPageLithMapUnit}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MapUnitPicker"
                                 ItemsSource="{Binding EarthLithMapUnit.cboxItems}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedItem="{Binding Model.EarthMatMapunit, 
@@ -119,24 +122,24 @@
                                     Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithMapUnit.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout x:Name="EarthPercentPanel" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                <VerticalStackLayout x:Name="EarthPercentPanel" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
-                                <HorizontalStackLayout>
-                                    <Label Text="{local:Localize EarthmatPageLithPercent}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                    <Label FontAttributes="Italic" Text="{Binding EarthResidualText, Mode=TwoWay}" Style="{StaticResource FieldAppEntryTitle}" TextColor="Grey"/>
-                                </HorizontalStackLayout>
-                                    
-                                <Entry Text="{Binding Model.EarthMatPercent, Mode=TwoWay, Converter={StaticResource str2int}}"  
+                                    <HorizontalStackLayout>
+                                        <Label Text="{local:Localize EarthmatPageLithPercent}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                        <Label FontAttributes="Italic" Text="{Binding EarthResidualText, Mode=TwoWay}" Style="{StaticResource FieldAppEntryTitle}" TextColor="Grey"/>
+                                    </HorizontalStackLayout>
+
+                                    <Entry Text="{Binding Model.EarthMatPercent, Mode=TwoWay, Converter={StaticResource str2int}}"  
                                        Keyboard="Numeric"
                                        Style="{StaticResource FieldAppNumBox}" TextChanged="Entry_TextChanged"/>
-                                    
 
-                            </VerticalStackLayout>
 
-                            <!--Surficial controls-->
+                                </VerticalStackLayout>
 
-                            <Label Text="{local:Localize EarthmatPageSorting}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="SortingPicker"
+                                <!--Surficial controls-->
+
+                                <Label Text="{local:Localize EarthmatPageSorting}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="SortingPicker"
                                 ItemsSource="{Binding EarthLithSorting.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatSorting, 
                                     Converter={StaticResource cbox2Str},
@@ -145,8 +148,8 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithSorting.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageWater}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="H2oPicker"
+                                <Label Text="{local:Localize EarthmatPageWater}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="H2oPicker"
                                 ItemsSource="{Binding EarthLithWater.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatH2O, 
                                     Converter={StaticResource cbox2Str},
@@ -155,8 +158,8 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithWater.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageOxidation}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="OxidationPicker"
+                                <Label Text="{local:Localize EarthmatPageOxidation}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="OxidationPicker"
                                 ItemsSource="{Binding EarthLithOxidation.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatOxidation, 
                                     Converter={StaticResource cbox2Str},
@@ -165,8 +168,8 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithOxidation.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageClast}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ClastPicker"
+                                <Label Text="{local:Localize EarthmatPageClast}" Style="{StaticResource FieldAppPickerLabel}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"/>
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ClastPicker"
                                 ItemsSource="{Binding EarthLithClast.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatClastForm, 
                                     Converter={StaticResource cbox2Str},
@@ -175,11 +178,11 @@
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithClast.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                        </VerticalStackLayout>
-                            
+                            </VerticalStackLayout>
 
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
+
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
 
                     <!--Lithologie modifiers-->
                     <AbsoluteLayout>
@@ -199,60 +202,60 @@
 
                             <VerticalStackLayout>
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize EarthmatPageLithTextStruc}" Style="{StaticResource FieldAppPickerLabel}" />
-                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="TextStructurePicker"
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize EarthmatPageLithTextStruc}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="TextStructurePicker"
                                     ItemsSource="{Binding EarthLithTextureStruct.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithTextureStructure}"
                                     SelectedIndex="{Binding EarthLithTextureStruct.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <!--Custom control to concatenate multiple values into one field-->
-                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithTextStrucCollection,Mode=TwoWay }" />
 
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-                                <Label Text="{local:Localize EarthmatPageLithGrainSize}" Style="{StaticResource FieldAppPickerLabel}" />
-                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="GrainSizePicker"
+                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                    <Label Text="{local:Localize EarthmatPageLithGrainSize}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="GrainSizePicker"
                                     ItemsSource="{Binding EarthLithGrainSize.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithGrainSize}"
                                     SelectedIndex="{Binding EarthLithGrainSize.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <!--Custom control to concatenate multiple values into one field-->
-                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithGrainSizeCollection, Mode=TwoWay}" />
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-                                <Label Text="{local:Localize EarthmatPageLithBedThick}" Style="{StaticResource FieldAppPickerLabel}" />
-                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="BeddingThicknessPicker"
+                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                    <Label Text="{local:Localize EarthmatPageLithBedThick}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="BeddingThicknessPicker"
                                     ItemsSource="{Binding EarthLithBedThick.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithBedThick}"
                                     SelectedIndex="{Binding EarthLithBedThick.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <!--Custom control to concatenate multiple values into one field-->
-                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithBedThickCollection}" />
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
-                                <Label Text="{local:Localize EarthmatPageLithDefFab}" Style="{StaticResource FieldAppPickerLabel}" />
-                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DeformationFabricPicker"
+                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                    <Label Text="{local:Localize EarthmatPageLithDefFab}" Style="{StaticResource FieldAppPickerLabel}" />
+                                    <Picker Title="{local:Localize GenericPickerTitle}" x:Name="DeformationFabricPicker"
                                     ItemsSource="{Binding EarthLithDefFab.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithDefFab}"
                                     SelectedIndex="{Binding EarthLithDefFab.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <!--Custom control to concatenate multiple values into one field-->
-                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithDefFabCollection}" />
+                                </VerticalStackLayout>
+
                             </VerticalStackLayout>
 
-                        </VerticalStackLayout>
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
 
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
-                    
                     <!--Colours-->
                     <AbsoluteLayout>
                         <controls:ExpandableFrame
@@ -271,63 +274,63 @@
 
                             <VerticalStackLayout >
 
-                            <Label Text="{local:Localize EarthmatPageColourGeneric}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourGenericPicker"
+                                <Label Text="{local:Localize EarthmatPageColourGeneric}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourGenericPicker"
                                     ItemsSource="{Binding EarthLithColourGeneric.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithColourGeneric.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageColourIntensity}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourIntensityPicker"
+                                <Label Text="{local:Localize EarthmatPageColourIntensity}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourIntensityPicker"
                                     ItemsSource="{Binding EarthLithColourIntensity.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithColourIntensity.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageColourQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourQualifierPicker"
+                                <Label Text="{local:Localize EarthmatPageColourQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ColourQualifierPicker"
                                     ItemsSource="{Binding EarthLithColourQualifier.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithColourQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout x:Name="EarthFreshColour">
+                                <VerticalStackLayout x:Name="EarthFreshColour">
 
-                                <Label Text="{local:Localize EarthmatPageColourFresh}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Label Text="{local:Localize EarthmatPageColourFresh}" Style="{StaticResource FieldAppEntryTitle}"/>
 
-                                <HorizontalStackLayout>
-                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetFreshColourCommand}" />
-                                    <Entry  FontSize="Caption" Text="{Binding Model.EarthMatColourF, Mode=TwoWay}" 
+                                    <HorizontalStackLayout>
+                                        <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetFreshColourCommand}" />
+                                        <Entry  FontSize="Caption" Text="{Binding Model.EarthMatColourF, Mode=TwoWay}" 
                                             MaximumWidthRequest="197" WidthRequest="197"
                                             Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
-                                </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout x:Name="EarthWeatheredColour">
+                                <VerticalStackLayout x:Name="EarthWeatheredColour">
 
-                                <Label Text="{local:Localize EarthmatPageColourWeathered}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Label Text="{local:Localize EarthmatPageColourWeathered}" Style="{StaticResource FieldAppEntryTitle}"/>
 
-                                <HorizontalStackLayout>
-                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetWeatheredColourCommand}"/>
-                                    <Entry FontSize="Caption" Text="{Binding Model.EarthMatColourW, Mode=TwoWay}" 
+                                    <HorizontalStackLayout>
+                                        <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetWeatheredColourCommand}"/>
+                                        <Entry FontSize="Caption" Text="{Binding Model.EarthMatColourW, Mode=TwoWay}" 
                                            MaximumWidthRequest="197" WidthRequest="197"
                                            Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
-                                </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout x:Name="EarthColourIndex" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                <VerticalStackLayout x:Name="EarthColourIndex" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
-                                <Label Text="{local:Localize EarthmatColourIndex}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatColourInd, Mode=TwoWay, Converter={StaticResource str2int}}" 
+                                    <Label Text="{local:Localize EarthmatColourIndex}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.EarthMatColourInd, Mode=TwoWay, Converter={StaticResource str2int}}" 
                                        Keyboard="Numeric"
                                        Style="{StaticResource FieldAppNumBox}"/>
 
+                                </VerticalStackLayout>
+
                             </VerticalStackLayout>
 
-                        </VerticalStackLayout>
-                        
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
 
                     <!--Metamorphic facies-->
                     <AbsoluteLayout>
@@ -347,8 +350,8 @@
 
                             <VerticalStackLayout >
 
-                            <Label Text="{local:Localize EarthmatPageMetaFacies}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesPicker"
+                                <Label Text="{local:Localize EarthmatPageMetaFacies}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesPicker"
                                     ItemsSource="{Binding EarthLithMetaFacies.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.EarthMatMetaIFacies, 
@@ -357,8 +360,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding EarthLithMetaFacies.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageMetaInt}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesIntensityPicker"
+                                <Label Text="{local:Localize EarthmatPageMetaInt}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MetaFaciesIntensityPicker"
                                     ItemsSource="{Binding EarthLithMetaInt.cboxItems}"
                                     SelectedItem="{Binding Model.EarthMatMetaIntensity, 
                                         Converter={StaticResource cbox2Str},
@@ -367,11 +370,11 @@
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithMetaInt.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                        </VerticalStackLayout>
+                            </VerticalStackLayout>
 
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
-               
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
+
                     <!--Contact-->
                     <AbsoluteLayout>
                         <controls:ExpandableFrame
@@ -390,8 +393,8 @@
 
                             <VerticalStackLayout >
 
-                            <Label Text="{local:Localize EarthmatPageContactUpper}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactUpperPicker"
+                                <Label Text="{local:Localize EarthmatPageContactUpper}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactUpperPicker"
                                     ItemsSource="{Binding EarthLithContactUpper.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.EarthMatContactUp, 
@@ -400,8 +403,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding EarthLithContactUpper.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageContactLower}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactLowerPicker"
+                                <Label Text="{local:Localize EarthmatPageContactLower}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactLowerPicker"
                                     ItemsSource="{Binding EarthLithContactLower.cboxItems}"
                                     SelectedItem="{Binding Model.EarthMatContactLow, 
                                         Converter={StaticResource cbox2Str},
@@ -410,19 +413,19 @@
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithContactLower.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout x:Name="EarthContactNotes">
+                                <VerticalStackLayout x:Name="EarthContactNotes">
 
-                                <Label Text="{local:Localize EarthmatContactNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.EarthMatContactNote, Mode=TwoWay}"
+                                    <Label Text="{local:Localize EarthmatContactNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Editor Text="{Binding Model.EarthMatContactNote, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
 
 
+                                </VerticalStackLayout>
                             </VerticalStackLayout>
-                        </VerticalStackLayout>
 
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
-                
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
+
                     <!--Contact relation to other EM -->
                     <AbsoluteLayout>
                         <controls:ExpandableFrame
@@ -441,38 +444,38 @@
 
                             <VerticalStackLayout >
 
-                            <Label Text="{local:Localize EarthmatPageContactType}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactTypePicker"
+                                <Label Text="{local:Localize EarthmatPageContactType}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactTypePicker"
                                     ItemsSource="{Binding EarthLithContactType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithContactType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Label Text="{local:Localize EarthmatPageContactRelatedAlias}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactRelatedAliasPicker"
+                                <Label Text="{local:Localize EarthmatPageContactRelatedAlias}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ContactRelatedAliasPicker"
                                     ItemsSource="{Binding EarthLithContactRelatedAlias.cboxItems, Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithContactRelatedAlias.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout x:Name="EarthRelationDescription">
+                                <VerticalStackLayout x:Name="EarthRelationDescription">
 
-                                <HorizontalStackLayout >
-                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
+                                    <HorizontalStackLayout >
+                                        <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
 
-                                    <!--Custom control to concatenate multiple values into one field-->
-                                    <controls:ConcatenatedCollection MinimumWidthRequest="225" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                        <!--Custom control to concatenate multiple values into one field-->
+                                        <controls:ConcatenatedCollection MinimumWidthRequest="225" ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithContactRelationCollection}" />
 
-                                </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
 
+                                </VerticalStackLayout>
                             </VerticalStackLayout>
-                        </VerticalStackLayout>
 
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
-                             
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
+
                     <!--Magnetism-->
                     <AbsoluteLayout>
-                    <controls:ExpandableFrame
+                        <controls:ExpandableFrame
                             ControlTemplate="{StaticResource ExpandableFrameControl}"
                             x:Name="MagnetismFrame"
                             StyleId="MagnetismFrame"
@@ -482,20 +485,20 @@
                             FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
                             FrameTitle="{local:Localize EarthmatPageMagTitle}">
 
-                        <controls:ExpandableFrame.GestureRecognizers>
-                            <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
-                        </controls:ExpandableFrame.GestureRecognizers>
-                        <VerticalStackLayout >
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+                            <VerticalStackLayout >
 
-                            <VerticalStackLayout x:Name="EarthMagSusc">
+                                <VerticalStackLayout x:Name="EarthMagSusc">
 
-                                <Label Text="{local:Localize EarthmatPageMagSusc}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatMagSuscept, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
+                                    <Label Text="{local:Localize EarthmatPageMagSusc}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.EarthMatMagSuscept, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
 
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <Label Text="{local:Localize EarthmatPageMagQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MagneticQualifierPicker"
+                                <Label Text="{local:Localize EarthmatPageMagQualifier}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="MagneticQualifierPicker"
                                 ItemsSource="{Binding EarthLithMagQualifier.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatMagQualifier, 
                                         Converter={StaticResource cbox2Str},
@@ -503,12 +506,12 @@
                                         Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedIndex="{Binding EarthLithMagQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
-                        </VerticalStackLayout>
+                            </VerticalStackLayout>
 
-                    </controls:ExpandableFrame>
-                        </AbsoluteLayout>
-                            
-                            <!--Interpretation-->
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
+
+                    <!--Interpretation-->
                     <AbsoluteLayout>
 
                         <controls:ExpandableFrame
@@ -527,8 +530,8 @@
 
                             <VerticalStackLayout >
 
-                            <Label Text="{local:Localize EarthmatPageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
-                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ConfidencePicker"
+                                <Label Text="{local:Localize EarthmatPageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
+                                <Picker Title="{local:Localize GenericPickerTitle}" x:Name="ConfidencePicker"
                                 ItemsSource="{Binding EarthLithConfidence.cboxItems}"
                                 SelectedItem="{Binding Model.EarthMatInterpConf, 
                                        Converter={StaticResource cbox2Str},
@@ -537,17 +540,17 @@
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedIndex="{Binding EarthLithConfidence.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout x:Name="EarthInterpretationNotes">
+                                <VerticalStackLayout x:Name="EarthInterpretationNotes">
 
-                                <Label Text="{local:Localize EarthmatInterpNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.EarthMatInterp, Mode=TwoWay}"
+                                    <Label Text="{local:Localize EarthmatInterpNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Editor Text="{Binding Model.EarthMatInterp, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
+
+                                </VerticalStackLayout>
 
                             </VerticalStackLayout>
 
-                        </VerticalStackLayout>
-
-                    </controls:ExpandableFrame>
+                        </controls:ExpandableFrame>
                     </AbsoluteLayout>
 
                     <!--Depth-->
@@ -568,24 +571,24 @@
 
                             <VerticalStackLayout >
 
-                            <VerticalStackLayout x:Name="EarthMagDepthMin">
+                                <VerticalStackLayout x:Name="EarthMagDepthMin">
 
-                                <Label Text="{local:Localize EarthmatPageDepthMin}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatDepthMin, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
+                                    <Label Text="{local:Localize EarthmatPageDepthMin}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.EarthMatDepthMin, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
+
+                                </VerticalStackLayout>
+                                <VerticalStackLayout x:Name="EarthMagDepthMax">
+
+                                    <Label Text="{local:Localize EarthmatPageDepthMax}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.EarthMatDepthMax, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
+
+                                </VerticalStackLayout>
 
                             </VerticalStackLayout>
-                            <VerticalStackLayout x:Name="EarthMagDepthMax">
 
-                                <Label Text="{local:Localize EarthmatPageDepthMax}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.EarthMatDepthMax, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"/>
-
-                            </VerticalStackLayout>
-
-                        </VerticalStackLayout>
-
-                    </controls:ExpandableFrame>
+                        </controls:ExpandableFrame>
                     </AbsoluteLayout>
-                   
+
 
                     <!--General-->
                     <AbsoluteLayout>
@@ -602,20 +605,21 @@
                             <controls:ExpandableFrame.GestureRecognizers>
                                 <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
                             </controls:ExpandableFrame.GestureRecognizers>
-                            
+
                             <VerticalStackLayout >
 
-                            <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
-                            <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
+                                <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
 
-                        </VerticalStackLayout>
+                            </VerticalStackLayout>
 
-                    </controls:ExpandableFrame>
+                        </controls:ExpandableFrame>
                     </AbsoluteLayout>
-
+                    <!--
                 </FlexLayout>
-
+                    -->
+                </VerticalStackLayout>
             </ScrollView>
 
             <!--Custom control to save with options to swipe left or right-->
