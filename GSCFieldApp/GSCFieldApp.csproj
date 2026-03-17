@@ -7,7 +7,7 @@
 			<_AllChildProjectItemsWithTargetPath Remove="@(_ExtraFilesToRemove)" />
 		</ItemGroup>
 	</Target>
-	
+
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-maccatalyst;net9.0-ios;net9.0-android35.0</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.20348.0</TargetFrameworks>
@@ -22,7 +22,7 @@
 
 		<!--https://github.com/mono/SkiaSharp/issues/2999 On 2024-10-16-->
 		<!--<WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>-->
-		
+
 		<!-- Display name -->
 		<ApplicationTitle>GSCFieldApp</ApplicationTitle>
 
@@ -43,7 +43,7 @@
 		<DefaultLanguage>en</DefaultLanguage>
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-		<PackageCertificateThumbprint>D58E5F47640635EE2D4314BC862A223424DDE113</PackageCertificateThumbprint>
+		<PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -63,251 +63,251 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-      <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<PublishTrimmed>False</PublishTrimmed>
+		<TrimMode>link</TrimMode>
+		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+		<DebugSymbols>True</DebugSymbols>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM32'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<PublishTrimmed>False</PublishTrimmed>
+		<TrimMode>link</TrimMode>
+		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+		<DebugSymbols>True</DebugSymbols>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<PublishTrimmed>False</PublishTrimmed>
+		<TrimMode>link</TrimMode>
+		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+		<DebugSymbols>True</DebugSymbols>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|x64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<PublishTrimmed>False</PublishTrimmed>
+		<TrimMode>link</TrimMode>
+		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+		<DebugSymbols>True</DebugSymbols>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>True</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<TrimMode>link</TrimMode>
+		<PublishTrimmed>True</PublishTrimmed>
+		<AndroidLinkTool>r8</AndroidLinkTool>
+		<DebugSymbols>False</DebugSymbols>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM32'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>True</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<TrimMode>link</TrimMode>
+		<PublishTrimmed>True</PublishTrimmed>
+		<AndroidLinkTool>r8</AndroidLinkTool>
+		<DebugSymbols>False</DebugSymbols>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>True</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<TrimMode>link</TrimMode>
+		<PublishTrimmed>True</PublishTrimmed>
+		<AndroidLinkTool>r8</AndroidLinkTool>
+		<DebugSymbols>False</DebugSymbols>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|x64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<TrimMode>link</TrimMode>
+		<PublishTrimmed>False</PublishTrimmed>
+		<AndroidLinkTool>r8</AndroidLinkTool>
+		<DebugSymbols>False</DebugSymbols>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+		<ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|AnyCPU'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|x64'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|ARM64'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|ARM32'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|AnyCPU'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|x64'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|ARM64'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|ARM32'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -320,7 +320,7 @@
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</MauiSplashScreen>
 
 		<!-- Images -->
@@ -334,13 +334,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Models\FieldAppLocation.cs" />
+		<Compile Remove="Models\FieldAppLocation.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Remove="Resources\Raw\point.png" />
-	  <MauiAsset Remove="Resources\Raw\pointDrills.png" />
-	  <MauiAsset Remove="Resources\Raw\vector-point.png" />
+		<MauiAsset Remove="Resources\Raw\point.png" />
+		<MauiAsset Remove="Resources\Raw\pointDrills.png" />
+		<MauiAsset Remove="Resources\Raw\vector-point.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -352,7 +352,7 @@
 		<None Remove="Resources\Images\point.png" />
 		<None Remove="Resources\Images\vector-point.png" />
 		<None Remove="Resources\Raw\GSCFieldwork.gpkg" />
-		
+
 		<None Remove="Resources\Raw\GSCFieldwork_V142.gpkg" />
 		<None Remove="Resources\Raw\GSCFieldwork_V143.gpkg" />
 		<None Remove="Resources\Raw\GSCFieldwork_V144.gpkg" />
@@ -360,35 +360,35 @@
 		<None Remove="Resources\Raw\GSCFieldwork_V160.gpkg" />
 		<None Remove="Resources\Raw\GSCFieldwork_V170.gpkg" />
 		<None Remove="Resources\Raw\GSCFieldwork_V180.gpkg" />
-		
+
 		<None Remove="Resources\Raw\SRID.csv" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Raw\point.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\Raw\pointDrills.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\Raw\vector-point.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
+		<EmbeddedResource Include="Resources\Raw\point.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Resources\Raw\pointDrills.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Resources\Raw\vector-point.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <LinkDescription Include="Platforms\Android\Linker.xml" />
-	  <LinkDescription Include="Platforms\iOS\Linker.xml" />
+		<LinkDescription Include="Platforms\Android\Linker.xml" />
+		<LinkDescription Include="Platforms\iOS\Linker.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Raw\point.png">
-	    <CopyToOutputDirectory></CopyToOutputDirectory>
-	  </MauiImage>
+		<MauiImage Include="Resources\Raw\point.png">
+			<CopyToOutputDirectory></CopyToOutputDirectory>
+		</MauiImage>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Models\FieldAppLocation.cs" />
+		<None Include="Models\FieldAppLocation.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -427,94 +427,94 @@
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != false ">
 		<PackageReference Include="WinUIEx" Version="2.9.0" />
 	</ItemGroup>
-		
+
 	<ItemGroup>
-	  <MauiXaml Update="Controls\ConcatenatedCollection.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\ExpandableFrame.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\AboutPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\DocumentPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\DrillHolePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\EnvironmentPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FieldBookPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FieldBooksPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FieldNotesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FormPresenter.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FossilPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\LocationPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MapPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\SaveSwipeItem.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MineralizationAlterationPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MineralPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PaleoflowPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PicklistPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PopupSelectListDialog.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SamplePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\StationPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SettingsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	<MauiXaml Update="Views\EarthmatPage.xaml">
-		<Generator>MSBuild:Compile</Generator>
-	</MauiXaml>
-	<MauiXaml Update="Views\StructurePage.xaml">
-	  <Generator>MSBuild:Compile</Generator>
-	</MauiXaml>
+		<MauiXaml Update="Controls\ConcatenatedCollection.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Controls\ExpandableFrame.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\AboutPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\DocumentPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\DrillHolePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\EnvironmentPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\FieldBookPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\FieldBooksPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\FieldNotesPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\FormPresenter.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\FossilPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\LocationPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MapPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Controls\SaveSwipeItem.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MineralizationAlterationPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MineralPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PaleoflowPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PicklistPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PopupSelectListDialog.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\SamplePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\StationPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\SettingsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\EarthmatPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\StructurePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Strings\LocalizableStrings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>LocalizableStrings.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\StationPage.xaml.cs">
-	    <DependentUpon>StationPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SettingsPage.xaml.cs">
-	    <DependentUpon>SettingsPage.xaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Resources\Strings\LocalizableStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>LocalizableStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Views\StationPage.xaml.cs">
+			<DependentUpon>StationPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\SettingsPage.xaml.cs">
+			<DependentUpon>SettingsPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -536,63 +536,63 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork.gpkg">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_V142.sqlite">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v143.sqlite">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v144.sqlite">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v150.sqlite">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v160.sqlite">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v170.gpkg">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v180.gpkg">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\GSCFieldwork_v190.gpkg">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\SRID.csv">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork.gpkg">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_V142.sqlite">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v143.sqlite">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v144.sqlite">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v150.sqlite">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v160.sqlite">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v170.gpkg">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v180.gpkg">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\GSCFieldwork_v190.gpkg">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Update="Resources\Raw\SRID.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiFont Update="Resources\Fonts\MaterialDesignIconsDesktop.ttf">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiFont>
-	  <MauiFont Update="Resources\Fonts\OpenSans-Regular.ttf">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiFont>
-	  <MauiFont Update="Resources\Fonts\OpenSans-Semibold.ttf">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiFont>
-	  <MauiFont Update="Resources\Fonts\STENCIL.TTF">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiFont>
+		<MauiFont Update="Resources\Fonts\MaterialDesignIconsDesktop.ttf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiFont>
+		<MauiFont Update="Resources\Fonts\OpenSans-Regular.ttf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiFont>
+		<MauiFont Update="Resources\Fonts\OpenSans-Semibold.ttf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiFont>
+		<MauiFont Update="Resources\Fonts\STENCIL.TTF">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiFont>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Update="Resources\Images\logo.svg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiImage>
-	  <MauiImage Update="Resources\Images\logo_gray.svg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiImage>
-	  <MauiImage Update="Resources\Images\woah.gif">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiImage>
+		<MauiImage Update="Resources\Images\logo.svg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
+		<MauiImage Update="Resources\Images\logo_gray.svg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
+		<MauiImage Update="Resources\Images\woah.gif">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 	</ItemGroup>
-	
+
 </Project>

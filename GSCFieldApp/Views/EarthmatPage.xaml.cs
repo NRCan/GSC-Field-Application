@@ -8,9 +8,9 @@ namespace GSCFieldApp.Views;
 
 public partial class EarthmatPage : ContentPage
 {
-	public EarthmatPage(EarthmatViewModel vm)
-	{
-		InitializeComponent();
+    public EarthmatPage(EarthmatViewModel vm)
+    {
+        InitializeComponent();
         BindingContext = vm;
 
         RestoreFramePosition(InterpFrame);

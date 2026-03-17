@@ -20,18 +20,16 @@
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
         <conv:String2Integers x:Key="str2int"/>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
             <Label Text="{Binding Model.EarthMatName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
-            
+
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
-                <!--
-                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}"> 
-                -->
-                <VerticalStackLayout Style="{StaticResource FieldAppFormFlexLayout}">
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
 
                     <!--Lithologies-->
                     <AbsoluteLayout>
@@ -48,7 +46,6 @@
                             <controls:ExpandableFrame.GestureRecognizers>
                                 <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
                             </controls:ExpandableFrame.GestureRecognizers>
-
                             <VerticalStackLayout>
 
                                 <VerticalStackLayout>
@@ -97,7 +94,7 @@
                                 SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                     <!--Custom control to concatenate multiple values into one field-->
-                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                 ConcatSource="{Binding EarthLithQualifierCollection}" />
 
                                 </VerticalStackLayout>
@@ -210,7 +207,7 @@
                                     SelectedIndex="{Binding EarthLithTextureStruct.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                     <!--Custom control to concatenate multiple values into one field-->
-                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithTextStrucCollection,Mode=TwoWay }" />
 
                                 </VerticalStackLayout>
@@ -247,7 +244,7 @@
                                     SelectedIndex="{Binding EarthLithDefFab.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                     <!--Custom control to concatenate multiple values into one field-->
-                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithDefFabCollection}" />
                                 </VerticalStackLayout>
 
@@ -462,7 +459,7 @@
                                         <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
 
                                         <!--Custom control to concatenate multiple values into one field-->
-                                        <controls:ConcatenatedCollection MinimumWidthRequest="225" ControlTemplate="{StaticResource ConcatenatedCollectionControl}"
+                                        <controls:ConcatenatedCollection MinimumWidthRequest="225" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithContactRelationCollection}" />
 
                                     </HorizontalStackLayout>
@@ -616,10 +613,9 @@
 
                         </controls:ExpandableFrame>
                     </AbsoluteLayout>
-                    <!--
+
                 </FlexLayout>
-                    -->
-                </VerticalStackLayout>
+
             </ScrollView>
 
             <!--Custom control to save with options to swipe left or right-->
@@ -634,7 +630,7 @@
                         ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
                         BackgroundColor="{StaticResource FieldStationColorLight}"
                         Command="{Binding NavParentCommand}"/>
-                
+
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize EarthmatTooltipAddSample}"
                         Margin="0,10,0,10" Command="{Binding AddSampleCommand}"
