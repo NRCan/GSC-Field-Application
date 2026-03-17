@@ -19,6 +19,7 @@
         <!--Converters-->
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
         <conv:String2Integers x:Key="str2int"/>
+        <conv:VisibilityFromReverseBoolConverter x:Key="ReverseBool"/>
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -505,12 +506,20 @@
 
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
 
+                <!--parents-->
                 <Button Style="{StaticResource FieldAppHeaderParentButton}" 
-                        WidthRequest="40" Margin="0,10,0,70"
+                        WidthRequest="40" Margin="0,10,0,70" IsVisible="{Binding Model.IsStationAParent}"
                         ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
                         BackgroundColor="{StaticResource FieldStationColorLight}"
                         Command="{Binding NavParentCommand}"/>
                 
+                <Button Style="{StaticResource FieldAppHeaderParentButton}" 
+                        WidthRequest="40" Margin="0,10,0,70" IsVisible="{Binding Model.IsStationAParent, Mode=TwoWay, Converter={StaticResource ReverseBool}}"
+                        ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
+                        BackgroundColor="{StaticResource FieldDrillColorLight}"
+                        Command="{Binding NavParentCommand}"/>
+                
+                <!--childrens-->
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize EarthmatTooltipAddSample}"
                         Margin="0,10,0,10" Command="{Binding AddSampleCommand}"

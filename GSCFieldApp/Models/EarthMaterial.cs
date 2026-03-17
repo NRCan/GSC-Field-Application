@@ -364,5 +364,30 @@ namespace GSCFieldApp.Models
         /// </summary>
         [Ignore]
         public bool IsMapPageQuick { get; set; } = false;
+
+        /// <summary>
+        /// Will return true if station id is not null (so station is a parent record) or false if it has a drill hole parent instead
+        /// </summary>
+        [Ignore]
+        public bool IsStationAParent
+        {
+            get
+            {
+                if (EarthMatStatID != null)
+                {
+                    return true;
+                }
+                else if (EarthMatDrillHoleID != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+
+        }
     }
 }

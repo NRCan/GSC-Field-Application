@@ -800,15 +800,33 @@ namespace GSCFieldApp.ViewModel
                     RefreshFieldNotes(TableNames.earthmat, Model, refreshType.insert);
                 }
 
-                //Navigate to station page 
-                List<Station> parentStation = await DataAccess.DbConnection.Table<Station>().Where(x => x.StationID == Model.EarthMatStatID).ToListAsync();
-                if (parentStation != null && parentStation.Count > 0)
+                //Nav to parent
+                if (_model.IsStationAParent)
                 {
-                    await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
-                    new Dictionary<string, object>
+                    //Navigate to station page 
+                    List<Station> parentStation = await DataAccess.DbConnection.Table<Station>().Where(x => x.StationID == Model.EarthMatStatID).ToListAsync();
+                    if (parentStation != null && parentStation.Count > 0)
                     {
-                        [nameof(Station)] = parentStation[0],
-                    });
+                        await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Station)] = parentStation[0],
+                        });
+                    }
+
+                }
+                else
+                {
+                    //Navigate to drill hole page 
+                    List<DrillHole> parentDrill = await DataAccess.DbConnection.Table<DrillHole>().Where(x => x.DrillID == Model.EarthMatDrillHoleID).ToListAsync();
+                    if (parentDrill != null && parentDrill.Count > 0)
+                    {
+                        await Shell.Current.GoToAsync($"/{nameof(DrillHolePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(DrillHole)] = parentDrill[0],
+                        });
+                    }
                 }
             }
 
