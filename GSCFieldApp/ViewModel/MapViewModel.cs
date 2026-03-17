@@ -128,28 +128,36 @@ namespace GSCFieldApp.ViewModel
         {
             if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
             {
-                //Create a location record
-                int locationID = await SaveLocationModelAsync();
-
-                if (locationID != -1)
+                try
                 {
-                    //Create a quick earth material record
-                    EarthmatViewModel earthmatViewModel = new EarthmatViewModel();
-                    Earthmaterial quickEM = await earthmatViewModel.QuickEarthmat(locationID);
+                    //Create a location record
+                    int locationID = await SaveLocationModelAsync();
 
-                    //Navigate to station page and keep locationmodel for relationnal link
-                    await Shell.Current.GoToAsync($"/{nameof(SamplePage)}/",
-                        new Dictionary<string, object>
-                        {
-                            [nameof(Sample)] = null,
-                            [nameof(Earthmaterial)] = quickEM,
-                        }
-                    );
+                    if (locationID != -1)
+                    {
+                        //Create a quick earth material record
+                        EarthmatViewModel earthmatViewModel = new EarthmatViewModel();
+                        Earthmaterial quickEM = await earthmatViewModel.QuickEarthmat(locationID);
+
+                        //Navigate to station page and keep locationmodel for relationnal link
+                        await Shell.Current.GoToAsync($"/{nameof(SamplePage)}/",
+                            new Dictionary<string, object>
+                            {
+                                [nameof(Sample)] = null,
+                                [nameof(Earthmaterial)] = quickEM,
+                            }
+                        );
+                    }
+                    else
+                    {
+                        await ShowMissingFieldBookMesasge();
+                    }
                 }
-                else
+                catch (System.Exception addSampleException)
                 {
-                    await ShowMissingFieldBookMesasge();
+                    new ErrorToLogFile(addSampleException).WriteToFile();
                 }
+
             }
             else
             {

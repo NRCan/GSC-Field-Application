@@ -518,7 +518,7 @@ namespace GSCFieldApp.ViewModel
         /// If user has selected sample type of oriented, with paleomagnetism purpose, 
         /// within a surficial field book. Then enable oriented fields from bedrock
         /// </summary>
-        public void ValidateForPaleomagnetism(bool forceDeactivate = false)
+        public async Task ValidateForPaleomagnetism(bool forceActivate = false)
         {
             #region validate paleomagnetism
 
@@ -554,11 +554,20 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
-            //If needed, force deactivation of the whole header.
-            if (forceDeactivate)
+            //If needed, force activation of the whole header.
+            if (forceActivate)
             {
                 FieldThemes.BedrockOrientedSampleVisibility = true;
                 OnPropertyChanged(nameof(FieldThemes));
+            }
+
+            //Fill missing pickers
+            if (FieldThemes.BedrockOrientedSampleVisibility)
+            {
+                _sampleFormat = await FillAPicker(FieldSampleFormat);
+                _sampleSurface = await FillAPicker(FieldSampleSurface);
+                OnPropertyChanged(nameof(SampleFormat));
+                OnPropertyChanged(nameof(SampleSurface));
             }
 
             #endregion
