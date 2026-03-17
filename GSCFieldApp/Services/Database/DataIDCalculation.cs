@@ -454,11 +454,22 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public async Task<string> CalculateSampleAliasAsync(int parentID, string parentAlias, string drillFrom = "")
+        public async Task<string> CalculateSampleAliasAsync(int parentID, string parentAlias = "", string drillFrom = "")
         {
             //Querying with Linq
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             List<Sample> sampleParent = await currentConnection.Table<Sample>().Where(s => s.SampleEarthmatID == parentID).ToListAsync();
+
+            //Parent alias validation
+            if (parentAlias == string.Empty && sampleParent.Count() > 0)
+            {
+                List<Earthmaterial> earthParent = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == parentID).ToListAsync();
+                if (earthParent.Count() > 0)
+                {
+                    parentAlias = earthParent[0].EarthMatName;
+                }
+                
+            }
 
             int newID = 1; //Incrementing step
             string finaleSampleString = parentAlias + "0" + newID; //Default

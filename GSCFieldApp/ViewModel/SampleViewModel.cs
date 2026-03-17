@@ -347,9 +347,9 @@ namespace GSCFieldApp.ViewModel
             Model.SampleCoreTo = Model.SampleCoreFrom + Model.SampleCoreLength / 100;
 
             //Modify sample name if needed
-            if (CustomSampleNameEnabled && _earthmaterial != null)
+            if (CustomSampleNameEnabled)
             {
-                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, Model.SampleCoreFrom.ToString());
+                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(Model.SampleEarthmatID, string.Empty, Model.SampleCoreFrom.ToString());
             }
 
             OnPropertyChanged(nameof(Model));
@@ -478,7 +478,10 @@ namespace GSCFieldApp.ViewModel
                 #endregion
 
                 //Validate paleomag controls visibility
-                ValidateForPaleomagnetism();
+                await ValidateForPaleomagnetism();
+
+                //Rename sample if needed
+                await CalculateSampleCoreToValue();
 
             }
         }

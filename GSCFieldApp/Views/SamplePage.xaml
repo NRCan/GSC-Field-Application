@@ -228,6 +228,7 @@
                     <!--Core (BEDROCK) -->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleCoreVisibility, Mode=TwoWay}"
+                                              InfoAlertVisibility="True" InfoAlertParameter="{local:Localize SamplePageInfoAlertCore}"
                                               FrameTitle="{local:Localize SamplePageCoreTitle}">
                         <VerticalStackLayout>
 
@@ -254,8 +255,8 @@
                                 <!--Quirk, this along next control should automatically calculate Core length "to" value-->
                                 <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  
-                                       Keyboard="Numeric"
-                                       ReturnCommand="{Binding SampleCoreCalculatToCommand}" Unfocused="Entry_Unfocused"/>
+                                       Keyboard="Numeric" TextChanged="Entry_TextChanged"     
+                                       ReturnCommand="{Binding SampleCoreCalculatToCommand}" />
 
                             </VerticalStackLayout>
 

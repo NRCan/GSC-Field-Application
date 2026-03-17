@@ -3447,6 +3447,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If a parent drill core name exist and a value is provided in &quot;From&quot; entry, sample will be renamed to {CoreName}\{FromValue}..
+        /// </summary>
+        internal static string SamplePageInfoAlertCore {
+            get {
+                return ResourceManager.GetString("SamplePageInfoAlertCore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Blank?.
         /// </summary>
         internal static string SamplePageIsBlank {
