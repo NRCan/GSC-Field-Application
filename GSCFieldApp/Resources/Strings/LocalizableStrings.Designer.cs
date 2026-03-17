@@ -3627,7 +3627,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location or Traverse Dates.
+        ///   Looks up a localized string similar to Date.
         /// </summary>
         internal static string SettingPageFieldNoteFiltering {
             get {
@@ -3753,7 +3753,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Daily incremental traverse numbering.
+        ///   Looks up a localized string similar to Daily traverse increment.
         /// </summary>
         internal static string SettingPageOtherHeadingStationToggle {
             get {

@@ -1588,7 +1588,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Table de notes</value>
   </data>
   <data name="SettingPageFieldNoteFiltering" xml:space="preserve">
-    <value>Localisation ou date de traverses</value>
+    <value>Date</value>
   </data>
   <data name="SettingPageFieldNoteFilteringTitle" xml:space="preserve">
     <value>Filtre</value>
@@ -1603,6 +1603,6 @@ Aimeriez-vous modifier les droits?</value>
     <value>Stations</value>
   </data>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
-    <value>Incrémentation journalière des traverses</value>
+    <value>Incrément quotidien de traverse</value>
   </data>
 </root>

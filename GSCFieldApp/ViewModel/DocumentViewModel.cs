@@ -375,6 +375,8 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(Model));
             }
 
+            await currentConnection.CloseAsync();
+
         }
 
         /// <summary>
@@ -947,6 +949,8 @@ namespace GSCFieldApp.ViewModel
                 previousRecord = await currentConnection.Table<Document>()
                 .OrderByDescending(d => d.DocumentID).ToListAsync();
             }
+
+            await currentConnection.CloseAsync();
 
             //Get caption
             if (previousRecord.Count() >= 1)

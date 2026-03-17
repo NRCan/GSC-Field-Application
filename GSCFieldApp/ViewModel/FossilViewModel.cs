@@ -65,6 +65,7 @@ namespace GSCFieldApp.ViewModel
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, sRecord.StationAlias, sRecord.LocationID, true);
 
+                await currentConnection.CloseAsync();
             }
 
             await Shell.Current.GoToAsync("..");

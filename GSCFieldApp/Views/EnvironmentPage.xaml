@@ -62,10 +62,11 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize EnvironmentPageSlope}" />
                                 <Entry Text="{Binding Model.EnvSlope, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="45"
@@ -79,10 +80,11 @@
 
                                 <Label Text="{local:Localize EnvironmentPageAzim}"/>
                                 <Entry Text="{Binding Model.EnvAzim,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="360"

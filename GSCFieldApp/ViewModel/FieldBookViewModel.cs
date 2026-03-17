@@ -160,12 +160,15 @@ namespace GSCFieldApp.ViewModel
                 {
                     if (!Path.Exists(desiredDatabaseName) && Path.Exists(da.PreferedDatabasePath))
                     {
+                        //Close last connection and open new one
+                        await da.CloseConnectionAsync();
+
                         //Rename database
-                        FileInfo originalFileInfo = new FileInfo(da.PreferedDatabasePath);
-                        originalFileInfo.MoveTo(desiredDatabaseName);
+                        File.Move(da.PreferedDatabasePath, desiredDatabaseName);
 
                         //Set prefered database
                         da.PreferedDatabasePath = desiredDatabaseName;
+                        await da.SetConnectionAsync();
                     }
 
                     //Fill out missing values in model
@@ -193,7 +196,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Exit
-                await Shell.Current.GoToAsync($"//{nameof(FieldBooksPage)}/");
+                await Shell.Current.GoToAsync("..");
+
             }
             else
             {
@@ -300,6 +304,7 @@ namespace GSCFieldApp.ViewModel
                 Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), Model.FieldworkType);
             }
 
+            OnPropertyChanged(nameof(Model));
         }
 
         #endregion

@@ -142,6 +142,7 @@ namespace GSCFieldApp.Models
                 }
 
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
+                sampleFieldList[DatabaseLiterals.DBVersion190] = sampleFieldList[DatabaseLiterals.DBVersion200];
 
                 //Revert schema 1.9 changes
                 List<string> sampleFieldList180 = new List<string>();

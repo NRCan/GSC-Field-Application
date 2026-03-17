@@ -541,8 +541,8 @@ namespace GSCFieldApp.ViewModel
             if (DailyTraverseIncrementaionEnabled)
             {
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                List<Station> stations = await currentConnection.Table<Station>().OrderByDescending(s => s.StationVisitDate).ThenByDescending(s => s.StationVisitTime).ToListAsync();
-
+                List<Station> stations = await currentConnection.Table<Station>().OrderByDescending(s => s.StationVisitDate).ThenByDescending(s => s.StationVisitTime).OrderByDescending(s => s.StationID).ToListAsync();
+                await currentConnection.CloseAsync();
                 if (stations != null && stations.Count() > 0)
                 {
                     Station sts = stations.First();

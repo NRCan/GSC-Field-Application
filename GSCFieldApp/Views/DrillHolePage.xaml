@@ -74,10 +74,11 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DrillHolePageAzimuth}"/>
                                 <Entry Text="{Binding Model.DrillAzim, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="360"
@@ -91,10 +92,11 @@
 
                                 <Label Text="{local:Localize DrillHolePageDip}"/>
                                 <Entry Text="{Binding Model.DrillDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"> 
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="90"
@@ -262,7 +264,7 @@
                         BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
                         IsVisible="{Binding EarthMaterialVisible}"
                         Command="{Binding AddEarthmatCommand}"/>
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                <Button Text="&#xF0EDC;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
                         ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
                         BackgroundColor="{StaticResource FieldPhotoColorLight}"

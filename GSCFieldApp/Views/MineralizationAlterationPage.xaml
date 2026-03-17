@@ -22,6 +22,7 @@
         <conv:BoolFromStringConverter x:Key="BoolFromStr" />
         <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        <conv:VisibilityFromReverseBoolConverter x:Key="ReverseBool"/>
 
     </ContentPage.Resources>
 
@@ -134,7 +135,7 @@
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
                 
                 <!--Station parent navigation, if any-->
-                <Button Style="{StaticResource FieldAppHeaderParentButton}" IsVisible="{Binding Model.IsStationAParent}"
+                <Button Style="{StaticResource FieldAppHeaderParentButton}" IsVisible="{Binding Model.IsStationAParent, Mode=TwoWay}"
                         WidthRequest="40" Margin="0,10,0,70"
                         ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
                         BackgroundColor="{StaticResource FieldStationColorLight}"
@@ -146,8 +147,8 @@
                         ToolTipProperties.Text="{local:Localize ButtonNavigateToParent}"
                         BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
                         Command="{Binding NavParentCommand}"/>
-                
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+
+                <Button Text="&#xF900;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
                         ToolTipProperties.Text="{local:Localize MineralizationAlterationTooltipAddMineral}"
                         Command="{Binding AddMineralCommand}"

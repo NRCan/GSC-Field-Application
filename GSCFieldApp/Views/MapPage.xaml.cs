@@ -46,9 +46,12 @@ using System.Net.Http;
 using Brush = Mapsui.Styles.Brush;
 using Color = Mapsui.Styles.Color;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
+using Layer = Mapsui.Layers.Layer;
 using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
 using Point = NetTopologySuite.Geometries.Point;
 using Sensor = Microsoft.Maui.Devices.Sensors;
+using Mapsui.Nts.Providers;
+
 
 
 #if ANDROID
@@ -470,7 +473,7 @@ public partial class MapPage : ContentPage
 
             //Reload user datasets
             await LoadPreferedLayers();
-            await Task.Run(async () => await QuickRefreshDefaultFeatureLayer(false));
+            await Task.Run(async () => await RefreshDefaultFeatureLayer());
 
             _isInitialLoadingDone = true;
         }
@@ -966,12 +969,14 @@ public partial class MapPage : ContentPage
                     List<string> geopackageFeatureNames = new List<string>();
                     bool isGeopackage = true;
 
-                    this.WaitingCursor.IsRunning = true;
+                    
 
                     foreach (MapPageLayerSelection mpls in _vm.FeatureCollection)
                     {
                         if (mpls.Selected)
                         {
+                            this.WaitingCursor.IsRunning = true;
+
                             geopackageFeatureNames.Add(mpls.Name);
                             gpkgPath = mpls.Path;
 
@@ -1000,7 +1005,7 @@ public partial class MapPage : ContentPage
                         await AddGPKG(geopackageFeatureNames, gpkgPath, null, true);
                     }
 
-                    this.WaitingCursor.IsRunning = false;
+                    
                 }
             }
         }
@@ -1163,12 +1168,19 @@ public partial class MapPage : ContentPage
             {
                 foreach (MemoryLayer ml in mls)
                 {
-                    //Verify if doesn't exist and add
+                    //Make sure to remove all layers, memory layer tend to stick around and refreshing them 
+                    //won't do much.
+                    if (mapControl.Map.Layers.Where(m => m.Name == ml.Name).Count() > 0)
+                    {
+                        mapControl.Map.Layers.Remove(ml);
+                    }
+
+                    //Force a refresh
                     if (mapView.Map.Layers.Where(x => x.Name == ml.Name).Count() == 0)
                     {
                         mapView.Map.Layers.Add(ml);
                     }
-
+ 
                 }
 
                 //Zoom to initial extent of the station layer
@@ -1179,6 +1191,7 @@ public partial class MapPage : ContentPage
                 }
 
             }
+
         }
 
     }
@@ -1229,7 +1242,7 @@ public partial class MapPage : ContentPage
                     }
 
                     //Check with record count if diff add last or remove missing
-                    if (databaseCount != mapLayerCount && databaseCount != 0)
+                    if (databaseCount != mapLayerCount)
                     {
                         //Get latest features
                         MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
@@ -1284,7 +1297,7 @@ public partial class MapPage : ContentPage
                             mapView.Map.Layers.Add(mapMemoryLayer);
 
                             //Zoom to extent of stations
-                            SetExtent(mapMemoryLayer);
+                            //SetExtent(mapMemoryLayer);
 
                         }
                     }
@@ -1502,7 +1515,7 @@ public partial class MapPage : ContentPage
                 GeopackageService gpkgService = new GeopackageService();
                 bool hitError = false; //to break all loops in case of error
                 WKTReader wellKnownTextReader = new WKTReader();
-                Color defaultColor = GetColorFromString("Grey");
+                Color defaultColor = Color.Grey;
 
                 foreach (string features in featuresToAdd)
                 {
@@ -1543,8 +1556,19 @@ public partial class MapPage : ContentPage
                             features);
                         List<string> typeGeometries = await gpkgConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
 
-                        if (typeGeometries != null && typeGeometries.Count() > 0)
+                        //Get geometry SRID
+                        string getGeomSRIDQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';",
+                            GeopackageService.GpkgFieldSRID,
+                            GeopackageService.GpkgTableGeometry,
+                            GeopackageService.GpkgFieldTableName,
+                            features);
+                        List<string> geomSRID = await gpkgConnection.QueryScalarsAsync<string>(getGeomSRIDQuery);
+
+                        if (typeGeometries != null && typeGeometries.Count() > 0 && geomSRID != null && geomSRID.Count() > 0)
                         {
+                            int srid = DatabaseLiterals.KeywordEPSGAtlas;
+                            int.TryParse(geomSRID[0], out srid);
+
                             //Keep track of loading progress if coming from button and not preloading prefered layers
                             if (pageLayer == null)
                             {
@@ -1600,7 +1624,7 @@ public partial class MapPage : ContentPage
                                             if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryMultiPolygonFromByte(geomBytes));
+                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryMultiPolygonFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (multiPolygon != null)
@@ -1620,7 +1644,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNamePolygon.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                NetTopologySuite.Geometries.Polygon polygons = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
+                                                NetTopologySuite.Geometries.Polygon polygons = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (polygons != null)
@@ -1640,7 +1664,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
+                                                LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (lines != null)
@@ -1660,7 +1684,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNameMultiLineString.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiLineString lines = await Task.Run(async () => await gpkgService.GetGeometryMultiLineFromByte(geomBytes));
+                                                MultiLineString lines = await Task.Run(async () => await gpkgService.GetGeometryMultiLineFromByte(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (lines != null)
@@ -1681,7 +1705,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
+                                                Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (pnts != null)
@@ -1701,7 +1725,7 @@ public partial class MapPage : ContentPage
                                             else if (geomType.ToLower() == Geometry.TypeNameMultiPoint.ToLower())
                                             {
                                                 //Run on another thread else progress bar gets jammed and won't update in the UI
-                                                MultiPoint pnts = await Task.Run(async () => await gpkgService.GetGeometryMultiPointFromByteAsync(geomBytes));
+                                                MultiPoint pnts = await Task.Run(async () => await gpkgService.GetGeometryMultiPointFromByteAsync(geomBytes, srid));
 
                                                 //Get feature 
                                                 if (pnts != null)
@@ -1882,8 +1906,8 @@ public partial class MapPage : ContentPage
 
             if (withCache)
             {
-                var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM");
-                HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.0 Maui.net", persistentCache: persistentCache);
+                var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM_V3_1", TimeSpan.Zero);
+                HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.1 Maui.net", persistentCache: persistentCache);
                 TileLayer osmLayer = new TileLayer(source);
                 osmLayer.Name = ApplicationLiterals.aliasOSM;
 
@@ -1919,6 +1943,7 @@ public partial class MapPage : ContentPage
     /// <param name="withCache"></param>
     public async Task<bool> AddAWMSAsync(string wmsURL, string layerName, string layerID, bool withCache = true, MapPageLayer pageLayer = null)
     {
+
         bool hasError = false;
 
         if (wmsURL != null && wmsURL != string.Empty)
@@ -1962,7 +1987,7 @@ public partial class MapPage : ContentPage
                 SqlitePersistentCache wmsCache = null;
                 if (withCache)
                 {
-                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'));
+                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
                 }
 
                 HttpTileSource httpTileSource = new HttpTileSource(
@@ -2401,7 +2426,7 @@ public partial class MapPage : ContentPage
                 await Parallel.ForEachAsync(fieldTravPoint, _parallelOptions, async (tp, token) =>
                 {
                     //Build geometry
-                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom));
+                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom, DatabaseLiterals.KeywordEPSGTraverses));
 
                     if (travPointString != null)
                     {

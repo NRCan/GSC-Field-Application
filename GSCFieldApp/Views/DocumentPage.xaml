@@ -95,10 +95,11 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DocumentPageDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.Direction, Mode=TwoWay}">
+                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.Direction, Mode=TwoWay}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                         InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                        ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                         Flags="ValidateOnValueChanged"
                                         MinimumValue="0"
                                         MaximumValue="360"
@@ -122,12 +123,12 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DocumentPageObjX}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.ObjectX, Mode=TwoWay}"/>
+                                <Entry Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric" Text="{Binding Model.ObjectX, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DocumentPageObjY}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.ObjectY, Mode=TwoWay}"/>
+                                <Entry Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric" Text="{Binding Model.ObjectY, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
 
@@ -173,13 +174,14 @@
                                     <VerticalStackLayout Margin="0,0,25,0">
                                         <Label Text="{local:Localize DocumentPageFileNoFrom}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                         <Entry Text="{Binding Model.FileNumber, Mode=TwoWay, Converter={StaticResource Str2Int}}" 
-                                               Style="{StaticResource FieldAppNumBox}" 
+                                               Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"
                                                x:Name="DocumentPageFileFromEntry"
                                                TextChanged="DocumentPageFileFromEntry_TextChanged">
 
                                             <Entry.Behaviors>
                                                 <toolkit:NumericValidationBehavior 
                                                     InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                                    ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                                     Flags="ValidateOnValueChanged"
                                                     MinimumValue="1"
                                                     MaximumValue="9999"
@@ -192,12 +194,12 @@
                                     <VerticalStackLayout>
                                         <Label Text="{local:Localize DocumentPageFileNoTo}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                         <Entry Text="{Binding FileNumberTo, Mode=TwoWay, Converter={StaticResource Str2Int}}" 
-                                               Style="{StaticResource FieldAppNumBox}"
-                                               x:Name="DocumentPageFileToEntry"
-                                               >
+                                               Style="{StaticResource FieldAppNumBox}" 
+                                               x:Name="DocumentPageFileToEntry" Keyboard="Numeric">
                                             <Entry.Behaviors>
                                                 <toolkit:NumericValidationBehavior 
                                                     InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                                    ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                                     Flags="ValidateOnValueChanged"
                                                     MinimumValue="0"
                                                     MaximumValue="9999"

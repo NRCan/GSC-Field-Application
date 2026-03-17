@@ -68,12 +68,13 @@
                                 <VerticalStackLayout>
                                     <Label Text="{local:Localize LocationPageLatitude}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                     <Entry Text="{Binding Model.LocationLat, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}"
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"
                                            ToolTipProperties.Text="{local:Localize LocationPageLatitudeToolip}">
                                         <Entry.Behaviors>
                                             <!--Source: https://en.wikipedia.org/wiki/Decimal_degrees-->
                                             <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="-90"
                                             MaximumValue="90"
@@ -86,12 +87,13 @@
                                 <VerticalStackLayout>
                                     <Label Text="{local:Localize LocationPageLongitude}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                     <Entry Text="{Binding Model.LocationLong, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}"
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"
                                            ToolTipProperties.Text="{local:Localize LocationPageLongitudeToolip}">
                                         <Entry.Behaviors>
                                             <!--Source: https://en.wikipedia.org/wiki/Decimal_degrees-->
                                             <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="-180"
                                             MaximumValue="180"
@@ -119,12 +121,13 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize LocationPageEasting}"/>
                                 <Entry Text="{Binding Model.LocationEasting, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}"
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"
                                        ToolTipProperties.Text="{local:Localize LocationPageEastingToolip}">
                                     <Entry.Behaviors>
                                         <!--Source: https://www.maptools.com/tutorials/utm/details-->
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="160000"
                                             MaximumValue="834000"
@@ -137,12 +140,13 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize LocationPageNorthing}"/>
                                 <Entry Text="{Binding Model.LocationNorthing, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}"
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric"
                                        ToolTipProperties.Text="{local:Localize LocationPageNorthingToolip}">
                                     <Entry.Behaviors>
                                         <!--Source: https://www.maptools.com/tutorials/utm/details-->
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="10000000"
@@ -168,10 +172,11 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize LocationPageElevation}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.LocationElev, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="10000"
@@ -184,10 +189,11 @@
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize LocationPageAccuracy}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.LocationErrorMeasure, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
-                                       Style="{StaticResource FieldAppNumBox}">
+                                       Style="{StaticResource FieldAppNumBox}" Keyboard="Numeric">
                                     <Entry.Behaviors>
                                         <toolkit:NumericValidationBehavior 
                                             InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                             Flags="ValidateOnValueChanged"
                                             MinimumValue="0"
                                             MaximumValue="10000"

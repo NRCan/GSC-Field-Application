@@ -1587,7 +1587,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Notes Table</value>
   </data>
   <data name="SettingPageFieldNoteFiltering" xml:space="preserve">
-    <value>Location or Traverse Dates</value>
+    <value>Date</value>
   </data>
   <data name="SettingPageFieldNoteFilteringTitle" xml:space="preserve">
     <value>Filter</value>
@@ -1602,6 +1602,6 @@ Enter last two digit of current year to proceed.</value>
     <value>Stations</value>
   </data>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
-    <value>Daily incremental traverse numbering</value>
+    <value>Daily traverse increment</value>
   </data>
 </root>
