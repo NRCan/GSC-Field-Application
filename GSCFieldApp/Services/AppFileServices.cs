@@ -39,41 +39,43 @@ namespace GSCFieldApp.Services
             await GeopackageService.MakeGeopackageArcGISCompatible(da.PreferedDatabasePath);
 
             //Open desired file
-            using Stream stream = System.IO.File.OpenRead(da.PreferedDatabasePath);
-
-            //Get output name
-            string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
-
-            //Add timestamp to the file name
-            if (addTimeStamp)
+            using (Stream stream = System.IO.File.OpenRead(da.PreferedDatabasePath))
             {
-                outputFileName = Path.GetFileNameWithoutExtension(outputFileName) + String.Format("_{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now) + DatabaseLiterals.DBTypeSqlite;
-            }
+                //Get output name
+                string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
 
-            //Open save dialog
-            try
-            {
-                var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
-
-                //Use Toast to show card in window interface or system like notification rather then modal alert popup.
-                if (fileSaverResult.IsSuccessful)
+                //Add timestamp to the file name
+                if (addTimeStamp)
                 {
-                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
-
-                    await Toast.Make(toastText).Show(cancellationToken);
+                    outputFileName = Path.GetFileNameWithoutExtension(outputFileName) + String.Format("_{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now) + DatabaseLiterals.DBTypeSqlite;
                 }
-                else
+
+                //Open save dialog
+                try
                 {
-                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
-                    await Toast.Make(toastText).Show(cancellationToken);
-                }
-            }
-            catch (Exception e)
-            {
-                new ErrorToLogFile(e.Message).WriteToFile();
-            }
+                    FileSaverResult fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
 
-            stream.Close();
+                    //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                    if (fileSaverResult.IsSuccessful)
+                    {
+                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+
+                        await Toast.Make(toastText).Show(cancellationToken);
+                    }
+                    else
+                    {
+                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                        await Toast.Make(toastText).Show(cancellationToken);
+                    }
+                }
+                catch (Exception e)
+                {
+                    new ErrorToLogFile(e.Message).WriteToFile();
+                }
+
+                stream.Close();
+
+            }
 
         }
 
