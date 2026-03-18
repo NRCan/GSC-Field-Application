@@ -172,4 +172,45 @@ public partial class EarthmatPage : ContentPage
                 break;
         }
     }
+
+    private void LithoGroupSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        try
+        {
+            SearchBar searchBar2 = sender as SearchBar;
+            if (searchBar2 != null)
+            {
+                if (searchBar2.Text != null && searchBar2.Text != string.Empty)
+                {
+                    this.lithoGroupSearchBar.SearchCommand.Execute(searchBar2.Text);
+                }
+
+            }
+        }
+        catch (Exception searchBarException)
+        {
+            new ErrorToLogFile(searchBarException).WriteToFile();
+        }
+    }
+
+    private void LithoGroupSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        try
+        {
+            //Cast
+            if (e != null && e.SelectedItem != null)
+            {
+
+                EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
+                vm2.RefineDetailListFromGroup(e.SelectedItem.ToString());
+
+                lithoGroupSearchBar.Text = e.SelectedItem.ToString();
+
+            }
+        }
+        catch (Exception lithoSearchException)
+        {
+            new ErrorToLogFile(lithoSearchException).WriteToFile();
+        }
+    }
 }

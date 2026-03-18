@@ -39,11 +39,12 @@ namespace GSCFieldApp.ViewModel
         private string currentProjectType = ApplicationThemeBedrock; //default in case failing
 
         //UI
-        private bool _isLithoGroupListVisible = false;
+        private bool _isLithoGroupListVisible = true;
         private bool _isLithoDetailListVisible = true;
 
         private List<string> _lihthoDetailSearchResults = new List<string>();
-
+        private List<string> _lithoGroupSearchResults = new List<string>();
+        
         private List<Lithology> lithologies = new List<Lithology>();
 
         private string _earthResidualText = string.Empty;
@@ -189,7 +190,10 @@ namespace GSCFieldApp.ViewModel
 
         public List<string> LihthoDetailSearchResults { get { return _lihthoDetailSearchResults; } set { _lihthoDetailSearchResults = value; }  }
 
+        public List<string> LithoGroupSearchResults { get { return _lithoGroupSearchResults; } set { _lithoGroupSearchResults = value; } }
+
         public bool isLithoDetailListVisible { get { return _isLithoDetailListVisible; } set { _isLithoDetailListVisible = value; } }
+        public bool isLithoGroupListVisible { get { return _isLithoGroupListVisible; } set { _isLithoGroupListVisible = value; } }
 
         public ComboBox EarthLithoGroup { get { return _earthLithoGroup; } set { _earthLithoGroup = value; } }
         public ComboBox EarthLithDetail { get { return _earthLithDetail; } set { _earthLithDetail = value; } }
