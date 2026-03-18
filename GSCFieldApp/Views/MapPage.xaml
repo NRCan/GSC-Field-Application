@@ -243,42 +243,74 @@
                 <!--Tap option -->
                 <Button x:Name="GPSMode" Text="&#xF0909;"
                         ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"
+                        />
                 
                 <!--Manage layers-->
                 <Button x:Name="ManageLayerButton" Text="&#xF0F59;" 
                         ToolTipProperties.Text="{local:Localize MapPageLayer}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="ManageLayerButton_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="ManageLayerButton_Clicked"
+                        />
 
                 <!--Add new layer-->
                 <Button x:Name="AddLayerButton" Text="&#xF0E4D;" 
                         ToolTipProperties.Text="{local:Localize MapPageAddData}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="AddLayerButton_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="AddLayerButton_Clicked"
+                        />
 
                 <!--Add WMS option -->
                 <Button x:Name="AddWMS" Text="&#xF1406;" 
                         ToolTipProperties.Text="{local:Localize MapPageAddWMS}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="AddWMS_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="AddWMS_Clicked"
+                        />
                 
                 <!--Draw a line for work-->
                 <Button x:Name="DrawLine" Text="&#xF0F49;"
                         ToolTipProperties.Text="{local:Localize MapPageDrawLine}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="DrawLine_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="DrawLine_Clicked"
+                        />
 
                 <!--Tap entry-->
                 <Button x:Name="TapMode" Text="&#xF0741;"
                         ToolTipProperties.Text="{local:Localize MapPageTapMode}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="TapMode_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="TapMode_Clicked"
+                        />
 
                 <!--Ruler tool-->
                 <Button x:Name="RulerMode" Text="&#xF046D;"
                         ToolTipProperties.Text="{local:Localize MapPageRulerMode}"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="RulerMode_Clicked"/>
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="RulerMode_Clicked"
+                        />
 
             </StackLayout>
 
             <!--Progress bar-->
             <ProgressBar x:Name="MapPageProgressBar" BackgroundColor="Transparent"  Grid.Row="1" IsVisible="False" PropertyChanged="MapPageProgressBar_PropertyChanged" ProgressColor="{StaticResource Primary}" WidthRequest="350"/>
+
+            <!-- Tap Menu Overlay  -->
+            <Grid x:Name="TapMenuOverlay"
+      Grid.Row="1"
+      Grid.RowSpan="2"
+      BackgroundColor="#80000000"
+      IsVisible="False"
+      InputTransparent="False">
+
+                <Frame BackgroundColor="White"
+           CornerRadius="8"
+           Padding="12"
+           VerticalOptions="Center"
+           HorizontalOptions="Center">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Button Text="Waypoint"   Clicked="TapMenu_Waypoint"/>
+                        <Button Text="Station"    Clicked="TapMenu_Station"/>
+                        <Button Text="Photo"      Clicked="TapMenu_Photo"/>
+                        <Button Text="Sample"     Clicked="TapMenu_Sample"/>
+                        <Button Text="Structure"  Clicked="TapMenu_Structure"/>
+                    </VerticalStackLayout>
+
+                </Frame>
+            </Grid>
 
         </Grid>
     </ContentPage.Content>
