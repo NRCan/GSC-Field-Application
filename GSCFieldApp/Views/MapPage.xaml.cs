@@ -687,7 +687,16 @@ public partial class MapPage : ContentPage
         {
             ToggleRuler();
         }
-        
+
+        // If the menu is already open, close it and restore the UI
+        if (TapMenuOverlay.IsVisible)
+        {
+            TapMenuOverlay.IsVisible = false;
+            return;
+        }
+
+        //Otherwise, open the menu
+        TapMenuOverlay.IsVisible = true;
     }
 
     /// <summary>
@@ -806,6 +815,36 @@ public partial class MapPage : ContentPage
         }
 
     }
+    private void TapMenu_Waypoint(object sender, EventArgs e)
+    {
+        TapMenuOverlay.IsVisible = false;
+        DisplayAlert("Selected", "Waypoint", "OK");
+    }
+
+    private void TapMenu_Station(object sender, EventArgs e)
+    {
+        TapMenuOverlay.IsVisible = false;
+        DisplayAlert("Selected", "Station", "OK");
+    }
+
+    private void TapMenu_Photo(object sender, EventArgs e)
+    {
+        TapMenuOverlay.IsVisible = false;
+        DisplayAlert("Selected", "Photo", "OK");
+    }
+
+    private void TapMenu_Sample(object sender, EventArgs e)
+    {
+        TapMenuOverlay.IsVisible = false;
+        DisplayAlert("Selected", "Sample", "OK");
+    }
+
+    private void TapMenu_Structure(object sender, EventArgs e)
+    {
+        TapMenuOverlay.IsVisible = false;
+        DisplayAlert("Selected", "Structure", "OK");
+    }
+
 
     #endregion
 
