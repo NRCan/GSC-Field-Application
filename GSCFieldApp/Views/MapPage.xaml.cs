@@ -1,4 +1,4 @@
-using BruTile;
+﻿using BruTile;
 using BruTile.Cache;
 using BruTile.MbTiles;
 using BruTile.Predefined;
@@ -108,6 +108,7 @@ public partial class MapPage : ContentPage
 
     private WKTReader _wellKnownTextReader = new WKTReader();
     private GeopackageService _geopackageService = new GeopackageService();
+    private string _selectedTapAction = null;
 
     #region Properties
 
@@ -818,30 +819,35 @@ public partial class MapPage : ContentPage
     private void TapMenu_Waypoint(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
+        _selectedTapAction = "Waypoint";
         DisplayAlert("Selected", "Waypoint", "OK");
     }
 
     private void TapMenu_Station(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
+        _selectedTapAction = "Station";
         DisplayAlert("Selected", "Station", "OK");
     }
 
     private void TapMenu_Photo(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
+        _selectedTapAction = "Photo";
         DisplayAlert("Selected", "Photo", "OK");
     }
 
     private void TapMenu_Sample(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
+        _selectedTapAction = "Sample";
         DisplayAlert("Selected", "Sample", "OK");
     }
 
     private void TapMenu_Structure(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
+        _selectedTapAction = "Structure";
         DisplayAlert("Selected", "Structure", "OK");
     }
 
@@ -917,39 +923,96 @@ public partial class MapPage : ContentPage
         //GetGpkgFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (_isTapMode && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
+        if (_isTapMode && !_isDrawingLine &&
+    !MapLayerFrame.IsVisible &&
+    !MapAddGeopackageWMSFrame.IsVisible &&
+    !MapInfoResultsFrame.IsVisible)
         {
-            //Convert to degree position
-            Mapsui.UI.Maui.Position mapPosition = e.WorldPosition.ToMaui();
+            // Convert to degree position ONCE
+            var mapPosition = e.WorldPosition.ToMaui();
 
-            //Convert incoming geographic coordinates and transform into DMS
-            DD2DMS dmsLongitude = DD2DMS.FromDouble(mapPosition.Longitude);
-            DD2DMS dmsLatitude = DD2DMS.FromDouble(mapPosition.Latitude);
+            var vm = BindingContext as MapViewModel;
+            vm.RefreshCoordinatesFromTap(mapPosition);
 
-            //Build alert content with DMS values
-            string content = string.Format("{0}\n{1}",
-                LocalizationResourceManager["MapPageTapCoordinateContent"].ToString(),
-                e.WorldPosition.ToString()
-                );
-
-            //Show dialog
-            bool answer = await Shell.Current.DisplayAlert(
-                LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
-                content,
-                LocalizationResourceManager["GenericButtonYes"].ToString(),
-                LocalizationResourceManager["GenericButtonNo"].ToString());
-
-            //Pop station form
-            if (answer)
+            switch (_selectedTapAction)
             {
-                //Init record creation
-                MapViewModel mvm = BindingContext as MapViewModel;
-                mvm.RefreshCoordinatesFromTap(mapPosition);
-                mvm.AddStationCommand.Execute(mvm);
+                case "Waypoint":
+                    {
+                        // Ask user before creating a station
+                        string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
+
+                        bool answer = await Shell.Current.DisplayAlert(
+                            LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+                            content,
+                            LocalizationResourceManager["GenericButtonYes"].ToString(),
+                            LocalizationResourceManager["GenericButtonNo"].ToString());
+
+                        if (answer)
+                        {
+                            vm.RefreshCoordinatesFromTap(mapPosition);
+                            vm.AddWaypointCommand.Execute(null);
+                        }
+                        break;
+                    }
+
+                case "Station":
+                    {
+                        // Ask user before creating a station
+                        string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
+
+                        bool answer = await Shell.Current.DisplayAlert(
+                            LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+                            content,
+                            LocalizationResourceManager["GenericButtonYes"].ToString(),
+                            LocalizationResourceManager["GenericButtonNo"].ToString());
+
+                        if (answer)
+                        {
+                            vm.AddStationCommand.Execute(null);
+                        }
+                        break;
+                    }
+
+                case "Photo":
+                    vm.AddDocumentCommand.Execute(null);
+                    break;
+
+                case "Sample":
+                    vm.AddSampleCommand.Execute(null);
+                    break;
+
+                case "Structure":
+                    vm.AddStructureCommand.Execute(null);
+                    break;
+
+                default:
+                    // No menu option selected → fallback popup
+                    await ShowTapCoordinatePopup(e);
+                    break;
             }
+
+            _selectedTapAction = null;
         }
 
 
+
+    }
+
+    private async Task ShowTapCoordinatePopup(MapEventArgs e)
+    {
+        string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
+
+        bool answer = await Shell.Current.DisplayAlert(
+            LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+            content,
+            LocalizationResourceManager["GenericButtonYes"].ToString(),
+            LocalizationResourceManager["GenericButtonNo"].ToString());
+
+        if (answer)
+        {
+            var vm = BindingContext as MapViewModel;
+            vm.AddStationCommand.Execute(null);
+        }
     }
 
     /// <summary>
