@@ -124,25 +124,9 @@
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
 
-            <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
-
-                <!--Deleting a selected field book--><!--
-                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False}"/>
-                
-                --><!--Editing a selected field book--><!--
-                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False}"/>
-
-                --><!--Adding new field book--><!--
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False}"/>-->
-
-                <!--Opening a selected field book-->
-                <!--This feature has been dropped, by default a selected field book will be kept in memory-->
-
-            </StackLayout>
-
             <ScrollView Orientation="Vertical" Grid.Row="0">
 
-                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" 
+                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" Margin="{OnPlatform WinUI='10,0,0,0'}"
                                 CanReorderItems="False" SelectedItem="{Binding SelectedFieldBook, Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
