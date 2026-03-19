@@ -297,13 +297,19 @@ namespace GSCFieldApp.ViewModel
             //Validation
             object savedObject = null;
 
-            //Make sure any projected coordinates are also converted back to geographic
-            if (_model.LocationEasting != null || _model.LocationNorthing != null)
+            //Make sure any projected coordinates are also converted back to geographic else nullified
+            if (_model.LocationEasting != null && _model.LocationNorthing != null && _model.LocationEasting != 0.0 && _model.LocationNorthing != 0.0)
             {
                 //Keep original projected datum (geographic and projected being in the same picker)
                 _model.LocationEPSGProj = _model.LocationDatum;
 
                 await ConvertToGeographic();
+            }
+            else
+            {
+                _model.LocationEPSGProj = null;
+                _model.LocationEasting = null;
+                _model.LocationNorthing = null;
             }
 
             //Make sure datum is properly reset to default
@@ -346,6 +352,19 @@ namespace GSCFieldApp.ViewModel
             {
                 //Set model like actual record
                 _model = _fieldLocation;
+
+                //Use case - Datum picker manages 2 field - projected location needs to change datum picker, else it'll always default to geographic 
+                if (_model.LocationEPSGProj != null && _model.LocationEPSGProj != string.Empty)
+                {
+                    List<ComboBoxItem> proj = _locationGeodeticSystem.cboxItems.Where(d => d.itemValue == _model.LocationEPSGProj).ToList();
+                    if (proj != null && proj.Count() > 0)
+                    {
+                        int projectedDatumIndex = _locationGeodeticSystem.cboxItems.IndexOf(proj[0]);
+                        _locationGeodeticSystem.cboxDefaultItemIndex = projectedDatumIndex;
+                        OnPropertyChanged(nameof(LocationGeodeticSystem));
+                    }
+                    
+                }
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
