@@ -184,6 +184,33 @@
                         </controls:ExpandableFrame>
                     </AbsoluteLayout>
 
+                    <!--General-->
+                    <AbsoluteLayout>
+                        <controls:ExpandableFrame
+        ControlTemplate="{StaticResource ExpandableFrameControl}"
+        x:Name="GeneralFrame"
+        StyleId="GeneralFrame"
+        AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+        AbsoluteLayout.LayoutFlags="None"
+        FrameColor="{StaticResource FieldEarthMaterialColor}"
+        FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+        FrameTitle="{local:Localize EarthmatPageGeneralTitle}">
+
+                            <controls:ExpandableFrame.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
+                            </controls:ExpandableFrame.GestureRecognizers>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
+                    Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </controls:ExpandableFrame>
+                    </AbsoluteLayout>
+
                     <!--Lithologie modifiers-->
                     <AbsoluteLayout>
                         <controls:ExpandableFrame
@@ -590,32 +617,7 @@
                     </AbsoluteLayout>
 
 
-                    <!--General-->
-                    <AbsoluteLayout>
-                        <controls:ExpandableFrame
-                            ControlTemplate="{StaticResource ExpandableFrameControl}"
-                            x:Name="GeneralFrame"
-                            StyleId="GeneralFrame"
-                            AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
-                            AbsoluteLayout.LayoutFlags="None"
-                            FrameColor="{StaticResource FieldEarthMaterialColor}"
-                            FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
-                            FrameTitle="{local:Localize EarthmatPageGeneralTitle}">
-
-                            <controls:ExpandableFrame.GestureRecognizers>
-                                <PanGestureRecognizer PanUpdated="OnInterpFramePanUpdated" />
-                            </controls:ExpandableFrame.GestureRecognizers>
-
-                            <VerticalStackLayout >
-
-                                <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
-                                        Style="{StaticResource FieldAppEditorNotes}"/>
-
-                            </VerticalStackLayout>
-
-                        </controls:ExpandableFrame>
-                    </AbsoluteLayout>
+                  
                     <!--
                 </FlexLayout>
                     -->
