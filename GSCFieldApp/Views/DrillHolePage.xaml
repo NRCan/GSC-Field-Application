@@ -138,7 +138,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DrillHolePageDate}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
+                                <DatePicker Format="yyyy-MM-dd" Date="{Binding Model.DrillDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
                             </VerticalStackLayout>
 
 
@@ -174,7 +174,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DrillHoleLogDate}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillRelogDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
+                                <DatePicker Format="yyyy-MM-dd" Date="{Binding Model.DrillRelogDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
