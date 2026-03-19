@@ -110,6 +110,9 @@ public partial class MapPage : ContentPage
     private GeopackageService _geopackageService = new GeopackageService();
     private string _selectedTapAction = null;
 
+
+    double _startX, _startY;
+
     #region Properties
 
     private bool GPSLogEnabled
@@ -189,6 +192,10 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void mapWasTapped(object sender, MapEventArgs e)
     {
+        // Only process taps when Tap Mode is ON
+        if (!_isTapMode)
+            return;
+
         if (e.GestureType == Mapsui.Manipulations.GestureType.SingleTap)
         {
             mapView_SingleTap(sender, e);
@@ -665,6 +672,15 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    /// 
+    private void TapMenuClose_Clicked(object sender, EventArgs e)
+    {
+        _isTapMode = false;
+        TapMenuOverlay.IsVisible = false;
+        
+    }
+
+
     private void GPSMode_Clicked(object sender, EventArgs e)
     {
         ToggleGPS();
@@ -698,7 +714,38 @@ public partial class MapPage : ContentPage
 
         //Otherwise, open the menu
         TapMenuOverlay.IsVisible = true;
+
+        // If Tap Mode is OFF, turn off ruler and drawing too
+        //if (!_isTapMode)
+        //{
+            //if (_isDrawingLine)
+             //   ToggleDrawing();
+
+            //if (_isRulerMode)
+            //    ToggleRuler();
+        //}
+
+        // Show or hide the menu based on Tap Mode
+        TapMenuOverlay.IsVisible = _isTapMode;
     }
+
+
+    private void TapMenu_PanUpdated(object sender, PanUpdatedEventArgs e)
+    {
+        switch (e.StatusType)
+        {
+            case GestureStatus.Started:
+                _startX = TapMenuFrame.TranslationX;
+                _startY = TapMenuFrame.TranslationY;
+                break;
+
+            case GestureStatus.Running:
+                TapMenuFrame.TranslationX = _startX + e.TotalX;
+                TapMenuFrame.TranslationY = _startY + e.TotalY;
+                break;
+        }
+    }
+
 
     /// <summary>
     /// Will pop an entry dialog for user to enter
@@ -974,8 +1021,23 @@ public partial class MapPage : ContentPage
                     }
 
                 case "Photo":
-                    vm.AddDocumentCommand.Execute(null);
-                    break;
+                    {
+                        // Ask user before creating a station
+                        //string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
+
+                        //bool answer = await Shell.Current.DisplayAlert(
+                            //LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+                            //content,
+                            //LocalizationResourceManager["GenericButtonYes"].ToString(),
+                           // LocalizationResourceManager["GenericButtonNo"].ToString());
+
+                        //if (answer)
+                        //{
+                            //vm.RefreshCoordinatesFromTap(mapPosition);
+                            vm.AddDocumentCommand.Execute(null);
+                       // }
+                        break;
+                    }
 
                 case "Sample":
                     vm.AddSampleCommand.Execute(null);
@@ -991,7 +1053,7 @@ public partial class MapPage : ContentPage
                     break;
             }
 
-            _selectedTapAction = null;
+            //_selectedTapAction = null;
         }
 
 

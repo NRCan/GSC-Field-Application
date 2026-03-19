@@ -289,17 +289,22 @@
 
             <!-- Tap Menu Overlay  -->
             <Grid x:Name="TapMenuOverlay"
-      Grid.Row="1"
-      Grid.RowSpan="2"
-      BackgroundColor="#80000000"
-      IsVisible="False"
-      InputTransparent="False">
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    BackgroundColor="#80000000"
+                    IsVisible="False"
+                    InputTransparent="False">
 
-                <Frame BackgroundColor="White"
-           CornerRadius="8"
-           Padding="12"
-           VerticalOptions="Center"
-           HorizontalOptions="Center">
+                <Frame x:Name="TapMenuFrame" 
+                    BackgroundColor="White"
+                        CornerRadius="8"
+                        Padding="12"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center">
+
+                    <Frame.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="TapMenu_PanUpdated"/>
+                    </Frame.GestureRecognizers>
 
                     <VerticalStackLayout Spacing="10">
                         <Button Text="Waypoint"   Clicked="TapMenu_Waypoint"/>
@@ -307,6 +312,10 @@
                         <Button Text="Photo"      Clicked="TapMenu_Photo"/>
                         <Button Text="Sample"     Clicked="TapMenu_Sample"/>
                         <Button Text="Structure"  Clicked="TapMenu_Structure"/>
+                        <Button Text="Close"
+                                BackgroundColor="#DDDDDD"
+                                TextColor="Black"
+                                Clicked="TapMenuClose_Clicked"/>
                     </VerticalStackLayout>
 
                 </Frame>
