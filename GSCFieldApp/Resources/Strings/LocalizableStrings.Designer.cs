@@ -1296,7 +1296,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new fossil.
+        ///   Looks up a localized string similar to Tap to save then add a new fossil.
         /// </summary>
         internal static string EarthmatTooltipAddFossil {
             get {
@@ -1305,7 +1305,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new mineralization/alteration.
+        ///   Looks up a localized string similar to Tap to save then add a new mineralization/alteration .
         /// </summary>
         internal static string EarthmatTooltipAddMA {
             get {
@@ -1314,7 +1314,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new mineral.
+        ///   Looks up a localized string similar to Tap to save then add a new mineral.
         /// </summary>
         internal static string EarthmatTooltipAddMineral {
             get {
@@ -1323,7 +1323,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new paleoflow.
+        ///   Looks up a localized string similar to Tap to save then add a new paleoflow.
         /// </summary>
         internal static string EarthmatTooltipAddPaleoflow {
             get {
@@ -1332,7 +1332,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new sample.
+        ///   Looks up a localized string similar to Tap to save then add a new sample.
         /// </summary>
         internal static string EarthmatTooltipAddSample {
             get {
@@ -1341,7 +1341,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new structure.
+        ///   Looks up a localized string similar to Tap to save then add a new structure.
         /// </summary>
         internal static string EarthmatTooltipAddStruc {
             get {
@@ -2430,7 +2430,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new drill hole record..
+        ///   Looks up a localized string similar to Tap to save then add a new drill hole record..
         /// </summary>
         internal static string LocationPageTooltipAddDrill {
             get {
@@ -2439,7 +2439,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new station record..
+        ///   Looks up a localized string similar to Tap to save then add a new station record..
         /// </summary>
         internal static string LocationPageTooltipAddStation {
             get {
@@ -2835,7 +2835,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new mineral.
+        ///   Looks up a localized string similar to Tap to save then add a new mineral..
         /// </summary>
         internal static string MineralizationAlterationTooltipAddMineral {
             get {
@@ -4167,7 +4167,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new earth material.
+        ///   Looks up a localized string similar to Tap to save then add a new earth material..
         /// </summary>
         internal static string StationTooltipAddEM {
             get {
@@ -4176,7 +4176,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new environment.
+        ///   Looks up a localized string similar to Tap to save then  add a new environment..
         /// </summary>
         internal static string StationTooltipAddEnv {
             get {
@@ -4185,7 +4185,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add a new mineralization/alteration.
+        ///   Looks up a localized string similar to Tap to save then add a new mineralization/alteration..
         /// </summary>
         internal static string StationTooltipAddMA {
             get {
@@ -4194,7 +4194,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add one or many photos.
+        ///   Looks up a localized string similar to Tap to save then add one or many photos..
         /// </summary>
         internal static string StationTooltipAddPhoto {
             get {

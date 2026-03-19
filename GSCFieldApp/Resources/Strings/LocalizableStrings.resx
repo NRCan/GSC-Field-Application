@@ -462,22 +462,22 @@ Enter last two digit of current year to proceed.</value>
     <value>H2O Content</value>
   </data>
   <data name="EarthmatTooltipAddFossil" xml:space="preserve">
-    <value>Tap to add a new fossil</value>
+    <value>Tap to save then add a new fossil</value>
   </data>
   <data name="EarthmatTooltipAddMA" xml:space="preserve">
-    <value>Tap to add a new mineralization/alteration</value>
+    <value>Tap to save then add a new mineralization/alteration </value>
   </data>
   <data name="EarthmatTooltipAddMineral" xml:space="preserve">
-    <value>Tap to add a new mineral</value>
+    <value>Tap to save then add a new mineral</value>
   </data>
   <data name="EarthmatTooltipAddPaleoflow" xml:space="preserve">
-    <value>Tap to add a new paleoflow</value>
+    <value>Tap to save then add a new paleoflow</value>
   </data>
   <data name="EarthmatTooltipAddSample" xml:space="preserve">
-    <value>Tap to add a new sample</value>
+    <value>Tap to save then add a new sample</value>
   </data>
   <data name="EarthmatTooltipAddStruc" xml:space="preserve">
-    <value>Tap to add a new structure</value>
+    <value>Tap to save then add a new structure</value>
   </data>
   <data name="EnvironmentPageAzim" xml:space="preserve">
     <value>Azimuth</value>
@@ -741,10 +741,10 @@ Enter last two digit of current year to proceed.</value>
     <value>Location</value>
   </data>
   <data name="LocationPageTooltipAddDrill" xml:space="preserve">
-    <value>Tap to add a new drill hole record.</value>
+    <value>Tap to save then add a new drill hole record.</value>
   </data>
   <data name="LocationPageTooltipAddStation" xml:space="preserve">
-    <value>Tap to add a new station record.</value>
+    <value>Tap to save then add a new station record.</value>
   </data>
   <data name="MapPageAddData" xml:space="preserve">
     <value>Tap to add a new layer.</value>
@@ -825,7 +825,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Unit</value>
   </data>
   <data name="MineralizationAlterationTooltipAddMineral" xml:space="preserve">
-    <value>Tap to add a new mineral</value>
+    <value>Tap to save then add a new mineral.</value>
   </data>
   <data name="MineralPageColour" xml:space="preserve">
     <value>Colour</value>
@@ -1161,16 +1161,16 @@ Enter last two digit of current year to proceed.</value>
     <value>Type</value>
   </data>
   <data name="StationTooltipAddEM" xml:space="preserve">
-    <value>Tap to add a new earth material</value>
+    <value>Tap to save then add a new earth material.</value>
   </data>
   <data name="StationTooltipAddEnv" xml:space="preserve">
-    <value>Tap to add a new environment</value>
+    <value>Tap to save then  add a new environment.</value>
   </data>
   <data name="StationTooltipAddMA" xml:space="preserve">
-    <value>Tap to add a new mineralization/alteration</value>
+    <value>Tap to save then add a new mineralization/alteration.</value>
   </data>
   <data name="StationTooltipAddPhoto" xml:space="preserve">
-    <value>Tap to add one or many photos</value>
+    <value>Tap to save then add one or many photos.</value>
   </data>
   <data name="StructurePageAttitude" xml:space="preserve">
     <value>Attitude</value>
