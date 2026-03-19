@@ -2171,20 +2171,24 @@ namespace GSCFieldApp.ViewModel
                 parentID = dc.DrillHoleID;
             }
 
+            // Read the toggle setting BEFORE the initializer
+            bool useAlias = Preferences.Get(nameof(SettingsViewModel.PhotoAliasFilename), true);
+
             FieldNote dcFN = new FieldNote
             {
-                Display_text_1 = dc.DocumentAliasLight,
+                Display_text_1 = useAlias ? dc.DocumentAliasLight : dc.FileName,
                 Display_text_2 = dc.Category,
                 Display_text_3 = dc.Description,
                 GenericTableName = TableDocument,
                 GenericID = dc.DocumentID,
-                ParentID = parentID.HasValue ? parentID.Value : -1, // Use a default value like -1 or handle appropriately
+                ParentID = parentID.HasValue ? parentID.Value : -1,
                 isValid = dc.isValid,
                 ParentTableName = dc.DrillHoleID.HasValue ? TableDrillHoles : TableStation
             };
 
             return dcFN;
         }
+
 
         /// <summary>
         /// Will return a field note object with the information from the given structure.

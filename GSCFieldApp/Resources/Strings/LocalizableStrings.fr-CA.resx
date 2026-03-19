@@ -1605,6 +1605,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Incrément quotidien de traverse</value>
   </data>
+  <data name="SettingPageOtherHeadingAliasFilename" xml:space="preserve">
+    <value>FILL THIS IN GAB</value>
+  </data>
   <data name="SamplePageInfoAlertCore" xml:space="preserve">
     <value>Si un nom de carotte a été fourni ainsi que la valeur de début, l'échantillon sera renommé en {Nom de carotte}\{Valeur de début}</value>
   </data>

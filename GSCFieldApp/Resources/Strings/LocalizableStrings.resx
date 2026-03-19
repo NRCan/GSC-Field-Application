@@ -1604,6 +1604,9 @@ Enter last two digit of current year to proceed.</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Daily traverse increment</value>
   </data>
+  <data name="SettingPageOtherHeadingAliasFilename" xml:space="preserve">
+    <value>Display Alias or Filename in field book</value>
+  </data>
   <data name="SamplePageInfoAlertCore" xml:space="preserve">
     <value>If a parent drill core name exist and a value is provided in "From" entry, sample will be renamed to {CoreName}\{FromValue}.</value>
   </data>
