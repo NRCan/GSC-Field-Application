@@ -144,7 +144,7 @@
         <Setter Property="TextColor" Value="White" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MatDesign"/>
-        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="FontSize" Value="36"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="Padding" Value="0"/>
@@ -172,7 +172,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="Text" Value="&#x2191;"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="FontSize" Value="36"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="Padding" Value="0"/>

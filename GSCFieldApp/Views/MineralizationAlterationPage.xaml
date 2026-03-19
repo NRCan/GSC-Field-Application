@@ -148,7 +148,7 @@
                         BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
                         Command="{Binding NavParentCommand}"/>
 
-                <Button Text="&#xF900;" Style="{StaticResource FieldAppHeaderButton}" 
+                <Button Text="&#xF90B;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
                         ToolTipProperties.Text="{local:Localize MineralizationAlterationTooltipAddMineral}"
                         Command="{Binding AddMineralCommand}"
