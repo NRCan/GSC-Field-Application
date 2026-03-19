@@ -330,7 +330,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDrillDip = "DIP"; //Version 1.8
         public const string FieldDrillDepth = "DH_LENGTH"; //Version 1.8
         public const string FieldDrillUnit = "UNIT"; //Version 1.8
-        public const string FieldDrillDate = "DRILHOLE_DATE"; //Version 1.8
+        public const string FieldDrillDate = "DRILLHOLE_DATE"; //Version 1.8
         public const string FieldDrillHoleSize = "DRILLHOLE_SIZE"; //Version 1.8
         public const string FieldDrillCoreSize = "DRILLCORE_SIZE"; //Version 1.8
         public const string FieldDrillRelogType = "RELOG_TYPE"; //Version 1.8
