@@ -16,7 +16,7 @@ The GSC Field Application only records bedrock geology data at this time, but we
 
 or
 
-* Android 10
+* Android 10, API level 29.
 
 ## Installation
 
@@ -24,7 +24,7 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-Version 3.0.13
+Version 3.1
 
 ## Wiki
 
@@ -34,9 +34,17 @@ The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpf
 
 The current application uses a Geopackage data format to store all information gathered by users. In addition, the data format can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
-### Development environment
+## Development environment
 
-.net Multi-platform App UI (MAUI), Visual studio 2016-2025
+.net Multi-platform App UI (MAUI), Visual studio 2016-2026
+
+## Custom Icons Credits
+
+* [Material Design](https://pictogrammers.com/library/mdi/)
+* [Geology icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/geology)
+* [Geology icons created by Georgiana_Lavinia - Flaticon](https://www.flaticon.com/free-icons/geology)
+* [Mineral icons created by Nadiinko - Flaticon](https://www.flaticon.com/free-icons/mineral)
+* [Geological Survey of Canada, Standard Symbology](ttps://doi.org/10.4095/327025)
 
 ## Contacts
 
@@ -44,18 +52,18 @@ Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
 Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
-### How to Contribute
+## How to Contribute
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-### License
+## License
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
 [Licence document](LICENCE.txt)
 
 The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see [Federal identity requirements](https://www.canada.ca/en/treasury-board-secretariat/topics/government-communications/federal-identity-requirements.html).
 
-#### Natural Resources Canada, Geological Survey of Canada
+## Natural Resources Canada, Geological Survey of Canada
 ##### © His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2025.
 
 ______________________
@@ -77,7 +85,7 @@ Le public cible est principalement les géologues et intervenants souhaitant ré
 
 ou
 
-* Android 10
+* Android 10, APi niveau 29
 
 
 ## Installation
@@ -86,7 +94,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-Version 3 
+Version 3.1
 
 ## Wiki
 
@@ -96,26 +104,34 @@ Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient u
 
 L'application actuelle utilise un format de données Geopackage pour stocker toutes les informations recueillies par les utilisateurs. En outre, ce dernier peut utilisé dans n'importe quel logiciel SIG tel que QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
 
-### Environnement de développement
+## Environnement de développement
 
-.net Multi-platform App UI (MAUI), Visual studio 2016-2025
+.net Multi-platform App UI (MAUI), Visual studio 2016-2026
 
-### Contacts
+## Crédits des icônes utilisés
+
+* [Material Design](https://pictogrammers.com/library/mdi/)
+* [Icônes de géologie créé par Freepik - Flaticon](https://www.flaticon.com/free-icons/geology)
+* [Icônes de géologie créé par Georgiana_Lavinia - Flaticon](https://www.flaticon.com/free-icons/geology)
+* [Icônes de minéralogie créé par Nadiinko - Flaticon](https://www.flaticon.com/free-icons/mineral)
+* [Commission géologique du Canada, Standard de géologie](ttps://doi.org/10.4095/327025)
+
+## Contacts
 
 Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
 Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
-### Comment contribuer
+## Comment contribuer
 
 Voir [CONTRIBUTING.md](CONTRIBUTING.md)
 
-### License
+## License
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
 [Document de licence](LICENCE_French.txt)
 
 Le mot-symbole « Canada » et les éléments graphiques connexes liés à cette distribution sont protégés en vertu des lois portant sur les marques de commerce et le droit d'auteur. Aucune autorisation n'est accordée pour leur utilisation à l'extérieur des paramètres du programme de coordination de l'image de marque du gouvernement du Canada. Pour obtenir davantage de renseignements à ce sujet, veuillez consulter les [Exigences pour l'image de marque](https://www.canada.ca/fr/secretariat-conseil-tresor/sujets/communications-gouvernementales/exigences-image-marque.html).
 
-#### Huot-Vézina, G., Ressources naturelles Canada, Commission géologique du Canada.
+## Ressources naturelles Canada, Commission géologique du Canada.
 ##### © Sa Majesté le Roi du Chef tu Canada représenté par le ministre des Ressources naturelles, 2025.
