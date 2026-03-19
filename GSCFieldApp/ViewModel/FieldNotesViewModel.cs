@@ -2190,7 +2190,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote dcFN = new FieldNote
             {
-                Display_text_1 = dc.DocumentAliasLight,
+                Display_text_1 = dc.FileName,
                 Display_text_2 = dc.Category,
                 Display_text_3 = dc.Description,
                 GenericTableName = TableDocument,
