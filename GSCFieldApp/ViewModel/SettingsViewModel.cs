@@ -132,6 +132,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(InternalCameraFirstEnabled), value); }
         }
 
+        public bool PhotoAliasFilename
+        {
+            get { return Preferences.Get(nameof(PhotoAliasFilename), true); }
+            set { Preferences.Set(nameof(PhotoAliasFilename), value); }
+        }
+
         public bool DailyTraverseIncrementaionEnabled
             {
             get { return Preferences.Get(nameof(DailyTraverseIncrementaionEnabled), true); }

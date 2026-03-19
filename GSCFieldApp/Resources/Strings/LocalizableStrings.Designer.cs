@@ -3708,6 +3708,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display Alias or Filename in field book.
+        /// </summary>
+        internal static string SettingPageOtherHeadingAliasFilename {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingAliasFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open internal camera first.
         /// </summary>
         internal static string SettingPageOtherHeadingDevicePhotoFirst {
