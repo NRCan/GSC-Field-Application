@@ -1060,10 +1060,6 @@ namespace GSCFieldApp.ViewModel
                 _dates = new ObservableCollection<FieldNote>();
             }
 
-            //List to detect dates that disapears
-            List<FieldNote> datesToRemove = new List<FieldNote>();
-            List<FieldNote> datesTotalList = new List<FieldNote>();
-
             //Get all dates from key TableNames
             List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
                 FieldStationVisitDate, TableStation));
@@ -1090,10 +1086,9 @@ namespace GSCFieldApp.ViewModel
                     if (st.StationVisitDate != null && st.StationVisitDate != string.Empty)
                     {
                         sDate = new FieldNote() { Display_text_1 = st.StationVisitDate };
-                        datesTotalList.Add(sDate);
                     }
 
-                    if (!_dates.Contains(sDate))
+                    if (_dates.Where(d=>d.Display_text_1 == sDate.Display_text_1).ToList().Count() == 0)
                     {
                         _dates.Insert(stats.IndexOf(st),sDate);
                     }
@@ -1110,26 +1105,14 @@ namespace GSCFieldApp.ViewModel
                     if (dr.LocationTimestamp != null && dr.LocationTimestamp != string.Empty)
                     {
                         dDate = new FieldNote() { Display_text_1 = dr.LocationTimestamp};
-                        datesTotalList.Add(dDate);
                     }
 
-                    if (!_dates.Contains(dDate))
+                    if (_dates.Where(d => d.Display_text_1 == dDate.Display_text_1).ToList().Count() == 0)
                     {
                         _dates.Insert(locs.IndexOf(dr), dDate);
                     }
 
                 }
-            }
-
-            //Remove missing dates
-            datesToRemove = _dates.Where(d => !datesTotalList.Contains(d)).ToList();
-            if (datesToRemove != null && datesToRemove.Count() > 0)
-            {
-                foreach (FieldNote dr in datesToRemove)
-                {
-                    _dates.Remove(dr);
-                }
-
             }
 
             OnPropertyChanged(nameof(Dates));
