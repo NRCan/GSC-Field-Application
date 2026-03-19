@@ -23,88 +23,94 @@
         
         <!--Templates-->
         <DataTemplate x:Key="FieldbooksSelectedTemplate" x:DataType="model:FieldBooks" >
-            <VerticalStackLayout>
-                <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
-                <Border Style="{StaticResource FieldAppBorder}" 
+
+                <Border StrokeShape="RoundRectangle 8,8,8,8" StrokeThickness="0" >
+                    <VerticalStackLayout >
+                        <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
+                        <Border Style="{StaticResource FieldAppBorder}" 
                     BackgroundColor="{StaticResource Primary}" 
                     HeightRequest="380" WidthRequest="250">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=FieldBookChangedCommand}" 
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=FieldBookChangedCommand}" 
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
-                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=NavigateToMapPageCommand}" 
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=NavigateToMapPageCommand}" 
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
 
-                    </Border.GestureRecognizers>
-                    <Grid Margin="{OnPlatform WinUI='0,0,10,-10', Android='0,0,0,10', iOS='0,0,0,10'}" Padding="0">
+                            </Border.GestureRecognizers>
+                            <Grid Margin="{OnPlatform WinUI='0,0,10,-10', Android='0,0,0,10', iOS='0,0,0,10'}" Padding="0">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3"/>
-                            <ColumnDefinition Width="180"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="150"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3"/>
+                                    <ColumnDefinition Width="180"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="150"/>
 
-                        </Grid.RowDefinitions>
+                                </Grid.RowDefinitions>
 
-                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White" TextTransform="Uppercase"
+                                <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White" TextTransform="Uppercase"
                             Margin="10,0,0,0" LineBreakMode="TailTruncation"/>
 
-                        <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
+                                <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
                                FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="1"/>
-                        <Label Text="{Binding metadataForProject.ProjectName}"
+                                <Label Text="{Binding metadataForProject.ProjectName}"
                                 FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="2"/>
-                        <Label Text="{Binding metadataForProject.FieldworkType}" 
+                                <Label Text="{Binding metadataForProject.FieldworkType}" 
                                 FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="3"/>
-                        <Label Text="{Binding metadataForProject.StartDate}" 
+                                <Label Text="{Binding metadataForProject.StartDate}" 
                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="4"/>
 
-                        <!--Station count total-->
-                        <Label Grid.Column="1" Grid.Row="5" TextColor="White" 
+                                <!--Station count total-->
+                                <Label Grid.Column="1" Grid.Row="5" TextColor="White" 
                                 Margin="25,0,0,0">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="Station ("/>
-                                    <Span Text="{Binding StationNumber}"/>
-                                    <Span Text=")"/>
-                                </FormattedString>
-                            </Label.FormattedText>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Station ("/>
+                                            <Span Text="{Binding StationNumber}"/>
+                                            <Span Text=")"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
 
-                        </Label>
+                                </Label>
 
-                        <Label Text="{local:Localize FieldBooksInvalidVersion}" IsVisible="{Binding isValid, Converter={StaticResource reverseBool}}"
+                                <Label Text="{local:Localize FieldBooksInvalidVersion}" IsVisible="{Binding isValid, Converter={StaticResource reverseBool}}"
                            FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="Red" FontAttributes="Bold"
                            Grid.Column="1" Grid.Row="6"/>
-                        
-                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="15,0,0,0" HeightRequest="100" 
+
+                                <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="15,0,0,0" HeightRequest="100" 
                             Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center" Source="logo.png"/>
 
-                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+                                <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
-                    </Grid>
-
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
                 </Border>
-            </VerticalStackLayout>
-
 
         </DataTemplate>
 
         <!--Custom selection color for collection view-->
-        <Style TargetType="VerticalStackLayout">
+        <Style TargetType="Border">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Normal" >
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
