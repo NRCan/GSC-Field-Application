@@ -1227,65 +1227,66 @@ namespace GSCFieldApp.Services.DatabaseServices
             string id = ""; //New calculated value to return
             int getRemainder; //In case it's needed, will be calculate from modulo
             int getQuotient; //In case needed, will be used for overload
+            int numIDModulo = 0;
 
-            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", TableMineralAliasPrefix, "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-            //Retrieve a new numerical id
-            int numID = startingNumber;
-
-            //Parse new id with associated caracter
-            if (numID <= alphaList.Count)
+            try
             {
-                if (numID == 0)
-                {
-                    id = alphaList[0];
-                }
-                else
-                {
-                    id = alphaList[numID - 1];
-                }
-                
-            }
-            else
-            {
-                //Get modulo from id
-                getRemainder = numID % alphaList.Count;
+                List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", TableMineralAliasPrefix, "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
-                //Get current alpha from modulo
-                id = alphaList[getRemainder - 1];
+                //Retrieve a new numerical id
+                int numID = startingNumber;
 
-                //Get if user wants an overload
-                if (overload == true)
+                //Parse new id with associated caracter
+                if (numID <= alphaList.Count)
                 {
-                    //Get how many time alphalist.count is found within current numID
-                    getQuotient = numID / alphaList.Count;
-
-                    //Check if quotient is within count range, if over, iterate until it's under range of the count number
-                    if (getQuotient >= alphaList.Count)
+                    if (numID == 0)
                     {
-                        //Iteration
-                        while (getQuotient > alphaList.Count)
-                        {
-                            //Get modulo again
-                            getRemainder = getQuotient % alphaList.Count;
-
-                            //Add new alpha id to current id
-                            id = alphaList[getRemainder - 1] + id;
-
-                            //Recalculate quotient to make while run
-                            getQuotient = getQuotient / alphaList.Count;
-                        }
-
-                        //Get id result of final while iteration
-                        id = alphaList[getQuotient - 1] + id;
+                        id = alphaList[0];
                     }
                     else
                     {
-                        id = alphaList[getQuotient - 1] + id;
+                        id = alphaList[numID - 1];
                     }
 
                 }
+                else
+                {
+                    //Get modulo from id
+                    numIDModulo = numID % alphaList.Count;
+                    getRemainder = numID % alphaList.Count;
+
+                    //Get current alpha from modulo 
+                    if (getRemainder == 0)
+                    {
+                        //(ex: 52/26 = 0, will fail to get proper alpha value)
+                        getRemainder = 26;
+                    }
+                    id = alphaList[getRemainder - 1];
+
+                    //Get if user wants an overload
+                    if (overload == true)
+                    {
+                        //Get how many time alphalist.count is found within current numID
+                        getQuotient = numID / alphaList.Count;
+
+                        if (numIDModulo == 0)
+                        {
+                            //When a modulo hits, make sure to get old quotient value else it'll skip directly to the new one
+                            //e.g. AY needs to be followed by AZ, next line will prevent from going to BA, skipping AZ
+                            getQuotient = getQuotient - 1;
+
+                        }
+
+                        id = alphaList[getQuotient - 1] + id;
+
+                    }
+                }
             }
+            catch (Exception calculateAlphabeticIDException)
+            {
+                new ErrorToLogFile(calculateAlphabeticIDException).WriteToFile();
+            }
+
 
             return id;
         }
