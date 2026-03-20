@@ -1604,6 +1604,12 @@ Enter last two digit of current year to proceed.</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Daily traverse increment</value>
   </data>
+  <data name="MapPageTapMenuStruc" xml:space="preserve">
+    <value>Structure/Pflow</value>
+  </data>
+  <data name="GenericClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="SettingPageOtherHeadingAliasFilename" xml:space="preserve">
     <value>Photo alias or filename</value>
   </data>

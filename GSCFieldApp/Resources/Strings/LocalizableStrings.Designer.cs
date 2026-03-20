@@ -2115,6 +2115,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string GenericClose {
+            get {
+                return ResourceManager.GetString("GenericClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text was copied to clipboard.
         /// </summary>
         internal static string GenericCopiedToClipboard {
@@ -2696,6 +2705,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string MapPageTapEditFeatureError {
             get {
                 return ResourceManager.GetString("MapPageTapEditFeatureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structure/Pflow.
+        /// </summary>
+        internal static string MapPageTapMenuStruc {
+            get {
+                return ResourceManager.GetString("MapPageTapMenuStruc", resourceCulture);
             }
         }
         
