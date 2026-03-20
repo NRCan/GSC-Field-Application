@@ -315,7 +315,7 @@ namespace GSCFieldApp.ViewModel
             if (Model.StationAlias != null)
             {
                 //Validate if new entry or update
-                if (_station != null && _station.StationAlias != string.Empty)
+                if (_station != null && _station.StationAlias != null && _station.StationAlias != string.Empty)
                 {
                     await da.SaveItemAsync(Model, true);
                     RefreshFieldNotes(TableNames.station, Model, refreshType.update);
