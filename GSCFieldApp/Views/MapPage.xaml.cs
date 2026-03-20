@@ -16,6 +16,7 @@ using Mapsui.Extensions;
 using Mapsui.Extensions.Cache;
 using Mapsui.Layers;
 using Mapsui.Nts;
+using Mapsui.Nts.Providers;
 using Mapsui.Projections;
 using Mapsui.Providers.Wms;
 using Mapsui.Styles;
@@ -50,7 +51,6 @@ using Layer = Mapsui.Layers.Layer;
 using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
 using Point = NetTopologySuite.Geometries.Point;
 using Sensor = Microsoft.Maui.Devices.Sensors;
-using Mapsui.Nts.Providers;
 
 
 
@@ -3228,7 +3228,8 @@ public partial class MapPage : ContentPage
                 //}
 
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
-                await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy)).ContinueWith(a=> mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
+                await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy));
+                await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
 
                 mapView.MyLocationEnabled = true;
                 mapView.MyLocationFollow = _locationFollowEnabled;
