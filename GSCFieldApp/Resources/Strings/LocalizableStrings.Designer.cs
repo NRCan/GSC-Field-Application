@@ -1107,7 +1107,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lithology - Setting and composition.
+        ///   Looks up a localized string similar to Lithology.
         /// </summary>
         internal static string EarthmatPageLithoTitle {
             get {

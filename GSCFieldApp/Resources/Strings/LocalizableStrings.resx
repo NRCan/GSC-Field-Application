@@ -402,7 +402,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Lithologic Modifiers</value>
   </data>
   <data name="EarthmatPageLithoTitle" xml:space="preserve">
-    <value>Lithology - Setting and composition</value>
+    <value>Lithology</value>
   </data>
   <data name="EarthmatPageLithoType" xml:space="preserve">
     <value>Type</value>

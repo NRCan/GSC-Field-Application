@@ -403,7 +403,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Modificateur de lithologie</value>
   </data>
   <data name="EarthmatPageLithoTitle" xml:space="preserve">
-    <value>Lithologie - Cadre et composition</value>
+    <value>Lithologie</value>
   </data>
   <data name="EarthmatPageLithoType" xml:space="preserve">
     <value>Type</value>
