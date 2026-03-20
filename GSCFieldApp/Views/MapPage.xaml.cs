@@ -705,7 +705,11 @@ public partial class MapPage : ContentPage
         ToggleTapEntry();
     }
 
-
+    /// <summary>
+    /// Will move around the display the tap menu
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TapMenu_PanUpdated(object sender, PanUpdatedEventArgs e)
     {
         switch (e.StatusType)
@@ -840,39 +844,60 @@ public partial class MapPage : ContentPage
         ToggleRuler();
 
     }
+
+    /// <summary>
+    /// Tap event to digitize a waypoint
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TapMenu_Waypoint(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
         _selectedTapAction = "Waypoint";
-        DisplayAlert("Selected", "Waypoint", "OK");
     }
 
+    /// <summary>
+    /// Tap event to digitize a station
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TapMenu_Station(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
         _selectedTapAction = "Station";
-        DisplayAlert("Selected", "Station", "OK");
     }
 
+    /// <summary>
+    /// Tap event to digitize a photo
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TapMenu_Photo(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
         _selectedTapAction = "Photo";
-        DisplayAlert("Selected", "Photo", "OK");
     }
 
+    /// <summary>
+    /// Tap event to digitize a sample
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TapMenu_Sample(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
         _selectedTapAction = "Sample";
-        DisplayAlert("Selected", "Sample", "OK");
     }
 
+    /// <summary>
+    /// Tap event to digitize a structure/pflow
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TapMenu_Structure(object sender, EventArgs e)
     {
         TapMenuOverlay.IsVisible = false;
         _selectedTapAction = "Structure";
-        DisplayAlert("Selected", "Structure", "OK");
     }
 
 
@@ -948,109 +973,54 @@ public partial class MapPage : ContentPage
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
         if (_isTapMode && !_isDrawingLine &&
-    !MapLayerFrame.IsVisible &&
-    !MapAddGeopackageWMSFrame.IsVisible &&
-    !MapInfoResultsFrame.IsVisible)
+            !MapLayerFrame.IsVisible &&
+            !MapAddGeopackageWMSFrame.IsVisible &&
+            !MapInfoResultsFrame.IsVisible)
         {
-            // Convert to degree position ONCE
-            var mapPosition = e.WorldPosition.ToMaui();
+            //Convert to degree position
+            Mapsui.UI.Maui.Position mapPosition = e.WorldPosition.ToMaui();
+
+            //Convert incoming geographic coordinates and transform into DMS
+            DD2DMS dmsLongitude = DD2DMS.FromDouble(mapPosition.Longitude);
+            DD2DMS dmsLatitude = DD2DMS.FromDouble(mapPosition.Latitude);
 
             var vm = BindingContext as MapViewModel;
             vm.RefreshCoordinatesFromTap(mapPosition);
 
-            switch (_selectedTapAction)
+            string content = string.Format(LocalizationResourceManager["MapPageTapCoordinateContent"].ToString(), _selectedTapAction, e.WorldPosition);
+
+            bool answer = await Shell.Current.DisplayAlert(
+                LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+                content,
+                LocalizationResourceManager["GenericButtonYes"].ToString(),
+                LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            if (answer)
             {
-                case "Waypoint":
-                    {
-                        // Ask user before creating a station
-                        string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
-
-                        bool answer = await Shell.Current.DisplayAlert(
-                            LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
-                            content,
-                            LocalizationResourceManager["GenericButtonYes"].ToString(),
-                            LocalizationResourceManager["GenericButtonNo"].ToString());
-
-                        if (answer)
-                        {
-                            vm.RefreshCoordinatesFromTap(mapPosition);
-                            vm.AddWaypointCommand.Execute(null);
-                        }
+                switch (_selectedTapAction)
+                {
+                    case "Waypoint":
+                        vm.AddWaypointCommand.Execute(mapPosition);
                         break;
-                    }
-
-                case "Station":
-                    {
-                        // Ask user before creating a station
-                        string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
-
-                        bool answer = await Shell.Current.DisplayAlert(
-                            LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
-                            content,
-                            LocalizationResourceManager["GenericButtonYes"].ToString(),
-                            LocalizationResourceManager["GenericButtonNo"].ToString());
-
-                        if (answer)
-                        {
-                            vm.AddStationCommand.Execute(null);
-                        }
+                    case "Station":
+                        vm.AddStationCommand.Execute(mapPosition);
                         break;
-                    }
-
-                case "Photo":
-                    {
-                        // Ask user before creating a station
-                        //string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
-
-                        //bool answer = await Shell.Current.DisplayAlert(
-                            //LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
-                            //content,
-                            //LocalizationResourceManager["GenericButtonYes"].ToString(),
-                           // LocalizationResourceManager["GenericButtonNo"].ToString());
-
-                        //if (answer)
-                        //{
-                            //vm.RefreshCoordinatesFromTap(mapPosition);
-                            vm.AddDocumentCommand.Execute(null);
-                       // }
+                    case "Photo":
+                        vm.AddDocumentCommand.Execute(mapPosition);
                         break;
-                    }
+                    case "Sample":
+                        vm.AddSampleCommand.Execute(mapPosition);
+                        break;
 
-                case "Sample":
-                    vm.AddSampleCommand.Execute(null);
-                    break;
+                    case "Structure":
+                        vm.AddStructureCommand.Execute(mapPosition);
+                        break;
 
-                case "Structure":
-                    vm.AddStructureCommand.Execute(null);
-                    break;
-
-                default:
-                    // No menu option selected → fallback popup
-                    await ShowTapCoordinatePopup(e);
-                    break;
+                    default:
+                        vm.AddStationCommand.Execute(mapPosition);
+                        break;
+                }
             }
-
-            //_selectedTapAction = null;
-        }
-
-
-
-    }
-
-    private async Task ShowTapCoordinatePopup(MapEventArgs e)
-    {
-        string content = $"{LocalizationResourceManager["MapPageTapCoordinateContent"]}\n{e.WorldPosition}";
-
-        bool answer = await Shell.Current.DisplayAlert(
-            LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
-            content,
-            LocalizationResourceManager["GenericButtonYes"].ToString(),
-            LocalizationResourceManager["GenericButtonNo"].ToString());
-
-        if (answer)
-        {
-            var vm = BindingContext as MapViewModel;
-            vm.AddStationCommand.Execute(null);
         }
     }
 

@@ -2682,7 +2682,8 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Would you like to create a new station from this point?.
+        ///   Looks up a localized string similar to Would you like to create a new {0} from this point? 
+        ///{1}.
         /// </summary>
         internal static string MapPageTapCoordinateContent {
             get {

@@ -1269,7 +1269,8 @@ Enter last two digit of current year to proceed.</value>
     <value>Coordinates</value>
   </data>
   <data name="MapPageTapCoordinateContent" xml:space="preserve">
-    <value>Would you like to create a new station from this point?</value>
+    <value>Would you like to create a new {0} from this point? 
+{1}</value>
   </data>
   <data name="AboutPageAppInfoHelp" xml:space="preserve">
     <value>Help</value>

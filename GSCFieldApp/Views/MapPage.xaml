@@ -295,16 +295,16 @@
                     IsVisible="False"
                     InputTransparent="False">
 
-                <Frame x:Name="TapMenuFrame" 
+                <Border x:Name="TapMenuFrame" 
                     BackgroundColor="White"
-                        CornerRadius="8"
-                        Padding="12"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center">
+                    Style="{StaticResource FieldAppBorder}" 
+                    Padding="12"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
 
-                    <Frame.GestureRecognizers>
+                    <!--<Border.GestureRecognizers>
                         <PanGestureRecognizer PanUpdated="TapMenu_PanUpdated"/>
-                    </Frame.GestureRecognizers>
+                    </Border.GestureRecognizers>-->
 
                     <VerticalStackLayout Spacing="10">
                         <Button Text="{local:Localize Key=StationPageWaypoint}"   Clicked="TapMenu_Waypoint"/>
@@ -318,7 +318,7 @@
                                 Clicked="TapMenuClose_Clicked"/>
                     </VerticalStackLayout>
 
-                </Frame>
+                </Border>
             </Grid>
 
         </Grid>

@@ -1270,7 +1270,8 @@ Aimeriez-vous modifier les droits?</value>
     <value>Coordonnées</value>
   </data>
   <data name="MapPageTapCoordinateContent" xml:space="preserve">
-    <value>Aimeriez-vous créer une nouvelle station à partir de ce point?</value>
+    <value>Aimeriez-vous créer une nouvelle {0} à partir de ce point?
+{1}</value>
   </data>
   <data name="AboutPageAppInfoHelp" xml:space="preserve">
     <value>Aide</value>
