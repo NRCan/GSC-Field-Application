@@ -462,7 +462,7 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Exit
-                await NavigateAfterAction(TableNames.earthmat);
+                await NavigateAfterAction(TableNames.earthmat.ToString());
             }
  
         }
@@ -512,7 +512,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.earthmat);
+            await NavigateAfterAction(TableNames.earthmat.ToString());
 
         }
 

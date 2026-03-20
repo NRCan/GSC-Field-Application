@@ -153,7 +153,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.environment);
+            await NavigateAfterAction(TableNames.environment.ToString());
             
         }
 
@@ -201,7 +201,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.environment);
+            await NavigateAfterAction(TableNames.environment.ToString());
 
         }
 

@@ -196,12 +196,17 @@
                                 <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,90">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
 
                                     </Grid.RowDefinitions>
 
-                                    <!--On new photo record, open internal camera first instead of form-->
+                                    <!--On new station record, do daily traverse increments-->
                                     <Label Text="{local:Localize SettingPageOtherHeadingStationToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0" LineBreakMode="TailTruncation" />
                                     <Switch IsToggled="{Binding DailyTraverseIncrementaionEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="0" />
+
+                                    <!--On new station record, want to go to map or fieldnotes-->
+                                    <Label Text="{local:Localize SettingPageOtherHeadingStationMapFieldNotes}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding StationMapFieldNotes, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
 
                                 </Grid>
                             </Border>

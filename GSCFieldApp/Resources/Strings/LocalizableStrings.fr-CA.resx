@@ -1605,4 +1605,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Incrément quotidien de traverse</value>
   </data>
+  <data name="SettingPageOtherHeadingStationMapFieldNotes" xml:space="preserve">
+    <value>PUT FRENCH IN HERE GAB</value>
+  </data>
 </root>

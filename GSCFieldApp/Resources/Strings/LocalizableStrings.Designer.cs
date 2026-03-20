@@ -3753,6 +3753,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go To Map or Field Notes after creating Station.
+        /// </summary>
+        internal static string SettingPageOtherHeadingStationMapFieldNotes {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingStationMapFieldNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Daily traverse increment.
         /// </summary>
         internal static string SettingPageOtherHeadingStationToggle {

@@ -1604,4 +1604,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Daily traverse increment</value>
   </data>
+  <data name="SettingPageOtherHeadingStationMapFieldNotes" xml:space="preserve">
+    <value>Go To Map or Field Notes after creating Station</value>
+  </data>
 </root>

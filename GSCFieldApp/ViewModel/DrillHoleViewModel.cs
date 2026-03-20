@@ -108,7 +108,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.drill);
+            await NavigateAfterAction(TableNames.drill.ToString());
      
         }
 
@@ -125,7 +125,7 @@ namespace GSCFieldApp.ViewModel
             //Exit
             if (savedModel != null)
             {
-                await NavigateAfterAction(TableNames.drill);
+                await NavigateAfterAction(TableNames.drill.ToString());
             }
             
         }
@@ -161,7 +161,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.drill);
+            await NavigateAfterAction(TableNames.drill.ToString());
 
         }
 

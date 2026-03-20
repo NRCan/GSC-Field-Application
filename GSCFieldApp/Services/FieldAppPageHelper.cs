@@ -5,6 +5,7 @@ using GSCFieldApp.Controls;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -107,16 +108,26 @@ namespace GSCFieldApp.Services
         /// <param name="tableName"></param>
         /// <param name="refreshTable"></param>
         /// <returns></returns>
-        public static async Task NavigateAfterAction(TableNames tableName, bool refreshTable = true)
+        public async Task NavigateAfterAction(string tableName)
         {
-            if (NavFromMapPage)
+            // Read user preference
+            bool goToMap = Preferences.Get(nameof(SettingsViewModel.StationMapFieldNotes), true);
+
+            if (tableName == TableNames.station.ToString())
             {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+                if (goToMap)
+                {
+                    await Shell.Current.GoToAsync("//MapPage");
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync("//FieldNotesPage");
+                }
+
+                return;
             }
-            else
-            {
-                await NavigateToFieldNotesOrMapPage(tableName, refreshTable);
-            }
+
+            // existing logic for other tables...
         }
 
         /// <summary>

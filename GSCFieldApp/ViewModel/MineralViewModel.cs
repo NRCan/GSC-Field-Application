@@ -160,7 +160,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-             await NavigateAfterAction(TableNames.mineral);
+             await NavigateAfterAction(TableNames.mineral.ToString());
             
         }
 
@@ -210,7 +210,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.mineral);
+            await NavigateAfterAction(TableNames.mineral.ToString());
 
         }
 
