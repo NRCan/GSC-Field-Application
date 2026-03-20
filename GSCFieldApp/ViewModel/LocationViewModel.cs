@@ -103,7 +103,7 @@ namespace GSCFieldApp.ViewModel
             //Exit
             if (savedModel != null)
             {
-                await NavigateAfterAction(TableNames.location);
+                await NavigateAfterAction(TableNames.location.ToString());
             }
 
 
@@ -134,7 +134,7 @@ namespace GSCFieldApp.ViewModel
 
 
             //Exit
-            await NavigateAfterAction(TableNames.location);
+            await NavigateAfterAction(TableNames.location.ToString());
 
         }
 

@@ -96,7 +96,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.linework);
+            await NavigateAfterAction(TableNames.linework.ToString());
 
         }
 
@@ -118,7 +118,7 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Exit
-                await NavigateAfterAction(TableNames.linework);
+                await NavigateAfterAction(TableNames.linework.ToString());
             }
 
 

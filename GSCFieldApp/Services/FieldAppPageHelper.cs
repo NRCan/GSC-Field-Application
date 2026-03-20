@@ -5,6 +5,7 @@ using GSCFieldApp.Controls;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -129,6 +130,8 @@ namespace GSCFieldApp.Services
             {
                 await NavigateToFieldNotesOrMapPage(tableName, refreshTable);
             }
+
+            // existing logic for other tables...
         }
 
         /// <summary>
