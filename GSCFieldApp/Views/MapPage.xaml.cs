@@ -92,7 +92,7 @@ public partial class MapPage : ContentPage
     private ImageStyle _drillStyle = null;
     private static readonly HttpClient SharedHttpClient = new HttpClient();
     IPersistentCache<byte[]>? persistentCache = null;
-
+    MapViewModel _vm = null;
 #if ANDROID
     private ParallelOptions _parallelOptions = new()
     {
@@ -143,7 +143,7 @@ public partial class MapPage : ContentPage
         {
             InitializeComponent();
 
-            BindingContext = vm;
+            BindingContext = _vm = vm;
 
             //Initialize grid background
             mapPageGrid.BackgroundColor = Microsoft.Maui.Graphics.Color.FromArgb("#FFFFFF");
@@ -428,8 +428,7 @@ public partial class MapPage : ContentPage
                                     if (results != null)
                                     {
                                         //Show a pop-up with the result
-                                        MapViewModel vm = BindingContext as MapViewModel;
-                                        vm.FillMapInfoCollection(results);
+                                        _vm.FillMapInfoCollection(results);
 
                                         MapInfoResultsFrame.IsVisible = true;
                                     }
@@ -605,8 +604,6 @@ public partial class MapPage : ContentPage
             ILayer[] layersToDelete = mapView.Map.Layers.Where(x => x.Name == layerToDelete.Name).ToArray();
             mapView.Map.Layers.Remove(layerToDelete);
 
-            MapViewModel _vm = BindingContext as MapViewModel;
-
             //Remove it also from the view model layer collection for menu
             _vm.RefreshLayerCollection(mapView.Map.Layers);
 
@@ -653,7 +650,6 @@ public partial class MapPage : ContentPage
     private void ManageLayerButton_Clicked(object sender, EventArgs e)
     {
         //Refresh VM list of layers
-        MapViewModel _vm = BindingContext as MapViewModel;
         _vm.RefreshLayerCollection(mapView.Map.Layers);
 
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
@@ -748,8 +744,7 @@ public partial class MapPage : ContentPage
                 //Show list of layers available from url get cap os user can chose
                 if (mpl != null && mpl.Count() > 0)
                 {
-                    MapViewModel vm = BindingContext as MapViewModel;
-                    vm.FillWMSFeatureCollection(mpl);
+                    _vm.FillWMSFeatureCollection(mpl);
                 }
             }
             else
@@ -823,8 +818,6 @@ public partial class MapPage : ContentPage
             //Condition on map view not being null to prevent it from being launch and map page load
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
-                MapViewModel _vm = BindingContext as MapViewModel;
-
                 if (_vm != null && _vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
                 {
                     //Reorder layers (user might have changed it) - reverse to match mapsui ordering
@@ -904,9 +897,8 @@ public partial class MapPage : ContentPage
             if (answer)
             {
                 //Init record creation
-                MapViewModel mvm = BindingContext as MapViewModel;
-                mvm.RefreshCoordinatesFromTap(mapPosition);
-                mvm.AddStationCommand.Execute(mvm);
+                _vm.RefreshCoordinatesFromTap(mapPosition);
+                _vm.AddStationCommand.Execute(_vm);
             }
         }
 
@@ -960,7 +952,6 @@ public partial class MapPage : ContentPage
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
                 //Start loading feature from selected
-                MapViewModel _vm = BindingContext as MapViewModel;
                 if (_vm.FeatureCollection != null && _vm.FeatureCollection.Count > 0)
                 {
                     
@@ -1160,7 +1151,6 @@ public partial class MapPage : ContentPage
     {
         if (!_isInitialLoadingDone)
         {
-            MapViewModel _vm = BindingContext as MapViewModel;
             _vm.EmptyLayerCollections();
 
             List<MemoryLayer> mls = await CreateDefaultLayersAsync();
@@ -1335,8 +1325,6 @@ public partial class MapPage : ContentPage
                 {
                     mapView.Map.Layers.Insert(rightIndex, in_layer);
 
-                    MapViewModel _vm = BindingContext as MapViewModel;
-
                     //Update layer collection for menu
                     _vm.RefreshLayerCollection(mapView.Map.Layers);
 
@@ -1418,7 +1406,6 @@ public partial class MapPage : ContentPage
                 }
 
                 //Get prefered layers and add them
-                MapViewModel _vm = BindingContext as MapViewModel;
                 Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
 
                 if (prefLayers != null && mapView != null)
@@ -1841,8 +1828,7 @@ public partial class MapPage : ContentPage
                 if (gpkgFeatures != null && gpkgFeatures.Count() > 0)
                 {
                     //Ask user which feature they want to load up
-                    MapViewModel vm = BindingContext as MapViewModel;
-                    vm.FillGeopackageFeatureCollection(gpkgFeatures, gpkgPath);
+                    _vm.FillGeopackageFeatureCollection(gpkgFeatures, gpkgPath);
                     
                 }
 
@@ -2748,7 +2734,6 @@ public partial class MapPage : ContentPage
             if ((LineString)_drawableLineGeometry.Geometry != null)
             {
                 //Save linework as a new record and open edit form for user to finalize it
-                MapViewModel _vm = BindingContext as MapViewModel;
                 await _vm.AddLinework((LineString)_drawableLineGeometry.Geometry);
 
                 //Empty lineworkedit layer of any content
@@ -3193,7 +3178,7 @@ public partial class MapPage : ContentPage
             // check if it should update location
             if (_isCheckingGeolocation)
             {
-                UpdateLocationOnMap(e.Location);
+                await UpdateLocationOnMap(e.Location);
             }
             else
             {
@@ -3219,34 +3204,52 @@ public partial class MapPage : ContentPage
     {
         if (_isCheckingGeolocation)
         {
-            MapViewModel _vm = BindingContext as MapViewModel;
             if (_vm != null)
             {
                 this.WaitingCursor.IsRunning = false; //Make sure it's closed down
-                
-                _vm.RefreshCoordinates(inLocation);
 
-                await SetMapAccuracyColor(inLocation.Accuracy);
+                //if (mapView.MyLocationLayer.MyLocation.Latitude != inLocation.Latitude || mapView.MyLocationLayer.MyLocation.Longitude != inLocation.Longitude)
+                //{
+                //    await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
+                //    await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy));
 
-                mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
+                //    mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
+                //    mapView.MyLocationEnabled = true;
+                //    mapView.MyLocationFollow = _locationFollowEnabled;
+
+                //    if (inLocation.Course != null && inLocation.Course.HasValue)
+                //    {
+                //        mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                //    }
+                //    //else
+                //    //{
+                //    //    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                //    //}
+                //}
+
+                await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
+                await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy)).ContinueWith(a=> mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
+
                 mapView.MyLocationEnabled = true;
-                //mapView.RefreshGraphics();
                 mapView.MyLocationFollow = _locationFollowEnabled;
 
                 if (inLocation.Course != null && inLocation.Course.HasValue)
                 {
                     mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
                 }
-                else
-                {
-                    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                }
+                //else
+                //{
+                //    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                //}
 
-            }  
+            }
         }
 
         //Debug option to log GPS
-        await Task.Run(async() => await LogGPSChanges(DateTime.Now, inLocation));
+        if (GPSLogEnabled)
+        {
+            await Task.Run(async () => await LogGPSChanges(DateTime.Now, inLocation));
+        }
 
     }
 
@@ -3280,7 +3283,6 @@ public partial class MapPage : ContentPage
         _ = SetMapAccuracyColor(-99);
 
         //Make sure to show proper bad location coordinates labels
-        MapViewModel _vm = BindingContext as MapViewModel;
         _vm.RefreshCoordinates(badLoc);
 
         this.WaitingCursor.IsRunning = false;

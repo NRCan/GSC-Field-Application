@@ -629,7 +629,7 @@ namespace GSCFieldApp.ViewModel
         /// and used for a new location record. Coming from sensor.
         /// </summary>
         /// <param name="inLocation"></param>
-        public void RefreshCoordinates(Location inLocation)
+        public async Task RefreshCoordinates(Location inLocation)
         {
             sensorLocation = inLocation;
             OnPropertyChanged(nameof(sensorLocation));
