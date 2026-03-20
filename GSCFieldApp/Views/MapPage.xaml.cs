@@ -110,7 +110,6 @@ public partial class MapPage : ContentPage
     private GeopackageService _geopackageService = new GeopackageService();
     private string _selectedTapAction = null;
 
-
     double _startX, _startY;
 
     #region Properties
@@ -182,7 +181,6 @@ public partial class MapPage : ContentPage
 
     }
 
-
     #region EVENTS
 
     /// <summary>
@@ -192,9 +190,6 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void mapWasTapped(object sender, MapEventArgs e)
     {
-        // Only process taps when Tap Mode is ON
-        if (!_isTapMode)
-            return;
 
         if (e.GestureType == Mapsui.Manipulations.GestureType.SingleTap)
         {
