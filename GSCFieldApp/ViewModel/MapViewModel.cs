@@ -146,7 +146,8 @@ namespace GSCFieldApp.ViewModel
             {
                 //Create a location record
                 int locationID = await SaveLocationModelAsync(location);
-
+                try 
+                { 
                     if (locationID != -1)
                     {
                         //Create a quick earth material record
