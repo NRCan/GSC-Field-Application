@@ -84,13 +84,21 @@ namespace GSCFieldApp.ViewModel
 
         #region RELAY COMMANDS
         [RelayCommand]
-        async Task AddStation()
+        async Task AddStation(Position? position = null)
         {
             try
             {
-                if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+                Location location = sensorLocation;
+
+                if (position != null)
                 {
-                    int locId = await SaveLocationModelAsync();
+                    location.Longitude = (double)(position?.Longitude);
+                    location.Latitude = (double)(position?.Latitude);
+                }
+
+                if (location != null && !double.IsNaN(location.Longitude))
+                {
+                    int locId = await SaveLocationModelAsync(location);
 
                     if (locId != -1)
                     {
@@ -124,14 +132,20 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        async Task AddSample()
+        async Task AddSample(Position? position = null)
         {
-            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+            Location location = sensorLocation;
+
+            if (position != null)
             {
-                try
-                {
-                    //Create a location record
-                    int locationID = await SaveLocationModelAsync();
+                location.Longitude = (double)(position?.Longitude);
+                location.Latitude = (double)(position?.Latitude);
+            }
+
+            if (location != null && !double.IsNaN(location.Longitude))
+            {
+                //Create a location record
+                int locationID = await SaveLocationModelAsync(location);
 
                     if (locationID != -1)
                     {
@@ -166,12 +180,20 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        async Task AddDocument()
+        async Task AddDocument(Position? position = null)
         {
-            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+            Location location = sensorLocation;
+
+            if (position != null)
+            {
+                location.Longitude = (double)(position?.Longitude);
+                location.Latitude = (double)(position?.Latitude);
+            }
+
+            if (location != null && !double.IsNaN(location.Longitude))
             {
                 //Create a location record
-                int locationID = await SaveLocationModelAsync();
+                int locationID = await SaveLocationModelAsync(location);
 
                 if (locationID != -1)
                 {
@@ -201,12 +223,20 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        async Task AddStructure()
+        async Task AddStructure(Position? position = null)
         {
-            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+            Location location = sensorLocation;
+
+            if (position != null)
+            {
+                location.Longitude = (double)(position?.Longitude);
+                location.Latitude = (double)(position?.Latitude);
+            }
+
+            if (location != null && !double.IsNaN(location.Longitude))
             {
                 //Create a location record
-                int locationID = await SaveLocationModelAsync();
+                int locationID = await SaveLocationModelAsync(location);
 
                 if (locationID != -1)
                 {
@@ -383,11 +413,19 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        async Task AddWaypoint()
+        async Task AddWaypoint(Position? position = null)
         {
-            if (sensorLocation != null && !double.IsNaN(sensorLocation.Longitude))
+            Location location = sensorLocation;
+
+            if (position != null)
             {
-                int locId = await SaveLocationModelAsync();
+                location.Longitude = (double)(position?.Longitude);
+                location.Latitude = (double)(position?.Latitude);
+            }
+
+            if (location != null && !double.IsNaN(location.Longitude))
+            {
+                int locId = await SaveLocationModelAsync(location);
 
                 if (locId != -1)
                 {
@@ -543,26 +581,33 @@ namespace GSCFieldApp.ViewModel
         /// Will save the location model within prefered database
         /// </summary>
         /// <returns></returns>
-        public async Task<int> SaveLocationModelAsync()
+        public async Task<int> SaveLocationModelAsync(Location inLocation = null)
         {
+            Location location = sensorLocation;
+
+            if (inLocation != null)
+            {
+                location = inLocation;
+            }
+
             //Quick check if a valid field book is selected
             if (da.PreferedDatabasePath != da.DatabaseFilePath)
             {
                 locationModel = new FieldLocation();
-                if (sensorLocation.Altitude.HasValue)
+                if (location.Altitude.HasValue)
                 {
-                    locationModel.LocationElev = Math.Round((double)sensorLocation.Altitude, 0);
+                    locationModel.LocationElev = Math.Round((double)location.Altitude, 0);
                 }
 
-                locationModel.LocationLat = Math.Round(sensorLocation.Latitude, 8);
-                locationModel.LocationLong = Math.Round(sensorLocation.Longitude, 8);
-                if (sensorLocation.Accuracy.HasValue)
+                locationModel.LocationLat = Math.Round(location.Latitude, 8);
+                locationModel.LocationLong = Math.Round(location.Longitude, 8);
+                if (location.Accuracy.HasValue)
                 {
-                    locationModel.LocationErrorMeasure = Math.Round((double)sensorLocation.Accuracy, 0);
+                    locationModel.LocationErrorMeasure = Math.Round((double)location.Accuracy, 0);
                 }
-                if (sensorLocation.VerticalAccuracy.HasValue)
+                if (location.VerticalAccuracy.HasValue)
                 {
-                    locationModel.LocationElevationAccuracy = Math.Round(sensorLocation.VerticalAccuracy.Value, 0);
+                    locationModel.LocationElevationAccuracy = Math.Round(location.VerticalAccuracy.Value, 0);
                 }
 
                 locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
@@ -589,7 +634,7 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Other info
-                if (sensorLocation.IsFromMockProvider)
+                if (location.IsFromMockProvider)
                 {
                     locationModel.LocationEntryType = locationEntryTypeTap;
                 }
