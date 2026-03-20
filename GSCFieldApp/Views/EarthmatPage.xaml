@@ -170,6 +170,20 @@
 
                     </controls:ExpandableFrame>
 
+                    <!--General-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize EarthmatPageGeneralTitle}">
+                        <VerticalStackLayout >
+
+                            <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+
                     <!--Lithologie modifiers-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EarthLithModifierVisibility, Mode=TwoWay}"
@@ -478,22 +492,6 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
-
-
-                    <!--General-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
-                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMGeneralVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize EarthmatPageGeneralTitle}">
-                        <VerticalStackLayout >
-
-                            <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
-                            <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
-                                        Style="{StaticResource FieldAppEditorNotes}"/>
-
-                        </VerticalStackLayout>
-
-                    </controls:ExpandableFrame>
-               
 
                 </FlexLayout>
 
