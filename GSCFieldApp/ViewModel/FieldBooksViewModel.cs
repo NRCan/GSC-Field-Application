@@ -926,6 +926,7 @@ namespace GSCFieldApp.ViewModel
             {
                 queryList.AddRange(GetUpgradeQueryVersion2_0(attachDBName));
                 basicInsertQueriesTables.Remove(TableMetadata);
+                basicInsertQueriesTables.Remove(TableDrillHoles);
             }
 
             #endregion
@@ -2294,7 +2295,7 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Manage fields that needs to be set as null
-                if (fieldNullList.Contains(fields))
+                if (fieldNullList != null && fieldNullList.Contains(fields))
                 {
                     query_select = query_select + incrementChar + " NULL as " + fields;
                 }
@@ -2698,6 +2699,17 @@ namespace GSCFieldApp.ViewModel
             genericInsertQuery = genericInsertQuery.Replace("NULL as " + FieldUserInfoSensitivity, "'" + DefaultSensitivity + "' as " + FieldUserInfoSensitivity);
 
             insertQuery_20.Add(genericInsertQuery);
+
+            #endregion
+
+            #region F_DRIL_HOLE
+
+            DrillHole modelDrill = new DrillHole();
+            List<string> drillFieldList = modelDrill.getFieldList[DBVersion180];
+            Tuple<string, string> DrillPrimes = new Tuple<string, string>(FieldDrillID, FieldDrillID);
+            string genericDrillInsertQuery = GenerateInsertQueriesFromModel(drillFieldList, null, TableDrillHoles, DrillPrimes, null, attachedDBName);
+
+            insertQuery_20.Add(genericDrillInsertQuery);
 
             #endregion
 

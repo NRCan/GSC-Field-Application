@@ -120,6 +120,13 @@ namespace GSCFieldApp.Models
 
                 drillFieldList[DBVersion] = drillFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> drillFieldList180 = new List<string>();
+                drillFieldList180.AddRange(drillFieldList[DBVersion]);
+                int drillDateIndex = drillFieldList180.IndexOf(DatabaseLiterals.FieldDrillDate);
+                drillFieldList180.Remove(DatabaseLiterals.FieldDrillDate);
+                drillFieldList180.Insert(drillDateIndex, DatabaseLiterals.FIeldDrillDateDeprecated);
+                drillFieldList[DBVersion180] = drillFieldList180;
 
                 return drillFieldList;
             }
