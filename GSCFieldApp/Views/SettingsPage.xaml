@@ -105,21 +105,26 @@
                                 </Grid>
                             </Border>
 
-                            <!--Data filtering-->
+                            <!--Record display-->
                             <Label Text="{local:Localize SettingPageFieldNoteFilteringTitle}" Style="{StaticResource FieldAppSettingTitles}"  HorizontalOptions="Start" FontSize="Medium"/>
                             <Border Style="{StaticResource FieldAppSettingBorder}">
 
                                 <Grid Style="{StaticResource FieldAppSettingGrid}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
 
                                     <Label Text="{local:Localize SettingPageFieldNoteFiltering}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
                                     <Switch x:Name="filtering" IsToggled="{Binding FilteringByDateOrLocation, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                                    <!--For Photos in the field notes page, display Alias or FileName -->
+                                    <Label Text="{local:Localize SettingPageOtherHeadingAliasFilename}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding PhotoAliasFilename, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1" />
                                     
                                 </Grid>
                             </Border>
-
+                                                      
                         </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
@@ -178,17 +183,11 @@
                                 <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,90">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="40"/>
-                                        <RowDefinition Height="40"/>
-
                                     </Grid.RowDefinitions>
 
                                     <!--On new photo record, open internal camera first instead of form-->
                                     <Label Text="{local:Localize SettingPageOtherHeadingDevicePhotoFirst}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0" LineBreakMode="TailTruncation" />
                                     <Switch IsToggled="{Binding InternalCameraFirstEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="0" />
-
-                                    <!--For Photos in the field notes page, display Alias or FileName -->
-                                    <Label Text="{local:Localize SettingPageOtherHeadingAliasFilename}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
-                                    <Switch IsToggled="{Binding PhotoAliasFilename, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
 
                                 </Grid>
                             </Border>

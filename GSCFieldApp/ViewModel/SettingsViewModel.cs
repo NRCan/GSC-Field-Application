@@ -17,7 +17,8 @@ namespace GSCFieldApp.ViewModel
     public partial class SettingsViewModel: ObservableObject
     {
         //Events
-        public static EventHandler<bool> fieldNoteFilteringSettingChanged; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+        public static EventHandler<bool> fieldNoteFilteringSettingChanged; //This event is triggered when a different record filtering is selected
+        public static EventHandler<bool> fieldNotePhotoAliasSettingChanged; //This event is triggered when a different photo record display is selected
 
         #region PROPERTIES
         public LocalizationResourceManager LocalizationResourceManager
@@ -135,7 +136,18 @@ namespace GSCFieldApp.ViewModel
         public bool PhotoAliasFilename
         {
             get { return Preferences.Get(nameof(PhotoAliasFilename), true); }
-            set { Preferences.Set(nameof(PhotoAliasFilename), value); }
+            set 
+            {
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNotePhotoAliasSettingChangedRequest = fieldNotePhotoAliasSettingChanged;
+                if (fieldNotePhotoAliasSettingChangedRequest != null)
+                {
+                    fieldNotePhotoAliasSettingChangedRequest(this, true);
+                }
+
+                //keep in pref
+                Preferences.Set(nameof(PhotoAliasFilename), value); 
+            }
         }
 
         public bool DailyTraverseIncrementaionEnabled

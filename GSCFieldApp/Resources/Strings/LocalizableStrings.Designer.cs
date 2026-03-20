@@ -3636,7 +3636,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date.
+        ///   Looks up a localized string similar to Filter by date.
         /// </summary>
         internal static string SettingPageFieldNoteFiltering {
             get {
@@ -3645,7 +3645,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter.
+        ///   Looks up a localized string similar to Record display.
         /// </summary>
         internal static string SettingPageFieldNoteFilteringTitle {
             get {
@@ -3717,7 +3717,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display Alias or Filename in field book.
+        ///   Looks up a localized string similar to Photo alias or filename.
         /// </summary>
         internal static string SettingPageOtherHeadingAliasFilename {
             get {
