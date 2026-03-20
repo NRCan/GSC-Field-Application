@@ -1587,10 +1587,10 @@ Enter last two digit of current year to proceed.</value>
     <value>Notes Table</value>
   </data>
   <data name="SettingPageFieldNoteFiltering" xml:space="preserve">
-    <value>Date</value>
+    <value>Filter by date</value>
   </data>
   <data name="SettingPageFieldNoteFilteringTitle" xml:space="preserve">
-    <value>Filter</value>
+    <value>Record display</value>
   </data>
   <data name="FielNotesFilterLocationHeader" xml:space="preserve">
     <value>Filter by location</value>
@@ -1605,6 +1605,6 @@ Enter last two digit of current year to proceed.</value>
     <value>Daily traverse increment</value>
   </data>
   <data name="SettingPageOtherHeadingAliasFilename" xml:space="preserve">
-    <value>Display Alias or Filename in field book</value>
+    <value>Photo alias or filename</value>
   </data>
 </root>

@@ -1588,10 +1588,10 @@ Aimeriez-vous modifier les droits?</value>
     <value>Table de notes</value>
   </data>
   <data name="SettingPageFieldNoteFiltering" xml:space="preserve">
-    <value>Date</value>
+    <value>Filtrer par date</value>
   </data>
   <data name="SettingPageFieldNoteFilteringTitle" xml:space="preserve">
-    <value>Filtre</value>
+    <value>Visuel des enregistrements</value>
   </data>
   <data name="FielNotesFilterLocationHeader" xml:space="preserve">
     <value>Filtrer par localisation</value>
@@ -1606,6 +1606,6 @@ Aimeriez-vous modifier les droits?</value>
     <value>Incrément quotidien de traverse</value>
   </data>
   <data name="SettingPageOtherHeadingAliasFilename" xml:space="preserve">
-    <value>FILL THIS IN GAB</value>
+    <value>L'alias de photo ou nom de fichier</value>
   </data>
 </root>

@@ -237,6 +237,12 @@ namespace GSCFieldApp.ViewModel
             set { }
         }
 
+        public bool PhotoAliasFilename
+        {
+            get { return Preferences.Get(nameof(PhotoAliasFilename), true); }
+            set { }
+        }
+
         #region DATA COLLECTION
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
@@ -545,6 +551,7 @@ namespace GSCFieldApp.ViewModel
 
             //Detect new setting for filtering by date or location
             SettingsViewModel.fieldNoteFilteringSettingChanged += SettingsViewModel_fieldNoteFilteringSettingChangedAsync;
+            SettingsViewModel.fieldNotePhotoAliasSettingChanged += SettingsViewModel_fieldNotePhotoAliasSettingChangedAsync;
         }
 
         #region RELAY
@@ -2188,12 +2195,9 @@ namespace GSCFieldApp.ViewModel
                 parentID = dc.DrillHoleID;
             }
 
-            // Read the toggle setting BEFORE the initializer
-            bool useAlias = Preferences.Get(nameof(SettingsViewModel.PhotoAliasFilename), true);
-
             FieldNote dcFN = new FieldNote
             {
-                Display_text_1 = useAlias ? dc.DocumentAliasLight : dc.FileName,
+                Display_text_1 = PhotoAliasFilename ? dc.DocumentAliasLight : dc.FileName,
                 Display_text_2 = dc.Category,
                 Display_text_3 = dc.Description,
                 GenericTableName = TableDocument,
@@ -2704,6 +2708,17 @@ namespace GSCFieldApp.ViewModel
 
             //Refresh UI
             OnPropertyChanged(nameof(FilteringByDateOrLocation));
+        }
+
+        /// <summary>
+        /// Event triggered when user changes the photo record displaying
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private async void SettingsViewModel_fieldNotePhotoAliasSettingChangedAsync(object sender, bool e)
+        {
+            await FillDocumentNotes(DataAccess.DbConnection);
         }
 
         /// <summary>
