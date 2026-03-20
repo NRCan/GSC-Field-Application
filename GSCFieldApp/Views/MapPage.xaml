@@ -307,12 +307,12 @@
                     </Frame.GestureRecognizers>
 
                     <VerticalStackLayout Spacing="10">
-                        <Button Text="Waypoint"   Clicked="TapMenu_Waypoint"/>
-                        <Button Text="Station"    Clicked="TapMenu_Station"/>
-                        <Button Text="Photo"      Clicked="TapMenu_Photo"/>
-                        <Button Text="Sample"     Clicked="TapMenu_Sample"/>
-                        <Button Text="Structure"  Clicked="TapMenu_Structure"/>
-                        <Button Text="Close"
+                        <Button Text="{local:Localize Key=StationPageWaypoint}"   Clicked="TapMenu_Waypoint"/>
+                        <Button Text="{local:Localize Key=StationPageTitle}"   Clicked="TapMenu_Station"/>
+                        <Button Text="{local:Localize Key=DocumentPageTitle}"     Clicked="TapMenu_Photo"/>
+                        <Button Text="{local:Localize Key=SamplePageTitle}"     Clicked="TapMenu_Sample"/>
+                        <Button Text="{local:Localize Key=MapPageTapMenuStruc}"  Clicked="TapMenu_Structure"/>
+                        <Button Text="{local:Localize Key=GenericClose}"
                                 BackgroundColor="#DDDDDD"
                                 TextColor="Black"
                                 Clicked="TapMenuClose_Clicked"/>

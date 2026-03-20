@@ -675,9 +675,7 @@ public partial class MapPage : ContentPage
     /// 
     private void TapMenuClose_Clicked(object sender, EventArgs e)
     {
-        _isTapMode = false;
         TapMenuOverlay.IsVisible = false;
-        
     }
 
 
@@ -693,8 +691,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void TapMode_Clicked(object sender, EventArgs e)
     {
-        ToggleTapEntry();
-
+       
         if (_isDrawingLine)
         {
             ToggleDrawing();
@@ -705,28 +702,7 @@ public partial class MapPage : ContentPage
             ToggleRuler();
         }
 
-        // If the menu is already open, close it and restore the UI
-        if (TapMenuOverlay.IsVisible)
-        {
-            TapMenuOverlay.IsVisible = false;
-            return;
-        }
-
-        //Otherwise, open the menu
-        TapMenuOverlay.IsVisible = true;
-
-        // If Tap Mode is OFF, turn off ruler and drawing too
-        //if (!_isTapMode)
-        //{
-            //if (_isDrawingLine)
-             //   ToggleDrawing();
-
-            //if (_isRulerMode)
-            //    ToggleRuler();
-        //}
-
-        // Show or hide the menu based on Tap Mode
-        TapMenuOverlay.IsVisible = _isTapMode;
+        ToggleTapEntry();
     }
 
 
@@ -829,8 +805,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void DrawLine_Clicked(object sender, EventArgs e)
     {
-        ToggleDrawing();
-
+        
         if (_isTapMode)
         {
             ToggleTapEntry();
@@ -841,6 +816,7 @@ public partial class MapPage : ContentPage
             ToggleRuler();
         }
 
+        ToggleDrawing();
     }
 
     /// <summary>
@@ -850,8 +826,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void RulerMode_Clicked(object sender, EventArgs e)
     {
-        ToggleRuler();
-
+        
         if (_isDrawingLine)
         {
             ToggleDrawing();
@@ -861,6 +836,8 @@ public partial class MapPage : ContentPage
         {
             ToggleTapEntry();
         }
+
+        ToggleRuler();
 
     }
     private void TapMenu_Waypoint(object sender, EventArgs e)
@@ -3071,12 +3048,19 @@ public partial class MapPage : ContentPage
             var activeColor = (Microsoft.Maui.Graphics.Color)colorValue;
 
             this.TapMode.TextColor = activeColor;
+
+            //Open tap menu
+            TapMenuOverlay.IsVisible = true;
         }
         else
         {
             //Keep as default
             this.TapMode.TextColor = Microsoft.Maui.Graphics.Colors.White;
+
+            //Close menu
+            TapMenuOverlay.IsVisible = false;
         }
+
     }
 
     /// <summary>
