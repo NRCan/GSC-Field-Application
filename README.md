@@ -44,7 +44,7 @@ The current application uses a Geopackage data format to store all information g
 * [Geology icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/geology)
 * [Geology icons created by Georgiana_Lavinia - Flaticon](https://www.flaticon.com/free-icons/geology)
 * [Mineral icons created by Nadiinko - Flaticon](https://www.flaticon.com/free-icons/mineral)
-* [Geological Survey of Canada, Standard Symbology](ttps://doi.org/10.4095/327025)
+* [Geological Survey of Canada, Standard Symbology](https://doi.org/10.4095/327025)
 
 ## Contacts
 
@@ -114,7 +114,7 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 * [Icônes de géologie créé par Freepik - Flaticon](https://www.flaticon.com/free-icons/geology)
 * [Icônes de géologie créé par Georgiana_Lavinia - Flaticon](https://www.flaticon.com/free-icons/geology)
 * [Icônes de minéralogie créé par Nadiinko - Flaticon](https://www.flaticon.com/free-icons/mineral)
-* [Commission géologique du Canada, Standard de géologie](ttps://doi.org/10.4095/327025)
+* [Commission géologique du Canada, Standard de géologie](https://doi.org/10.4095/327025)
 
 ## Contacts
 
