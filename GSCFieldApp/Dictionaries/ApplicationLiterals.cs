@@ -98,7 +98,7 @@
         public const string aliasMapsuiCallouts = "Callouts";
         public const string aliasDrillHoles = "Drills";
 
-        public enum SupportedWMSCRS { epsg3857, epsg4326, epsg3978 } //Used for WMS layer loading
+        public enum SupportedWMSCRS { epsg3857, epsg4326, epsg3978, epsg4269 } //Used for WMS layer loading
 
         #endregion
 

@@ -771,11 +771,13 @@ public partial class MapPage : ContentPage
             {
                 //Get list of WMS layers
                 List<MapPageLayerSelection> mpl = await Task.Run(async () => await wService.GetListOfWMSLayers(wms_url));
-
+                
 
                 //Show list of layers available from url get cap os user can chose
                 if (mpl != null && mpl.Count() > 0)
                 {
+                    //Clean and sort for good measure
+                    mpl = mpl.DistinctBy(m=>m.Name).OrderBy(m => m.Name).ToList();
                     _vm.FillWMSFeatureCollection(mpl);
                 }
             }
@@ -2041,82 +2043,82 @@ public partial class MapPage : ContentPage
 
         if (wmsURL != null && wmsURL != string.Empty)
         {
-            //Get tiling scheme for tiles and their resolution set from csr
+                //Get tiling scheme for tiles and their resolution set from csr
             TileSchema schema = new GlobalSphericalMercator { Format = "image/png"};
 
-            //Special schema for canadian atlas
-            if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg3978)
-            {
-                TileSchema3978 tileSchema3978 = new TileSchema3978();
-
-                //If wms crs extent was parsed correctly from get cap, set tileschema with it
-                if (_wmsCRSExtent != null)
+                //Special schema for canadian atlas
+                if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg3978)
                 {
-                    tileSchema3978 = new TileSchema3978(_wmsCRSExtent);
+                    TileSchema3978 tileSchema3978 = new TileSchema3978();
+
+                    //If wms crs extent was parsed correctly from get cap, set tileschema with it
+                    if (_wmsCRSExtent != null)
+                    {
+                        tileSchema3978 = new TileSchema3978(_wmsCRSExtent);
+                    }
+
+                    await tileSchema3978.TransformTo(3857);
+                    schema = tileSchema3978;
+
                 }
-                
-                await tileSchema3978.TransformTo(3857);
-                schema = tileSchema3978;
-
-            }
-            else if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg4326)
-            {
-                TileSchema4326 tileSchema4326 = new TileSchema4326();
-
-                //If wms crs extent was parsed correctly from get cap, set tileschema with it
-                if (_wmsCRSExtent != null)
+                else if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg4326)
                 {
-                    tileSchema4326 = new TileSchema4326(_wmsCRSExtent);
-                }
+                    TileSchema4326 tileSchema4326 = new TileSchema4326();
 
-                await tileSchema4326.TransformTo(3857);
-                schema = tileSchema4326;
-            }
+                    //If wms crs extent was parsed correctly from get cap, set tileschema with it
+                    if (_wmsCRSExtent != null)
+                    {
+                        tileSchema4326 = new TileSchema4326(_wmsCRSExtent);
+                    }
+
+                    await tileSchema4326.TransformTo(3857);
+                    schema = tileSchema4326;
+                }
 
             WmscUrlBuilder request = new WmscUrlBuilder(new Uri(wmsURL), schema, [layerID]);
-            
-            if (request != null)
-            {
-                SqlitePersistentCache wmsCache = null;
-                if (withCache)
-                {
-                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
-                }
 
-                HttpTileSource httpTileSource = new HttpTileSource(
-                    schema,
-                    urlBuilder: request,
-                    persistentCache: wmsCache,
-                    configureHttpRequestMessage: r =>
+                if (request != null)
+                {
+                    SqlitePersistentCache wmsCache = null;
+                    if (withCache)
                     {
-                        r.Headers.TryAddWithoutValidation("User-Agent", "GSC-Field-App/3.x (+https://github.com/NRCan/GSC-Field-Application)");
-                    });
+                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
+                    }
 
-                TileLayer tl = new TileLayer(httpTileSource);
-                LayerData layerData = new LayerData
-                {
+                    HttpTileSource httpTileSource = new HttpTileSource(
+                        schema,
+                        urlBuilder: request,
+                        persistentCache: wmsCache,
+                        configureHttpRequestMessage: r =>
+                        {
+                            r.Headers.TryAddWithoutValidation("User-Agent", "GSC-Field-App/3.x (+https://github.com/NRCan/GSC-Field-Application)");
+                        });
+
+                    TileLayer tl = new TileLayer(httpTileSource);
+                    LayerData layerData = new LayerData
+                    {
                     DataPath = wmsURL,
-                    IsMapInfoLayer = false,
-                };
+                        IsMapInfoLayer = false,
+                    };
                 tl.Name = layerName;
-                tl.Tag = layerData;
+                    tl.Tag = layerData;
 
-                if (pageLayer != null)
+                    if (pageLayer != null)
+                    {
+                        tl.Opacity = pageLayer.LayerOpacity;
+                        tl.Enabled = pageLayer.LayerVisibility;
+                    }
+
+                    //Insert at right location in collection
+                    InsertLayerAtRightPlace(tl);
+
+                }
+                else
                 {
-                    tl.Opacity = pageLayer.LayerOpacity;
-                    tl.Enabled = pageLayer.LayerVisibility;
+                    hasError = true;
                 }
 
-                //Insert at right location in collection
-                InsertLayerAtRightPlace(tl);
-
             }
-            else
-            {
-                hasError = true;
-            }
-
-        }
 
         return hasError;
 

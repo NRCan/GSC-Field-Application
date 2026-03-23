@@ -19,6 +19,12 @@ namespace GSCFieldApp.Models
         public string ID { get; set; }
         public string Path { get; set; } //For geopackages
         public string URL { get; set; } //For WMS
+        public string srs { get; set; } //Spatial reference system
+        public double boundingboxMinX { get; set; }
+        public double boundingboxMinY { get; set; }
+        public double boundingboxMaxX { get; set; }
+        public double boundingboxMaxY { get; set; }
+
 
     }
 }

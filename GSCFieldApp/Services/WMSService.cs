@@ -22,11 +22,13 @@ namespace GSCFieldApp.Services
         public string OGCWmsLayerName = "Name";
         public string GetCap = "GetCapabilities";
         public string OGCCrs = "CRS";
+        public string OtherSRS = "SRS";
         public string BoundingBox = "BoundingBox";
         public string BoundMinx = "minx";
         public string BoundMiny = "miny";
         public string BoundMaxx = "maxx";
         public string BoundMaxy = "maxy";
+        public string GroupLayer = "cascaded";
 
         /// <summary>
         /// Will return a list of all the layers from a given get capability xml url
@@ -52,8 +54,10 @@ namespace GSCFieldApp.Services
                             //Go through child nodes of layer
                             foreach (XElement subLayerElement in rootLayerElement.Descendants())
                             {
-                                //Get the queryable ones
-                                if (subLayerElement.Attribute(OGCWmsLayerQueryable) != null && subLayerElement.Attribute(OGCWmsLayerQueryable).Value == OGCWmsLayerQueryableTrue)
+                                //Get the queryable ones and not the groups
+                                if (subLayerElement.Attribute(OGCWmsLayerQueryable) != null 
+                                    && subLayerElement.Attribute(OGCWmsLayerQueryable).Value == OGCWmsLayerQueryableTrue
+                                    && subLayerElement.Attribute(GroupLayer) == null)
                                 {
                                     MapPageLayerSelection mpls = new MapPageLayerSelection();
 
@@ -78,6 +82,46 @@ namespace GSCFieldApp.Services
                                     if (mpls.ID != null && mpls.ID != string.Empty)
                                     {
                                         layers.Add(mpls);
+                                    }
+
+                                    //Get layer srs and bounding box
+                                    XElement bboxElement = subLayerElement.Descendants().Where(p => p.Name.LocalName == BoundingBox).First();
+                                    if (bboxElement.Attribute(OGCCrs) != null)
+                                    {
+                                        mpls.srs = bboxElement.Attribute(OGCCrs).Value;
+                                    }
+                                    else if (bboxElement.Attribute(OtherSRS) != null)
+                                    {
+                                        mpls.srs = bboxElement.Attribute(OtherSRS).Value;
+
+                                    }
+
+                                    double minx = 0.0;
+                                    if (bboxElement.Attribute(BoundMinx) != null)
+                                    {
+                                        double.TryParse(bboxElement.Attribute(BoundMinx).Value, out minx);
+                                        mpls.boundingboxMinX = minx;
+                                    }
+
+                                    double miny = 0.0;
+                                    if (bboxElement.Attribute(BoundMiny) != null)
+                                    {
+                                        double.TryParse(bboxElement.Attribute(BoundMiny).Value, out miny);
+                                        mpls.boundingboxMinY = miny;
+                                    }
+
+                                    double maxx = 0.0;
+                                    if (bboxElement.Attribute(BoundMaxx) != null)
+                                    {
+                                        double.TryParse(bboxElement.Attribute(BoundMaxx).Value, out maxx);
+                                        mpls.boundingboxMaxX = maxx;
+                                    }
+
+                                    double maxy = 0.0;
+                                    if (bboxElement.Attribute(BoundMaxy) != null)
+                                    {
+                                        double.TryParse(bboxElement.Attribute(BoundMaxy).Value, out maxy);
+                                        mpls.boundingboxMaxY = maxy;
                                     }
 
                                 }
@@ -115,7 +159,7 @@ namespace GSCFieldApp.Services
                     if (xdoc != null)
                     {
                         //Get layer nodes
-                        foreach (XElement rootLayerElement in xdoc.Descendants().Where(p => p.Name.LocalName == OGCCrs))
+                        foreach (XElement rootLayerElement in xdoc.Descendants().Where(p => p.Name.LocalName == OGCCrs || p.Name.LocalName == OtherSRS))
                         {
                             crs.Add(rootLayerElement.Value.ToString());
                         }
@@ -148,7 +192,8 @@ namespace GSCFieldApp.Services
                         {
 
                             //Get the queryable ones
-                            if (rootLayerElement.Attribute(OGCCrs) != null && rootLayerElement.Attribute(OGCCrs).Value == CRSName)
+                            if ((rootLayerElement.Attribute(OGCCrs) != null && rootLayerElement.Attribute(OGCCrs).Value == CRSName) ||
+                                (rootLayerElement.Attribute(OtherSRS) != null && rootLayerElement.Attribute(OtherSRS).Value == CRSName))
                             {
                                 if (rootLayerElement.Attribute(BoundMinx) != null)
                                 {

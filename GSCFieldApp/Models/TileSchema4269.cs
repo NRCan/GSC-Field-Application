@@ -10,14 +10,17 @@ using Point = NetTopologySuite.Geometries.Point;
 
 namespace GSCFieldApp.Models
 {
-    public class TileSchema4326: TileSchema
+    /// <summary>
+    /// NAD 83 geographic epsg
+    /// </summary>
+    public class TileSchema4269: TileSchema
     {
         private const int TileSize = 256;
         private Point _origin = new Point(0, 0);
-        private Point _lowerLeft = new Point(32.806470, -177.061845);
-        private Point _upperRight = new Point(84.110195, -8.757565);
+        private Point _lowerLeft = new Point(-172.54, 23.81);
+        private Point _upperRight = new Point(-47.74, 86.46);
 
-        public TileSchema4326()
+        public TileSchema4269()
         {
             //Recalculate the resolutions
             CalculateResolutions(20);
@@ -25,29 +28,29 @@ namespace GSCFieldApp.Models
             Extent = new Extent(_lowerLeft.X, _lowerLeft.Y, _upperRight.X, _upperRight.Y);
             OriginX = _origin.X;
             OriginY = _origin.Y;
-            Name = "EPSG:4326";
+            Name = "EPSG:4269";
             Format = "image/png";
             YAxis = YAxis.TMS;
-            Srs = "EPSG:4326";
+            Srs = "EPSG:4269";
         }
 
-        public TileSchema4326(Tuple<Point, Point> extent)
+        public TileSchema4269(Tuple<Point, Point> extent)
         {
             //Force extent instead of default
-            _lowerLeft = new Point(extent.Item1.Y, extent.Item1.X);
-            _upperRight = new Point(extent.Item2.Y, extent.Item2.X);
+            _lowerLeft = new Point(extent.Item1.X, extent.Item1.Y);
+            _upperRight = new Point(extent.Item2.X, extent.Item2.Y);
 
             //Recalculate the resolutions
             CalculateResolutions(20);
 
             ///https://mapserver.org/ogc/wms_server.html#coordinate-systems-and-axis-orientation 
-            Extent = new Extent(_lowerLeft.Y, _lowerLeft.X, _upperRight.Y, _upperRight.X);
+            Extent = new Extent(_lowerLeft.X, _lowerLeft.Y, _upperRight.X, _upperRight.Y);
             OriginX = _origin.X;
             OriginY = _origin.Y;
-            Name = "EPSG:4326";
+            Name = "EPSG:4269";
             Format = "image/png";
             YAxis = YAxis.OSM;
-            Srs = "EPSG:4326";
+            Srs = "EPSG:4269";
         }
 
         /// <summary>
@@ -57,15 +60,15 @@ namespace GSCFieldApp.Models
         public async Task TransformTo(int srid)
         {
             //Transform extent to mapsui default
-            _lowerLeft = await GeopackageService.TransformPointCoordinatesFromSrid(_lowerLeft, 4326, srid);
-            _upperRight = await GeopackageService.TransformPointCoordinatesFromSrid(_upperRight, 4326, srid);
+            _lowerLeft = await GeopackageService.TransformPointCoordinatesFromSrid(_lowerLeft, 4269, srid);
+            _upperRight = await GeopackageService.TransformPointCoordinatesFromSrid(_upperRight, 4269, srid);
             Extent = new Extent(_lowerLeft.X, _lowerLeft.Y, _upperRight.X, _upperRight.Y);
 
             //Recalculate the resolutions
             CalculateResolutions(20);
 
             //Transform origin
-            _origin = await GeopackageService.TransformPointCoordinatesFromSrid(_origin, 4326, srid);
+            _origin = await GeopackageService.TransformPointCoordinatesFromSrid(_origin, 4269, srid);
             OriginX = _origin.X;
             OriginY = _origin.Y;
         }
