@@ -179,14 +179,48 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public byte[] CreateByteGeometryPoint(double x, double y)
         {
-            // Create a point at desired location
-            NTS.Geometries.Point inPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(x, y));
+            //NOTES: Used to work with GeoPackageGeoWriter to retrive the WKB for the geometry. 
+            //For some reasons it was adding a heading stating there was an extent to the geometry
+            //Extent that wasn't provided by default, which caused the geometry to not be rendered
+            //under ArcGIS Pro since it was failing and wouldn't proceed on the reading of the bytes.
+            //QGIS on the other side, don't bother with this and skips to XY reading and renders them on screen.
 
-            // Convert geometry to geopackage geometry bytes
-            GeoPackageGeoWriter geo = new GeoPackageGeoWriter();
-            byte[] bytePoint = geo.Write(inPoint);
-            
-            return bytePoint;
+            // Byte definitions
+            // 47 50 : magic "GP" keyword
+            // 00: Version 0
+            // 01: Flags for little endian
+            // nothing: skips envelope (extent)
+            // <4 bytes> : SRID value
+            // 1: WKB geometry type
+            // <well known bytes>: WKB geometry
+
+            MemoryStream ms = new MemoryStream();
+            BinaryWriter bw = new BinaryWriter(ms);
+
+            // 1. Magic bytes
+            bw.Write((byte)'G');
+            bw.Write((byte)'P');
+
+            // 2. Version
+            bw.Write((byte)0);
+
+            // 3. Flags: 0x01 = little-endian + no envelope
+            bw.Write((byte)0x01);
+
+            // 4. SRS ID (int32 LE)
+            bw.Write(BitConverter.GetBytes(DatabaseLiterals.KeywordEPSGDefault));
+
+            // 5. Endianness byte of WKB:
+            bw.Write((byte)1);  // 1 = little endian WKB
+
+            // 6. WKB geometry type
+            bw.Write(BitConverter.GetBytes(1));  // 1 = Point
+
+            // 7. Coordinates (X then Y)
+            bw.Write(BitConverter.GetBytes(x));  
+            bw.Write(BitConverter.GetBytes(y));  
+
+            return ms.ToArray();
 
         }
 
