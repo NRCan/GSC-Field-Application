@@ -1890,7 +1890,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drill Holes.
+        ///   Looks up a localized string similar to Drill Hole.
         /// </summary>
         internal static string FielNotesDrillHolesHeader {
             get {
@@ -1899,7 +1899,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Earth Materials.
+        ///   Looks up a localized string similar to Earth Material.
         /// </summary>
         internal static string FielNotesEMHeader {
             get {
@@ -1980,7 +1980,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Photos.
+        ///   Looks up a localized string similar to Photo.
         /// </summary>
         internal static string FielNotesPhotoHeader {
             get {
@@ -1989,7 +1989,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Samples.
+        ///   Looks up a localized string similar to Sample.
         /// </summary>
         internal static string FielNotesSampleHeader {
             get {
@@ -1998,7 +1998,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stations.
+        ///   Looks up a localized string similar to Station.
         /// </summary>
         internal static string FielNotesStationHeader {
             get {
@@ -2007,7 +2007,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Structures.
+        ///   Looks up a localized string similar to Structure.
         /// </summary>
         internal static string FielNotesStructureHeader {
             get {
@@ -3772,7 +3772,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Photos.
+        ///   Looks up a localized string similar to Photo.
         /// </summary>
         internal static string SettingPageOtherHeadingPhoto {
             get {

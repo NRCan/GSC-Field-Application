@@ -606,10 +606,10 @@ Enter last two digit of current year to proceed.</value>
     <value>Filter by date</value>
   </data>
   <data name="FielNotesDrillHolesHeader" xml:space="preserve">
-    <value>Drill Holes</value>
+    <value>Drill Hole</value>
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
-    <value>Earth Materials</value>
+    <value>Earth Material</value>
   </data>
   <data name="FielNotesEnvironmentHeader" xml:space="preserve">
     <value>Environment</value>
@@ -630,16 +630,16 @@ Enter last two digit of current year to proceed.</value>
     <value>Paleoflow</value>
   </data>
   <data name="FielNotesPhotoHeader" xml:space="preserve">
-    <value>Photos</value>
+    <value>Photo</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
-    <value>Samples</value>
+    <value>Sample</value>
   </data>
   <data name="FielNotesStationHeader" xml:space="preserve">
-    <value>Stations</value>
+    <value>Station</value>
   </data>
   <data name="FielNotesStructureHeader" xml:space="preserve">
-    <value>Structures</value>
+    <value>Structure</value>
   </data>
   <data name="FossilPageGeneralTitle" xml:space="preserve">
     <value>General</value>
@@ -1555,7 +1555,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Open internal camera first</value>
   </data>
   <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
-    <value>Photos</value>
+    <value>Photo</value>
   </data>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
     <value>Broken geometry was found. Will skip for now, a repair is needed.</value>

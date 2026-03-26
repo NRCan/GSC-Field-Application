@@ -607,7 +607,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Filtrer par date</value>
   </data>
   <data name="FielNotesDrillHolesHeader" xml:space="preserve">
-    <value>Forages</value>
+    <value>Forage</value>
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Matériaux du sol</value>
@@ -634,13 +634,13 @@ Aimeriez-vous modifier les droits?</value>
     <value>Photo</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
-    <value>Échantillons</value>
+    <value>Échantillon</value>
   </data>
   <data name="FielNotesStationHeader" xml:space="preserve">
-    <value>Stations</value>
+    <value>Station</value>
   </data>
   <data name="FielNotesStructureHeader" xml:space="preserve">
-    <value>Structures</value>
+    <value>Structure</value>
   </data>
   <data name="FossilPageGeneralTitle" xml:space="preserve">
     <value>Général</value>
@@ -1328,7 +1328,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Notes</value>
   </data>
   <data name="FielNotesLineworkHeader" xml:space="preserve">
-    <value>Lignes dessinées</value>
+    <value>Ligne dessinée</value>
   </data>
   <data name="MapPageAddLineworkDialogTitle" xml:space="preserve">
     <value>Enregistrement de la ligne</value>
@@ -1556,7 +1556,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Caméra intégrée en premier</value>
   </data>
   <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
-    <value>Photos</value>
+    <value>Photo</value>
   </data>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
     <value>Détection d'une géométrie défectueuse. La procédure va continuer, mais assurez-vous de réparer celle-ci.</value>
