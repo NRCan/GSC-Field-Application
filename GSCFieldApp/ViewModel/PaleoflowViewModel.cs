@@ -247,7 +247,7 @@ namespace GSCFieldApp.ViewModel
             {
 
                 //Special case, needs to contain structure class and not structure class and type
-                _paleoflowFeature.cboxItems = _paleoflowFeatureAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.PFlowClass.Split(KeywordConcatCharacter2nd)[0])).ToList();
+                _paleoflowFeature.cboxItems = _paleoflowFeatureAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.PFlowClass.Split(KeywordConcatCharacter2nd)[0]) || f.itemValue == string.Empty).ToList();
 
                 //Selected index parsing
                 if (_paleoflowFeature.cboxItems.Count == 1)

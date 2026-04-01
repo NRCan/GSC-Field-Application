@@ -294,7 +294,7 @@ namespace GSCFieldApp.ViewModel
                 if (FieldThemes.BedrockVisibility)
                 {
                     //Special case, needs to contain structure class and not structure class and type
-                    _structureFormat.cboxItems = _structureFormatAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass.Split(KeywordConcatCharacter2nd)[0])).ToList();
+                    _structureFormat.cboxItems = _structureFormatAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass.Split(KeywordConcatCharacter2nd)[0]) || f.itemValue == string.Empty).ToList();
 
                     //Selected index parsing
                     if (_structureFormat.cboxItems.Count == 1)
@@ -303,25 +303,25 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
 
-                _structureDetail.cboxItems = _structureDetailAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                _structureDetail.cboxItems = _structureDetailAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass) || f.itemValue == string.Empty).ToList();
                 if (_structureDetail.cboxItems.Count == 1)
                 {
                     _structureDetail.cboxDefaultItemIndex = 0;
                 }
 
-                _structureAttitude.cboxItems = _structureAttitudeAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                _structureAttitude.cboxItems = _structureAttitudeAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass) || f.itemValue == string.Empty).ToList();
                 if (_structureAttitude.cboxItems.Count == 1)
                 {
                     _structureAttitude.cboxDefaultItemIndex = 0;
                 }
 
-                _structureYounging.cboxItems = _structureYoungingAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                _structureYounging.cboxItems = _structureYoungingAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass) || f.itemValue == string.Empty).ToList();
                 if (_structureYounging.cboxItems.Count == 1)
                 {
                     _structureYounging.cboxDefaultItemIndex = 0;
                 }
 
-                _structureGeneration.cboxItems = _structureGenerationAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                _structureGeneration.cboxItems = _structureGenerationAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass) || f.itemValue == string.Empty).ToList();
                 if (_structureGeneration.cboxItems.Count == 1)
                 {
                     _structureGeneration.cboxDefaultItemIndex = 0;
