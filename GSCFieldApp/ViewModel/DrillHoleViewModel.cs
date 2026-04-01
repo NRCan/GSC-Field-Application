@@ -338,10 +338,9 @@ namespace GSCFieldApp.ViewModel
             }
 
             #region Process pickers
-            if (DrillHoleLogIntervalCollection.Count > 0)
-            {
-                Model.DrillRelogIntervals = ConcatenatedCombobox.PipeValues(DrillHoleLogIntervalCollection); //process list of values so they are concatenated.
-            }
+
+            Model.DrillRelogIntervals = ConcatenatedCombobox.PipeValues(DrillHoleLogIntervalCollection); //process list of values so they are concatenated.
+
             #endregion
 
             //Keep track of page being already filled or not

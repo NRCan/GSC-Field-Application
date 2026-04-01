@@ -519,10 +519,8 @@ namespace GSCFieldApp.ViewModel
         {
 
             #region Process concatenated pickers
-            if (DocumentCategoryCollection != null && DocumentCategoryCollection.Count > 0)
-            {
-                Model.Category = ConcatenatedCombobox.PipeValues(DocumentCategoryCollection); //process list of values so they are concatenated.
-            }
+
+            Model.Category = ConcatenatedCombobox.PipeValues(DocumentCategoryCollection); //process list of values so they are concatenated.
 
             #endregion
 

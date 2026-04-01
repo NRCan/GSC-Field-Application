@@ -272,11 +272,8 @@ namespace GSCFieldApp.ViewModel
 
             #region Process pickers
 
-            if (MineralizationAlterationDistributionCollection.Count > 0)
-            {
-                Model.MADistribute = ConcatenatedCombobox.PipeValues(MineralizationAlterationDistributionCollection); //process list of values so they are concatenated.
-            }
-
+            Model.MADistribute = ConcatenatedCombobox.PipeValues(MineralizationAlterationDistributionCollection); //process list of values so they are concatenated.
+            
             #endregion
 
             //Process foreign keys

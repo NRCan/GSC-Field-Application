@@ -333,10 +333,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
-            if (MineralFormHabitCollection.Count > 0)
-            {
-                Model.MineralFormHabit = ConcatenatedCombobox.PipeValues(MineralFormHabitCollection); //process list of values so they are concatenated.
-            }
+            Model.MineralFormHabit = ConcatenatedCombobox.PipeValues(MineralFormHabitCollection); //process list of values so they are concatenated.
 
             //Keep track of page being already filled or not
             IsLoaded = true;

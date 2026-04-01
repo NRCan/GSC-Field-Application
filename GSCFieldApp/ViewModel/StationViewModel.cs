@@ -523,11 +523,8 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Process concatenated pickers
-            if (StationOutcropQuality.cboxDefaultItemIndex != -1 && QualityCollection != null && StationOutcropQuality.cboxItems.Count > 0)
-            {
-                Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
-            }
-
+            Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
+            
             //Keep track of page being already filled or not
             IsLoaded = true;
 

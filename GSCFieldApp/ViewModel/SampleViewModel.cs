@@ -411,11 +411,9 @@ namespace GSCFieldApp.ViewModel
         {
 
             #region Process pickers
-            if (SamplePurposeCollection != null && SamplePurposeCollection.Count > 0)
-            {
-                Model.SamplePurpose = ConcatenatedCombobox.PipeValues(SamplePurposeCollection); //process list of values so they are concatenated.
-            }
 
+            Model.SamplePurpose = ConcatenatedCombobox.PipeValues(SamplePurposeCollection); //process list of values so they are concatenated.
+            
             #endregion
 
             //Keep track of page being already filled or not

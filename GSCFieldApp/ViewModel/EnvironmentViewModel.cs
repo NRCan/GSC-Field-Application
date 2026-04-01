@@ -368,11 +368,8 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Process concatenated pickers
-            if (EnvironmentPattern.cboxDefaultItemIndex != -1 && EnvironmentPatternCollection != null && EnvironmentPattern.cboxItems.Count > 0)
-            {
-                Model.EnvGroundPattern = ConcatenatedCombobox.PipeValues(EnvironmentPatternCollection); //process list of values so they are concatenated.
-            }
-
+            Model.EnvGroundPattern = ConcatenatedCombobox.PipeValues(EnvironmentPatternCollection); //process list of values so they are concatenated.
+            
             //Keep track of page being already filled or not
             IsLoaded = true;
 

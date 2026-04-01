@@ -1304,35 +1304,14 @@ namespace GSCFieldApp.ViewModel
         {
 
             #region Process pickers
-            if (EarthLithQualifierCollection.Count > 0)
-            {
-                Model.EarthMatModComp = ConcatenatedCombobox.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithTextStrucCollection.Count > 0)
-            {
-                Model.EarthMatModTextStruc = ConcatenatedCombobox.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithGrainSizeCollection.Count > 0)
-            {
-                Model.EarthMatGrSize = ConcatenatedCombobox.PipeValues(EarthLithGrainSizeCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithBedThickCollection.Count > 0)
-            {
-                Model.EarthMatBedthick = ConcatenatedCombobox.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithDefFabCollection.Count > 0)
-            {
-                Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithContactRelationCollection.Count > 0)
-            {
-                Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithoGroup.cboxItems.Count() > 0 && EarthLithoGroup.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
-            }
-
+            Model.EarthMatModComp = ConcatenatedCombobox.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
+            Model.EarthMatModTextStruc = ConcatenatedCombobox.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
+            Model.EarthMatGrSize = ConcatenatedCombobox.PipeValues(EarthLithGrainSizeCollection); //process list of values so they are concatenated.
+            Model.EarthMatBedthick = ConcatenatedCombobox.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
+            Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
+            Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
+            Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
+            
             //Special cases pickers
             //XAML converters usually saves directly in the model except for these
             if (EarthLithDetail.cboxItems.Count() > 0 && EarthLithDetail.cboxDefaultItemIndex != -1)

@@ -34,23 +34,26 @@ namespace GSCFieldApp.Controls
         public static string PipeValues(ObservableCollection<ComboBoxItem> inCollection)
         {
             //Variable
-            string output = string.Empty;
+            string output = null;
 
             //Iterate through values
-            foreach (Controls.ComboBoxItem cboxItems in inCollection)
+            if (inCollection != null)
             {
-                if (cboxItems != null)
+                foreach (Controls.ComboBoxItem cboxItems in inCollection)
                 {
-                    if (output == string.Empty)
+                    if (cboxItems != null)
                     {
-                        output = cboxItems.itemValue;
+                        if (output == null)
+                        {
+                            output = cboxItems.itemValue;
+                        }
+                        else
+                        {
+                            output = output + Dictionaries.DatabaseLiterals.KeywordConcatCharacter + cboxItems.itemValue;
+                        }
                     }
-                    else
-                    {
-                        output = output + Dictionaries.DatabaseLiterals.KeywordConcatCharacter + cboxItems.itemValue;
-                    }
-                }
 
+                }
             }
 
             return output;
