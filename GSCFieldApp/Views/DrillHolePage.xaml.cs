@@ -10,16 +10,16 @@ public partial class DrillHolePage : ContentPage
 		BindingContext = vm;
 	}
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);	
 
 		DrillHoleViewModel vm2 = BindingContext as DrillHoleViewModel;
         if (!vm2.IsLoaded)
         {
-            _ = vm2.FillPickers();
-            _ = vm2.InitModel();
-            _ = vm2.Load();
+            await vm2.FillPickers();
+            await vm2.InitModel();
+            await vm2.Load();
         }
 
     }
