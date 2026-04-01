@@ -232,7 +232,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _qualifierCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue!= string.Empty)
                         {
                             _qualifierCollection.Add(value);
                             _selectedEarthLithQualifier = value;
@@ -263,7 +263,7 @@ namespace GSCFieldApp.ViewModel
                             _textStructCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _textStructCollection.Add(value);
                             _selectedEarthLithTextStruc = value;
@@ -293,7 +293,7 @@ namespace GSCFieldApp.ViewModel
                             _grainSizeCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _grainSizeCollection.Add(value);
                             _selectedEarthLithGrainSize = value;
@@ -324,7 +324,7 @@ namespace GSCFieldApp.ViewModel
                             _bedThickCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _bedThickCollection.Add(value);
                             _selectedEarthLithBedThick = value;
@@ -355,7 +355,7 @@ namespace GSCFieldApp.ViewModel
                             _defFabCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _defFabCollection.Add(value);
                             _selectedEarthLithDefFab = value;

@@ -100,7 +100,7 @@ namespace GSCFieldApp.ViewModel
                             _qualityCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _qualityCollection.Add(value);
                             _selectedStationOutcropQuality = value;

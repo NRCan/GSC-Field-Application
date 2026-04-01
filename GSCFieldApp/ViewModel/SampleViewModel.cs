@@ -102,7 +102,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _purposeCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _purposeCollection.Add(value);
                             _selectedSamplePurpose = value;

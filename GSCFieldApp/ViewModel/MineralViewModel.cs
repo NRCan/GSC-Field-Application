@@ -95,7 +95,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _mineralFormHabitCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _mineralFormHabitCollection.Add(value);
                             _selectedMineralFormHabit = value;

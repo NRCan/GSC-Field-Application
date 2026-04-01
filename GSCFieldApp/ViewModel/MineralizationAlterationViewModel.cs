@@ -84,7 +84,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _mineralizationAlterationDistributionCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _mineralizationAlterationDistributionCollection.Add(value);
                             _selectedMineralizationAlterationDistribution = value;

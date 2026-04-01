@@ -102,7 +102,7 @@ namespace GSCFieldApp.ViewModel
                             _environmentPatternCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _environmentPatternCollection.Add(value);
                             _selectedEnvironmentPattern = value;

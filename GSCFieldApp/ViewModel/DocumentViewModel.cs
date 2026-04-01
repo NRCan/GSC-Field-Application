@@ -111,7 +111,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _categoryCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             if (!_categoryCollection.Contains(value))
                             {
