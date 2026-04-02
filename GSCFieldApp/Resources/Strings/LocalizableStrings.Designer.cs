@@ -1008,7 +1008,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Depth.
+        ///   Looks up a localized string similar to Depth (m).
         /// </summary>
         internal static string EarthmatPageDepthTitle {
             get {
@@ -4258,7 +4258,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Depth.
+        ///   Looks up a localized string similar to Depth (m).
         /// </summary>
         internal static string StructurePageDepth {
             get {

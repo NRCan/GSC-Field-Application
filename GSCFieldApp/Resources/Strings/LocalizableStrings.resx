@@ -1366,7 +1366,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Check for Frost Boil</value>
   </data>
   <data name="EarthmatPageDepthTitle" xml:space="preserve">
-    <value>Depth</value>
+    <value>Depth (m)</value>
   </data>
   <data name="EarthmatPageDepthMin" xml:space="preserve">
     <value>Min.</value>
@@ -1375,7 +1375,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Max.</value>
   </data>
   <data name="StructurePageDepth" xml:space="preserve">
-    <value>Depth</value>
+    <value>Depth (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
     <value>Plot to map</value>
