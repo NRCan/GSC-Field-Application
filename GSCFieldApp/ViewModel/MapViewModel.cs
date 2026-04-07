@@ -345,7 +345,6 @@ namespace GSCFieldApp.ViewModel
                             {
                                 //Adapt for map page nav
                                 Station tappedStat = tappedStation[0];
-                                tappedStat.IsMapPageQuick = true;
 
                                 await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
                                     new Dictionary<string, object>
@@ -368,7 +367,6 @@ namespace GSCFieldApp.ViewModel
                             {
                                 //Adapt for map page nav
                                 Linework tappedL= tappedLine[0];
-                                tappedL.IsMapPageQuick = true;
 
                                 await Shell.Current.GoToAsync($"/{nameof(LineworkPage)}/",
                                     new Dictionary<string, object>
@@ -389,7 +387,6 @@ namespace GSCFieldApp.ViewModel
                             {
                                 //Adapt for map page nav
                                 DrillHole tappedL = tappedLine[0];
-                                tappedL.IsMapPageQuick = true;
 
                                 await Shell.Current.GoToAsync($"/{nameof(DrillHolePage)}/",
                                     new Dictionary<string, object>

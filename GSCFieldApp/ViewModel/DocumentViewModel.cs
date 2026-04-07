@@ -257,7 +257,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null)
+            if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null && _model.DocumentID == 0)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
@@ -265,7 +265,7 @@ namespace GSCFieldApp.ViewModel
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
             }
-            else if (_drillHole != null && _model.DocumentID != null)
+            else if (_drillHole != null && _model.DocumentID != null && _model.DocumentID == 0)
             {
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
