@@ -101,7 +101,7 @@ public partial class MapPage : ContentPage
 #else
     private ParallelOptions _parallelOptions = new()
     {
-        MaxDegreeOfParallelism = 4
+        MaxDegreeOfParallelism = 1
     };
 
 #endif
@@ -3218,7 +3218,7 @@ public partial class MapPage : ContentPage
                         LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
 
                     new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
-
+                    DeactivateLocationVisuals();
                     await StopGPSAsync();
 
                     if (restartGPS)
@@ -3235,7 +3235,7 @@ public partial class MapPage : ContentPage
 
                 await DisplayGPSNotGranted();
                 DeactivateLocationVisuals();
-
+                
                 break;
 
         }
