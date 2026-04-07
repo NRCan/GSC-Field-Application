@@ -441,7 +441,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
-            if (Model.EarthMatName != null && Model.EarthMatName != string.Empty)
+            fixeif (Model.EarthMatName != null && Model.EarthMatName != string.Empty)
             {
                 //Fill out missing values in model
                 await SetModelAsync();
@@ -1310,10 +1310,16 @@ namespace GSCFieldApp.ViewModel
             Model.EarthMatBedthick = ConcatenatedCombobox.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
             Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
             Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
-            Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
             
+
             //Special cases pickers
             //XAML converters usually saves directly in the model except for these
+            if (EarthLithoGroup.cboxItems.Count() > 0 && EarthLithoGroup.cboxDefaultItemIndex != -1)
+            {
+                //Special picker only available in surficial, conflicting with bedrock on initialization
+                Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
+            }
+
             if (EarthLithDetail.cboxItems.Count() > 0 && EarthLithDetail.cboxDefaultItemIndex != -1)
             {
                 //Special picker only available in surficial, conflicting with bedrock on initialization
