@@ -441,7 +441,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
-            fixeif (Model.EarthMatName != null && Model.EarthMatName != string.Empty)
+            if (Model.EarthMatName != null && Model.EarthMatName != string.Empty)
             {
                 //Fill out missing values in model
                 await SetModelAsync();
