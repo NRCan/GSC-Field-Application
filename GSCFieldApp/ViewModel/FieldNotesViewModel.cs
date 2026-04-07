@@ -1030,25 +1030,46 @@ namespace GSCFieldApp.ViewModel
             FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
 
             //Force a first select or refresh selected date or force last date if no selection
-            await DateRefreshner();
+            await FilterRefreshner();
         }
 
         /// <summary>
         /// Will refresh the date selection and collection
         /// </summary>
-        public async Task DateRefreshner()
+        public async Task FilterRefreshner()
         {
-            if ((Dates != null && Dates.Count == 1) || (_selectedDate != null))
-            {
-                await FilterRecordsOnDate(Dates.First());
+            FieldNote filterNoteWith = null;
+             if (FilteringByDateOrLocation)
+             {
+                if ((Dates != null && Dates.Count == 1) || (_selectedDate != null))
+                {
+                    filterNoteWith = _selectedDate = Dates.First();
+                    OnPropertyChanged(nameof(SelectedDate));
 
-                _selectedDate = Dates.First();
-                OnPropertyChanged(nameof(SelectedDate));
+                    await FilterRecordsOnDate(filterNoteWith);
+                }
+                else if (_selectedDate != null && Dates.Contains(_selectedDate))
+                {
+                    await FilterRecordsOnDate(filterNoteWith);
+                }
+     
             }
-            else if (_selectedDate != null && Dates.Contains(_selectedDate))
+            else
             {
-                await FilterRecordsOnDate(_selectedDate);
+                if ((Locations != null && Locations.Count == 1) || (_selectedLocation != null))
+                {
+                    filterNoteWith = _selectedLocation = Locations.First();
+                    OnPropertyChanged(nameof(SelectedLocation));
+
+                    await FilterRecordsOnLocation(filterNoteWith);
+                }
+                else if (_selectedLocation != null && Locations.Contains(_selectedLocation))
+                {
+                    await FilterRecordsOnLocation(filterNoteWith);
+                }
+
             }
+
         }
 
         /// <summary>
@@ -1184,7 +1205,6 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
-
 
         /// <summary>
         /// Will get all database stations to fill station cards
@@ -1716,18 +1736,17 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FilterRecordsOnDate(FieldNote inDate)
         {
-            if (inDate != _selectedDate)
+            if (inDate != _lastFilterItemTapped)
             {
                 //Update selection on UI
-                _selectedDate = inDate;
-                OnPropertyChanged(nameof(SelectedDate));
+                _selectedDate = _lastFilterItemTapped = inDate;
             }
             else
             {
-                //If it's the same date that was tapped twice, unselect it and show all records
-                _selectedDate = null;
+                //If it's the same loc that was tapped twice, unselect it and show all records
+                _selectedDate = _lastFilterItemTapped = null;
             }
-            OnPropertyChanged(nameof(SelectedLocation));
+            OnPropertyChanged(nameof(SelectedDate));
 
             if (inDate.Display_text_1 != string.Empty && _selectedDate != null)
             {
@@ -2192,7 +2211,6 @@ namespace GSCFieldApp.ViewModel
 
             return dcFN;
         }
-
 
         /// <summary>
         /// Will return a field note object with the information from the given structure.
