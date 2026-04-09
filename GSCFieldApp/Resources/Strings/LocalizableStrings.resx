@@ -1540,7 +1540,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Make a tap entry station</value>
   </data>
   <data name="MapPageTapEditFeatureError" xml:space="preserve">
-    <value>Only Stations and Lineworks are editable from map page.</value>
+    <value>Only GSC Field App data are editable from map page.</value>
   </data>
   <data name="MapPageAddErrorContent" xml:space="preserve">
     <value>No location available, enable GPS, take a manual entry or take a tap entry.</value>

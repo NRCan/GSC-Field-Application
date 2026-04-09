@@ -2701,7 +2701,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only Stations and Lineworks are editable from map page..
+        ///   Looks up a localized string similar to Only GSC Field App data are editable from map page..
         /// </summary>
         internal static string MapPageTapEditFeatureError {
             get {
