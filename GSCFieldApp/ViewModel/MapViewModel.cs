@@ -1,26 +1,34 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using BruTile.Wms;
+using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
+using Mapsui;
+using Mapsui.Layers;
+using Mapsui.Styles;
+using Mapsui.UI.Maui;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
-using GSCFieldApp.Views;
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.ComponentModel;
-using GSCFieldApp.Models;
-using GSCFieldApp.Services.DatabaseServices;
-using System.Diagnostics;
-using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Services;
-using SQLite;
-using CommunityToolkit.Maui.Core.Extensions;
-using Mapsui.Layers;
+using System.Threading.Tasks;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using BruTile.Wms;
-using Mapsui.UI.Maui;
+using Brush = Mapsui.Styles.Brush;
+using Color = Mapsui.Styles.Color;
+using Location = Microsoft.Maui.Devices.Sensors.Location;
 using NTSGeom = NetTopologySuite.Geometries;
+using Position = Mapsui.UI.Maui.Position;
 
 #if ANDROID
 using Android.Content;
@@ -57,8 +65,23 @@ namespace GSCFieldApp.ViewModel
         //Events
         public static EventHandler<Tuple<TableNames, object>> newMapRecord; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh. 
 
+#if ANDROID
+    private ParallelOptions _parallelOptions = new()
+    {
+        MaxDegreeOfParallelism = 10
+    };
+#else
+        private ParallelOptions _parallelOptions = new()
+        {
+            MaxDegreeOfParallelism = 1
+        };
+
+#endif
+
+        private GeopackageService _geopackageService = new GeopackageService();
+
         #endregion
-         
+
         #region PROPERTIES
         public ObservableCollection<ILayer> LayerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
@@ -979,6 +1002,295 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(GPSModeTextColor));
         }
 
+        /// <summary>
+        /// Will query the database to retrive some basic information about location
+        /// and stations
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<IFeature>> GetStationLocationsAsync(Offset offset)
+        {
+            IEnumerable<IFeature> enumFeat = new IFeature[] { };
+
+            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+            {
+                //Prep
+                List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
+                List<Station> fieldStat = await DataAccess.DbConnection.Table<Station>().ToListAsync();
+
+                if (fieldStat != null && fieldStat.Count() > 0)
+                {
+                    await Parallel.ForEachAsync(fieldStat, _parallelOptions, async (fs, token) =>
+                    {
+                        FieldLocation fl = fieldLoc.Where(n => n.LocationID == fs.LocationID).FirstOrDefault();
+
+                        if (fl != null)
+                        {
+                            //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
+                            //Build geometry
+                            NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
+
+                            if (locationPoint != null)
+                            {
+                                //Recreate each time, else it doesn't work well with the parallel loop for obvious reason
+                                LabelStyle labelStyle = new LabelStyle
+                                {
+                                    BackColor = new Brush(Color.WhiteSmoke),
+                                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                                    BorderThickness = 2,
+                                    Offset = offset
+                                };
+
+                                //Get some station info for labelling
+                                string label = fs.StationAliasLight;
+
+                                //Build feature 
+                                Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
+                                feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
+                                labelStyle.Text = label;
+
+                                feat.Styles.Add(labelStyle);
+
+                                enumFeat = enumFeat.Append(feat);
+
+
+                            }
+                        }
+
+                    });
+
+                }
+
+
+            }
+
+            return enumFeat;
+
+        }
+
+        /// <summary>
+        /// Will query the database to retrive some basic information about location
+        /// and drill holes
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<IFeature>> GetDrillLocationsAsync(Offset offset)
+        {
+            IEnumerable<IFeature> enumFeat = new IFeature[] { };
+
+            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+            {
+                //Prep
+                List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
+                List<DrillHole> fieldDrill = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
+
+                if (fieldDrill.Count() > 0)
+                {
+                    await Parallel.ForEachAsync(fieldDrill, _parallelOptions, async (fd, token) =>
+                    {
+
+                        FieldLocation fl = fieldLoc.Where(n => n.LocationID == fd.DrillLocationID).FirstOrDefault();
+
+                        if (fl != null)
+                        {
+                            //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
+                            //Build geometry
+                            NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
+
+                            if (locationPoint != null)
+                            {
+                                //Recreate each time, else it doesn't work well with the parallel loop for obvious reason
+                                LabelStyle labelStyle = new LabelStyle
+                                {
+                                    BackColor = new Brush(Color.WhiteSmoke),
+                                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                                    BorderThickness = 2,
+                                    Offset = offset
+                                };
+
+                                //Get some station info for labelling
+                                string label = fd.DrillAliasLightWithSuffix;
+
+                                //Build feature 
+                                Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
+                                feat[DatabaseLiterals.FieldDrillLocationID] = fl.LocationID;
+                                labelStyle.Text = label;
+
+                                feat.Styles.Add(labelStyle);
+
+                                enumFeat = enumFeat.Append(feat);
+
+                            }
+                        }
+
+
+                    });
+                }
+            }
+
+            return enumFeat;
+        }
+
+        /// <summary>
+        /// Will query the database to retrive some basic information about location
+        /// and stations
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<IFeature>> GetPointTraversesAsync(Offset offset)
+        {
+            IEnumerable<IFeature> enumFeat = new IFeature[] { };
+
+            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+            {
+                //Prep
+                List<TraversePoint> fieldTravPoint = await DataAccess.DbConnection.Table<TraversePoint>().ToListAsync();
+
+                LabelStyle labelStyle = new LabelStyle
+                {
+                    BackColor = new Brush(Color.LightGoldenRodYellow),
+                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                    BorderThickness = 2,
+                    Offset = offset
+                };
+
+                if (fieldTravPoint != null && fieldTravPoint.Count > 0)
+                {
+                    //Prep style
+                    string xmlStyle = await Task.Run(async () => await _geopackageService.GetGeopackageStyleXMLString(DataAccess.DbConnection, DatabaseLiterals.TableTraversePoint));
+                    List<GeopackageLayerStyling> stylings = await Task.Run(
+                        async () => await _geopackageService.GetGeopackageStyle(
+                            xmlStyle,
+                            DatabaseLiterals.TableTraversePoint,
+                            Geometry.TypeNamePoint.ToLower()));
+
+                    await Parallel.ForEachAsync(fieldTravPoint, _parallelOptions, async (tp, token) =>
+                    {
+                        //Build geometry
+                        NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom, DatabaseLiterals.KeywordEPSGTraverses));
+
+                        if (travPointString != null)
+                        {
+                            //Build feature metadata
+                            Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(travPointString);
+                            feat[DatabaseLiterals.FieldTravPointID] = tp.TravID;
+                            enumFeat = enumFeat.Append(feat);
+
+                            //Style geom and label
+                            if (stylings.Count() > 0)
+                            {
+                                feat.Styles.Add(stylings[0].pointVectorStyle);
+                            }
+
+                            LabelStyle lStyle = new LabelStyle
+                            {
+                                BackColor = labelStyle.BackColor,
+                                HorizontalAlignment = labelStyle.HorizontalAlignment,
+                                BorderThickness = labelStyle.BorderThickness,
+                                Offset = offset,
+                                Text = tp.TravLabel,
+                            };
+
+                            feat.Styles.Add(lStyle);
+                        }
+                    });
+
+                }
+
+            }
+
+            return enumFeat;
+
+        }
+
+        /// <summary>
+        /// Will query the database to retrive some basic information about linework feature
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<IFeature>> GetLineworkAsync(Offset offset)
+        {
+            IEnumerable<IFeature> enumFeat = new IFeature[] { };
+            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+            {
+                //Prep
+                List<Linework> fieldLinework = await DataAccess.DbConnection.Table<Linework>().ToListAsync();
+                LabelStyle labelStyle = new LabelStyle
+                {
+                    BackColor = new Brush(Color.WhiteSmoke),
+                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                    BorderThickness = 1
+                };
+
+                if (fieldLinework != null && fieldLinework.Count() > 0)
+                {
+                    foreach (Linework lw in fieldLinework)
+                    {
+                        //Build geometry
+                        LineString inLineString = await Task.Run(async () => await _geopackageService.GetGeometryLineFromByte(lw.LineGeom, 3857, 3857));
+
+                        if (inLineString != null)
+                        {
+                            //Build feature metadata
+                            Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(inLineString);
+
+                            if (feat != null)
+                            {
+                                feat[DatabaseLiterals.FieldLineworkID] = lw.LineID;
+
+                                //Add to list of features
+                                enumFeat = enumFeat.Append(feat);
+
+                                //Get true line color
+                                Mapsui.Styles.Color lineColor = GetColorFromString(lw.LineSymbol);
+
+                                //Style line and label
+                                feat.Styles.Add(new VectorStyle { Line = new Pen(lineColor, 3), Outline = null, Fill = null });
+                                feat.Styles.Add(new LabelStyle
+                                {
+                                    Text = lw.LineAliasLight,
+                                    BackColor = labelStyle.BackColor,
+                                    HorizontalAlignment = labelStyle.HorizontalAlignment,
+                                    BorderThickness = labelStyle.BorderThickness,
+                                });
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+
+            return enumFeat;
+
+        }
+
+        /// <summary>
+        /// Will return a mapsui color for symbolization, from a givens string
+        /// Defaults to grey if it fails to convert.
+        /// </summary>
+        /// <param name="inColor"></param>
+        /// <returns></returns>
+        public Color GetColorFromString(string inColor)
+        {
+            //Valid else default to grey
+            if (inColor != null)
+            {
+                try
+                {
+                    return Color.FromString(inColor);
+                }
+                catch (System.Exception e)
+                {
+                    new ErrorToLogFile(e).WriteToFile();
+
+                    return Color.Grey;
+                }
+            }
+            else
+            {
+                return Color.Grey;
+            }
+
+        }
         #endregion
 
         #region EVENTS
