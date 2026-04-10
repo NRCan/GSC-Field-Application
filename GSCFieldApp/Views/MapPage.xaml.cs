@@ -2185,51 +2185,7 @@ public partial class MapPage : ContentPage
         return pointStyle;
     }
 
-    /// <summary>
-    /// Method to change current location symbol.
-    /// NOTE: not doable for now https://github.com/Mapsui/Mapsui/issues/618
-    /// </summary>
-    /// <param name="accuracy"></param>
-    /// <returns></returns>
-    public async Task SetMapAccuracyColor(double? accuracy)
-    {
 
-        //Init symbols
-        if (App.Current.Resources.TryGetValue("PositionColor", out var colorvalue))
-        {
-            mapPageGrid.BackgroundColor = colorvalue as Microsoft.Maui.Graphics.Color;
-            GPSMode.TextColor = colorvalue as Microsoft.Maui.Graphics.Color;
-        }
-
-        //Parse accuracy to change color
-        if (accuracy > 20.0 && accuracy <= 40.0)
-        {
-            if (App.Current.Resources.TryGetValue("WarningColor", out var warningColorvalue))
-            {
-                mapPageGrid.BackgroundColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
-                GPSMode.TextColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
-            }
-
-
-        }
-        else if (accuracy > 40.0)
-        {
-            if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
-            {
-                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-                GPSMode.TextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-            }
-
-        }
-        else if (accuracy == -99)
-        {
-            if (App.Current.Resources.TryGetValue("Gray400", out var errorColorvalue))
-            {
-                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-                GPSMode.TextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-            }
-        }
-    }
 
     /// <summary>
     /// Will open a file picker dialog with custom extension set to mbtiles
@@ -3318,6 +3274,8 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task UpdateLocationOnMap(Sensor.Location inLocation)
     {
+        this.WaitingCursor.IsRunning = false;
+
         if (_isCheckingGeolocation)
         {
             if (_vm != null)
@@ -3344,7 +3302,7 @@ public partial class MapPage : ContentPage
                 //}
 
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
-                await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy));
+                await Task.Run(async () => _vm.SetMapAccuracyColor(inLocation.Accuracy));
                 await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
 
                 mapView.MyLocationEnabled = true;
@@ -3397,7 +3355,7 @@ public partial class MapPage : ContentPage
         _isCheckingGeolocation = false;
 
         //Make sure to turn gray map border color based on accuracy
-        _ = SetMapAccuracyColor(-99);
+        _ = _vm.SetMapAccuracyColor(-99);
 
         //Make sure to show proper bad location coordinates labels
         _vm.RefreshCoordinates(badLoc);

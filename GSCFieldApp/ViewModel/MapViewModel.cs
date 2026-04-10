@@ -74,6 +74,20 @@ namespace GSCFieldApp.ViewModel
             set { }
         }
 
+        private Microsoft.Maui.Graphics.Color _mapPageGridBackgroundColor = Microsoft.Maui.Graphics.Colors.White;
+        public Microsoft.Maui.Graphics.Color MapPageGridBackgroundColor
+        {
+            get { return _mapPageGridBackgroundColor; }
+            set { _mapPageGridBackgroundColor = value; OnPropertyChanged(); }
+        }
+
+        private Microsoft.Maui.Graphics.Color _gpsModeTextColor = Microsoft.Maui.Graphics.Colors.White;
+        public Microsoft.Maui.Graphics.Color GPSModeTextColor
+        {
+            get { return _gpsModeTextColor; }
+            set { _gpsModeTextColor = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         public MapViewModel()
@@ -896,7 +910,6 @@ namespace GSCFieldApp.ViewModel
 
         }
 
-
         /// <summary>
         /// Will take a map info results and transform them into a readable UI ready collection
         /// </summary>
@@ -915,6 +928,55 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(MapInfoCollection));
             }
 
+        }
+
+        /// <summary>
+        /// Method to change current location symbol.
+        /// NOTE: not doable for now https://github.com/Mapsui/Mapsui/issues/618
+        /// </summary>
+        /// <param name="accuracy"></param>
+        /// <returns></returns>
+        public async Task SetMapAccuracyColor(double? accuracy)
+        {
+
+            //Init symbols
+            if (App.Current.Resources.TryGetValue("PositionColor", out var colorvalue))
+            {
+                _mapPageGridBackgroundColor = colorvalue as Microsoft.Maui.Graphics.Color;
+                _gpsModeTextColor = colorvalue as Microsoft.Maui.Graphics.Color;
+            }
+
+            //Parse accuracy to change color
+            if (accuracy > 20.0 && accuracy <= 40.0)
+            {
+                if (App.Current.Resources.TryGetValue("WarningColor", out var warningColorvalue))
+                {
+                    _mapPageGridBackgroundColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
+                    _gpsModeTextColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
+                }
+
+
+            }
+            else if (accuracy > 40.0)
+            {
+                if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
+                {
+                    _mapPageGridBackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                    _gpsModeTextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                }
+
+            }
+            else if (accuracy == -99)
+            {
+                if (App.Current.Resources.TryGetValue("Gray400", out var errorColorvalue))
+                {
+                    _mapPageGridBackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                    _gpsModeTextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                }
+            }
+
+            OnPropertyChanged(nameof(MapPageGridBackgroundColor));
+            OnPropertyChanged(nameof(GPSModeTextColor));
         }
 
         #endregion
