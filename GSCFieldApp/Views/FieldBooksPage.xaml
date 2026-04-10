@@ -134,7 +134,7 @@
 
                 <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" Margin="{OnPlatform WinUI='10,0,0,0'}"
                                 CanReorderItems="False" SelectedItem="{Binding SelectedFieldBook, Mode=TwoWay}"
-                                ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
+                                ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}" x:Name="FieldBooksCollection"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
                                 HeightRequest="{OnPlatform WinUI=400}" WidthRequest="{OnPlatform Android=270}"/>
 
