@@ -1,5 +1,6 @@
 using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
+using System.ComponentModel;
 
 namespace GSCFieldApp.Views;
 
@@ -12,9 +13,7 @@ public partial class DocumentPage : ContentPage
         {
             InitializeComponent();
             BindingContext = vm;
-
-            this.Focused += DocumentPage_Focused;
-
+            App.AppBecameActive += OnAppBecameActive;
         }
         catch (Exception e)
         {
@@ -23,11 +22,12 @@ public partial class DocumentPage : ContentPage
 
     }
 
-    private void DocumentPage_Focused(object sender, FocusEventArgs e)
+    private async void OnAppBecameActive()
     {
+
         //Quick thumbnail validation
         DocumentViewModel vmDoc = this.BindingContext as DocumentViewModel;
-        if (vmDoc.imageTapped)
+        if (vmDoc.IsImageTapped)
         {
             vmDoc.UpdateThumbnail();
         }

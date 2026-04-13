@@ -27,13 +27,13 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid Style="{StaticResource FieldAppFormGrid}">
+        <Grid Style="{StaticResource FieldAppFormGrid}" x:Name="DocumentPageGridContent">
 
             <Label Text="{Binding Model.DocumentName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0" x:Name="DocumentPageScrollViewer">
 
-                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" x:Name="DocumentPageFlexlayout">
 
                     <!--Embeded camera-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"

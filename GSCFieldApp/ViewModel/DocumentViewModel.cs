@@ -41,7 +41,7 @@ namespace GSCFieldApp.ViewModel
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
         public bool IsProcessingBatch = false; //Will be used to block picklist from being refilled when processed in abtch
         private ImageSource _snapshotSource = null;
-        public bool imageTapped = false; //Will track user edits on snapshot
+        private bool _isImageTapped = false; //Will track user edits on snapshot
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -144,6 +144,7 @@ namespace GSCFieldApp.ViewModel
             set { }
         }
 
+        public bool IsImageTapped { get { return _isImageTapped; } set { _isImageTapped = value; } }
         #endregion
 
         public DocumentViewModel()
@@ -405,7 +406,7 @@ namespace GSCFieldApp.ViewModel
                 //Force refresh of image (might have been edited by user)
                 OnPropertyChanged(nameof(Model));
 
-                imageTapped = true;
+                _isImageTapped = true;
             }
             
         }
@@ -981,7 +982,7 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(SnapshotSource));
 
                 //Unset image tapped
-                imageTapped = false;
+                _isImageTapped = false;
             }
             catch (Exception e)
             {
