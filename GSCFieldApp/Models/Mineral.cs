@@ -31,10 +31,10 @@ namespace GSCFieldApp.Models
         public string MineralColour { get; set; }
 
         [Column(FieldMineralSizeMin)]
-        public int MineralSizeMin { get; set; }
+        public int? MineralSizeMin { get; set; }
 
         [Column(FieldMineralSizeMax)]
-        public int MineralSizeMax { get; set; }
+        public int? MineralSizeMax { get; set; }
 
         [Column(FieldMineralMode)]
         public string MineralMode { get; set; }

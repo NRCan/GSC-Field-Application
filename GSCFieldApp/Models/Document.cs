@@ -32,7 +32,7 @@ namespace GSCFieldApp.Models
         public int FileNumber { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentDirection)]
-        public int Direction { get; set; }
+        public int? Direction { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentDescription)]
         public string Description { get; set; }

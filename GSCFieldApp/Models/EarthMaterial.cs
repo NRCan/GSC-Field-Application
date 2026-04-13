@@ -65,7 +65,7 @@ namespace GSCFieldApp.Models
         public string EarthMatColourW { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatColourInd)]
-        public int EarthMatColourInd { get; set; }
+        public int? EarthMatColourInd { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMagSuscept)]
         public double? EarthMatMagSuscept { get; set; }
