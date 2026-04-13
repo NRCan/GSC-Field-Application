@@ -1113,7 +1113,7 @@ namespace GSCFieldApp.ViewModel
                     FieldNote sDate = new FieldNote() { Display_text_1 = LocalizationResourceManager["FieldNotesEmptyDate"].ToString() };
                     if (st.StationVisitDate != null && st.StationVisitDate != string.Empty)
                     {
-                        sDate = new FieldNote() { Display_text_1 = st.StationVisitDate };
+                        sDate = new FieldNote() { Display_text_1 = st.StationVisitDate.Trim() };
                     }
 
                     if (_dates.Where(d=>d.Display_text_1 == sDate.Display_text_1).ToList().Count() == 0)
@@ -1132,7 +1132,7 @@ namespace GSCFieldApp.ViewModel
 
                     if (dr.LocationTimestamp != null && dr.LocationTimestamp != string.Empty)
                     {
-                        dDate = new FieldNote() { Display_text_1 = dr.LocationTimestamp};
+                        dDate = new FieldNote() { Display_text_1 = dr.LocationTimestamp.Trim()};
                     }
 
                     if (_dates.Where(d => d.Display_text_1 == dDate.Display_text_1).ToList().Count() == 0)
