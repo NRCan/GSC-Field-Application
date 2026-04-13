@@ -304,7 +304,6 @@ namespace GSCFieldApp.ViewModel
         public async void FillBookCollectionAsync(bool keepPreferedAsFirstBook = true)
         {
             _fieldbookCollection.Clear();
-
             List<string> invalidFieldBookToDelete = new List<string>();
 
             //Iterate through local state folder
@@ -352,13 +351,12 @@ namespace GSCFieldApp.ViewModel
                                 {
                                     currentBook.isSelected = true;
                                     _selectedFieldBook = currentBook;
-
-                                    OnPropertyChanged(nameof(SelectedFieldBook));
                                 }
                                 else
                                 {
                                     currentBook.isSelected = false;
                                 }
+
                             }
 
                             //For stations
@@ -439,7 +437,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Else auto-select the only field book
                 _selectedFieldBook = _fieldbookCollection.First();
-                OnPropertyChanged(nameof(SelectedFieldBook));
+                
 
                 //Force this to be the preferred database.
                 da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
@@ -455,6 +453,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Refresh UI
+            OnPropertyChanged(nameof(SelectedFieldBook));
             OnPropertyChanged(nameof(FieldbookCollection));
 
             WatermarkValidation();
