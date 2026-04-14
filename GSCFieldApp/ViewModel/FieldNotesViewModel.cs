@@ -1081,7 +1081,7 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Clear whatever was in there first.
-            //_dates.Clear();
+            _dates.Clear();
 
             if (_dates == null)
             {
@@ -1155,6 +1155,9 @@ namespace GSCFieldApp.ViewModel
         {
             try
             {
+                //Clear whatever was in there first.
+                _filterLocations.Clear();
+
                 if (_filterLocations == null)
                 {
                     _filterLocations = new ObservableCollection<FieldNote>();
