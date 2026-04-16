@@ -81,8 +81,8 @@
 
                         </Grid.GestureRecognizers>
 
-                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
-                            Text="{Binding Display_text_1}" />
+                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
+                            Text="{Binding Display_text_1}" MaxLines="1" LineBreakMode="NoWrap" /> <!--MaxLines="1" LineBreakMode="NoWrap"-->
 
                     </Grid>
                 </Border>
