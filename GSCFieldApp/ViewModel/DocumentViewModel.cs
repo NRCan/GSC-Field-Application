@@ -246,7 +246,18 @@ namespace GSCFieldApp.ViewModel
         {
             if (_document != null && _document.DocumentID != 0)
             {
+                // Actual record delete
                 await commandServ.DeleteDatabaseItemCommand(TableNames.document, _document.DocumentName, _document.DocumentID);
+            }
+            else if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null && _model.DocumentID == 0)
+            {
+                // Quick map photo will delete parents
+                await commandServ.DeleteDatabaseItemCommand(TableNames.station, _model.DocumentName, _station.LocationID);
+            }
+            else if (_model != null && _model.StationID == 0 && _station != null && !_station.IsMapPageQuick)
+            {
+                // New photo record from existing station, show warning but delete nothing
+                await commandServ.DeleteDatabaseItemCommand(TableNames.document, _model.DocumentName, 0);
             }
 
             //Exit

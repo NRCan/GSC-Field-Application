@@ -157,7 +157,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.MAID != 0)
+            if (_model != null)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.mineralization, _model.MAName, _model.MAID);
             }

@@ -176,7 +176,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_model != null && _model.StationID == 0)
+            if (_model != null && _model.StationID == 0 && fieldLocation != null && fieldLocation.IsMapPageQuick)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, fieldLocation.LocationAlias, fieldLocation.LocationID, true);
@@ -263,9 +263,21 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
+            
             if (_station != null && _station.StationID != 0)
             {
+                // Actual record delete
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID);
+            }
+            else if (_model != null && _model.StationID == 0 && fieldLocation != null && fieldLocation.IsMapPageQuick)
+            {
+                // Quick map station will delete parent
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.StationAlias, fieldLocation.LocationID);
+            }
+            else if (_model != null && _model.StationID == 0 && fieldLocation != null && !fieldLocation.IsMapPageQuick)
+            {
+                // New station record from existing location, show warning but delete nothing
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.StationAlias, 0);
             }
 
             //Exit

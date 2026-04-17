@@ -187,9 +187,26 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.StructureID != 0)
+
+            if (_structure != null && _structure.StructureID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.structure, _model.StructureName, _model.StructureID);
+                // Actual record delete
+                await commandServ.DeleteDatabaseItemCommand(TableNames.structure, _structure.StructureName, _structure.StructureID);
+            }
+            else if (_earthmaterial != null && _earthmaterial.IsMapPageQuick && _model != null && _model.StructureID == 0)
+            {
+                // Quick map plow will delete parents
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                Station sRecord = await currentConnection.Table<Station>().Where(s => s.StationID == _earthmaterial.EarthMatStatID).FirstAsync();
+
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.StructureName, sRecord.LocationID);
+
+            }
+            else if (_model != null && _model.StructureID == 0 && _earthmaterial != null && !_earthmaterial.IsMapPageQuick)
+            {
+                // New photo record from existing station, show warning but delete nothing
+                await commandServ.DeleteDatabaseItemCommand(TableNames.structure, _model.StructureName, 0);
             }
 
             //Exit

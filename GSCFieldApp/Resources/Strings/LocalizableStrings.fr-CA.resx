@@ -157,7 +157,7 @@
     <value>Effacement terminé</value>
   </data>
   <data name="CommandDeleteContent" xml:space="preserve">
-    <value>Attention, supprimer une station va entraîner la pertes des matériaux, échantillons et autres données connexes.
+    <value>Attention, supprimer un enregistrement va entraîner la pertes des matériaux, échantillons et autres données connexes.
 
 Entrez les deux derniers chiffres de l'année en cours pour continuer.</value>
   </data>

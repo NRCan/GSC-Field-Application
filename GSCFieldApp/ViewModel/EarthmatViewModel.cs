@@ -506,7 +506,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.EarthMatID != 0)
+            if (_model != null)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.earthmat, _model.EarthMatName, _model.EarthMatID);
             }

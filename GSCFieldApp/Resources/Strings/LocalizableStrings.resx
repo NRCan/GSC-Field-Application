@@ -157,7 +157,7 @@
     <value>Delete Completed</value>
   </data>
   <data name="CommandDeleteContent" xml:space="preserve">
-    <value>Beware, deleting a station will remove any associated materials, samples, structures, etc. associated to it. 
+    <value>Beware, deleting a record will remove any associated materials, samples, structures, etc. associated to it. 
 
 Enter last two digit of current year to proceed.</value>
   </data>

@@ -101,7 +101,7 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Make sure to delete station and location records if user is coming from map page
-            if (_model != null && _model.DrillID == 0)
+            if (_model != null && _model.DrillID == 0 && _fieldLocation != null && _fieldLocation.IsMapPageQuick)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, _fieldLocation.LocationAlias, _fieldLocation.LocationID, true);
@@ -155,9 +155,20 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.DrillID != 0)
+            if (_model != null &&_model.DrillID != 0)
             {
+                // Actual record delete
                 await commandServ.DeleteDatabaseItemCommand(TableNames.drill, _model.DrillIDName, _model.DrillLocationID, false, _model.DrillID);
+            }
+            else if (_fieldLocation != null && _fieldLocation.IsMapPageQuick && _model != null && _model.DrillID == 0)
+            {
+                // Quick map drill will delete parents
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.DrillIDName, _fieldLocation.LocationID);
+            }
+            else if (_model != null && _model.DrillLocationID == 0 && _fieldLocation != null && !_fieldLocation.IsMapPageQuick)
+            {
+                // New photo record from existing station, show warning but delete nothing
+                await commandServ.DeleteDatabaseItemCommand(TableNames.drill, _model.DrillIDName, 0);
             }
 
             //Exit

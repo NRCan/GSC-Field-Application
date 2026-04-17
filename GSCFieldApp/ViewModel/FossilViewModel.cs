@@ -55,19 +55,6 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            //Make sure to delete station and location records if user is coming from map page
-            if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
-            {
-                //Get parent record
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                Station sRecord = await currentConnection.Table<Station>().Where(s => s.StationID == _earthmaterial.EarthMatStatID).FirstAsync();
-
-                //Delete without forced pop-up warning and question
-                await commandServ.DeleteDatabaseItemCommand(TableNames.location, sRecord.StationAlias, sRecord.LocationID, true);
-
-                await currentConnection.CloseAsync();
-            }
-
             await Shell.Current.GoToAsync("..");
         }
 
@@ -108,7 +95,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.FossilID != 0)
+            if (_model != null)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.fossil, _model.FossilIDName, _model.FossilID);
             }

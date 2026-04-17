@@ -331,7 +331,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Beware, deleting a station will remove any associated materials, samples, structures, etc. associated to it. 
+        ///   Looks up a localized string similar to Beware, deleting a record will remove any associated materials, samples, structures, etc. associated to it. 
         ///
         ///Enter last two digit of current year to proceed..
         /// </summary>
