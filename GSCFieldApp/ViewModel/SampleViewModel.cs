@@ -364,7 +364,7 @@ namespace GSCFieldApp.ViewModel
             Model.SampleCoreTo = Model.SampleCoreFrom + Model.SampleCoreLength / 100;
 
             //Modify sample name if needed
-            if (CustomSampleNameEnabled)
+            if (CustomSampleNameEnabled && Model.SampleCoreFrom != null)
             {
                 Model.SampleName = await idCalculator.CalculateSampleAliasAsync(Model.SampleEarthmatID, string.Empty, Model.SampleCoreFrom.ToString());
             }

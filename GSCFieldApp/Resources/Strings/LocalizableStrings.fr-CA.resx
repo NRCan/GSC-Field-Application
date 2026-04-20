@@ -967,10 +967,10 @@ Aimeriez-vous modifier les droits?</value>
     <value>Échantillonné par</value>
   </data>
   <data name="SamplePageCoreFrom" xml:space="preserve">
-    <value>À partir de</value>
+    <value>À partir de (m)</value>
   </data>
   <data name="SamplePageCoreLength" xml:space="preserve">
-    <value>Longueur</value>
+    <value>Longueur (cm)</value>
   </data>
   <data name="SamplePageCorePortion" xml:space="preserve">
     <value>Proportion (en quart)</value>
@@ -979,7 +979,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Carotte</value>
   </data>
   <data name="SamplePageCoreTo" xml:space="preserve">
-    <value>Jusqu'à</value>
+    <value>Jusqu'à (m)</value>
   </data>
   <data name="SamplePageDepthMax" xml:space="preserve">
     <value>Profondeur Max. (cm)</value>

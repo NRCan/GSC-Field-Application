@@ -3313,7 +3313,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From.
+        ///   Looks up a localized string similar to From (m).
         /// </summary>
         internal static string SamplePageCoreFrom {
             get {
@@ -3322,7 +3322,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Length.
+        ///   Looks up a localized string similar to Length (cm).
         /// </summary>
         internal static string SamplePageCoreLength {
             get {
@@ -3349,7 +3349,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To.
+        ///   Looks up a localized string similar to To (m).
         /// </summary>
         internal static string SamplePageCoreTo {
             get {
