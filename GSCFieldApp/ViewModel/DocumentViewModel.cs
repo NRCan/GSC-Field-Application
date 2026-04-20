@@ -293,6 +293,10 @@ namespace GSCFieldApp.ViewModel
             {
                 bool newSnapshot = true; //Will be used to replace snapshot with new one
 
+                //Force expand of frame box as to show user with their new snapshot
+                 DocumentInternalCamVisibility = true;
+                 OnPropertyChanged(nameof(DocumentInternalCamVisibility));
+
                 //Detect existing embedded photo for further processing in case of replacement
                 if (_document != null && _document.Hyperlink != null && _document.PhotoFileExists)
                 {
