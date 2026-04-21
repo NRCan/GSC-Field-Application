@@ -7,7 +7,8 @@
         
         <!--Converters-->
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
-
+        <conv:VisibilityFromReverseBoolConverter x:Key="reverseBool"/>
+        
         <ControlTemplate x:Key="ExpandableFrameControl">
 
             <Border Stroke="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionBorder}">
@@ -21,7 +22,19 @@
 
                     <!--Title that won't be hidden-->
                     <StackLayout Orientation="Horizontal" Spacing="5">
-                        <Label Style="{StaticResource FieldAppTitle}"  Text="{TemplateBinding FrameTitle}" HorizontalOptions="Start">
+                        <Label FontSize="Medium" HorizontalTextAlignment="Start"
+                               Text="&#xF0140;" FontFamily="MatDesign" Style="{StaticResource FieldAppTitle}" IsVisible="{TemplateBinding FrameContentVisibility}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label FontSize="Medium" HorizontalTextAlignment="Start"
+                            Text="&#xF0143;" FontFamily="MatDesign" Style="{StaticResource FieldAppTitle}" IsVisible="{TemplateBinding FrameContentVisibility, Converter={StaticResource reverseBool}}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{TemplateBinding FrameTitle}" >
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
                             </Label.GestureRecognizers>
