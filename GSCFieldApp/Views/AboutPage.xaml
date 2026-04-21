@@ -55,7 +55,7 @@
 
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
-                        Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/blob/master/Documents/GSC%20FIELD%20APP%20GUIDE.pdf" />
+                        Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/wiki/User-Guide-%E2%80%90-Guide-de-l'usager" />
                     <Label Text="{local:Localize Key=AboutPageHelpGuide}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
                     <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
