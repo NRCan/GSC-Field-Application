@@ -27,9 +27,6 @@ public partial class ExpandableFrame : ContentView
     public static readonly BindableProperty IInfoAlertParameterProperty =
         BindableProperty.Create(nameof(InfoAlertParameter), typeof(string), typeof(ExpandableFrame), "");
 
-    public static readonly BindableProperty ChevronIconProperty =
-    BindableProperty.Create(nameof(ChevronIcon), typeof(string), typeof(ExpandableFrame), "&#xF0140;");
-
     public Color FrameColor
     {
         get => (Color)GetValue(FrameColorProperty);
@@ -60,12 +57,6 @@ public partial class ExpandableFrame : ContentView
         set => SetValue(IInfoAlertParameterProperty, value);
     }
 
-    public string ChevronIcon
-    {
-        get => (string)GetValue(ChevronIconProperty);
-        set => SetValue(ChevronIconProperty, value);
-    }
-
     /// <summary>
     /// Hide command to hide group of controls
     /// </summary>
@@ -75,8 +66,6 @@ public partial class ExpandableFrame : ContentView
     {
         // Reverse
         FrameContentVisibility = FrameContentVisibility ? false : true;
-        ChevronIcon = FrameContentVisibility ? "&#xF0140;" : "&#xF0143;";
-
     }
 
     /// <summary>
