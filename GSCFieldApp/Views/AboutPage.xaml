@@ -57,23 +57,23 @@
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
                         Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/wiki/User-Guide-%E2%80%90-Guide-de-l'usager" />
                     <Label Text="{local:Localize Key=AboutPageHelpGuide}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="1"  
                            Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application" />
                     <Label Text="{local:Localize AboutPageHelpAppDev}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2"  
                            Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/issues" />
                     <Label Text="{local:Localize AboutPageHelpIssue}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3"  
                            Command="{Binding TapCommand}" CommandParameter="https://doi.org/10.4095/pjucp83rbn" />
                     <Label Text="{local:Localize AboutPageHelpDataModel}" FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                 </Grid>
 
@@ -96,18 +96,18 @@
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
                         Command="{Binding TapCommand}" CommandParameter="https://natural-resources.canada.ca/home" />
                     <Label Text="{local:Localize Key=AboutPageAppInfoPublisher}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="1"  
                            Command="{Binding TapCommand}" CommandParameter="https://natural-resources.canada.ca/science-and-data/research-centres-and-labs/geological-survey-canada/17100" />
                     <Label Text="{local:Localize AboutPageAboutOrgGSC}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2"  
                            Command="{Binding TapCommand}" CommandParameter="https://www.canada.ca/en/environment-climate-change/services/science-technology/open-science-action-plan.html" />
                     <Label Text="{local:Localize AboutPageAboutOrgOpenGeoscience}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="&#xF0142;" FontFamily="MatDesign" FontSize="Large" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                 </Grid>
 
