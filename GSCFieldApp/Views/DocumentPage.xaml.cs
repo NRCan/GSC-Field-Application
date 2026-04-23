@@ -27,7 +27,7 @@ public partial class DocumentPage : ContentPage
 
         //Quick thumbnail validation
         DocumentViewModel vmDoc = this.BindingContext as DocumentViewModel;
-        if (vmDoc.IsImageTapped)
+        if (vmDoc?.IsImageTapped == true)
         {
             vmDoc.UpdateThumbnail();
         }
@@ -93,4 +93,10 @@ public partial class DocumentPage : ContentPage
 
     }
 
+    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+    {
+        base.OnNavigatedFrom(args);
+        // Unsubscribe when leaving the page
+        App.AppBecameActive -= OnAppBecameActive;
+    }
 }
