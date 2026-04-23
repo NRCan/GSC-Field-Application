@@ -74,8 +74,10 @@
                             <VerticalStackLayout >
 
                                 <Label Text="{local:Localize DocumentPageCaption}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.Description, Mode=TwoWay}" Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
-                                       Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Editor x:Name="DocumentPageCaptionEditor" 
+                                        Text="{Binding Model.Description, Mode=TwoWay}" 
+                                        Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
                                 <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" Style="{StaticResource FieldAppGenericButton}"
                                             Command="{Binding LoadPreviousCaptionCommand}"/>
 

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Controls;
@@ -145,6 +146,18 @@ namespace GSCFieldApp.ViewModel
         }
 
         public bool IsImageTapped { get { return _isImageTapped; } set { _isImageTapped = value; } }
+
+        // Event used by the view (DocumentPage) to request focus on the caption editor
+        public event EventHandler CaptionFocusRequested;
+
+        /// <summary>
+        /// Helper to raise the CaptionFocusRequested event in a safe, testable way.
+        /// </summary>
+        public void RaiseCaptionFocusRequested()
+        {
+            CaptionFocusRequested?.Invoke(this, EventArgs.Empty);
+        }
+
         #endregion
 
         public DocumentViewModel()
@@ -225,7 +238,6 @@ namespace GSCFieldApp.ViewModel
             {
                 await da.SaveItemAsync(Model, false);
                 RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
-
             }
             else
             {
@@ -239,6 +251,13 @@ namespace GSCFieldApp.ViewModel
             //Reset
             await ResetModelAsync();
             OnPropertyChanged(nameof(Model));
+
+            // Request caption focus after a brief delay to allow UI updates
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Task.Delay(50);
+                CaptionFocusRequested?.Invoke(this, EventArgs.Empty);
+            });
         }
 
         [RelayCommand]
@@ -848,24 +867,6 @@ namespace GSCFieldApp.ViewModel
                     //{
                     //    RefreshFieldNotes(TableNames.document, d, refreshType.insert);
                     //}
-                        
-                    //Batch calculat alias
-                    //Original query
-                    //------------------------
-                    //with StationOrder as
-                    //(
-                    //    select fs.stationidname, fd.documentid, ROW_NUMBER() over(partition by fd.stationid order by fd.filenumber) as RowNumber from F_DOCUMENT fd join F_STATION fs on fd.stationid = fs.stationid where fd.stationid = 3
-                    //)
-                    //update F_DOCUMENT
-                    //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
-                    //------------------------
-
-                    string aliasQuery_base = "WITH StationOrder As " +
-                        "(select fs.{0}, fd.{1}, ROW_NUMBER() OVER(PARTITION by fd.{2} ORDER BY fd.{7}) as RowNumber from {3} fd JOIN {4} fs on fd.{2} = fs.{2} where fd.{2} = {5}" +
-                        ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('000' || StationOrder.RowNumber, -3, 3) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
-                    string aliasQuery00 = string.Format(aliasQuery_base, FieldStationAlias, FieldDocumentID, FieldStationID, TableDocument, TableStation, _model.StationID.ToString(),
-                        FieldDocumentName, FieldDocumentFileNo);
-                    await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
 
 
                     IsProcessingBatch = false;
