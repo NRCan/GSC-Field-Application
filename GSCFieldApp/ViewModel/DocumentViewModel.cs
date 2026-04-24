@@ -868,6 +868,23 @@ namespace GSCFieldApp.ViewModel
                     //    RefreshFieldNotes(TableNames.document, d, refreshType.insert);
                     //}
 
+                    //Batch calculat alias
+                    //Original query
+                    //------------------------
+                    //with StationOrder as
+                    //(
+                    //    select fs.stationidname, fd.documentid, ROW_NUMBER() over(partition by fd.stationid order by fd.filenumber) as RowNumber from F_DOCUMENT fd join F_STATION fs on fd.stationid = fs.stationid where fd.stationid = 3
+                    //)
+                    //update F_DOCUMENT
+                    //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
+                    //------------------------
+
+                    string aliasQuery_base = "WITH StationOrder As " +
+                        "(select fs.{0}, fd.{1}, ROW_NUMBER() OVER(PARTITION by fd.{2} ORDER BY fd.{7}) as RowNumber from {3} fd JOIN {4} fs on fd.{2} = fs.{2} where fd.{2} = {5}" +
+                        ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('000' || StationOrder.RowNumber, -3, 3) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
+                    string aliasQuery00 = string.Format(aliasQuery_base, FieldStationAlias, FieldDocumentID, FieldStationID, TableDocument, TableStation, _model.StationID.ToString(),
+                        FieldDocumentName, FieldDocumentFileNo);
+                    await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
 
                     IsProcessingBatch = false;
                 }
