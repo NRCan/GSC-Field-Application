@@ -1618,4 +1618,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageInfoAlertCore" xml:space="preserve">
     <value>Si un nom de carotte a été fourni ainsi que la valeur de début, l'échantillon sera renommé en {Nom de carotte}\{Valeur de début}</value>
   </data>
+  <data name="AboutPageHelpRelease" xml:space="preserve">
+    <value>Versions téléchargeable</value>
+  </data>
 </root>

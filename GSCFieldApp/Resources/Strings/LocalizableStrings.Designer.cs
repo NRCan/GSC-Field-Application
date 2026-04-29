@@ -214,6 +214,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloadable releases.
+        /// </summary>
+        internal static string AboutPageHelpRelease {
+            get {
+                return ResourceManager.GetString("AboutPageHelpRelease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Team.
         /// </summary>
         internal static string AboutPageTeamHeader {
