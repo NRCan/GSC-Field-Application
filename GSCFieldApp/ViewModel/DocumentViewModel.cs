@@ -257,6 +257,13 @@ namespace GSCFieldApp.ViewModel
             {
                 await Task.Delay(50);
                 CaptionFocusRequested?.Invoke(this, EventArgs.Empty);
+                
+                // Auto-open camera if setting is enabled
+                if (InternalCameraFirstEnabled)
+                {
+                    await Task.Delay(100);
+                    await AddSnapshot();
+                }
             });
         }
 
