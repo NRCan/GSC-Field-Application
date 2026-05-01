@@ -232,7 +232,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _qualifierCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue!= string.Empty)
                         {
                             _qualifierCollection.Add(value);
                             _selectedEarthLithQualifier = value;
@@ -263,7 +263,7 @@ namespace GSCFieldApp.ViewModel
                             _textStructCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _textStructCollection.Add(value);
                             _selectedEarthLithTextStruc = value;
@@ -293,7 +293,7 @@ namespace GSCFieldApp.ViewModel
                             _grainSizeCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _grainSizeCollection.Add(value);
                             _selectedEarthLithGrainSize = value;
@@ -324,7 +324,7 @@ namespace GSCFieldApp.ViewModel
                             _bedThickCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _bedThickCollection.Add(value);
                             _selectedEarthLithBedThick = value;
@@ -355,7 +355,7 @@ namespace GSCFieldApp.ViewModel
                             _defFabCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _defFabCollection.Add(value);
                             _selectedEarthLithDefFab = value;
@@ -506,7 +506,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.EarthMatID != 0)
+            if (_model != null)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.earthmat, _model.EarthMatName, _model.EarthMatID);
             }
@@ -1189,7 +1189,7 @@ namespace GSCFieldApp.ViewModel
                 {
                     _earthLithOccurAs.cboxItems.Clear();
                     OnPropertyChanged(nameof(EarthLithOccurAs));
-                    _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent) || f.itemValue == string.Empty).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithOccurAs.cboxItems.Count == 1)
                     {
                         _earthLithOccurAs.cboxDefaultItemIndex = 0;
@@ -1198,7 +1198,7 @@ namespace GSCFieldApp.ViewModel
 
                     _earthLithQualifier.cboxItems.Clear();
                     OnPropertyChanged(nameof(EarthLithQualifier));
-                    _earthLithQualifier.cboxItems = _earthLithQualifierAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    _earthLithQualifier.cboxItems = _earthLithQualifierAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent) || f.itemValue == string.Empty).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithQualifier.cboxItems.Count == 1)
                     {
                         _earthLithQualifier.cboxDefaultItemIndex = 0;
@@ -1207,7 +1207,7 @@ namespace GSCFieldApp.ViewModel
 
                     _earthLithTextureStruct.cboxItems.Clear();
                     OnPropertyChanged(nameof(EarthLithTextureStruct));
-                    _earthLithTextureStruct.cboxItems = _earthLithTextureStructAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    _earthLithTextureStruct.cboxItems = _earthLithTextureStructAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent) || f.itemValue == string.Empty).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithTextureStruct.cboxItems.Count == 1)
                     {
                         _earthLithTextureStruct.cboxDefaultItemIndex = 0;
@@ -1216,7 +1216,7 @@ namespace GSCFieldApp.ViewModel
 
                     _earthLithGrainSize.cboxItems.Clear();
                     OnPropertyChanged(nameof(EarthLithGrainSize));
-                    _earthLithGrainSize.cboxItems = _earthLithGrainSizeAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    _earthLithGrainSize.cboxItems = _earthLithGrainSizeAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent) || f.itemValue == string.Empty).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
                     if (_earthLithGrainSize.cboxItems.Count == 1)
                     {
                         _earthLithGrainSize.cboxDefaultItemIndex = 0;
@@ -1304,37 +1304,22 @@ namespace GSCFieldApp.ViewModel
         {
 
             #region Process pickers
-            if (EarthLithQualifierCollection.Count > 0)
-            {
-                Model.EarthMatModComp = ConcatenatedCombobox.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithTextStrucCollection.Count > 0)
-            {
-                Model.EarthMatModTextStruc = ConcatenatedCombobox.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithGrainSizeCollection.Count > 0)
-            {
-                Model.EarthMatGrSize = ConcatenatedCombobox.PipeValues(EarthLithGrainSizeCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithBedThickCollection.Count > 0)
-            {
-                Model.EarthMatBedthick = ConcatenatedCombobox.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithDefFabCollection.Count > 0)
-            {
-                Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithContactRelationCollection.Count > 0)
-            {
-                Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
-            }
-            if (EarthLithoGroup.cboxItems.Count() > 0 && EarthLithoGroup.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
-            }
+            Model.EarthMatModComp = ConcatenatedCombobox.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
+            Model.EarthMatModTextStruc = ConcatenatedCombobox.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
+            Model.EarthMatGrSize = ConcatenatedCombobox.PipeValues(EarthLithGrainSizeCollection); //process list of values so they are concatenated.
+            Model.EarthMatBedthick = ConcatenatedCombobox.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
+            Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
+            Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
+            
 
             //Special cases pickers
             //XAML converters usually saves directly in the model except for these
+            if (EarthLithoGroup.cboxItems.Count() > 0 && EarthLithoGroup.cboxDefaultItemIndex != -1)
+            {
+                //Special picker only available in surficial, conflicting with bedrock on initialization
+                Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
+            }
+
             if (EarthLithDetail.cboxItems.Count() > 0 && EarthLithDetail.cboxDefaultItemIndex != -1)
             {
                 //Special picker only available in surficial, conflicting with bedrock on initialization

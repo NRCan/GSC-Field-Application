@@ -23,9 +23,9 @@
         <!-- Tablet/Desktop Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
-            <Border Style="{StaticResource FieldAppBorder}" HeightRequest="75" MinimumWidthRequest="175" MaximumWidthRequest="175">
+            <Border Style="{StaticResource FieldAppBorder}" HeightRequest="75" MinimumWidthRequest="175" MaximumWidthRequest="175" >
 
-                <VerticalStackLayout Margin="7" >
+                <VerticalStackLayout Margin="3" >
                     <VerticalStackLayout.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
@@ -81,8 +81,8 @@
 
                         </Grid.GestureRecognizers>
 
-                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
-                            Text="{Binding Display_text_1}" />
+                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
+                            Text="{Binding Display_text_1}" MaxLines="1" LineBreakMode="NoWrap" /> <!--MaxLines="1" LineBreakMode="NoWrap"-->
 
                     </Grid>
                 </Border>

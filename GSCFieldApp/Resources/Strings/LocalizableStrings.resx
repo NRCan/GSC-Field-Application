@@ -157,7 +157,7 @@
     <value>Delete Completed</value>
   </data>
   <data name="CommandDeleteContent" xml:space="preserve">
-    <value>Beware, deleting a station will remove any associated materials, samples, structures, etc. associated to it. 
+    <value>Beware, deleting a record will remove any associated materials, samples, structures, etc. associated to it. 
 
 Enter last two digit of current year to proceed.</value>
   </data>
@@ -606,10 +606,10 @@ Enter last two digit of current year to proceed.</value>
     <value>Filter by date</value>
   </data>
   <data name="FielNotesDrillHolesHeader" xml:space="preserve">
-    <value>Drill Holes</value>
+    <value>Drill Hole</value>
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
-    <value>Earth Materials</value>
+    <value>Earth Material</value>
   </data>
   <data name="FielNotesEnvironmentHeader" xml:space="preserve">
     <value>Environment</value>
@@ -630,16 +630,16 @@ Enter last two digit of current year to proceed.</value>
     <value>Paleoflow</value>
   </data>
   <data name="FielNotesPhotoHeader" xml:space="preserve">
-    <value>Photos</value>
+    <value>Photo</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
-    <value>Samples</value>
+    <value>Sample</value>
   </data>
   <data name="FielNotesStationHeader" xml:space="preserve">
-    <value>Stations</value>
+    <value>Station</value>
   </data>
   <data name="FielNotesStructureHeader" xml:space="preserve">
-    <value>Structures</value>
+    <value>Structure</value>
   </data>
   <data name="FossilPageGeneralTitle" xml:space="preserve">
     <value>General</value>
@@ -966,10 +966,10 @@ Enter last two digit of current year to proceed.</value>
     <value>Sampled by</value>
   </data>
   <data name="SamplePageCoreFrom" xml:space="preserve">
-    <value>From</value>
+    <value>From (m)</value>
   </data>
   <data name="SamplePageCoreLength" xml:space="preserve">
-    <value>Length</value>
+    <value>Length (cm)</value>
   </data>
   <data name="SamplePageCorePortion" xml:space="preserve">
     <value>Size (in quarters)</value>
@@ -978,7 +978,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Core</value>
   </data>
   <data name="SamplePageCoreTo" xml:space="preserve">
-    <value>To</value>
+    <value>To (m)</value>
   </data>
   <data name="SamplePageDepthMax" xml:space="preserve">
     <value>Depth Max. (cm)</value>
@@ -1366,7 +1366,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Check for Frost Boil</value>
   </data>
   <data name="EarthmatPageDepthTitle" xml:space="preserve">
-    <value>Depth</value>
+    <value>Depth (m)</value>
   </data>
   <data name="EarthmatPageDepthMin" xml:space="preserve">
     <value>Min.</value>
@@ -1375,7 +1375,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Max.</value>
   </data>
   <data name="StructurePageDepth" xml:space="preserve">
-    <value>Depth</value>
+    <value>Depth (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
     <value>Plot to map</value>
@@ -1540,7 +1540,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Make a tap entry station</value>
   </data>
   <data name="MapPageTapEditFeatureError" xml:space="preserve">
-    <value>Only Stations and Lineworks are editable from map page.</value>
+    <value>Only GSC Field App data are editable from map page.</value>
   </data>
   <data name="MapPageAddErrorContent" xml:space="preserve">
     <value>No location available, enable GPS, take a manual entry or take a tap entry.</value>
@@ -1555,7 +1555,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Open internal camera first</value>
   </data>
   <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
-    <value>Photos</value>
+    <value>Photo</value>
   </data>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
     <value>Broken geometry was found. Will skip for now, a repair is needed.</value>
@@ -1616,5 +1616,8 @@ Enter last two digit of current year to proceed.</value>
   </data>
   <data name="SamplePageInfoAlertCore" xml:space="preserve">
     <value>If a parent drill core name exist and a value is provided in "From" entry, sample will be renamed to {CoreName}\{FromValue}.</value>
+  </data>
+  <data name="AboutPageHelpRelease" xml:space="preserve">
+    <value>Downloadable releases</value>
   </data>
 </root>

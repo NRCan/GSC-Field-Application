@@ -84,7 +84,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _mineralizationAlterationDistributionCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _mineralizationAlterationDistributionCollection.Add(value);
                             _selectedMineralizationAlterationDistribution = value;
@@ -157,7 +157,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.MAID != 0)
+            if (_model != null)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.mineralization, _model.MAName, _model.MAID);
             }
@@ -272,11 +272,8 @@ namespace GSCFieldApp.ViewModel
 
             #region Process pickers
 
-            if (MineralizationAlterationDistributionCollection.Count > 0)
-            {
-                Model.MADistribute = ConcatenatedCombobox.PipeValues(MineralizationAlterationDistributionCollection); //process list of values so they are concatenated.
-            }
-
+            Model.MADistribute = ConcatenatedCombobox.PipeValues(MineralizationAlterationDistributionCollection); //process list of values so they are concatenated.
+            
             #endregion
 
             //Process foreign keys

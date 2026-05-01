@@ -95,7 +95,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _mineralFormHabitCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _mineralFormHabitCollection.Add(value);
                             _selectedMineralFormHabit = value;
@@ -202,7 +202,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.MineralID != 0)
+            if (_model != null)
             {
 
                 await commandServ.DeleteDatabaseItemCommand(TableNames.mineral, _model.MineralIDName, _model.MineralID);
@@ -333,10 +333,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
-            if (MineralFormHabitCollection.Count > 0)
-            {
-                Model.MineralFormHabit = ConcatenatedCombobox.PipeValues(MineralFormHabitCollection); //process list of values so they are concatenated.
-            }
+            Model.MineralFormHabit = ConcatenatedCombobox.PipeValues(MineralFormHabitCollection); //process list of values so they are concatenated.
 
             //Keep track of page being already filled or not
             IsLoaded = true;

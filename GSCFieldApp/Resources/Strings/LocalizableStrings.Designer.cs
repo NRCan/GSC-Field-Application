@@ -214,6 +214,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloadable releases.
+        /// </summary>
+        internal static string AboutPageHelpRelease {
+            get {
+                return ResourceManager.GetString("AboutPageHelpRelease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Team.
         /// </summary>
         internal static string AboutPageTeamHeader {
@@ -331,7 +340,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Beware, deleting a station will remove any associated materials, samples, structures, etc. associated to it. 
+        ///   Looks up a localized string similar to Beware, deleting a record will remove any associated materials, samples, structures, etc. associated to it. 
         ///
         ///Enter last two digit of current year to proceed..
         /// </summary>
@@ -1008,7 +1017,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Depth.
+        ///   Looks up a localized string similar to Depth (m).
         /// </summary>
         internal static string EarthmatPageDepthTitle {
             get {
@@ -1890,7 +1899,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drill Holes.
+        ///   Looks up a localized string similar to Drill Hole.
         /// </summary>
         internal static string FielNotesDrillHolesHeader {
             get {
@@ -1899,7 +1908,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Earth Materials.
+        ///   Looks up a localized string similar to Earth Material.
         /// </summary>
         internal static string FielNotesEMHeader {
             get {
@@ -1980,7 +1989,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Photos.
+        ///   Looks up a localized string similar to Photo.
         /// </summary>
         internal static string FielNotesPhotoHeader {
             get {
@@ -1989,7 +1998,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Samples.
+        ///   Looks up a localized string similar to Sample.
         /// </summary>
         internal static string FielNotesSampleHeader {
             get {
@@ -1998,7 +2007,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stations.
+        ///   Looks up a localized string similar to Station.
         /// </summary>
         internal static string FielNotesStationHeader {
             get {
@@ -2007,7 +2016,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Structures.
+        ///   Looks up a localized string similar to Structure.
         /// </summary>
         internal static string FielNotesStructureHeader {
             get {
@@ -2701,7 +2710,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only Stations and Lineworks are editable from map page..
+        ///   Looks up a localized string similar to Only GSC Field App data are editable from map page..
         /// </summary>
         internal static string MapPageTapEditFeatureError {
             get {
@@ -3313,7 +3322,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From.
+        ///   Looks up a localized string similar to From (m).
         /// </summary>
         internal static string SamplePageCoreFrom {
             get {
@@ -3322,7 +3331,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Length.
+        ///   Looks up a localized string similar to Length (cm).
         /// </summary>
         internal static string SamplePageCoreLength {
             get {
@@ -3349,7 +3358,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To.
+        ///   Looks up a localized string similar to To (m).
         /// </summary>
         internal static string SamplePageCoreTo {
             get {
@@ -3772,7 +3781,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Photos.
+        ///   Looks up a localized string similar to Photo.
         /// </summary>
         internal static string SettingPageOtherHeadingPhoto {
             get {
@@ -4258,7 +4267,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Depth.
+        ///   Looks up a localized string similar to Depth (m).
         /// </summary>
         internal static string StructurePageDepth {
             get {

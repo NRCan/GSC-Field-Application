@@ -27,13 +27,13 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid Style="{StaticResource FieldAppFormGrid}">
+        <Grid Style="{StaticResource FieldAppFormGrid}" x:Name="DocumentPageGridContent">
 
             <Label Text="{Binding Model.DocumentName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0" x:Name="DocumentPageScrollViewer">
 
-                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" x:Name="DocumentPageFlexlayout">
 
                     <!--Embeded camera-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
@@ -74,8 +74,10 @@
                             <VerticalStackLayout >
 
                                 <Label Text="{local:Localize DocumentPageCaption}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.Description, Mode=TwoWay}" Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
-                                       Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Editor x:Name="DocumentPageCaptionEditor" 
+                                        Text="{Binding Model.Description, Mode=TwoWay}" 
+                                        Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
                                 <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" Style="{StaticResource FieldAppGenericButton}"
                                             Command="{Binding LoadPreviousCaptionCommand}"/>
 

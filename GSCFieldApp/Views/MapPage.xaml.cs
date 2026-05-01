@@ -101,7 +101,7 @@ public partial class MapPage : ContentPage
 #else
     private ParallelOptions _parallelOptions = new()
     {
-        MaxDegreeOfParallelism = 4
+        MaxDegreeOfParallelism = 1
     };
 
 #endif
@@ -325,7 +325,7 @@ public partial class MapPage : ContentPage
                     if (lineStyle != null)
                     {
                         //New color
-                        Color newLineColor = GetColorFromString(updatedLineworkIDAndColor.Item2);
+                        Color newLineColor = _vm.GetColorFromString(updatedLineworkIDAndColor.Item2);
 
                         //Validate if color has changed
                         VectorStyle lineVectorStyle = lineStyle as VectorStyle;
@@ -2186,52 +2186,6 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Method to change current location symbol.
-    /// NOTE: not doable for now https://github.com/Mapsui/Mapsui/issues/618
-    /// </summary>
-    /// <param name="accuracy"></param>
-    /// <returns></returns>
-    public async Task SetMapAccuracyColor(double? accuracy)
-    {
-
-        //Init symbols
-        if (App.Current.Resources.TryGetValue("PositionColor", out var colorvalue))
-        {
-            mapPageGrid.BackgroundColor = colorvalue as Microsoft.Maui.Graphics.Color;
-            GPSMode.TextColor = colorvalue as Microsoft.Maui.Graphics.Color;
-        }
-
-        //Parse accuracy to change color
-        if (accuracy > 20.0 && accuracy <= 40.0)
-        {
-            if (App.Current.Resources.TryGetValue("WarningColor", out var warningColorvalue))
-            {
-                mapPageGrid.BackgroundColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
-                GPSMode.TextColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
-            }
-
-
-        }
-        else if (accuracy > 40.0)
-        {
-            if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
-            {
-                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-                GPSMode.TextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-            }
-
-        }
-        else if (accuracy == -99)
-        {
-            if (App.Current.Resources.TryGetValue("Gray400", out var errorColorvalue))
-            {
-                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-                GPSMode.TextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-            }
-        }
-    }
-
-    /// <summary>
     /// Will open a file picker dialog with custom extension set to mbtiles
     /// </summary>
     /// <returns></returns>
@@ -2328,27 +2282,26 @@ public partial class MapPage : ContentPage
             {
                 case defaultLayerList.Stations:
 
-                    enumFeat = await Task.Run(async () => await GetStationLocationsAsync(offset)); 
+                    enumFeat = await Task.Run(async () => await _vm.GetStationLocationsAsync(offset)); 
                     break;
 
                 case defaultLayerList.Traverses:
 
-                    enumFeat = await Task.Run(async () => await GetPointTraversesAsync(offset)); 
+                    enumFeat = await Task.Run(async () => await _vm.GetPointTraversesAsync(offset)); 
                     break;
 
                 case defaultLayerList.Linework:
 
-                    enumFeat = await Task.Run(async () => await GetLineworkAsync(offset)); 
+                    enumFeat = await Task.Run(async () => await _vm.GetLineworkAsync(offset)); 
                     break;
 
                 case defaultLayerList.Drills:
 
-                    enumFeat = await Task.Run(async () => await GetDrillLocationsAsync(offset));
+                    enumFeat = await Task.Run(async () => await _vm.GetDrillLocationsAsync(offset));
                     break;
 
                 default:
-                    enumFeat = await Task.Run(async () => await GetStationLocationsAsync(offset)); 
-
+                    enumFeat = await Task.Run(async () => await _vm.GetStationLocationsAsync(offset)); 
                     break;
 
             }
@@ -2357,267 +2310,6 @@ public partial class MapPage : ContentPage
 
         return enumFeat;
 
-    }
-
-    /// <summary>
-    /// Will query the database to retrive some basic information about location
-    /// and stations
-    /// </summary>
-    /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetStationLocationsAsync(Offset offset)
-    {
-        IEnumerable<IFeature> enumFeat = new IFeature[] { };
-
-        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
-        {
-            //Prep
-            List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
-            List<Station> fieldStat = await DataAccess.DbConnection.Table<Station>().ToListAsync();
-
-            if (fieldStat != null && fieldStat.Count() > 0)
-            {
-                await Parallel.ForEachAsync(fieldStat, _parallelOptions, async (fs, token) =>
-                {
-                    FieldLocation fl = fieldLoc.Where(n => n.LocationID == fs.LocationID).FirstOrDefault();
-
-                    if (fl != null)
-                    {
-                        //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
-                        //Build geometry
-                        NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
-
-                        if (locationPoint != null)
-                        {
-                            //Recreate each time, else it doesn't work well with the parallel loop for obvious reason
-                            LabelStyle labelStyle = new LabelStyle
-                            {
-                                BackColor = new Brush(Color.WhiteSmoke),
-                                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                                BorderThickness = 2,
-                                Offset = offset
-                            };
-
-                            //Get some station info for labelling
-                            string label = fs.StationAliasLight;
-
-                            //Build feature 
-                            Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
-                            feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
-                            labelStyle.Text = label;
-
-                            feat.Styles.Add(labelStyle);
-
-                            enumFeat = enumFeat.Append(feat);
-                            
-
-                        }
-                    }
-
-                });
-
-            }
-
-
-        }
-
-        return enumFeat;
-
-    }
-
-    /// <summary>
-    /// Will query the database to retrive some basic information about location
-    /// and drill holes
-    /// </summary>
-    /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetDrillLocationsAsync(Offset offset)
-    {
-        IEnumerable<IFeature> enumFeat = new IFeature[] { };
-
-        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
-        {
-            //Prep
-            List<FieldLocation> fieldLoc = await DataAccess.DbConnection.Table<FieldLocation>().ToListAsync();
-            List<DrillHole> fieldDrill = await DataAccess.DbConnection.Table<DrillHole>().ToListAsync();
-
-            if (fieldDrill.Count() > 0)
-            {
-                await Parallel.ForEachAsync(fieldDrill, _parallelOptions, async (fd, token) =>
-                {
-
-                    FieldLocation fl = fieldLoc.Where(n => n.LocationID == fd.DrillLocationID).FirstOrDefault();
-
-                    if (fl != null)
-                    {
-                        //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
-                        //Build geometry
-                        NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
-
-                        if (locationPoint != null)
-                        {
-                            //Recreate each time, else it doesn't work well with the parallel loop for obvious reason
-                            LabelStyle labelStyle = new LabelStyle
-                            {
-                                BackColor = new Brush(Color.WhiteSmoke),
-                                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                                BorderThickness = 2,
-                                Offset = offset
-                            };
-
-                            //Get some station info for labelling
-                            string label = fd.DrillAliasLightWithSuffix;
-
-                            //Build feature 
-                            Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
-                            feat[DatabaseLiterals.FieldDrillLocationID] = fl.LocationID;
-                            labelStyle.Text = label;
-
-                            feat.Styles.Add(labelStyle);
-
-                            enumFeat = enumFeat.Append(feat);
-                            
-                        }
-                    }
-
-
-                });
-            }
-        }
-
-        return enumFeat;
-    }
-
-    /// <summary>
-    /// Will query the database to retrive some basic information about location
-    /// and stations
-    /// </summary>
-    /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetPointTraversesAsync(Offset offset)
-    {
-        IEnumerable<IFeature> enumFeat = new IFeature[] { };
-
-        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
-        {
-            //Prep
-            List<TraversePoint> fieldTravPoint = await DataAccess.DbConnection.Table<TraversePoint>().ToListAsync();
-
-            LabelStyle labelStyle = new LabelStyle
-            {
-                BackColor = new Brush(Color.LightGoldenRodYellow),
-                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                BorderThickness = 2,
-                Offset = offset
-            };
-
-            if (fieldTravPoint != null && fieldTravPoint.Count > 0)
-            {
-                //Prep style
-                string xmlStyle = await Task.Run(async () => await _geopackageService.GetGeopackageStyleXMLString(DataAccess.DbConnection, DatabaseLiterals.TableTraversePoint));
-                List<GeopackageLayerStyling> stylings = await Task.Run(
-                    async () => await _geopackageService.GetGeopackageStyle(
-                        xmlStyle, 
-                        DatabaseLiterals.TableTraversePoint, 
-                        Geometry.TypeNamePoint.ToLower()));
-
-                await Parallel.ForEachAsync(fieldTravPoint, _parallelOptions, async (tp, token) =>
-                {
-                    //Build geometry
-                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom, DatabaseLiterals.KeywordEPSGTraverses));
-
-                    if (travPointString != null)
-                    {
-                        //Build feature metadata
-                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(travPointString);
-                        feat[DatabaseLiterals.FieldTravPointID] = tp.TravID;
-                        enumFeat = enumFeat.Append(feat);
-
-                        //Style geom and label
-                        if (stylings.Count() > 0)
-                        {
-                            feat.Styles.Add(stylings[0].pointVectorStyle);
-                        }
-
-                        LabelStyle lStyle = new LabelStyle
-                        {
-                            BackColor = labelStyle.BackColor,
-                            HorizontalAlignment = labelStyle.HorizontalAlignment,
-                            BorderThickness = labelStyle.BorderThickness,
-                            Offset = offset,
-                            Text = tp.TravLabel,
-                        };
-
-                        feat.Styles.Add(lStyle);
-                    }
-                });
-
-            }
-
-        }
-
-        return enumFeat;
-
-    }
-
-    /// <summary>
-    /// Will query the database to retrive some basic information about linework feature
-    /// </summary>
-    /// <param name="offset"></param>
-    /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetLineworkAsync(Offset offset)
-    {
-        IEnumerable<IFeature> enumFeat = new IFeature[] { };
-        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
-        {
-            //Prep
-            List<Linework> fieldLinework = await DataAccess.DbConnection.Table<Linework>().ToListAsync();
-            LabelStyle labelStyle = new LabelStyle
-            {
-                BackColor = new Brush(Color.WhiteSmoke),
-                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                BorderThickness = 1
-            };
-
-            if (fieldLinework != null && fieldLinework.Count() > 0)
-            {
-                foreach (Linework lw in fieldLinework)
-                {
-                    //Build geometry
-                    LineString inLineString = await Task.Run(async () => await _geopackageService.GetGeometryLineFromByte(lw.LineGeom, 3857, 3857)); 
-
-                    if (inLineString != null)
-                    {
-                        //Build feature metadata
-                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(inLineString);
-                        
-                        if (feat != null)
-                        {
-                            feat[DatabaseLiterals.FieldLineworkID] = lw.LineID;
-
-                            //Add to list of features
-                            enumFeat = enumFeat.Append(feat);
-
-                            //Get true line color
-                            Color lineColor = GetColorFromString(lw.LineSymbol);
-                            
-                            //Style line and label
-                            feat.Styles.Add(new VectorStyle { Line = new Pen(lineColor, 3) , Outline = null, Fill = null});
-                            feat.Styles.Add(new LabelStyle
-                            {
-                                Text = lw.LineAliasLight,
-                                BackColor = labelStyle.BackColor,
-                                HorizontalAlignment = labelStyle.HorizontalAlignment,
-                                BorderThickness = labelStyle.BorderThickness,
-                            });
-                        }
-
-                    }
-
-
-                }
-            }
-        }
-
-        return enumFeat;
-    
     }
 
     /// <summary>
@@ -2868,35 +2560,6 @@ public partial class MapPage : ContentPage
 
             }
         }
-    }
-
-    /// <summary>
-    /// Will return a mapsui color for symbolization, from a givens string
-    /// Defaults to grey if it fails to convert.
-    /// </summary>
-    /// <param name="inColor"></param>
-    /// <returns></returns>
-    private Color GetColorFromString(string inColor)
-    {
-        //Valid else default to grey
-        if (inColor != null)
-        {
-            try
-            {
-                return Color.FromString(inColor);
-            }
-            catch (System.Exception e)
-            {
-                new ErrorToLogFile(e).WriteToFile();
-
-                return Color.Grey;
-            }
-        }
-        else
-        {
-            return Color.Grey;
-        }
-
     }
 
     /// <summary>
@@ -3218,7 +2881,7 @@ public partial class MapPage : ContentPage
                         LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
 
                     new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
-
+                    DeactivateLocationVisuals();
                     await StopGPSAsync();
 
                     if (restartGPS)
@@ -3235,7 +2898,7 @@ public partial class MapPage : ContentPage
 
                 await DisplayGPSNotGranted();
                 DeactivateLocationVisuals();
-
+                
                 break;
 
         }
@@ -3318,6 +2981,8 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task UpdateLocationOnMap(Sensor.Location inLocation)
     {
+        this.WaitingCursor.IsRunning = false;
+
         if (_isCheckingGeolocation)
         {
             if (_vm != null)
@@ -3344,7 +3009,7 @@ public partial class MapPage : ContentPage
                 //}
 
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
-                await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy));
+                await Task.Run(async () => _vm.SetMapAccuracyColor(inLocation.Accuracy));
                 await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
 
                 mapView.MyLocationEnabled = true;
@@ -3397,7 +3062,7 @@ public partial class MapPage : ContentPage
         _isCheckingGeolocation = false;
 
         //Make sure to turn gray map border color based on accuracy
-        _ = SetMapAccuracyColor(-99);
+        _ = _vm.SetMapAccuracyColor(-99);
 
         //Make sure to show proper bad location coordinates labels
         _vm.RefreshCoordinates(badLoc);

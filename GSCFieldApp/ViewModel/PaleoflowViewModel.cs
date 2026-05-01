@@ -152,9 +152,26 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.PFlowID != 0)
+
+            if (_paleoflow != null && _paleoflow.PFlowID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.pflow, _model.PFlowName, _model.PFlowID);
+                // Actual record delete
+                await commandServ.DeleteDatabaseItemCommand(TableNames.pflow, _paleoflow.PFlowName, _paleoflow.PFlowID);
+            }
+            else if (_earthmaterial != null && _earthmaterial.IsMapPageQuick && _model != null && _model.PFlowID == 0)
+            {
+                // Quick map plow will delete parents
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                Station sRecord = await currentConnection.Table<Station>().Where(s => s.StationID == _earthmaterial.EarthMatStatID).FirstAsync();
+
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.PFlowName, sRecord.LocationID);
+
+            }
+            else if (_model != null && _model.PFlowID == 0 && _earthmaterial != null && !_earthmaterial.IsMapPageQuick)
+            {
+                // New photo record from existing station, show warning but delete nothing
+                await commandServ.DeleteDatabaseItemCommand(TableNames.pflow, _model.PFlowName, 0);
             }
 
             //Exit
@@ -247,7 +264,7 @@ namespace GSCFieldApp.ViewModel
             {
 
                 //Special case, needs to contain structure class and not structure class and type
-                _paleoflowFeature.cboxItems = _paleoflowFeatureAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.PFlowClass.Split(KeywordConcatCharacter2nd)[0])).ToList();
+                _paleoflowFeature.cboxItems = _paleoflowFeatureAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.PFlowClass.Split(KeywordConcatCharacter2nd)[0]) || f.itemValue == string.Empty).ToList();
 
                 //Selected index parsing
                 if (_paleoflowFeature.cboxItems.Count == 1)

@@ -17,7 +17,7 @@ namespace GSCFieldApp.Models
         public string StationAlias { get; set; }
 
         [Column(FieldStationTraverseNumber)]
-        public int StationTravNo { get; set; }
+        public int? StationTravNo { get; set; }
 
         [Column(FieldStationOCQuality)]
         public string StationOCQuality { get; set; }

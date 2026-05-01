@@ -66,7 +66,7 @@ namespace GSCFieldApp.Converters
             }
             else
             {
-                return string.Empty;
+                return null;
             }
         }
 

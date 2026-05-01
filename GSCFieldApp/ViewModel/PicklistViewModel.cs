@@ -530,7 +530,8 @@ namespace GSCFieldApp.ViewModel
             {
                 if (assignToFields != null && assignToFields.Count() > 0)
                 {
-                    incomingValues = await da.GetPicklistValuesAsync(_modelPicklist.PicklistName, assignToFields[0].ThemeAssignField, "", true, da.DatabaseFilePath);
+                    int fieldIndex = assignToFields.FindIndex(p => p.ThemeAssignTable == _modelPicklist.PicklistName);
+                    incomingValues = await da.GetPicklistValuesAsync(_modelPicklist.PicklistName, assignToFields[fieldIndex].ThemeAssignField, "", true, da.DatabaseFilePath);
                 }
 
             }

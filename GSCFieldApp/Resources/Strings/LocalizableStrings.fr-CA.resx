@@ -157,7 +157,7 @@
     <value>Effacement terminé</value>
   </data>
   <data name="CommandDeleteContent" xml:space="preserve">
-    <value>Attention, supprimer une station va entraîner la pertes des matériaux, échantillons et autres données connexes.
+    <value>Attention, supprimer un enregistrement va entraîner la pertes des matériaux, échantillons et autres données connexes.
 
 Entrez les deux derniers chiffres de l'année en cours pour continuer.</value>
   </data>
@@ -607,7 +607,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Filtrer par date</value>
   </data>
   <data name="FielNotesDrillHolesHeader" xml:space="preserve">
-    <value>Forages</value>
+    <value>Forage</value>
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Matériaux du sol</value>
@@ -634,13 +634,13 @@ Aimeriez-vous modifier les droits?</value>
     <value>Photo</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
-    <value>Échantillons</value>
+    <value>Échantillon</value>
   </data>
   <data name="FielNotesStationHeader" xml:space="preserve">
-    <value>Stations</value>
+    <value>Station</value>
   </data>
   <data name="FielNotesStructureHeader" xml:space="preserve">
-    <value>Structures</value>
+    <value>Structure</value>
   </data>
   <data name="FossilPageGeneralTitle" xml:space="preserve">
     <value>Général</value>
@@ -967,10 +967,10 @@ Aimeriez-vous modifier les droits?</value>
     <value>Échantillonné par</value>
   </data>
   <data name="SamplePageCoreFrom" xml:space="preserve">
-    <value>À partir de</value>
+    <value>À partir de (m)</value>
   </data>
   <data name="SamplePageCoreLength" xml:space="preserve">
-    <value>Longueur</value>
+    <value>Longueur (cm)</value>
   </data>
   <data name="SamplePageCorePortion" xml:space="preserve">
     <value>Proportion (en quart)</value>
@@ -979,7 +979,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Carotte</value>
   </data>
   <data name="SamplePageCoreTo" xml:space="preserve">
-    <value>Jusqu'à</value>
+    <value>Jusqu'à (m)</value>
   </data>
   <data name="SamplePageDepthMax" xml:space="preserve">
     <value>Profondeur Max. (cm)</value>
@@ -1328,7 +1328,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Notes</value>
   </data>
   <data name="FielNotesLineworkHeader" xml:space="preserve">
-    <value>Lignes dessinées</value>
+    <value>Ligne dessinée</value>
   </data>
   <data name="MapPageAddLineworkDialogTitle" xml:space="preserve">
     <value>Enregistrement de la ligne</value>
@@ -1367,7 +1367,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Valider pour frost boil</value>
   </data>
   <data name="EarthmatPageDepthTitle" xml:space="preserve">
-    <value>Profondeur</value>
+    <value>Profondeur (m)</value>
   </data>
   <data name="EarthmatPageDepthMin" xml:space="preserve">
     <value>Min.</value>
@@ -1376,7 +1376,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Max.</value>
   </data>
   <data name="StructurePageDepth" xml:space="preserve">
-    <value>Profondeur</value>
+    <value>Profondeur (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
     <value>Ajouter sur carte</value>
@@ -1541,7 +1541,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Créer une station à l'aide d'un touché sur le carte</value>
   </data>
   <data name="MapPageTapEditFeatureError" xml:space="preserve">
-    <value>Seulement les stations et les lignes dessinées peuvent être édités à partir de la carte.</value>
+    <value>Seulement les données de la GSC Field App peuvent être éditées à partir de la carte.</value>
   </data>
   <data name="MapPageAddErrorContent" xml:space="preserve">
     <value>Aucune localisation disponible, veuillez activer le GPS, faire une entrée manuelle ou en touchant la carte.</value>
@@ -1556,7 +1556,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Caméra intégrée en premier</value>
   </data>
   <data name="SettingPageOtherHeadingPhoto" xml:space="preserve">
-    <value>Photos</value>
+    <value>Photo</value>
   </data>
   <data name="GeopackageServiceEmptyGeometry" xml:space="preserve">
     <value>Détection d'une géométrie défectueuse. La procédure va continuer, mais assurez-vous de réparer celle-ci.</value>
@@ -1617,5 +1617,8 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="SamplePageInfoAlertCore" xml:space="preserve">
     <value>Si un nom de carotte a été fourni ainsi que la valeur de début, l'échantillon sera renommé en {Nom de carotte}\{Valeur de début}</value>
+  </data>
+  <data name="AboutPageHelpRelease" xml:space="preserve">
+    <value>Versions téléchargeable</value>
   </data>
 </root>

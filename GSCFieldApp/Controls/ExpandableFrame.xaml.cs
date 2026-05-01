@@ -66,7 +66,6 @@ public partial class ExpandableFrame : ContentView
     {
         // Reverse
         FrameContentVisibility = FrameContentVisibility ? false : true;
-
     }
 
     /// <summary>

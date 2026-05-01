@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Controls;
@@ -41,7 +42,7 @@ namespace GSCFieldApp.ViewModel
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
         public bool IsProcessingBatch = false; //Will be used to block picklist from being refilled when processed in abtch
         private ImageSource _snapshotSource = null;
-        public bool imageTapped = false; //Will track user edits on snapshot
+        private bool _isImageTapped = false; //Will track user edits on snapshot
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -111,7 +112,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             _categoryCollection.RemoveAt(0);
                         }
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             if (!_categoryCollection.Contains(value))
                             {
@@ -142,6 +143,19 @@ namespace GSCFieldApp.ViewModel
         {
             get { return Preferences.Get(nameof(InternalCameraFirstEnabled), true); }
             set { }
+        }
+
+        public bool IsImageTapped { get { return _isImageTapped; } set { _isImageTapped = value; } }
+
+        // Event used by the view (DocumentPage) to request focus on the caption editor
+        public event EventHandler CaptionFocusRequested;
+
+        /// <summary>
+        /// Helper to raise the CaptionFocusRequested event in a safe, testable way.
+        /// </summary>
+        public void RaiseCaptionFocusRequested()
+        {
+            CaptionFocusRequested?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
@@ -224,7 +238,6 @@ namespace GSCFieldApp.ViewModel
             {
                 await da.SaveItemAsync(Model, false);
                 RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
-
             }
             else
             {
@@ -238,6 +251,20 @@ namespace GSCFieldApp.ViewModel
             //Reset
             await ResetModelAsync();
             OnPropertyChanged(nameof(Model));
+
+            // Request caption focus after a brief delay to allow UI updates
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Task.Delay(50);
+                CaptionFocusRequested?.Invoke(this, EventArgs.Empty);
+                
+                // Auto-open camera if setting is enabled
+                if (InternalCameraFirstEnabled)
+                {
+                    await Task.Delay(100);
+                    await AddSnapshot();
+                }
+            });
         }
 
         [RelayCommand]
@@ -245,7 +272,18 @@ namespace GSCFieldApp.ViewModel
         {
             if (_document != null && _document.DocumentID != 0)
             {
+                // Actual record delete
                 await commandServ.DeleteDatabaseItemCommand(TableNames.document, _document.DocumentName, _document.DocumentID);
+            }
+            else if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null && _model.DocumentID == 0)
+            {
+                // Quick map photo will delete parents
+                await commandServ.DeleteDatabaseItemCommand(TableNames.station, _model.DocumentName, _station.LocationID);
+            }
+            else if (_model != null && _model.StationID == 0 && _station != null && !_station.IsMapPageQuick)
+            {
+                // New photo record from existing station, show warning but delete nothing
+                await commandServ.DeleteDatabaseItemCommand(TableNames.document, _model.DocumentName, 0);
             }
 
             //Exit
@@ -257,7 +295,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null)
+            if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null && _model.DocumentID == 0)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
@@ -265,7 +303,7 @@ namespace GSCFieldApp.ViewModel
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
             }
-            else if (_drillHole != null && _model.DocumentID != null)
+            else if (_drillHole != null && _model.DocumentID != null && _model.DocumentID == 0)
             {
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
@@ -280,6 +318,10 @@ namespace GSCFieldApp.ViewModel
             if (MediaPicker.Default.IsCaptureSupported)
             {
                 bool newSnapshot = true; //Will be used to replace snapshot with new one
+
+                //Force expand of frame box as to show user with their new snapshot
+                 DocumentInternalCamVisibility = true;
+                 OnPropertyChanged(nameof(DocumentInternalCamVisibility));
 
                 //Detect existing embedded photo for further processing in case of replacement
                 if (_document != null && _document.Hyperlink != null && _document.PhotoFileExists)
@@ -405,7 +447,7 @@ namespace GSCFieldApp.ViewModel
                 //Force refresh of image (might have been edited by user)
                 OnPropertyChanged(nameof(Model));
 
-                imageTapped = true;
+                _isImageTapped = true;
             }
             
         }
@@ -519,10 +561,8 @@ namespace GSCFieldApp.ViewModel
         {
 
             #region Process concatenated pickers
-            if (DocumentCategoryCollection != null && DocumentCategoryCollection.Count > 0)
-            {
-                Model.Category = ConcatenatedCombobox.PipeValues(DocumentCategoryCollection); //process list of values so they are concatenated.
-            }
+
+            Model.Category = ConcatenatedCombobox.PipeValues(DocumentCategoryCollection); //process list of values so they are concatenated.
 
             #endregion
 
@@ -834,7 +874,7 @@ namespace GSCFieldApp.ViewModel
                     //{
                     //    RefreshFieldNotes(TableNames.document, d, refreshType.insert);
                     //}
-                        
+
                     //Batch calculat alias
                     //Original query
                     //------------------------
@@ -843,16 +883,15 @@ namespace GSCFieldApp.ViewModel
                     //    select fs.stationidname, fd.documentid, ROW_NUMBER() over(partition by fd.stationid order by fd.filenumber) as RowNumber from F_DOCUMENT fd join F_STATION fs on fd.stationid = fs.stationid where fd.stationid = 3
                     //)
                     //update F_DOCUMENT
-                    //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
+                    //set DOCUMENTIDNAME = StationOrder.stationidname || 'P' || SUBSTR('000' || StationOrder.RowNumber, -4, 4) from StationOrder where F_DOCUMENT.DOCUMENTID = StationOrder.documentid and F_DOCUMENT.STATIONID = 3
                     //------------------------
 
                     string aliasQuery_base = "WITH StationOrder As " +
                         "(select fs.{0}, fd.{1}, ROW_NUMBER() OVER(PARTITION by fd.{2} ORDER BY fd.{7}) as RowNumber from {3} fd JOIN {4} fs on fd.{2} = fs.{2} where fd.{2} = {5}" +
-                        ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('0000' || StationOrder.RowNumber, -4, 4) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
+                        ") UPDATE {3} SET {6} = StationOrder.{0} || 'P' || SUBSTR('000' || StationOrder.RowNumber, -3, 3) FROM StationOrder where {3}.{1} = StationOrder.{1} AND {3}.{2} = {5}";
                     string aliasQuery00 = string.Format(aliasQuery_base, FieldStationAlias, FieldDocumentID, FieldStationID, TableDocument, TableStation, _model.StationID.ToString(),
                         FieldDocumentName, FieldDocumentFileNo);
                     await DataAccess.DbConnection.ExecuteAsync(aliasQuery00);
-
 
                     IsProcessingBatch = false;
                 }
@@ -983,7 +1022,7 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(SnapshotSource));
 
                 //Unset image tapped
-                imageTapped = false;
+                _isImageTapped = false;
             }
             catch (Exception e)
             {

@@ -102,7 +102,7 @@ namespace GSCFieldApp.ViewModel
                             _environmentPatternCollection.RemoveAt(0);
                         }
 
-                        if (value != null && value.itemName != string.Empty)
+                        if (value != null && value.itemValue != string.Empty)
                         {
                             _environmentPatternCollection.Add(value);
                             _selectedEnvironmentPattern = value;
@@ -195,7 +195,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_model.EnvID != 0)
+            if (_model != null)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.environment, _model.EnvName, _model.EnvID);
             }
@@ -368,11 +368,8 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Process concatenated pickers
-            if (EnvironmentPattern.cboxDefaultItemIndex != -1 && EnvironmentPatternCollection != null && EnvironmentPattern.cboxItems.Count > 0)
-            {
-                Model.EnvGroundPattern = ConcatenatedCombobox.PipeValues(EnvironmentPatternCollection); //process list of values so they are concatenated.
-            }
-
+            Model.EnvGroundPattern = ConcatenatedCombobox.PipeValues(EnvironmentPatternCollection); //process list of values so they are concatenated.
+            
             //Keep track of page being already filled or not
             IsLoaded = true;
 

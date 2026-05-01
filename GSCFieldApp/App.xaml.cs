@@ -7,6 +7,7 @@ public partial class App : Application
     public LocalizationResourceManager LocalizationResourceManager 
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+    public static event Action? AppBecameActive;
 
     public App()
 	{
@@ -68,4 +69,18 @@ public partial class App : Application
 
         return status;
     }
+
+
+    protected override Window CreateWindow(IActivationState activationState)
+    {
+        var window = base.CreateWindow(activationState);
+
+        window.Activated += (_, __) =>
+        {
+            AppBecameActive?.Invoke();
+        };
+
+        return window;
+    }
+
 }

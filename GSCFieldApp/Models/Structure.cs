@@ -56,13 +56,13 @@ namespace GSCFieldApp.Models
         public string StructureSense { get; set; }
 
         [Column(FieldStructureAzimuth)]
-        public int StructureAzimuth { get; set; }
+        public int? StructureAzimuth { get; set; }
 
         [Column(FieldStructureDip)]
-        public int StructureDipPlunge { get; set; }
+        public int? StructureDipPlunge { get; set; }
 
         [Column(FieldStructureSymAng)]
-        public int StructureSymAng
+        public int? StructureSymAng
         {
             //Autocalculated field based on selected format, if any is chosen.
             get

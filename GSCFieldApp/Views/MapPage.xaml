@@ -103,7 +103,7 @@
 
     <ContentPage.Content>
    
-        <Grid Margin="0,0,0,0" x:Name="mapPageGrid">
+        <Grid Margin="0,0,0,0" x:Name="mapPageGrid" BackgroundColor="{Binding MapPageGridBackgroundColor, Mode=TwoWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
@@ -241,7 +241,7 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
-                <Button x:Name="GPSMode" Text="&#xF0909;"
+                <Button x:Name="GPSMode" Text="&#xF0909;" TextColor="{Binding GPSModeTextColor, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"
                         />

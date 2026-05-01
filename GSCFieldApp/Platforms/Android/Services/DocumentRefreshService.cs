@@ -44,7 +44,7 @@ namespace GSCFieldApp.Services
                 //Calculate seconds since last time app was in background
                 long sinceSeconds = Math.Max(
                     0L,
-                    (long)(sinceUtc - DateTime.UnixEpoch).TotalSeconds - 15
+                    (long)(sinceUtc - DateTime.UnixEpoch).TotalSeconds - 100
                 );
 
                 //Search in Pictures/GSCFieldApp for images modified after `sinceUtc`.
