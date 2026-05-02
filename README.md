@@ -64,7 +64,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see [Federal identity requirements](https://www.canada.ca/en/treasury-board-secretariat/topics/government-communications/federal-identity-requirements.html).
 
 ## Natural Resources Canada, Geological Survey of Canada
-##### © His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2025.
+##### © His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2026.
 
 ______________________
 
@@ -134,4 +134,4 @@ Voir [CONTRIBUTING.md](CONTRIBUTING.md)
 Le mot-symbole « Canada » et les éléments graphiques connexes liés à cette distribution sont protégés en vertu des lois portant sur les marques de commerce et le droit d'auteur. Aucune autorisation n'est accordée pour leur utilisation à l'extérieur des paramètres du programme de coordination de l'image de marque du gouvernement du Canada. Pour obtenir davantage de renseignements à ce sujet, veuillez consulter les [Exigences pour l'image de marque](https://www.canada.ca/fr/secretariat-conseil-tresor/sujets/communications-gouvernementales/exigences-image-marque.html).
 
 ## Ressources naturelles Canada, Commission géologique du Canada.
-##### © Sa Majesté le Roi du Chef tu Canada représenté par le ministre des Ressources naturelles, 2025.
+##### © Sa Majesté le Roi du Chef du Canada représenté par le ministre des Ressources naturelles, 2026.
