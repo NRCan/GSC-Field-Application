@@ -80,8 +80,8 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-
-            if (_model != null)
+            //Make sure to delete station and location records if user is coming from map page
+            if (_model != null && _model.IsMapPageQuick)
             {
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.LocationAlias, _model.LocationID, true);
             }
