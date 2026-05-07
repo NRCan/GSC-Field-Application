@@ -307,11 +307,11 @@
                     </Border.GestureRecognizers>-->
 
                     <VerticalStackLayout Spacing="10">
-                        <Button Text="{local:Localize Key=StationPageWaypoint}"   Clicked="TapMenu_Waypoint"/>
-                        <Button Text="{local:Localize Key=StationPageTitle}"   Clicked="TapMenu_Station"/>
-                        <Button Text="{local:Localize Key=DocumentPageTitle}"     Clicked="TapMenu_Photo"/>
-                        <Button Text="{local:Localize Key=SamplePageTitle}"     Clicked="TapMenu_Sample"/>
-                        <Button Text="{local:Localize Key=MapPageTapMenuStruc}"  Clicked="TapMenu_Structure"/>
+                        <Button Text="{local:Localize Key=StationPageWaypoint}" Clicked="TapMenu_Waypoint"/>
+                        <Button Text="{local:Localize Key=StationPageTitle}" Clicked="TapMenu_Station"/>
+                        <Button Text="{local:Localize Key=DocumentPageTitle}" Clicked="TapMenu_Photo"/>
+                        <Button Text="{local:Localize Key=SamplePageTitle}" Clicked="TapMenu_Sample"/>
+                        <Button Text="{local:Localize Key=MapPageTapMenuStruc}" Clicked="TapMenu_Structure"/>
                         <Button Text="{local:Localize Key=GenericClose}"
                                 BackgroundColor="#DDDDDD"
                                 TextColor="Black"
