@@ -2025,6 +2025,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Traverses.
+        /// </summary>
+        internal static string FielNotesTraverHeader {
+            get {
+                return ResourceManager.GetString("FielNotesTraverHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         internal static string FossilPageGeneralTitle {

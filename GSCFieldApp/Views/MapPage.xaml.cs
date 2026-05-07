@@ -138,6 +138,23 @@ public partial class MapPage : ContentPage
         set { }
     }
 
+    public bool LineworkVisible
+    {
+        get { return Preferences.Get(nameof(LineworkVisible), true); }
+        set { }
+    }
+
+    public bool DrillHoleVisible
+    {
+        get { return Preferences.Get(nameof(DrillHoleVisible), true); }
+        set { }
+    }
+
+    public bool TraverseVisible
+    {
+        get { return Preferences.Get(nameof(TraverseVisible), true); }
+        set { }
+    }
     #endregion
 
     public MapPage(MapViewModel vm)
@@ -173,6 +190,9 @@ public partial class MapPage : ContentPage
 
             //Detect dev mode
             AboutPageViewModel.devModeChanged += AboutPageViewModel_devModeChanged;
+
+            //Detect new setting toggles
+            SettingsViewModel.fieldNoteCustomFieldSettingChanged += SettingsViewModel_fieldNoteCustomFieldSettingChanged;
         }
         catch (System.Exception e)
         {
@@ -1176,6 +1196,12 @@ public partial class MapPage : ContentPage
         }
     }
 
+    private async void SettingsViewModel_fieldNoteCustomFieldSettingChanged(object sender, bool e)
+    {
+        //Force a refresh of the layers
+        await RefreshDefaultFeatureLayer(true);
+    }
+
     #endregion
 
     #region METHODS
@@ -1256,9 +1282,9 @@ public partial class MapPage : ContentPage
     /// Will force a quick refresh on the feature layers like station and traverses
     /// </summary>
     /// <returns></returns>
-    private async Task RefreshDefaultFeatureLayer()
+    private async Task RefreshDefaultFeatureLayer(bool forceRefresh = false)
     {
-        if (!_isInitialLoadingDone)
+        if (!_isInitialLoadingDone || forceRefresh)
         {
             _vm.EmptyLayerCollections();
 
@@ -2241,7 +2267,7 @@ public partial class MapPage : ContentPage
     /// Will create a new point layer for station or traverse location
     /// </summary>
     /// <returns></returns>
-    private async Task<List<MemoryLayer>> CreateDefaultLayersAsync()
+    private async Task<List<MemoryLayer>> CreateDefaultLayersAsync() 
     {
         List<MemoryLayer> defaultLayers = new List<MemoryLayer>();
 
@@ -2251,8 +2277,34 @@ public partial class MapPage : ContentPage
 
             if (dLayer != null)
             {
-                //dLayer.Tag = da.PreferedDatabasePath; //Keep database path for map info button and zoom to extent
-                defaultLayers.Add(dLayer);
+                //Make sure it's a layer that user wants, from a setting perspective
+                if (dLayer.Name == ApplicationLiterals.aliasLinework)
+                {
+                    if (LineworkVisible)
+                    {
+                        defaultLayers.Add(dLayer);
+                    }
+                    
+                }
+                else if (dLayer.Name == ApplicationLiterals.aliasDrillHoles)
+                {
+                    if (DrillHoleVisible)
+                    {
+                        defaultLayers.Add(dLayer);
+                    }
+                }
+                else if (dLayer.Name == ApplicationLiterals.aliasTraversePoint)
+                {
+                    if (TraverseVisible)
+                    {
+                        defaultLayers.Add(dLayer);
+                    }
+                }
+                else 
+                {
+                    defaultLayers.Add(dLayer);
+                }
+                
             }
         }
 
