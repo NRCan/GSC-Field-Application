@@ -850,8 +850,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Get nodes within NamedLayer
                 foreach (XElement namedLayerElement in xdoc.Descendants().Where(p => p.Name.LocalName == GpkgStyleRoot))
                 {
-                    //Make sure the styling is meant for the right layer
-                    if (namedLayerElement.Value != null && namedLayerElement.Value.Contains(tableName))
+                    //Make sure the styling is not null and assume it's meant for the right layer
+                    if (namedLayerElement.Value != null)
                     {
                         //For classified styles, there'll be more than 1 rule
                         foreach (XElement ruleElement in namedLayerElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleRule))
