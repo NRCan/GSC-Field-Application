@@ -55,6 +55,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgFieldSRID = "srs_id";
         public const string GpkgFieldStyleTableName = "f_table_name";
         public const string GpkgFieldStyleSLD = "styleSLD";
+        public const string GpkgFieldStyleUpdateTime = "update_time";
+        public const string GpkgFieldStyleUseDefault = "useAsDefault";
         public const string GpkgFieldGeometry = "geom";
         public const string GpkgFieldGeometryType = "geometry_type_name";
         public const string GpkgFieldGeometryColumnName = "column_name";
@@ -1159,8 +1161,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (layerStyleTable != null && layerStyleTable.Count() > 0)
             {
-                //Read from geopackage style table
-                string getStyleXML = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", GpkgFieldStyleSLD, GpkgTableStyle, GpkgFieldStyleTableName, tableName);
+                //Read from geopackage style table, sort by default styling then by update time, in case user hasn't chosen a default one
+                string getStyleXML = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}' ORDER BY {4} desc, {5} desc;",
+                    GpkgFieldStyleSLD, GpkgTableStyle, GpkgFieldStyleTableName, tableName, GpkgFieldStyleUseDefault, GpkgFieldStyleUpdateTime);
                 try
                 {
                     List<string> xmlStyle = await gpkgConnection.QueryScalarsAsync<string>(getStyleXML);
