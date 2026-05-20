@@ -201,7 +201,7 @@
                                 <VerticalStackLayout>
 
                                     <HorizontalStackLayout >
-                                        <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetLogIntervalCommand}"/>
+                                        <Button Text="{local:Localize ButtonSet}" BackgroundColor="{StaticResource FieldDrillColorLight}" Padding="-5" Command="{Binding SetLogIntervalCommand}"/>
 
                                         <!--Custom control to concatenate multiple values into one field-->
                                         <controls:ConcatenatedCollection MaximumWidthRequest="197" WidthRequest="197" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"

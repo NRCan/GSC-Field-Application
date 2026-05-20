@@ -275,7 +275,7 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="4,4"/>
         <Setter Property="MaximumHeightRequest" Value="44"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>

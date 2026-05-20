@@ -78,7 +78,7 @@
                                         Text="{Binding Model.Description, Mode=TwoWay}" 
                                         Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                                <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" Style="{StaticResource FieldAppGenericButton}"
+                                <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" BackgroundColor="{StaticResource FieldPhotoColorLight}" Style="{StaticResource FieldAppGenericButton}"
                                             Command="{Binding LoadPreviousCaptionCommand}"/>
 
                             </VerticalStackLayout>
