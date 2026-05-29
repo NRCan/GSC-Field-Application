@@ -168,8 +168,8 @@ public sealed class PhotoEditorLauncher : IPhotoEditorLauncher
     {
         try
         {
-            //Set URI
-            string displayName = Path.GetFileName(path);
+            //Set URI - ex: Pictures/GSCFieldApp/26ABC0001P001_Annotated.jpg
+            string displayName = Path.GetFileNameWithoutExtension(path) + ApplicationLiterals.annotatedDocumentSuffix + Path.GetExtension(path);
             ContentResolver resolver = ctx.ContentResolver!;
             Uri pictures = MediaStore.Images.Media.GetContentUri("external");
 

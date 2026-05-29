@@ -41,7 +41,7 @@
                           FrameTitle="{local:Localize DocumentPageEmbededTitle}" InfoAlertVisibility="True" InfoAlertParameter="{local:Localize DocumentPageInfoAlertThumbnail}">
                                 <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
                                         IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}" 
-                                        Source="{Binding SnapshotSource}">
+                                        Source="{Binding SnapshotSource, Mode=TwoWay}">
                                 <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ImageTappedCommand}" NumberOfTapsRequired="2"/>
                             </Image.GestureRecognizers>
@@ -78,7 +78,7 @@
                                         Text="{Binding Model.Description, Mode=TwoWay}" 
                                         Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                                <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" Style="{StaticResource FieldAppGenericButton}"
+                                <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" BackgroundColor="{StaticResource FieldPhotoColorLight}" Style="{StaticResource FieldAppGenericButton}"
                                             Command="{Binding LoadPreviousCaptionCommand}"/>
 
                             </VerticalStackLayout>

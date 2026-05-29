@@ -1620,4 +1620,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="AboutPageHelpRelease" xml:space="preserve">
     <value>Downloadable releases</value>
   </data>
+  <data name="FielNotesTraverHeader" xml:space="preserve">
+    <value>Traverses</value>
+  </data>
 </root>

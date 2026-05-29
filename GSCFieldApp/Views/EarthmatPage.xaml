@@ -274,7 +274,7 @@
                                 <Label Text="{local:Localize EarthmatPageColourFresh}" Style="{StaticResource FieldAppEntryTitle}"/>
 
                                 <HorizontalStackLayout>
-                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetFreshColourCommand}" />
+                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="{StaticResource FieldEarthMaterialColorLight}" Padding="-5" Command="{Binding SetFreshColourCommand}" />
                                     <Entry  FontSize="Caption" Text="{Binding Model.EarthMatColourF, Mode=TwoWay}" 
                                             MaximumWidthRequest="197" WidthRequest="197"
                                             Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
@@ -287,7 +287,7 @@
                                 <Label Text="{local:Localize EarthmatPageColourWeathered}" Style="{StaticResource FieldAppEntryTitle}"/>
 
                                 <HorizontalStackLayout>
-                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetWeatheredColourCommand}"/>
+                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="{StaticResource FieldEarthMaterialColorLight}" Padding="-5" Command="{Binding SetWeatheredColourCommand}"/>
                                     <Entry FontSize="Caption" Text="{Binding Model.EarthMatColourW, Mode=TwoWay}" 
                                            MaximumWidthRequest="197" WidthRequest="197"
                                            Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
@@ -400,7 +400,7 @@
                             <VerticalStackLayout x:Name="EarthRelationDescription">
 
                                 <HorizontalStackLayout >
-                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
+                                    <Button Text="{local:Localize ButtonSet}"  BackgroundColor="{StaticResource FieldEarthMaterialColorLight}" Padding="-5" Command="{Binding SetContactCommand}"/>
 
                                     <!--Custom control to concatenate multiple values into one field-->
                                     <controls:ConcatenatedCollection MinimumWidthRequest="225" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"

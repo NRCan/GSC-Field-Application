@@ -1621,4 +1621,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="AboutPageHelpRelease" xml:space="preserve">
     <value>Versions téléchargeable</value>
   </data>
+  <data name="FielNotesTraverHeader" xml:space="preserve">
+    <value>Traverses</value>
+  </data>
 </root>

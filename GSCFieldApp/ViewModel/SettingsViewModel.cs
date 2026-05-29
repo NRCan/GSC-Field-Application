@@ -19,7 +19,7 @@ namespace GSCFieldApp.ViewModel
         //Events
         public static EventHandler<bool> fieldNoteFilteringSettingChanged; //This event is triggered when a different record filtering is selected
         public static EventHandler<bool> fieldNotePhotoAliasSettingChanged; //This event is triggered when a different photo record display is selected
-
+        public static EventHandler<bool> fieldNoteCustomFieldSettingChanged; //This event is triggered when some custom field display setting is changed
         #region PROPERTIES
         public LocalizationResourceManager LocalizationResourceManager
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -70,7 +70,20 @@ namespace GSCFieldApp.ViewModel
         public bool DrillHoleVisible
         {
             get { return Preferences.Get(nameof(DrillHoleVisible), true); }
-            set { Preferences.Set(nameof(DrillHoleVisible), value); }
+            set 
+            {
+
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNoteCustomFieldSettingChangedRequest = fieldNoteCustomFieldSettingChanged;
+                if (fieldNoteCustomFieldSettingChangedRequest != null)
+                {
+                    fieldNoteCustomFieldSettingChangedRequest(this, true);
+                }
+
+
+                Preferences.Set(nameof(DrillHoleVisible), value); 
+            
+            }
         }
 
         public bool PaleoflowVisible
@@ -94,7 +107,18 @@ namespace GSCFieldApp.ViewModel
         public bool LineworkVisible
         {
             get { return Preferences.Get(nameof(LineworkVisible), true); }
-            set { Preferences.Set(nameof(LineworkVisible), value); }
+            set 
+            {
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNoteCustomFieldSettingChangedRequest = fieldNoteCustomFieldSettingChanged;
+                if (fieldNoteCustomFieldSettingChangedRequest != null)
+                {
+                    fieldNoteCustomFieldSettingChangedRequest(this, true);
+                }
+
+                Preferences.Set(nameof(LineworkVisible), value); 
+            
+            }
         }
 
         public bool GPSLogEnabled
@@ -178,6 +202,23 @@ namespace GSCFieldApp.ViewModel
 
                 //keep in pref
                 Preferences.Set(nameof(FilteringByDateOrLocation), value); 
+            }
+        }
+
+        public bool TraverseVisible
+        {
+            get { return Preferences.Get(nameof(TraverseVisible), true); }
+            set
+            {
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNoteCustomFieldSettingChangedRequest = fieldNoteCustomFieldSettingChanged;
+                if (fieldNoteCustomFieldSettingChangedRequest != null)
+                { 
+                    fieldNoteCustomFieldSettingChangedRequest(this, true);
+                }
+
+                //keep in TraverseVisible
+                Preferences.Set(nameof(TraverseVisible), value);
             }
         }
 
