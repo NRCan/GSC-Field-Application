@@ -9,7 +9,7 @@
 	</Target>
 	
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-maccatalyst;net9.0-ios;net9.0-android35.0</TargetFrameworks>
+		<TargetFrameworks>net9.0-android35.0</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.20348.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
@@ -34,12 +34,12 @@
 		<ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 		<ApplicationVersion>3</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>-->
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>-->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 		<DefaultLanguage>en</DefaultLanguage>
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
@@ -62,261 +62,14 @@
 		<StartupObject></StartupObject>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-      <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM32'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|x64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <TrimMode>link</TrimMode>
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>True</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM32'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>True</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>True</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|x64'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	  <TrimMode>link</TrimMode>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <AndroidLinkTool>r8</AndroidLinkTool>
-	  <DebugSymbols>False</DebugSymbols>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <EnableLLVM>True</EnableLLVM>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM32'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|x64'">
-	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|AnyCPU'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|x64'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|ARM64'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|ARM32'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|AnyCPU'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|x64'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|ARM64'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|ARM32'">
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|AnyCPU'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|AnyCPU'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android35.0|AnyCPU'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -326,13 +79,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|x64'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|x64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|x64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android35.0|x64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -342,13 +95,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|ARM64'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|ARM64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|ARM64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android35.0|ARM64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -358,13 +111,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|ARM32'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|ARM32'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|ARM32'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android35.0|ARM32'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -374,13 +127,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android35.0|AnyCPU'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -391,13 +144,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|x64'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|x64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|x64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android35.0|x64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -408,13 +161,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|ARM64'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|ARM64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|ARM64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android35.0|ARM64'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
@@ -425,13 +178,13 @@
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|ARM32'">
+	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|ARM32'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|ARM32'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android35.0|ARM32'">
 	  <ApplicationDisplayVersion>3.1.2</ApplicationDisplayVersion>
