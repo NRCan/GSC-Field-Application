@@ -24,7 +24,7 @@
 		<!--<WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>-->
 		
 		<!-- Display name -->
-		<ApplicationTitle>GSCFieldApp</ApplicationTitle>
+		<ApplicationTitle>GSC Field Application</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.gscfieldapp</ApplicationId>
@@ -42,8 +42,7 @@
 		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 		<DefaultLanguage>en</DefaultLanguage>
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-		<PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
+		<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -60,6 +59,7 @@
 		<Description>Geological Survey Canada on site data collection for geologists.</Description>
 		<Copyright>His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2026</Copyright>
 		<StartupObject></StartupObject>
+		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
 	</PropertyGroup>
 
 
@@ -202,6 +202,24 @@
 
 		<!-- App icon for Windows -->
 		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" Update="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300" />
+		<MauiAsset Include="Resources\Splash\splash.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Include="Resources\Splash\splash.scale-100.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Include="Resources\Splash\splash.scale-125.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Include="Resources\Splash\splash.scale-150.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Include="Resources\Splash\splash.scale-200.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
+		<MauiAsset Include="Resources\Splash\splash.scale-400.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128">
@@ -247,6 +265,18 @@
 		<None Remove="Resources\Raw\GSCFieldwork_V180.gpkg" />
 		
 		<None Remove="Resources\Raw\SRID.csv" />
+		
+		<None Remove="Resources\Splash\splash.png" />
+		
+		<None Remove="Resources\Splash\splash.scale-100.png" />
+		
+		<None Remove="Resources\Splash\splash.scale-125.png" />
+		
+		<None Remove="Resources\Splash\splash.scale-150.png" />
+		
+		<None Remove="Resources\Splash\splash.scale-200.png" />
+		
+		<None Remove="Resources\Splash\splash.scale-400.png" />
 	</ItemGroup>
 
 	<ItemGroup>

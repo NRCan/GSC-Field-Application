@@ -6,13 +6,13 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-	<Identity Name="maui-package-name-placeholder" Publisher="CN=Geological Survey of Canada, O=Natural Resources Canada, C=CA" Version="3.1.2.0" />
+	<Identity Name="NaturalResourcesCanada.GSCFieldApplication" Publisher="CN=4BD3CC5C-7CF5-4E7B-BBD4-A5F65BC9B27D" Version="3.1.2.0" />
 
-	<mp:PhoneIdentity PhoneProductId="AF64C2AD-9EDD-447F-AC73-381E4FEB39DA" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+	<mp:PhoneIdentity PhoneProductId="cc60333a-99f3-4f2e-a854-0353ccf59218" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
 	<Properties>
-		<DisplayName>$placeholder$</DisplayName>
-		<PublisherDisplayName>User Name</PublisherDisplayName>
+		<DisplayName>GSC Field Application</DisplayName>
+		<PublisherDisplayName>Natural Resources Canada</PublisherDisplayName>
 		<Logo>$placeholder$.png</Logo>
 	</Properties>
 
@@ -28,13 +28,13 @@
 	<Applications>
 		<Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
 			<uap:VisualElements
-			  DisplayName="$placeholder$"
+			  DisplayName="GSC Field Application"
 			  Description="$placeholder$"
 			  Square150x150Logo="$placeholder$.png"
 			  Square44x44Logo="$placeholder$.png"
 			  BackgroundColor="transparent">
 				<uap:DefaultTile Square71x71Logo="$placeholder$.png" Wide310x150Logo="$placeholder$.png" Square310x310Logo="$placeholder$.png" />
-				<uap:SplashScreen Image="$placeholder$.png"  BackgroundColor="#710B2C"/>
+				<uap:SplashScreen BackgroundColor="#710B2C" Image="Resources\Splash\splash.png"/>
 			</uap:VisualElements>
 		</Application>
 	</Applications>
