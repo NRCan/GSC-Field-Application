@@ -23,6 +23,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
 using System.Threading;
 using System.Security.Cryptography;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -550,14 +551,14 @@ namespace GSCFieldApp.ViewModel
         {
 
             var search_term = searchText.ToLower();
-            var results = _litho_detail_vocab.Where(i => i.Code.ToLower().Contains(search_term)).ToList();
+            var results = _litho_detail_vocab.Where(i => i.Code != null && i.Code.ToLower().Contains(search_term)).ToList();
 
             if (results.Count > 0)
             {
                 _lihthoDetailSearchResults = new List<string>();
                 foreach (Vocabularies tmp in results)
                 {
-                    if (!_lihthoDetailSearchResults.Contains(tmp.Code.ToString()))
+                    if (tmp.Code != null && !_lihthoDetailSearchResults.Contains(tmp.Code.ToString()))
                     {
                         _lihthoDetailSearchResults.Add(tmp.Code.ToString());
                     }
@@ -844,21 +845,24 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
-#if ANDROID
+            //Make sure to read from the gscfieldwork geopackage and not the field book, else picklist might be desynchronized from global picklist
+            _litho_detail_vocab = await da.GetPicklistValuesAsync(TableEarthMat, FieldEarthMatLithdetail, "",false);
 
-            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+//#if ANDROID
 
-            if (vocab_manager != null && vocab_manager.Count() > 0)
-            {
-                string codeTheme = vocab_manager.First().ThemeCodedTheme;
-                _litho_detail_vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
-            }
+//            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
 
-#else
-            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
-            _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
+//            if (vocab_manager != null && vocab_manager.Count() > 0)
+//            {
+//                string codeTheme = vocab_manager.First().ThemeCodedTheme;
+//                _litho_detail_vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
+//            }
 
-#endif
+//#else
+//            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+//            _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
+
+//#endif
 
 
             var _lihthoSearchResults = new List<string>();
@@ -870,19 +874,23 @@ namespace GSCFieldApp.ViewModel
 
                     try
                     {
-                        if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                        if (tmp.Code != null)
                         {
-                            _lihthoSearchResults.Add(tmp.Code.ToString());
+                            if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                            {
+                                _lihthoSearchResults.Add(tmp.Code.ToString());
+                            }
+
+                            IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
+                            if (existingDetails != null && existingDetails.Count() > 0)
+                            {
+                                LithologyDetail detail = new LithologyDetail();
+                                detail.DetailCode = tmp.Code.ToString();
+                                existingDetails.First().lithologyDetails.Add(detail);
+
+                            }
                         }
 
-                        IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
-                        if (existingDetails != null && existingDetails.Count() > 0)
-                        {
-                            LithologyDetail detail = new LithologyDetail();
-                            detail.DetailCode = tmp.Code.ToString();
-                            existingDetails.First().lithologyDetails.Add(detail);
-
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -910,29 +918,31 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         private async Task FillLithoGroupSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
+            //Make sure to read from the gscfieldwork geopackage and not the field book, else picklist might be desynchronized from global picklist
+            _litho_group_vocab = await da.GetPicklistValuesAsync(TableEarthMat, FieldEarthMatLithgroup, "", false);
 
-#if ANDROID
+//#if ANDROID
 
-            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+//            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
 
-            if (vocab_manager != null && vocab_manager.Count() > 0)
-            {
-                string codeTheme = vocab_manager.First().ThemeCodedTheme;
-                _litho_group_vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
-            }
+//            if (vocab_manager != null && vocab_manager.Count() > 0)
+//            {
+//                string codeTheme = vocab_manager.First().ThemeCodedTheme;
+//                _litho_group_vocab = await DataAccess.DbConnection.Table<Vocabularies>().Where(theme => theme.CodedTheme == codeTheme).ToListAsync();
+//            }
 
-#else
-            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
-            _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
+//#else
+//            List<VocabularyManager> vocab_manager = await DataAccess.DbConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+//            _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
 
-#endif
+//#endif
 
             var _lihthoSearchResults = new List<string>();
             if (_litho_group_vocab != null)
             {
                 foreach (Vocabularies tmp in _litho_group_vocab)
                 {
-                    if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
+                    if (tmp.Code != null && !_lihthoSearchResults.Contains(tmp.Code.ToString()))
                     {
                         _lihthoSearchResults.Add(tmp.Code.ToString());
 
