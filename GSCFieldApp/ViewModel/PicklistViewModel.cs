@@ -289,7 +289,8 @@ namespace GSCFieldApp.ViewModel
 
         public PicklistViewModel()
         {
-            _ = FillPickers();
+            //Setup
+            PrepareUI();
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -297,6 +298,22 @@ namespace GSCFieldApp.ViewModel
         }
 
         #region METHODS
+
+        /// <summary>
+        /// Will setup the UI after some validation checks
+        /// </summary>
+        public async void PrepareUI()
+        {
+            //Since we're using global geopacakge GSCFieldwork, make a quick validation check on its existance
+            if (!File.Exists(da.DatabaseFilePath))
+            {
+                await da.CreateDatabaseFromResource(da.DatabaseFilePath).ContinueWith(async a => await FillPickers());
+            }
+            else
+            {
+                await FillPickers();
+            }
+        }
 
         /// <summary>
         /// Will fill all picker controls
