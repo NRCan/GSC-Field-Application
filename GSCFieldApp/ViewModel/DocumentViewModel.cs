@@ -570,7 +570,15 @@ namespace GSCFieldApp.ViewModel
             CalculateFileNumberTo();
 
             //Keep track of page being already filled or not
-            IsLoaded = true;
+            if (IsLoaded)
+            {
+                //Sync loaded record with model, so that if user navigates back to this form, it doesn't create a new record.
+                _document = Model;
+            }
+            else
+            {
+                IsLoaded = true;
+            }
 
         }
 

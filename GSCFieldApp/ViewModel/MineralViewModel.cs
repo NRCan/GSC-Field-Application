@@ -336,7 +336,15 @@ namespace GSCFieldApp.ViewModel
             Model.MineralFormHabit = ConcatenatedCombobox.PipeValues(MineralFormHabitCollection); //process list of values so they are concatenated.
 
             //Keep track of page being already filled or not
-            IsLoaded = true;
+            if (IsLoaded)
+            {
+                //Sync loaded record with model, so that if user navigates back to this form, it doesn't create a new record.
+                _mineral = Model;
+            }
+            else
+            {
+                IsLoaded = true;
+            }
         }
 
         /// <summary>

@@ -369,9 +369,17 @@ namespace GSCFieldApp.ViewModel
 
             //Process concatenated pickers
             Model.EnvGroundPattern = ConcatenatedCombobox.PipeValues(EnvironmentPatternCollection); //process list of values so they are concatenated.
-            
+
             //Keep track of page being already filled or not
-            IsLoaded = true;
+            if (IsLoaded)
+            {
+                //Sync loaded record with model, so that if user navigates back to this form, it doesn't create a new record.
+                _environmentModel = Model;
+            }
+            else
+            {
+                IsLoaded = true;
+            }
 
         }
 

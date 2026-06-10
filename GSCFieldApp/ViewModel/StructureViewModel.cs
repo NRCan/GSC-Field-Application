@@ -430,7 +430,15 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Keep track of page being already filled or not
-            IsLoaded = true;
+            if (IsLoaded)
+            {
+                //Sync loaded record with model, so that if user navigates back to this form, it doesn't create a new record.
+                _structure = Model;
+            }
+            else
+            {
+                IsLoaded = true;
+            }
 
         }
 

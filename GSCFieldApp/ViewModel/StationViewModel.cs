@@ -536,9 +536,19 @@ namespace GSCFieldApp.ViewModel
 
             //Process concatenated pickers
             Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
-            
+
             //Keep track of page being already filled or not
-            IsLoaded = true;
+            if (IsLoaded) 
+            {
+                //Sync loaded record with model, so that if user navigates back to this form, it doesn't create a new record.
+                _station = Model;
+            }
+            else
+            {
+                IsLoaded = true;
+            }
+            
+
 
         }
 
