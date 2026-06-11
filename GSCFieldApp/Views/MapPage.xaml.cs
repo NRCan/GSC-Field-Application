@@ -1291,21 +1291,24 @@ public partial class MapPage : ContentPage
             List<MemoryLayer> mls = await CreateDefaultLayersAsync();
             if (mls != null && mls.Count() > 0)
             {
-                foreach (MemoryLayer ml in mls)
+                //Make sure to remove all layers, memory layer tend to stick around and refreshing them 
+                //won't do much.
+                foreach (int i in Enum.GetValues(typeof(defaultLayerList)))
                 {
-                    //Make sure to remove all layers, memory layer tend to stick around and refreshing them 
-                    //won't do much.
-                    if (mapControl.Map.Layers.Where(m => m.Name == ml.Name).Count() > 0)
+                    if (mapControl.Map.Layers.Where(m => m.Name == Enum.GetName((defaultLayerList)i)).Count() > 0)
                     {
+                        ILayer ml = mapControl.Map.Layers.Where(m => m.Name == Enum.GetName((defaultLayerList)i)).First();
                         mapControl.Map.Layers.Remove(ml);
                     }
+                }
 
-                    //Force a refresh
+                //Force a refresh only on desired layers
+                foreach (MemoryLayer ml in mls)
+                {
                     if (mapView.Map.Layers.Where(x => x.Name == ml.Name).Count() == 0)
                     {
                         mapView.Map.Layers.Add(ml);
                     }
- 
                 }
 
                 //Zoom to initial extent of the station layer
