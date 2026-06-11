@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using Mapsui;
 using Mapsui.Nts.Extensions;
 using Mapsui.Styles;
 using NetTopologySuite;
@@ -97,6 +98,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgStyleValue = "Literal";
         public const string GpkgStyleFillRoot = "Fill";
         public const string GpkgStyleFill = "fill";
+        public const string GpkgStyleSizeRoot = "Size";
 
         private static ICoordinateTransformation _polyTransform = null;
         private static PrecisionModel _precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
@@ -1115,7 +1117,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
             }
 
-            //Get the polygon fill color
+            //Get the fill color
             IEnumerable<XElement> fillElements = ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleFillRoot);
             if (fillElements.Count() > 0)
             {
@@ -1138,6 +1140,42 @@ namespace GSCFieldApp.Services.DatabaseServices
                         }
 
                     }
+
+                }
+            }
+
+            //Get the marker size
+            IEnumerable<XElement> sizeElements = ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleSizeRoot);
+            if (sizeElements.Count() > 0)
+            {
+                foreach (XElement sizeElement in sizeElements)
+                {
+                    
+                    if (sizeElement != null)
+                    {
+                        try
+                        {
+
+                            /// Calculating mapsui vs qgis ratio
+                            /// By default, size tag in a SLD refers to pixels, but mapsui uses scale instead.
+                            /// Marker size of 6 points in Q is around 26 in Mapsui at the same scale of 1:1 333 333 (taken from letraset scale)
+                            /// Mapsui 26 points is = scale of 1
+                            /// Ratio=0.23
+                            
+                            double sizeValue = 0.5;
+                            double.TryParse(sizeElement.Value, out sizeValue);
+                            double scaleValue = (sizeValue * 0.23) / 6.0;
+
+                            currentStyling.pointVectorStyle.SymbolScale = scaleValue;
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e).WriteToFile();
+                        }
+
+                    }
+
+                    
 
                 }
             }
