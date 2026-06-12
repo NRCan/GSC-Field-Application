@@ -1719,15 +1719,30 @@ public partial class MapPage : ContentPage
                                 string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", currentGeomName, features);
                                 string getGeomQuery = getGeomQuery_base;
 
+                                //Quick reverse of list, that way for graduated symbols, smaller markers will go on top of the bigger ones
+                                stylings.Reverse();
+
                                 foreach (GeopackageLayerStyling styling in stylings)
                                 {
                                     List<object> queryArgs = new List<object>();
 
-                                    if (styling.className != string.Empty && styling.classValue != string.Empty)
+                                    if (styling.className != null && styling.className != string.Empty )
                                     {
-                                        //Add a where clause
-                                        getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = ? ;", styling.className);
-                                        queryArgs.Add(styling.classValue);
+                                        //Find if styling is simple, classified or graduated
+                                        if (styling.classValue != null && styling.classValue != string.Empty)
+                                        {
+                                            getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = ? ;", styling.className);
+                                            queryArgs.Add(styling.classValue);
+                                        }
+
+                                        if (styling.classIntervalValues != null)
+                                        {
+                                            // ex: where X >= value1 and X < value2
+                                            getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} {1} ? AND {0} {2} ? ;", styling.className, styling.classIntervalValues.Item3, styling.classIntervalValues.Item4);
+                                            queryArgs.Add(styling.classIntervalValues.Item1);
+                                            queryArgs.Add(styling.classIntervalValues.Item2);
+                                        }
+
                                     }
                                     List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery, queryArgs.ToArray());
 

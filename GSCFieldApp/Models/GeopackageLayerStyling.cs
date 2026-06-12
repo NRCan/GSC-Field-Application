@@ -13,11 +13,14 @@ namespace GSCFieldApp.Models
     /// a feature styling inside a geopackage. Will be used to build those
     /// feature in the map.
     /// </summary>
-    public class GeopackageLayerStyling
+    public class GeopackageLayerStyling: SymbolStyle
     {
         //Generic classified style
         public string className { get; set; }
         public string classValue { get; set; }
+
+        //Generic graduated style (from value, to value, symbol from (>=, >, <, <=), symbol to (""))
+        public Tuple<double,double, string, string> classIntervalValues { get; set; }
 
         //Related to lines
         public Color lineStrokeColor { get; set; }
@@ -86,6 +89,26 @@ namespace GSCFieldApp.Models
             pointVectorStyle = new SymbolStyle { SymbolScale = 0.5, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
 
             return pointStyle;
+        }
+
+        /// <summary>
+        /// Will calculate Mapsui marker size compared to SLD/QGIS marker size
+        /// By default, size tag in a SLD refers to pixels, but mapsui uses scale instead.
+        /// Marker size of 6 points in Q is around 26 in Mapsui at the same scale of 1:1 333 333 (taken from letraset scale)
+        /// Mapsui 26 points is = scale of 1
+        /// Ratio=0.23
+        /// </summary>
+        /// <returns></returns>
+        public static double GetSymbolScaleFromPoints(string sldSizeValue)
+        {
+            double sizeValue = 0.5;
+
+            if (sldSizeValue != null && sldSizeValue != string.Empty)
+            {              
+                double.TryParse(sldSizeValue, out sizeValue);
+            }
+
+            return (sizeValue * 0.23) / 6.0;
         }
 
     }

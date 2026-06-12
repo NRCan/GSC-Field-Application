@@ -99,6 +99,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgStyleFillRoot = "Fill";
         public const string GpkgStyleFill = "fill";
         public const string GpkgStyleSizeRoot = "Size";
+        public const string GpkgStyleGreaterOrEqualThan = "PropertyIsGreaterThanOrEqualTo";
+        public const string GpkgStyleGreaterThan = "PropertyIsGreaterThan";
+        public const string GpkgStyleLessThan = "PropertyIsLessThan";
+        public const string GpkgStyleLessOrEqualThan = "PropertyIsLessThanOrEqualTo";
+        public const string GpkgStyleEqualTo = "PropertyIsEqualTo";
+        public const string GpkgStyleGraduatedRoot = "And";
 
         private static ICoordinateTransformation _polyTransform = null;
         private static PrecisionModel _precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
@@ -862,17 +868,81 @@ namespace GSCFieldApp.Services.DatabaseServices
                         {
                             //Create a new styling layer to keep all properties nice and cozy somewhere
                             GeopackageLayerStyling ruleStyling = new GeopackageLayerStyling();
-                            
-                            //Keep class name and value if there is any
-                            foreach (XElement classElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleClass))
-                            {
-                                ruleStyling.className = classElement.Value;
-                            }
 
-                            foreach (XElement classElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleValue))
+                            #region Classified type symbology
+                            foreach (XElement classifiedElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleEqualTo))
                             {
-                                ruleStyling.classValue = classElement.Value;
+
+                                //Keep class name and value if there is any
+                                foreach (XElement classElement in classifiedElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleClass))
+                                {
+                                    ruleStyling.className = classElement.Value;
+                                }
+
+                                foreach (XElement classElement in classifiedElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleValue))
+                                {
+                                    ruleStyling.classValue = classElement.Value;
+                                }
                             }
+                            #endregion
+
+                            #region Graduated type symbology
+                            foreach (XElement graduatedElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleGraduatedRoot))
+                            {
+                                ruleStyling.classIntervalValues = new Tuple<double, double, string, string>(0.0, 0.0, string.Empty, string.Empty);
+
+                                foreach (XElement greaterClassElement in graduatedElement.Descendants().Where(p => p.Name.LocalName.Contains(GpkgStyleGreaterThan)))
+                                {
+                                    //Set symbol that will help query the proper values
+                                    string symbolForWhereClause = ">";
+                                    if (greaterClassElement.Name.LocalName == GpkgStyleGreaterOrEqualThan)
+                                    {
+                                        symbolForWhereClause = ">=";
+                                    }
+
+                                    ruleStyling.classIntervalValues = new Tuple<double, double, string, string>(ruleStyling.classIntervalValues.Item1,
+                                        ruleStyling.classIntervalValues.Item2, symbolForWhereClause, ruleStyling.classIntervalValues.Item4);
+
+                                    //Get the values
+                                    foreach (XElement gElement in greaterClassElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleValue))
+                                    {
+                                        double classValue = 0.0;
+                                        double.TryParse(gElement.Value, out classValue);
+                                        ruleStyling.classIntervalValues = new Tuple<double, double, string, string>(classValue, 
+                                            ruleStyling.classIntervalValues.Item2, 
+                                            ruleStyling.classIntervalValues.Item3, 
+                                            ruleStyling.classIntervalValues.Item4);
+                                    }
+                                }
+
+                                foreach (XElement lessClassElement in graduatedElement.Descendants().Where(p => p.Name.LocalName.Contains(GpkgStyleLessThan)))
+                                {
+                                    //Set symbol that will help query the proper values
+                                    string symbolForWhereClause = "<";
+                                    if (lessClassElement.Name.LocalName == GpkgStyleLessOrEqualThan)
+                                    {
+                                        symbolForWhereClause = "<=";
+                                    }
+
+                                    ruleStyling.classIntervalValues = new Tuple<double, double, string, string>(ruleStyling.classIntervalValues.Item1,
+                                        ruleStyling.classIntervalValues.Item2, ruleStyling.classIntervalValues.Item3, symbolForWhereClause);
+
+                                    foreach (XElement lElement in lessClassElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleValue))
+                                    {
+                                        double classValue = 0.0;
+                                        double.TryParse(lElement.Value, out classValue);
+                                        ruleStyling.classIntervalValues = new Tuple<double, double, string, string>(ruleStyling.classIntervalValues.Item1, classValue, ruleStyling.classIntervalValues.Item3, ruleStyling.classIntervalValues.Item4);
+                                    }
+                                }
+
+                                //Keep class name and value if there is any
+                                foreach (XElement classElement in graduatedElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleClass))
+                                {
+                                    ruleStyling.className = classElement.Value;
+                                }
+
+                            }
+                            #endregion
 
                             //Get style based on geometry type (point,lines or polygons)
                             if (geometry.ToLower() == Geometry.TypeNameMultiPolygon.ToLower() || geometry.ToLower() == Geometry.TypeNamePolygon.ToLower())
@@ -1155,28 +1225,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         try
                         {
-
-                            /// Calculating mapsui vs qgis ratio
-                            /// By default, size tag in a SLD refers to pixels, but mapsui uses scale instead.
-                            /// Marker size of 6 points in Q is around 26 in Mapsui at the same scale of 1:1 333 333 (taken from letraset scale)
-                            /// Mapsui 26 points is = scale of 1
-                            /// Ratio=0.23
-                            
-                            double sizeValue = 0.5;
-                            double.TryParse(sizeElement.Value, out sizeValue);
-                            double scaleValue = (sizeValue * 0.23) / 6.0;
-
-                            currentStyling.pointVectorStyle.SymbolScale = scaleValue;
+                            currentStyling.pointVectorStyle.SymbolScale = GeopackageLayerStyling.GetSymbolScaleFromPoints(sizeElement.Value);
                         }
                         catch (Exception e)
                         {
                             new ErrorToLogFile(e).WriteToFile();
                         }
-
                     }
-
-                    
-
                 }
             }
 
