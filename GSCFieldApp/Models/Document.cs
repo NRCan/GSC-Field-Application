@@ -245,5 +245,34 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Will calculate file number from file name, if file name is in the correct format. If not, it will return the file number field value. 
+        /// </summary>
+        [Ignore]
+        public int GetFileNumberFromFileName
+        {
+            get
+            {
+                if (FileName != null && FileName != string.Empty && FileName.Length >= 4)
+                {
+                    //Remove extension
+                    string calculatedFileNumber = Path.GetFileNameWithoutExtension(FileName);
+
+                    //Remove all prefix
+                    calculatedFileNumber = calculatedFileNumber.Substring(calculatedFileNumber.Length - 4);
+
+                    //Convert
+                    int.TryParse(calculatedFileNumber, out int result);
+
+                    return result;
+                }
+                else
+                {
+                    return FileNumber;
+                }
+                 
+            }
+            set { }
+        }
     }
 }

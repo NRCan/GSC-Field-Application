@@ -569,6 +569,12 @@ namespace GSCFieldApp.ViewModel
             //Make sure file number to is not lower than file number from
             CalculateFileNumberTo();
 
+            //make sure file number is updated in model
+            if (_model.DocumentID != 0)
+            {
+                Model.FileNumber = Model.GetFileNumberFromFileName;
+            }
+            
             //Keep track of page being already filled or not
             if (IsLoaded)
             {
