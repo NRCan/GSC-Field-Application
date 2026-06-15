@@ -574,7 +574,20 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.FileNumber = Model.GetFileNumberFromFileName;
             }
-            
+
+            //Validate file name, in case it already exists, warn user
+            if (_model.DocumentType != null && _model.FileName != null && _model.FileName != string.Empty)
+            {
+                List<Document> existingDocuments = await DataAccess.DbConnection.Table<Document>().Where(d => d.FileName == _model.FileName).ToListAsync();
+                if (existingDocuments.Count > 0)
+                {
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericWarningTitle"].ToString(),
+                        LocalizationResourceManager["DocumentPageFileNameExistsContent"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                }
+            }
+
             //Keep track of page being already filled or not
             if (IsLoaded)
             {

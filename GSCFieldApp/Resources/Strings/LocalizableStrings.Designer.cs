@@ -522,6 +522,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entered file name already exists in the field notes..
+        /// </summary>
+        internal static string DocumentPageFileNameExistsContent {
+            get {
+                return ResourceManager.GetString("DocumentPageFileNameExistsContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From (#).
         /// </summary>
         internal static string DocumentPageFileNoFrom {

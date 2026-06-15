@@ -1623,4 +1623,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="FielNotesTraverHeader" xml:space="preserve">
     <value>Traverses</value>
   </data>
+  <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
+    <value>Entered file name already exists in the field notes.</value>
+  </data>
 </root>
