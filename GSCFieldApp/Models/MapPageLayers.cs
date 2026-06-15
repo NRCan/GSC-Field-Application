@@ -48,7 +48,6 @@ namespace GSCFieldApp.Models
             if (inLayer != null)
             {
                 mpl.LayerName = inLayer.Name;
-                mpl.LayerOrder = 0;
                 mpl.LayerOpacity = inLayer.Opacity;
                 mpl.LayerVisibility = inLayer.Enabled;
                 mpl.LayerID = string.Empty;

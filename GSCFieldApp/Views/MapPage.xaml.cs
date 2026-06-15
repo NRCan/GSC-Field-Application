@@ -53,7 +53,6 @@ using Point = NetTopologySuite.Geometries.Point;
 using Sensor = Microsoft.Maui.Devices.Sensors;
 
 
-
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -929,11 +928,11 @@ public partial class MapPage : ContentPage
             //Condition on map view not being null to prevent it from being launch and map page load
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
-                if (_vm != null && _vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
+                if (_vm != null && _vm.MenuLayerCollection != null && _vm.MenuLayerCollection.Count() > 0)
                 {
                     //Reorder layers (user might have changed it) - reverse to match mapsui ordering
                     List<ILayer> reverseLayers = new List<ILayer>();
-                    reverseLayers.AddRange(_vm.LayerCollection.ToList());
+                    reverseLayers.AddRange(_vm.MenuLayerCollection.ToList());
                     reverseLayers.Reverse();
                     foreach (ILayer layer in reverseLayers)
                     {
@@ -1446,33 +1445,32 @@ public partial class MapPage : ContentPage
     /// data but always under the lines and points.
     /// </summary>
     /// <param name="in_layer"></param>
-    private void InsertLayerAtRightPlace(ILayer in_layer)
+    private void InsertLayerAtRightPlace(ILayer in_layer, int index = 0)
     {
         //Insert at right location in collection
-        List<ILayer> layerList = mapControl.Map.Layers.ToList();
-        foreach (ILayer layer in layerList)
+        ILayer drawLayer = mapControl.Map.Layers.Where(m => m.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables)).First();
+        if (drawLayer != null)
         {
+            int rightIndex = mapControl.Map.Layers.ToList().IndexOf(drawLayer);
 
-            //Insert before the layer names drawables, WMS always should be beneath lines and points
-            if (layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables))
+            //make sure it's not already in there
+            if (mapView.Map.Layers.Where(x => x.Name == in_layer.Name).Count() == 0)
             {
-                int rightIndex = layerList.IndexOf(layer);
-
-                //make sure it's not already in there
-                if (mapView.Map.Layers.Where(x => x.Name == in_layer.Name).Count() == 0)
-                {
                     mapView.Map.Layers.Insert(rightIndex, in_layer);
 
-                    //Update layer collection for menu
-                    _vm.RefreshLayerCollection(mapView.Map.Layers);
+                //Update layer collection for menu
+                _vm.RefreshLayerCollection(mapView.Map.Layers);
 
-                    //Save
-                    _vm.SaveLayerRendering(in_layer);
-                    break;
-                }
+                //Save
+                _vm.SaveLayerRendering(in_layer);
 
             }
 
+
+
+            
+
+        
         }
     }
 
@@ -1612,9 +1610,9 @@ public partial class MapPage : ContentPage
                     newTileLayer.Enabled = pageLayer.LayerVisibility;
                 }
 
-                //Insert at right location in collection
-                InsertLayerAtRightPlace(newTileLayer);
-            }
+                    //Insert at right location in collection
+                    InsertLayerAtRightPlace(newTileLayer);
+                }
             catch (System.Exception e)
             {
                 new ErrorToLogFile(e).WriteToFile();
@@ -2126,7 +2124,7 @@ public partial class MapPage : ContentPage
                     SqlitePersistentCache wmsCache = null;
                     if (withCache)
                     {
-                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
+                        wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
                     }
 
                     HttpTileSource httpTileSource = new HttpTileSource(
@@ -2141,10 +2139,10 @@ public partial class MapPage : ContentPage
                     TileLayer tl = new TileLayer(httpTileSource);
                     LayerData layerData = new LayerData
                     {
-                    DataPath = wmsURL,
+                        DataPath = wmsURL,
                         IsMapInfoLayer = false,
                     };
-                tl.Name = layerName;
+                    tl.Name = layerName;
                     tl.Tag = layerData;
 
                     if (pageLayer != null)

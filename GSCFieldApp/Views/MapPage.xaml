@@ -171,7 +171,7 @@
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection" CanReorderItems="True"
                                 ItemTemplate="{StaticResource MapLayersTemplate}"
-                                ItemsSource="{Binding LayerCollection,Mode=TwoWay}" />
+                                ItemsSource="{Binding MenuLayerCollection,Mode=TwoWay}" />
                 
                 <!--Attempt to use directly Map.Layers, but couldn't work with a mode=twoway-->
                 <!--Had to revert to viewmodel refresh method for each click on layer button-->

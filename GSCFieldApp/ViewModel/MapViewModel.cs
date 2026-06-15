@@ -49,8 +49,8 @@ namespace GSCFieldApp.ViewModel
         private Station stationModel = new Station();
         public Location sensorLocation { get; set; }  //This is coming from the view when new location event is triggered. 
         public Mapsui.Map mapViewFallback = new Mapsui.Map();
-        private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>(); //The actual collection of layers (including OSM and Stations)
-        private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
+        private ObservableCollection<ILayer> _menuLayerCollection = new ObservableCollection<ILayer>(); //The actual collection of layers (including OSM and Stations)
+        private Collection<MapPageLayer> _userLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
         private ObservableCollection<MapPageLayerSelection> _featureCollection = new ObservableCollection<MapPageLayerSelection>();
         private FieldThemes _fieldThemes = new FieldThemes();
@@ -83,8 +83,8 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region PROPERTIES
-        public ObservableCollection<ILayer> LayerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
-        private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
+        public ObservableCollection<ILayer> MenuLayerCollection { get { return _menuLayerCollection; } set { _menuLayerCollection = value; } }
+        private Collection<MapPageLayer> UserLayerCollection { get { return _userLayerCollection; } set { _userLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
         public ObservableCollection<MapPageLayerSelection> FeatureCollection { get { return _featureCollection; } set { _featureCollection = value; } }
         public bool AddGeopackageWMSFrameVisibility { get { return _addGeopackageWMSFrameVisibility; } set { _addGeopackageWMSFrameVisibility = value; } }
@@ -532,7 +532,7 @@ namespace GSCFieldApp.ViewModel
 
                     //Make sure layer isn't already in collection
                     bool foundLayer = false;
-                    foreach (MapPageLayer mpls in _customLayerCollection)
+                    foreach (MapPageLayer mpls in _userLayerCollection)
                     {
                         if (mpls.LayerName == inLayer.Name)
                         {
@@ -542,7 +542,7 @@ namespace GSCFieldApp.ViewModel
 
                     if (!foundLayer)
                     {
-                        _customLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
+                        _userLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
                     }
 
                 }
@@ -551,7 +551,7 @@ namespace GSCFieldApp.ViewModel
                 string JSONPath = GetPreferedLayerJsonPath();
 
                 await using FileStream fStream = File.Create(JSONPath);
-                await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
+                await JsonSerializer.SerializeAsync(fStream, _userLayerCollection);
                 fStream.Close();
             }
             catch (System.Exception e)
@@ -586,6 +586,12 @@ namespace GSCFieldApp.ViewModel
                     openStream.Dispose();
                 }
 
+            }
+
+            //Sort by layer order to make sure they are in the right order for map rendering
+            if (preferedLayers != null)
+            {
+                preferedLayers = new Collection<MapPageLayer>(preferedLayers.OrderBy(p => p.LayerOrder).ToList());
             }
 
             return preferedLayers;
@@ -748,23 +754,25 @@ namespace GSCFieldApp.ViewModel
             int index = 0;
 
             //Add only wanted layers
-            foreach (ILayer layer in layers)
+            List<ILayer> layerList = layers.ToList();
+            foreach (ILayer layer in layerList)
             {
                 //Remove unused layers
                 if (layer.Name != ApplicationLiterals.aliasMapsuiDrawables && layer.Name != ApplicationLiterals.aliasMapsuiCallouts &&
                     layer.Name != ApplicationLiterals.aliasMapsuiLayer && layer.Name != ApplicationLiterals.aliasMapsuiPins) 
                 {
-                    if (!_layerCollection.Contains(layer) && _layerCollection.Where(x=>x.Name == layer.Name).Count() == 0)
+                    if (!_menuLayerCollection.Contains(layer) && _menuLayerCollection.Where(x=>x.Name == layer.Name).Count() == 0)
                     {
-                        _layerCollection.Add(layer);
+                        _menuLayerCollection.Add(layer);
 
                         if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
                             layer.Name != ApplicationLiterals.aliasTraversePoint && layer.Name != ApplicationLiterals.aliasLinework && layer.Name != ApplicationLiterals.aliasDrillHoles)
                         {
                             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
-                            if (!_customLayerCollection.Contains(mplb.GetMapPageLayer(layer, index)))
+                            MapPageLayer mpl = mplb.GetMapPageLayer(layer, layerList.IndexOf(layer));
+                            if (!_userLayerCollection.Contains(mpl))
                             {
-                                _customLayerCollection.Add(mplb.GetMapPageLayer(layer, index));
+                                _userLayerCollection.Insert(0, mpl);
                             }
                         }
                     }
@@ -774,11 +782,11 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Reverse ordering to mimic layer ordering on the map
-            _layerCollection = new ObservableCollection<ILayer>(ReverseObsCollection(_layerCollection));
+            _menuLayerCollection = new ObservableCollection<ILayer>(ReverseObsCollection(_menuLayerCollection));
 
-            if (_layerCollection.Count() > 0)
+            if (_menuLayerCollection.Count() > 0)
             {
-                OnPropertyChanged(nameof(LayerCollection));
+                OnPropertyChanged(nameof(MenuLayerCollection));
             }
             
 
@@ -789,10 +797,10 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public void EmptyLayerCollections()
         {
-            _layerCollection.Clear();
-            _customLayerCollection.Clear();
-            OnPropertyChanged(nameof(LayerCollection));
-            OnPropertyChanged(nameof(CustomLayerCollection));
+            _menuLayerCollection.Clear();
+            _userLayerCollection.Clear();
+            OnPropertyChanged(nameof(MenuLayerCollection));
+            OnPropertyChanged(nameof(UserLayerCollection));
 
         }
 
@@ -803,10 +811,10 @@ namespace GSCFieldApp.ViewModel
         public void RemoveALayer(ILayer layerToremove)
         {
             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
-            if (!_customLayerCollection.Contains(mplb.GetMapPageLayer(layerToremove)))
+            if (!_userLayerCollection.Contains(mplb.GetMapPageLayer(layerToremove)))
             {
-                _customLayerCollection.Remove(mplb.GetMapPageLayer(layerToremove));
-                OnPropertyChanged(nameof(CustomLayerCollection));
+                _userLayerCollection.Remove(mplb.GetMapPageLayer(layerToremove));
+                OnPropertyChanged(nameof(UserLayerCollection));
             }
         }
 
