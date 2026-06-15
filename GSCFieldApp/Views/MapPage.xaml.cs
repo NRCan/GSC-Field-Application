@@ -944,7 +944,7 @@ public partial class MapPage : ContentPage
                     mapView.Map.Refresh();
 
                     //Update layer collection for menu
-                    //_vm.RefreshLayerCollection(mapView.Map.Layers);
+                    _vm.RefreshLayerCollection(mapView.Map.Layers);
 
                     _vm.SaveLayerRendering();
                 }

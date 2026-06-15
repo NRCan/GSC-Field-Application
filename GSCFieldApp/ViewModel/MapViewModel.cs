@@ -780,6 +780,7 @@ namespace GSCFieldApp.ViewModel
 
                 index++;
             }
+            OnPropertyChanged(nameof(UserLayerCollection));
 
             //Reverse ordering to mimic layer ordering on the map
             _menuLayerCollection = new ObservableCollection<ILayer>(ReverseObsCollection(_menuLayerCollection));
