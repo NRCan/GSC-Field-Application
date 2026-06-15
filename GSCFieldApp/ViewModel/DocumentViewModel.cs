@@ -203,6 +203,7 @@ namespace GSCFieldApp.ViewModel
             }
             else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
             {
+                //Detect if in bacth mode or not
                 await da.SaveItemAsync(Model, false);
                 RefreshFieldNotes(TableNames.document, Model, refreshType.insert);
 
@@ -566,14 +567,11 @@ namespace GSCFieldApp.ViewModel
 
             #endregion
 
+            //Make sure file number is updated in model
+            CalculateFileNumber();
+
             //Make sure file number to is not lower than file number from
             CalculateFileNumberTo();
-
-            //make sure file number is updated in model
-            if (_model.DocumentID != 0)
-            {
-                Model.FileNumber = Model.GetFileNumberFromFileName;
-            }
 
             //Validate file name, in case it already exists, warn user
             if (_model.DocumentType != null && _model.FileName != null && _model.FileName != string.Empty)
@@ -820,6 +818,17 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
+        /// //Make sure file number is in sync with user filename
+        /// </summary>
+        /// <returns></returns>
+        public int CalculateFileNumber()
+        {
+            _model.FileNumber = _model.GetFileNumberFromFileName;
+            OnPropertyChanged(nameof(Model));
+            return _model.FileNumber;
+        }
+
+        /// <summary>
         /// Special procedure for olypmus camera type
         /// </summary>
         /// <returns>Returns the proper olympus prefix</returns>
@@ -982,7 +991,6 @@ namespace GSCFieldApp.ViewModel
                 _fileNumberTo = _model.FileNumber;
                 OnPropertyChanged(nameof(FileNumberTo));
             }
-            
         }
 
         /// <summary>
