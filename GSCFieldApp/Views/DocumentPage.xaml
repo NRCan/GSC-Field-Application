@@ -203,7 +203,7 @@
                                                     InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
                                                     ValidStyle="{StaticResource FieldAppNumBoxValid}"
                                                     Flags="ValidateOnValueChanged"
-                                                    MinimumValue="0"
+                                                    MinimumValue="1"
                                                     MaximumValue="9999"
                                                     MaximumDecimalPlaces="0" />
                                             </Entry.Behaviors>

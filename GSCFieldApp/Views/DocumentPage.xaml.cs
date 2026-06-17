@@ -76,11 +76,28 @@ public partial class DocumentPage : ContentPage
 
     private void DocumentPageFileFromEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        DocumentViewModel vm4 = this.BindingContext as DocumentViewModel;
-        if (vm4 != null && !vm4.IsProcessingBatch)
+        Entry senderEntry = sender as Entry;
+
+        if (senderEntry != null)
         {
-            vm4.CalculateFileName();
-            vm4.CalculateFileNumberTo();
+            // Fix from https://github.com/dotnet/maui/issues/25728#issuecomment-2539497580
+#if ANDROID
+            var handler = senderEntry.Handler as Microsoft.Maui.Handlers.EntryHandler;
+            var editText = handler?.PlatformView as AndroidX.AppCompat.Widget.AppCompatEditText;
+            if (editText != null)
+            {
+                editText.EmojiCompatEnabled = false;
+                editText.SetTextKeepState(senderEntry.Text);
+            }
+#endif
+            // End-fix
+
+            DocumentViewModel vm4 = this.BindingContext as DocumentViewModel;
+            if (vm4 != null && !vm4.IsProcessingBatch)
+            {
+                vm4.CalculateFileName();
+                vm4.CalculateFileNumberTo();
+            }
         }
     }
 
