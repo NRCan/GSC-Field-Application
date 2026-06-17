@@ -254,8 +254,8 @@
                             <VerticalStackLayout>
                                 <!--Quirk, this along next control should automatically calculate Core length "to" value-->
                                 <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  
-                                       Keyboard="Numeric" TextChanged="Entry_TextChanged"     
+                                <Entry x:Name="SampleCoreFromEntry" Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  
+                                       Keyboard="Numeric" TextChanged="SampleCoreFromEntry_TextChanged"     
                                        ReturnCommand="{Binding SampleCoreCalculatToCommand}" />
 
                             </VerticalStackLayout>
@@ -263,8 +263,8 @@
                             <VerticalStackLayout>
                                 <!--Quirk, this along previous control should automatically calculate Core length "to" value-->
                                 <Label Text="{local:Localize SamplePageCoreLength}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}" 
-                                       Keyboard="Numeric" TextChanged="Entry_TextChanged" 
+                                <Entry x:Name="SampleCoreLengthEntry" Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}" 
+                                       Keyboard="Numeric" TextChanged="SampleCoreLengthEntry_TextChanged"
                                        ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
 
                             </VerticalStackLayout>

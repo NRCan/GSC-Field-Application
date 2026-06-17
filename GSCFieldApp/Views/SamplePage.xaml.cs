@@ -80,10 +80,47 @@ public partial class SamplePage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    private async void SampleCoreLengthEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        //Will auto-calculate some drill core lenght and refresh core sample names
-        SampleViewModel vm7 = this.BindingContext as SampleViewModel;
-        await vm7.CalculateSampleCoreToValue();
+        Entry senderEntry = sender as Entry;
+
+        if (senderEntry != null)
+        {
+            // Fix from https://github.com/dotnet/maui/issues/25728#issuecomment-2539497580
+#if ANDROID
+            var handler = senderEntry.Handler as Microsoft.Maui.Handlers.EntryHandler;
+            var editText = handler?.PlatformView as AndroidX.AppCompat.Widget.AppCompatEditText;
+            if (editText != null)
+            {
+                editText.EmojiCompatEnabled = false;
+                editText.SetTextKeepState(senderEntry.Text);
+            }
+#endif
+            // End-fix
+
+            this.SampleCoreFromEntry.ReturnCommand?.Execute(null);
+        }
+
+    }
+
+    private async void SampleCoreFromEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        Entry senderEntry = sender as Entry;
+
+        if (senderEntry != null)
+        {
+            // Fix from https://github.com/dotnet/maui/issues/25728#issuecomment-2539497580
+#if ANDROID
+            var handler = senderEntry.Handler as Microsoft.Maui.Handlers.EntryHandler;
+            var editText = handler?.PlatformView as AndroidX.AppCompat.Widget.AppCompatEditText;
+            if (editText != null)
+            {
+                editText.EmojiCompatEnabled = false;
+                editText.SetTextKeepState(senderEntry.Text);
+            }
+#endif
+            // End-fix
+            this.SampleCoreLengthEntry.ReturnCommand?.Execute(null);
+        }
     }
 }

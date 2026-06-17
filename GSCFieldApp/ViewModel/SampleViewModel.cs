@@ -360,16 +360,30 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task CalculateSampleCoreToValue()
         {
-            //Recalculate "To" value
-            Model.SampleCoreTo = Model.SampleCoreFrom + Model.SampleCoreLength / 100;
-
-            //Modify sample name if needed
-            if (CustomSampleNameEnabled && Model.SampleCoreFrom != null)
+            if (IsLoaded)
             {
-                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(Model.SampleEarthmatID, string.Empty, Model.SampleCoreFrom.ToString());
+                if (_model.SampleCoreFrom == null)
+                {
+                    _model.SampleCoreFrom = 0;
+                }
+
+                if (_model.SampleCoreLength == null)
+                {
+                    _model.SampleCoreLength = 0;
+                }
+
+                //Recalculate "To" value
+                _model.SampleCoreTo = _model.SampleCoreFrom + _model.SampleCoreLength / 100;
+
+                //Modify sample name if needed
+                if (CustomSampleNameEnabled && _model.SampleCoreFrom != null)
+                {
+                    _model.SampleName = await idCalculator.CalculateSampleAliasAsync(_model.SampleEarthmatID, string.Empty, _model.SampleCoreFrom.ToString());
+                }
+
+                OnPropertyChanged(nameof(Model));
             }
 
-            OnPropertyChanged(nameof(Model));
         }
 
         /// <summary>
@@ -506,6 +520,7 @@ namespace GSCFieldApp.ViewModel
                 //Rename sample if needed
                 await CalculateSampleCoreToValue();
 
+                IsLoaded = true;
             }
         }
 
