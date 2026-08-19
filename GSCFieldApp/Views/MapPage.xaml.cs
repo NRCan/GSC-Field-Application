@@ -177,6 +177,7 @@ public partial class MapPage : ContentPage
 
             //Init map widgets
             SetMapControls();
+            SetupMyLocationLayerStyle();
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -3219,6 +3220,22 @@ public partial class MapPage : ContentPage
         _locationFollowEnabled = LocationFollowEnabled;
 
         return _locationFollowEnabled;
+    }
+    private void SetupMyLocationLayerStyle()
+    {
+        if (mapView?.MyLocationLayer != null)
+        {
+            var arrowImageStyle = new ImageStyle
+            {
+                Image = new Mapsui.Styles.Image
+                {
+                    Source = "embedded://GSCFieldApp.Resources.Raw.Arrow.svg"
+                },
+                SymbolScale = 0.35
+            };
+
+            mapView.MyLocationLayer.Style = arrowImageStyle;
+        }
     }
 
     #endregion

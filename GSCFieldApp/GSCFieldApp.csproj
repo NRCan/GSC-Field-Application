@@ -264,6 +264,7 @@
 	  <MauiAsset Remove="Resources\Raw\point.png" />
 	  <MauiAsset Remove="Resources\Raw\pointDrills.png" />
 	  <MauiAsset Remove="Resources\Raw\vector-point.png" />
+    <MauiAsset Remove="Resources\Raw\Arrow.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -274,6 +275,7 @@
 		<None Remove="Resources\Images\logo_gray.svg" />
 		<None Remove="Resources\Images\point.png" />
 		<None Remove="Resources\Images\vector-point.png" />
+    <None Remove="Resources\Images\Arrow.svg" />
 		<None Remove="Resources\Raw\GSCFieldwork.gpkg" />
 		
 		<None Remove="Resources\Raw\GSCFieldwork_V142.gpkg" />
@@ -309,6 +311,9 @@
 	  <EmbeddedResource Include="Resources\Raw\vector-point.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
+      <EmbeddedResource Include="Resources\Raw\Arrow.svg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
