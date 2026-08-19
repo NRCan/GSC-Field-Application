@@ -1626,4 +1626,10 @@ Enter last two digit of current year to proceed.</value>
   <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
     <value>Entered file name already exists in the field notes.</value>
   </data>
+  <data name="ButtonGetOrientationStay" xml:space="preserve">
+    <value>Capture Azimuth and Dip Now</value>
+  </data>
+  <data name="ButtonGetOrientationTooltip" xml:space="preserve">
+    <value>Orient this device on the structure to get its azimuth and dip</value>
+  </data>
 </root>

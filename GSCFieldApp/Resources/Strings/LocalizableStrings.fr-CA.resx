@@ -1627,4 +1627,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
     <value>Le nom de fichier entré est déjà présent dans le carnet.</value>
   </data>
+  <data name="ButtonGetOrientationStay" xml:space="preserve">
+    <value>ENTER THIS GAB</value>
+  </data>
+  <data name="ButtonGetOrientationTooltip" xml:space="preserve">
+    <value>ENTER THIS GAB</value>
+  </data>
 </root>
