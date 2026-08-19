@@ -117,6 +117,15 @@
 
                             </VerticalStackLayout>
 
+                            <VerticalStackLayout x:Name="StructurePageGetOrientation">
+                                <Button Text="{local:Localize ButtonGetOrientationStay}" 
+                                Style="{StaticResource FieldAppButonGetOrientation}"
+                                ToolTipProperties.Text="{local:Localize ButtonGetOrientationTooltip}"
+                                BackgroundColor="{StaticResource FieldStrucColor}"
+                                Command="{Binding GetOrientationCommand}"
+                                />
+                            </VerticalStackLayout>
+
                             <VerticalStackLayout x:Name="StructurePageDepth">
 
                                 <Label Text="{local:Localize StructurePageDepth}" Style="{StaticResource FieldAppEntryTitle}"/>

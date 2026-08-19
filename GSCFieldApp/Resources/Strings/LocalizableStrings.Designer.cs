@@ -241,6 +241,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Capture Azimuth and Dip Now.
+        /// </summary>
+        internal static string ButtonGetOrientationStay {
+            get {
+                return ResourceManager.GetString("ButtonGetOrientationStay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orient this device on the structure to get its azimuth and dip.
+        /// </summary>
+        internal static string ButtonGetOrientationTooltip {
+            get {
+                return ResourceManager.GetString("ButtonGetOrientationTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to navigate to parent record..
         /// </summary>
         internal static string ButtonNavigateToParent {

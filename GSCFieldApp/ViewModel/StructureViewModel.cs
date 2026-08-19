@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using SQLite;
 using CommunityToolkit.Maui.Alerts;
 using System.Security.Cryptography;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -249,6 +250,72 @@ namespace GSCFieldApp.ViewModel
 
 
         }
+
+        [RelayCommand]
+        public async Task GetOrientation()
+        {
+            try
+            {
+                double compassReading = 0;
+                double accelerometerZ = 0;
+
+                // Get compass heading (azimuth)
+                if (Compass.Default.IsSupported)
+                {
+                    var tcs = new TaskCompletionSource<double>();
+
+                    void CompassReadingChanged(object sender, CompassChangedEventArgs e)
+                    {
+                        compassReading = e.Reading.HeadingMagneticNorth;
+                        tcs.TrySetResult(compassReading);
+                    }
+
+                    Compass.Default.ReadingChanged += CompassReadingChanged;
+                    Compass.Default.Start(SensorSpeed.Default);
+
+                    // Wait for reading with timeout
+                    await Task.WhenAny(tcs.Task, Task.Delay(2000));
+
+                    Compass.Default.Stop();
+                    Compass.Default.ReadingChanged -= CompassReadingChanged;
+
+                    Model.StructureAzimuth = (int)Math.Round(compassReading);
+                }
+
+                // Get accelerometer data for dip calculation
+                if (Accelerometer.Default.IsSupported)
+                {
+                    var tcs = new TaskCompletionSource<double>();
+
+                    void AccelerometerReadingChanged(object sender, AccelerometerChangedEventArgs e)
+                    {
+                        accelerometerZ = e.Reading.Acceleration.Z;
+                        tcs.TrySetResult(accelerometerZ);
+                    }
+
+                    Accelerometer.Default.ReadingChanged += AccelerometerReadingChanged;
+                    Accelerometer.Default.Start(SensorSpeed.Default);
+
+                    // Wait for reading with timeout
+                    await Task.WhenAny(tcs.Task, Task.Delay(2000));
+
+                    Accelerometer.Default.Stop();
+                    Accelerometer.Default.ReadingChanged -= AccelerometerReadingChanged;
+
+                    // Calculate dip angle from Z component (tilt from vertical)
+                    double dip = Math.Acos(Math.Abs(accelerometerZ)) * (180 / Math.PI);
+                    Model.StructureDipPlunge = (int)Math.Round(Math.Clamp(dip, 0, 90));
+                }
+
+                await Application.Current.MainPage.DisplayAlert("Success",
+                    $"Azimuth: {Model.StructureAzimuth}°, Dip: {Model.StructureDipPlunge}°", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+
         #endregion
 
         #region METHODS
