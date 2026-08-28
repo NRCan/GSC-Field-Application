@@ -218,6 +218,14 @@ namespace GSCFieldApp.Models
                     fileName = ApplicationLiterals.funnyNames.ElementAt(new Random().Next(0,6));
                 }
 
+                //Sanitize file name to remove any restricted characters
+                List<char> restrictedChars = Path.GetInvalidPathChars().ToList();
+                restrictedChars.AddRange(Path.GetInvalidFileNameChars().ToList());
+                foreach (char c in restrictedChars)
+                {
+                    fileName = fileName.Replace(c, '_');
+                }
+
                 return fileName.Replace("__", "_").TrimEnd('_');
             }
             set { }
