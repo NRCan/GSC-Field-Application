@@ -550,6 +550,15 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(StructureDetail));
 
+                foreach (ComboBoxItem cbox in StructureFormat.cboxItems)
+                {
+                    if (cbox.itemValue == _structure.StructureFormat)
+                    {
+                        StructureFormat.cboxDefaultItemIndex = StructureFormat.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(StructureFormat));
+
             }
         }
 
