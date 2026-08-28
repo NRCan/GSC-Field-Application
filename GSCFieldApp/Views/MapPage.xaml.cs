@@ -177,7 +177,7 @@ public partial class MapPage : ContentPage
 
             //Init map widgets
             SetMapControls();
-            SetupMyLocationLayerStyle();
+            //SetupMyLocationLayerStyle();
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -2797,6 +2797,27 @@ public partial class MapPage : ContentPage
         return new Tuple<double, double>(_viewportWidthRatio, _viewportHeightRatio);
     }
 
+    private void SetupMyLocationLayerStyle()
+    {
+        if (mapView?.MyLocationLayer != null)
+        {
+            var arrowImageStyle = new ImageStyle
+            {
+                Image = new Mapsui.Styles.Image
+                {
+                    Source = "embedded://GSCFieldApp.Resources.Raw.Arrow.svg"
+                },
+                SymbolScale = 0.35
+            };
+
+            mapView.MyLocationLayer.Style = arrowImageStyle;
+        }
+    }
+
+    #endregion
+
+    #region GPS
+
     /// <summary>
     /// Will enable/disable GPS and disable/enable tap entry
     /// </summary>
@@ -2811,10 +2832,6 @@ public partial class MapPage : ContentPage
             _ = StartGPS();
         }
     }
-
-    #endregion
-
-    #region GPS
 
     /// <summary>
     /// Will start the GPS
@@ -3220,22 +3237,6 @@ public partial class MapPage : ContentPage
         _locationFollowEnabled = LocationFollowEnabled;
 
         return _locationFollowEnabled;
-    }
-    private void SetupMyLocationLayerStyle()
-    {
-        if (mapView?.MyLocationLayer != null)
-        {
-            var arrowImageStyle = new ImageStyle
-            {
-                Image = new Mapsui.Styles.Image
-                {
-                    Source = "embedded://GSCFieldApp.Resources.Raw.Arrow.svg"
-                },
-                SymbolScale = 0.35
-            };
-
-            mapView.MyLocationLayer.Style = arrowImageStyle;
-        }
     }
 
     #endregion
