@@ -111,6 +111,20 @@ namespace GSCFieldApp.Services
         {
             if (NavFromMapPage)
             {
+                if (goToMap)
+                {
+                    // Pop the current page (StationPage) then navigate to MapPage
+                    await Shell.Current.GoToAsync("..", true);  // Pop current page
+                    await Shell.Current.GoToAsync("///MapPage");  // Navigate to map at root level
+                }
+                else
+                {
+                    // Pop the current page (StationPage) then navigate to FieldNotesPage
+                    await Shell.Current.GoToAsync("..", true);  // Pop current page
+                    await Shell.Current.GoToAsync("///FieldNotesPage");  // Navigate to field notes at root level
+                }
+
+                return;
                 await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
             }
             else
