@@ -3088,10 +3088,10 @@ public partial class MapPage : ContentPage
                 {
                     mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
                 }
-                //else
-                //{
-                //    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                //}
+                else
+                {
+                    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                }
 
             }
         }
