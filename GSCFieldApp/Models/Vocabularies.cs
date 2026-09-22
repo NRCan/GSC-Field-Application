@@ -60,6 +60,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDictionarySymbol)]
         public string Symbol { get; set; }
 
+        [Column(DatabaseLiterals.FieldDictionarySymbolColour)]
+        public string SymbolColour { get; set; }
+
         [Column(DatabaseLiterals.FieldDictionaryEditable)]
         public string Editable { get; set; }
 
@@ -105,6 +108,11 @@ namespace GSCFieldApp.Models
 
                 vocabFieldList[DatabaseLiterals.DBVersion] = vocabFieldListDefault;
 
+                //Revert schema 2.1 changes
+                List<string> vocFieldList200 = new List<string>();
+                vocFieldList200.AddRange(vocabFieldListDefault);
+                vocFieldList200.Remove(DatabaseLiterals.FieldDictionarySymbolColour);
+                vocabFieldList[DatabaseLiterals.DBVersion200] = vocFieldList200;
 
                 //Revert shcema 1.7 changes
                 List<string> vocFieldList160 = new List<string>();

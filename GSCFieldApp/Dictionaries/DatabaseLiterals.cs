@@ -191,6 +191,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDictionaryVersion = "VERSION"; //Version 1.5
         public const string FieldDictionaryRemarks = "USERREMARKS";
         public const string FieldDictionarySymbol = "SYMBOL";
+        public const string FieldDictionarySymbolColour = "SYMBOL_COLOUR"; // Version 2.1
 
 
         public const string FieldDictionaryManagerLinkID = "LINKID";//Version 1.0

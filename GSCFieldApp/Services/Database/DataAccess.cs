@@ -420,9 +420,9 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
 
                 //Manage symbols over code
-                if (vocabs.Symbol != null && SymbolAsValue)
+                if (vocabs.SymbolColour != null && SymbolAsValue)
                 {
-                    newItem.itemValue = vocabs.Symbol;
+                    newItem.itemValue = vocabs.SymbolColour;
                 }
 
                 //Manage description null
@@ -676,6 +676,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         //Do nothing, field didn't exist
                     }
+                    else if (vocabFields == DatabaseLiterals.FieldDictionarySymbolColour && fromDBVersion == 2.0) 
+                    {
+                        vocab_querySelect = vocab_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDictionaryVersion;
+                    }
                     else
                     {
                         vocab_querySelect = vocab_querySelect + ", v." + vocabFields + " as " + vocabFields;
@@ -708,6 +713,16 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_vocab = insertQuery_vocab + " AND v." + FieldDictionaryTermID + " not in (select md." + FieldDictionaryTermID + " from " +
                 TableDictionary + " as md);";
             queryList.Add(insertQuery_vocab);
+
+            //EDGE CASE - Version 2.1 with new symbol colour field
+            if (fromDBVersion == 2.0)
+            {
+                //Make sure to take colour values from SYMBOL field and send them to SYMBOLCOLOUR field. Then, set SYMBOL field to NULL.
+                string updateColourQuery = string.Format("UPDATE {0} SET {1} = {2} WHERE {2} = '#%';", TableDictionary, DatabaseLiterals.FieldDictionarySymbolColour, DatabaseLiterals.FieldDictionarySymbol);
+                string updateColourQuery2 = string.Format("UPDATE {0} SET {1} = NULL WHERE {1} = '#%';", TableDictionary, DatabaseLiterals.FieldDictionarySymbol);
+                queryList.Add(updateColourQuery);
+                queryList.Add(updateColourQuery2);
+            }
 
             #endregion
 
