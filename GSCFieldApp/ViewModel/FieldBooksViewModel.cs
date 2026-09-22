@@ -938,6 +938,7 @@ namespace GSCFieldApp.ViewModel
                 queryList.AddRange(GetUpgradeQueryVersion2_1(attachDBName));
                 basicInsertQueriesTables.Remove(TableMineralAlteration);
                 basicInsertQueriesTables.Remove(TableDocument);
+                basicInsertQueriesTables.Remove(TableSample);
             }
 
             #endregion
@@ -2759,6 +2760,18 @@ namespace GSCFieldApp.ViewModel
             string genericInsertQueryDoc = GenerateInsertQueriesFromModel(docFieldList, docNullFieldList, TableDocument, docPrimes, null, attachedDBName);
 
             insertQuery_21.Add(genericInsertQueryDoc);
+
+            #endregion
+
+            #region F_SAMPLE
+
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion210];
+            List<string> sampleNullFieldList = new List<string>() { FieldSampleAzimMag };
+            Tuple<string, string> samplePrimes = new Tuple<string, string>(FieldSampleID, FieldSampleID);
+            string genericInsertQuerySample = GenerateInsertQueriesFromModel(sampleFieldList, sampleNullFieldList, TableSample, samplePrimes, null, attachedDBName);
+
+            insertQuery_21.Add(genericInsertQuerySample);
 
             #endregion
 
