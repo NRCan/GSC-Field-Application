@@ -928,6 +928,12 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableDrillHoles);
             }
 
+            if (fromDBVersion == DBVersion200)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion2_1(attachDBName));
+                basicInsertQueriesTables.Remove(TableMineralAlteration);
+            }
+
             #endregion
 
             //Insert remaining tables
@@ -2714,7 +2720,33 @@ namespace GSCFieldApp.ViewModel
 
             return insertQuery_20;
         }
+
+        /// <summary>
+        /// Will output a query list to update database to version 2.1
+        /// </summary>
+        /// <param name="attachedDBName"></param>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion2_1(string attachedDBName)
+        {
+            //Schema v 2.1 
+            //https://github.com/NRCan/GSC-Field-Application/milestone/26
+            List<string> insertQuery_21 = new List<string>();
+
+            #region F_MINERALIZATION_ALTERATION
+
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion210];
+            List<string> maNullFieldList = new List<string>() { FieldMineralAlterationPercent };
+            Tuple<string, string> maPrimes = new Tuple<string, string>(FieldMineralAlterationID, FieldMineralAlterationID);
+            string genericInsertQuery = GenerateInsertQueriesFromModel(maFieldList, maNullFieldList, TableMineralAlteration, maPrimes, null, attachedDBName);
+
+            insertQuery_21.Add(genericInsertQuery);
+
+            #endregion
+
+            return insertQuery_21;
+        }
         #endregion
 
     }
-}
+    }

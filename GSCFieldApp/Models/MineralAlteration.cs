@@ -34,6 +34,9 @@ namespace GSCFieldApp.Models
         [Column(FieldMineralAlterationFacies)]
         public string MAFacies { get; set; }
 
+        [Column(FieldMineralAlterationFacies)]
+        public int? MAPercent { get; set; }
+
         [Column(FieldMineralAlterationNotes)]
         public string MANotes { get; set; }
 
@@ -92,6 +95,12 @@ namespace GSCFieldApp.Models
                 }
 
                 maFieldList[DBVersion] = maFieldListDefault;
+
+                //Revert schema 2.1 changes
+                List<string> maFieldList200 = new List<string>();
+                maFieldList200.AddRange(maFieldListDefault);
+                maFieldList200.Remove(FieldMineralAlterationPercent);
+                maFieldList[DBVersion200] = maFieldList200;
 
                 //Revert schema 1.8 changes
                 List<string> maFieldList170 = new List<string>();

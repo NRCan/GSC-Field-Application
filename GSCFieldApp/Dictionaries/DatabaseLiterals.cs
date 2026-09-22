@@ -5,10 +5,11 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const double DBVersion = 2.0; //Will be used to verify loaded projects.
+        public const double DBVersion = 2.1; //Will be used to verify loaded projects.
+        public const double DBVersion210 = 2.1; // " " "
         public const double DBVersion200 = 2.0; // " " "
         public const double DBVersion190 = 1.9; // " " "
-        public const double DBVersion180 = 1.8; //Will be used to verify and upgrade loaded projects
+        public const double DBVersion180 = 1.8; // " " "
         public const double DBVersion170 = 1.7; // " " "
         public const double DBVersion160 = 1.6; // " " "
         public const double DBVersion150 = 1.5; // " " "
@@ -301,6 +302,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralAlterationFacies = "ALTERATION_FACIES"; //Version 1.6
         public const string FieldMineralAlterationStationID = "STATIONID"; //Version 1.8
         public const string FieldMineralAlterationEarthmatID = "EARTHMATID"; //Version 1.8
+        public const string FieldMineralAlterationPercent = "PERCENT"; //Version 2.1
 
         public const string FieldEnvID = "ENVIRONID"; //Version 1.6
         public const string FieldEnvName = "ENVIRONIDNAME"; //Version 1.6
