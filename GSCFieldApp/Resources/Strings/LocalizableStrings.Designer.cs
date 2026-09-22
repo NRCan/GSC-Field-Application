@@ -2827,6 +2827,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Percent.
+        /// </summary>
+        internal static string MineralizationAlterationPagePercent {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPagePercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phase.
         /// </summary>
         internal static string MineralizationAlterationPagePhase {

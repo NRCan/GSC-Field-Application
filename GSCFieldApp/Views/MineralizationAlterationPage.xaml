@@ -113,6 +113,11 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding MineralizationAlterationFacies.cboxDefaultItemIndex, Mode=TwoWay}" />
 
+                            <Label Text="{local:Localize MineralizationAlterationPagePercent}" Style="{StaticResource FieldAppEntryTitle}" />
+                            <Entry Text="{Binding Model.MAPercent, Mode=TwoWay, Converter={StaticResource str2int}}"  
+                                       Keyboard="Numeric" Style="{StaticResource FieldAppNumBox}"/>
+
+
                             <VerticalStackLayout >
 
                                 <Label Text="{local:Localize MineralizationAlterationNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
