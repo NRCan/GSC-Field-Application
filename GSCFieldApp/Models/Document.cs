@@ -60,6 +60,11 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldDocumentEarthMatID)]
         public int? EarthmatID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentInstallationID)]
+        public int? InstallationID { get; set; }
+
+
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
         /// Ignore attribute will tell sql not to try to write this field inside the database.
@@ -150,6 +155,12 @@ namespace GSCFieldApp.Models
                 }
 
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
+
+                //Revert schema 2.1 changes
+                List<string> documentFieldList200 = new List<string>();
+                documentFieldList200.AddRange(documentFieldListDefault);
+                documentFieldList200.Remove(DatabaseLiterals.FieldDocumentInstallationID);
+                documentFieldList[DatabaseLiterals.DBVersion200] = documentFieldList200;
 
                 //Revert shcema 1.8 changes
                 List<string> documentFieldList170 = new List<string>();

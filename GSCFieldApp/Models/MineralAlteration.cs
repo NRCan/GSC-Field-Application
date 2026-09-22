@@ -34,7 +34,7 @@ namespace GSCFieldApp.Models
         [Column(FieldMineralAlterationFacies)]
         public string MAFacies { get; set; }
 
-        [Column(FieldMineralAlterationFacies)]
+        [Column(FieldMineralAlterationPercent)]
         public int? MAPercent { get; set; }
 
         [Column(FieldMineralAlterationNotes)]

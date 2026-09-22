@@ -749,6 +749,11 @@ namespace GSCFieldApp.ViewModel
                 nextVersion = DatabaseLiterals.DBVersion200;
 
             }
+            else if (dbVersion == 2.0)
+            {
+                nextVersion = DatabaseLiterals.DBVersion210;
+
+            }
             return nextVersion;
         }
 
@@ -932,6 +937,7 @@ namespace GSCFieldApp.ViewModel
             {
                 queryList.AddRange(GetUpgradeQueryVersion2_1(attachDBName));
                 basicInsertQueriesTables.Remove(TableMineralAlteration);
+                basicInsertQueriesTables.Remove(TableDocument);
             }
 
             #endregion
@@ -2741,6 +2747,18 @@ namespace GSCFieldApp.ViewModel
             string genericInsertQuery = GenerateInsertQueriesFromModel(maFieldList, maNullFieldList, TableMineralAlteration, maPrimes, null, attachedDBName);
 
             insertQuery_21.Add(genericInsertQuery);
+
+            #endregion
+
+            #region F_DOCUMENT
+
+            Document modelDoc = new Document();
+            List<string> docFieldList = modelDoc.getFieldList[DBVersion210];
+            List<string> docNullFieldList = new List<string>() { FieldDocumentInstallationID };
+            Tuple<string, string> docPrimes = new Tuple<string, string>(FieldDocumentID, FieldDocumentID);
+            string genericInsertQueryDoc = GenerateInsertQueriesFromModel(docFieldList, docNullFieldList, TableDocument, docPrimes, null, attachedDBName);
+
+            insertQuery_21.Add(genericInsertQueryDoc);
 
             #endregion
 
