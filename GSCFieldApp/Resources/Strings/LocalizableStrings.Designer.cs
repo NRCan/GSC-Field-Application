@@ -1314,7 +1314,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to save then add a new fossil.
+        ///   Looks up a localized string similar to Tap to save then add a new fossil..
         /// </summary>
         internal static string EarthmatTooltipAddFossil {
             get {
@@ -1323,7 +1323,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to save then add a new mineralization/alteration .
+        ///   Looks up a localized string similar to Tap to save then add a new mineralization/alteration. .
         /// </summary>
         internal static string EarthmatTooltipAddMA {
             get {
@@ -1332,7 +1332,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to save then add a new mineral.
+        ///   Looks up a localized string similar to Tap to save then add a new mineral..
         /// </summary>
         internal static string EarthmatTooltipAddMineral {
             get {
@@ -1341,7 +1341,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to save then add a new paleoflow.
+        ///   Looks up a localized string similar to Tap to save then add a new paleoflow..
         /// </summary>
         internal static string EarthmatTooltipAddPaleoflow {
             get {
@@ -1350,7 +1350,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to save then add a new sample.
+        ///   Looks up a localized string similar to Tap to save then add a new sample..
         /// </summary>
         internal static string EarthmatTooltipAddSample {
             get {
