@@ -635,8 +635,6 @@ namespace GSCFieldApp.ViewModel
                 _dbVersion = _dbNextVersion;
                 legacyDBFrom = legacyDBTo;
 
-
-
             }
 
             return upgradeWorked;
@@ -685,7 +683,15 @@ namespace GSCFieldApp.ViewModel
             }
             else if (_dbNextVersion < DatabaseLiterals.DBVersion && _dbNextVersion >= DatabaseLiterals.DBVersion170)
             {
-                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                if (_dbNextVersion == 2)
+                {
+                    legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "") + "00" + DatabaseLiterals.DBTypeSqlite;
+                }
+                else
+                {
+                    legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                }
+                
             }
             else 
             {
@@ -1102,6 +1108,44 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
 
+            }
+
+            //Make sure that if anything was stored in the traverse, they get projected to metric wgs84
+            if (toDBVersion == 2.1)
+            {
+                GeopackageService packService = new GeopackageService();
+
+                //For all records.
+                List<TraversePoint> fieldTravPoints = await toDBConnection.Table<TraversePoint>().ToListAsync();
+                foreach (TraversePoint ftp in fieldTravPoints)
+                {                  
+                    try
+                    {
+                        //Get point object
+                        NTS.Geometries.Point pnt = await packService.GetGeometryPointFromByteAsync(ftp.TravGeom, 3978, 3978);
+
+                        //Create spatial references
+                        CoordinateSystem incomingProjection = await SridReader.GetCSbyID(3978);
+                        CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(3857);
+
+                        //Transform
+                        NTS.Geometries.Point transformedPoint = await GeopackageService.TransformPointCoordinates(pnt, incomingProjection, outgoingProjection);
+
+                        //Get as byte 
+                        byte[] pntByte = packService.CreateByteGeometryPoint(transformedPoint.X, transformedPoint.Y);
+
+                        //Save
+                        string upQuery = string.Format("UPDATE {0} SET {1} = ? WHERE {2} = {3};", TableLocation, FieldGenericGeometry, FieldTravPointID, ftp.TravID);
+                        object[] arg = new object[] { pntByte };
+                        await toDBConnection.ExecuteAsync(upQuery, arg);
+
+                    }
+                    catch (Exception e)
+                    {
+                        new ErrorToLogFile(e.Message).WriteToFile();
+                        upgradeGeometriesWorked = false;
+                    }
+                }
             }
 
             return upgradeGeometriesWorked;

@@ -676,10 +676,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         //Do nothing, field didn't exist
                     }
-                    else if (vocabFields == DatabaseLiterals.FieldDictionarySymbolColour && fromDBVersion == 2.0) 
+                    else if (vocabFields == DatabaseLiterals.FieldDictionarySymbolColour) 
                     {
                         vocab_querySelect = vocab_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldDictionaryVersion;
+                            ", NULL as " + DatabaseLiterals.FieldDictionarySymbolColour;
                     }
                     else
                     {
@@ -715,7 +715,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             queryList.Add(insertQuery_vocab);
 
             //EDGE CASE - Version 2.1 with new symbol colour field
-            if (fromDBVersion == 2.0)
+            if (fromDBVersion == 2.0 || fromDBVersion == 2)
             {
                 //Make sure to take colour values from SYMBOL field and send them to SYMBOLCOLOUR field. Then, set SYMBOL field to NULL.
                 string updateColourQuery = string.Format("UPDATE {0} SET {1} = {2} WHERE {2} = '#%';", TableDictionary, DatabaseLiterals.FieldDictionarySymbolColour, DatabaseLiterals.FieldDictionarySymbol);
