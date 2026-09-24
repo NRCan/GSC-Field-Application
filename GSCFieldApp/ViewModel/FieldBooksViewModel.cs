@@ -1135,7 +1135,7 @@ namespace GSCFieldApp.ViewModel
                         byte[] pntByte = packService.CreateByteGeometryPoint(transformedPoint.X, transformedPoint.Y);
 
                         //Save
-                        string upQuery = string.Format("UPDATE {0} SET {1} = ? WHERE {2} = {3};", TableLocation, FieldGenericGeometry, FieldTravPointID, ftp.TravID);
+                        string upQuery = string.Format("UPDATE {0} SET {1} = ? WHERE {2} = {3};", TableTraversePoint, FieldGenericGeometry, FieldTravPointID, ftp.TravID);
                         object[] arg = new object[] { pntByte };
                         await toDBConnection.ExecuteAsync(upQuery, arg);
 

@@ -143,6 +143,7 @@ namespace GSCFieldApp.Models
                 }
 
                 metadataFieldList[DatabaseLiterals.DBVersion] = metadataFieldListDefault;
+                metadataFieldList[DatabaseLiterals.DBVersion200] = metadataFieldListDefault;
 
                 //Revert shcema 2.0 changes
                 List<string> metadataFieldList190 = new List<string>();

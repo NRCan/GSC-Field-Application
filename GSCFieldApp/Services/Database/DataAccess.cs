@@ -676,7 +676,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         //Do nothing, field didn't exist
                     }
-                    else if (vocabFields == DatabaseLiterals.FieldDictionarySymbolColour) 
+                    else if (vocabFields == DatabaseLiterals.FieldDictionarySymbolColour && fromDBVersion < 2.0) 
+                    {
+                        //Do nothing, field didn't exist
+                        
+                    }
+                    else if (vocabFields == DatabaseLiterals.FieldDictionarySymbolColour && fromDBVersion == 2.0)
                     {
                         vocab_querySelect = vocab_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDictionarySymbolColour;
