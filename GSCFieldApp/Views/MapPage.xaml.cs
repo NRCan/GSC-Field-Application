@@ -2045,7 +2045,15 @@ public partial class MapPage : ContentPage
             if (withCache)
             {
                 var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM_V3_1", TimeSpan.Zero);
-                HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.1 Maui.net", persistentCache: persistentCache);
+                HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, 
+                    ApplicationLiterals.keywordWMS + "/3.1 Maui.net", 
+                    persistentCache: persistentCache,
+                    configureHttpRequestMessage: (r) => {
+                    r.Headers.TryAddWithoutValidation("User-Agent", "GSC-Field-App/3.x");
+                    r.Headers.TryAddWithoutValidation("Referer", "https://github.com/NRCan/GSC-Field-Application");
+                    }
+                );
+
                 TileLayer osmLayer = new TileLayer(source);
                 osmLayer.Name = ApplicationLiterals.aliasOSM;
 
