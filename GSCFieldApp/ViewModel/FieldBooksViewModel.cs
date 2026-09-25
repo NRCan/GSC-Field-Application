@@ -27,6 +27,7 @@ using NetTopologySuite.Geometries;
 using ProjNet.CoordinateSystems;
 using System.Data;
 using NetTopologySuite.IO;
+using ProjNet.CoordinateSystems.Transformations;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -1115,24 +1116,41 @@ namespace GSCFieldApp.ViewModel
             {
                 GeopackageService packService = new GeopackageService();
 
-                //For all records.
+                //For point traverses
                 List<TraversePoint> fieldTravPoints = await toDBConnection.Table<TraversePoint>().ToListAsync();
                 foreach (TraversePoint ftp in fieldTravPoints)
                 {                  
                     try
                     {
+                        CoordinateTransformationFactory coordTransfo = new CoordinateTransformationFactory();
+
                         //Get point object
                         NTS.Geometries.Point pnt = await packService.GetGeometryPointFromByteAsync(ftp.TravGeom, 3978, 3978);
 
                         //Create spatial references
-                        CoordinateSystem incomingProjection = await SridReader.GetCSbyID(3978);
-                        CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(3857);
+                        CoordinateSystem canLCCProjection = await SridReader.GetCSbyID(3978);
+                        CoordinateSystem nad83 = await SridReader.GetCSbyID(4269);
+                        CoordinateSystem wgs84 = await SridReader.GetCSbyID(4326);
+                        CoordinateSystem wgs84Projection = await SridReader.GetCSbyID(3857);
 
-                        //Transform
-                        NTS.Geometries.Point transformedPoint = await GeopackageService.TransformPointCoordinates(pnt, incomingProjection, outgoingProjection);
+                        //Transform from Canadian LCC to NAD83
+                        GeometryFactory nad83GeomFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4269);
+                        ICoordinateTransformation trans = coordTransfo.CreateFromCoordinateSystems(canLCCProjection, nad83);
+                        double[] pointDouble = { pnt.X, pnt.Y };
+                        double[] transformedPointToNad = trans.MathTransform.Transform(pointDouble);
+
+                        //Transform from NAD83 CSRS to WGS84
+                        GeometryFactory wgs84Factory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
+                        ICoordinateTransformation transWgs84 = coordTransfo.CreateFromCoordinateSystems(nad83, wgs84);
+                        double[] transformedPointToWgs84 = transWgs84.MathTransform.Transform(transformedPointToNad);
+
+                        //Transform from WGS84 to WGS84 metric
+                        GeometryFactory wgs84ProjFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(3857);
+                        ICoordinateTransformation transWgs84Met = coordTransfo.CreateFromCoordinateSystems(wgs84, wgs84Projection);
+                        double[] transformedPointToWgs84Met = transWgs84Met.MathTransform.Transform(transformedPointToWgs84);
 
                         //Get as byte 
-                        byte[] pntByte = packService.CreateByteGeometryPoint(transformedPoint.X, transformedPoint.Y);
+                        byte[] pntByte = packService.CreateByteGeometryPoint(transformedPointToWgs84Met[0], transformedPointToWgs84Met[1], 3857);
 
                         //Save
                         string upQuery = string.Format("UPDATE {0} SET {1} = ? WHERE {2} = {3};", TableTraversePoint, FieldGenericGeometry, FieldTravPointID, ftp.TravID);
@@ -1146,6 +1164,7 @@ namespace GSCFieldApp.ViewModel
                         upgradeGeometriesWorked = false;
                     }
                 }
+
             }
 
             return upgradeGeometriesWorked;

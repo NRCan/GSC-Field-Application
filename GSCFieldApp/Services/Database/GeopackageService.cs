@@ -187,7 +187,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public byte[] CreateByteGeometryPoint(double x, double y)
+        public byte[] CreateByteGeometryPoint(double x, double y, int srid = 4326)
         {
             //NOTES: Used to work with GeoPackageGeoWriter to retrive the WKB for the geometry. 
             //For some reasons it was adding a heading stating there was an extent to the geometry
@@ -218,7 +218,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             bw.Write((byte)0x01);
 
             // 4. SRS ID (int32 LE)
-            bw.Write(BitConverter.GetBytes(DatabaseLiterals.KeywordEPSGDefault));
+            bw.Write(BitConverter.GetBytes(srid));
 
             // 5. Endianness byte of WKB:
             bw.Write((byte)1);  // 1 = little endian WKB
@@ -468,7 +468,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="inCoordSystem"></param>
         /// <param name="outCoordSystem"></param>
         /// <returns></returns>
-        public static async Task<NTS.Geometries.Point> TransformPointCoordinates(NTS.Geometries.Point inPointCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        public static async Task<NTS.Geometries.Point> TransformPointCoordinates(NTS.Geometries.Point inPointCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem, bool useWGSFactory = true)
         {
             //Init
             CoordinateSequence coordinateSequence = _coordinateSequenceFactory.Create(new Coordinate[] { new Coordinate(0, 0) });
@@ -479,12 +479,19 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 //Transform
                 
-                ICoordinateTransformation trans = _ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
+                ICoordinateTransformation trans = _ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem); 
                 double[] pointDouble = { inPointCoordinates.X, inPointCoordinates.Y };
                 double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
 
                 //Create point
-                outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+                if (useWGSFactory)
+                {
+                    outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+                }
+                else
+                {
+                    outPoint = defaultMapsuiGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+                }
 
             }
             catch (Exception TransformPointCoordinatesException)
