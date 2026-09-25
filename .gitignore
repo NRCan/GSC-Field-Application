@@ -369,3 +369,4 @@ FodyWeavers.xsd
 /GSCFieldApp.Testing/GSCFieldApp.Testing.csproj
 /GSCFieldApp.Testing/UnitTest1.cs
 /GSCFieldApp/Platforms/Android/Assets/adi-registration.properties
+/GSCFieldApp/Platforms/Android/assets/adi-registration.properties
