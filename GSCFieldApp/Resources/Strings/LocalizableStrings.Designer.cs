@@ -3799,6 +3799,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string SettingPageOtherHeadingMap {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay in map or move to field notes after new record..
+        /// </summary>
+        internal static string SettingPageOtherHeadingMapFieldNotes {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingMapFieldNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Photo.
         /// </summary>
         internal static string SettingPageOtherHeadingPhoto {
@@ -3813,15 +3831,6 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SettingPageOtherHeadingStation {
             get {
                 return ResourceManager.GetString("SettingPageOtherHeadingStation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Go To Map or Field Notes after creating Station.
-        /// </summary>
-        internal static string SettingPageOtherHeadingStationMapFieldNotes {
-            get {
-                return ResourceManager.GetString("SettingPageOtherHeadingStationMapFieldNotes", resourceCulture);
             }
         }
         

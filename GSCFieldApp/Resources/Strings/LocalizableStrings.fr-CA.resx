@@ -1606,8 +1606,8 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Incrément quotidien de traverse</value>
   </data>
-  <data name="SettingPageOtherHeadingStationMapFieldNotes" xml:space="preserve">
-    <value>Ouvrir la carte ou les notes après la création d'une station</value>
+  <data name="SettingPageOtherHeadingMapFieldNotes" xml:space="preserve">
+    <value>Rester dans la carte ou migrer vers les notes après la création d'un enregistrement.</value>
   </data>
   <data name="MapPageTapMenuStruc" xml:space="preserve">
     <value>Structure/Pflow</value>
@@ -1629,5 +1629,8 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
     <value>Le nom de fichier entré est déjà présent dans le carnet.</value>
+  </data>
+  <data name="SettingPageOtherHeadingMap" xml:space="preserve">
+    <value>Carte</value>
   </data>
 </root>
