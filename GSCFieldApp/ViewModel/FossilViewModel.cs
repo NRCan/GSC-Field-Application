@@ -68,7 +68,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateAfterAction(TableNames.fossil.ToString());
+            await NavigateAfterAction(TableNames.fossil);
             
         }
 
@@ -101,7 +101,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.fossil.ToString());
+            await NavigateAfterAction(TableNames.fossil);
 
         }
 

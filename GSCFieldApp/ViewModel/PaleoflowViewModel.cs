@@ -125,7 +125,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Exit 
-            await NavigateAfterAction(TableNames.pflow.ToString());
+            await NavigateAfterAction(TableNames.pflow);
 
         }
 
@@ -175,7 +175,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.pflow.ToString());
+            await NavigateAfterAction(TableNames.pflow);
 
         }
 

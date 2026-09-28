@@ -127,7 +127,7 @@ namespace GSCFieldApp.ViewModel
             //Exit
             if (savedModel != null)
             {
-                await NavigateAfterAction(TableNames.mineralization.ToString());
+                await NavigateAfterAction(TableNames.mineralization);
             }
 
         }
@@ -163,7 +163,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.mineralization.ToString());
+            await NavigateAfterAction(TableNames.mineralization);
 
         }
 

@@ -215,7 +215,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit to field notes or stay in map page
-            await NavigateAfterAction(TableNames.document.ToString());
+            await NavigateAfterAction(TableNames.document);
 
         }
 
@@ -288,7 +288,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateAfterAction(TableNames.document.ToString());
+            await NavigateAfterAction(TableNames.document);
 
         }
 

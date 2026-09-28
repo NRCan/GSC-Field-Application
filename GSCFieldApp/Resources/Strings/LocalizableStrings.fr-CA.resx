@@ -1607,7 +1607,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Incrément quotidien de traverse</value>
   </data>
   <data name="SettingPageOtherHeadingStationMapFieldNotes" xml:space="preserve">
-    <value>PUT FRENCH IN HERE GAB</value>
+    <value>Ouvrir la carte ou les notes après la création d'une station</value>
   </data>
   <data name="MapPageTapMenuStruc" xml:space="preserve">
     <value>Structure/Pflow</value>
