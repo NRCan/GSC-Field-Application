@@ -1633,4 +1633,11 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageOtherHeadingMap" xml:space="preserve">
     <value>Carte</value>
   </data>
+  <data name="FieldBookModelQuickSummaryMessage" xml:space="preserve">
+    <value>Aimeriez-vous effectuer une sauvegarde du carnet de notes présentement sélectionné?
+
+Projet: {0}
+Géologue: {1}
+Stations: {2}</value>
+  </data>
 </root>

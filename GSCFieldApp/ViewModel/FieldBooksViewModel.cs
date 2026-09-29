@@ -250,10 +250,11 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task PrepareDeleteFieldBook(FieldBooks fieldBook)
         {
+
             bool deleteDialogResult = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldbookPageDeleteTitle"].ToString(),
                 LocalizationResourceManager["FieldbookPageDeleteMessage"].ToString(),
                 LocalizationResourceManager["GenericButtonYes"].ToString(),
-                LocalizationResourceManager["GenericButtonNo"].ToString());
+                LocalizationResourceManager["GenericButtonNo"].ToString(), FlowDirection.LeftToRight);
 
             if (deleteDialogResult)
             {
@@ -271,9 +272,9 @@ namespace GSCFieldApp.ViewModel
         {
 
             bool backupDialogResult = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldbookPageBackupTitle"].ToString(),
-            LocalizationResourceManager["FieldbookPageBackupMessage"].ToString(),
+            fieldBook.QuickSummary,
             LocalizationResourceManager["GenericButtonYes"].ToString(),
-            LocalizationResourceManager["GenericButtonNo"].ToString());
+            LocalizationResourceManager["GenericButtonNo"].ToString(), FlowDirection.LeftToRight);
 
             if (backupDialogResult)
             {

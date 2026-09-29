@@ -1632,4 +1632,11 @@ Enter last two digit of current year to proceed.</value>
   <data name="SettingPageOtherHeadingMap" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="FieldBookModelQuickSummaryMessage" xml:space="preserve">
+    <value>Would you like to do a backup of selected field book?
+
+Project: {0}
+Geologist: {1}
+Stations: {2} </value>
+  </data>
 </root>

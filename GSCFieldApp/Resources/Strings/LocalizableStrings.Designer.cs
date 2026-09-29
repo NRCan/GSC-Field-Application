@@ -1530,6 +1530,19 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Would you like to do a backup of selected field book?
+        ///
+        ///Project: {0}
+        ///Geologist: {1}
+        ///Stations: {2} .
+        /// </summary>
+        internal static string FieldBookModelQuickSummaryMessage {
+            get {
+                return ResourceManager.GetString("FieldBookModelQuickSummaryMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
         internal static string FieldBookPageActivty {
