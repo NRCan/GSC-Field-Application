@@ -74,6 +74,7 @@ public partial class MapPage : ContentPage
     private bool _isRulerMode = false;
     private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
     private double _viewportWidthRatio = 1;
+    private double _viewDirection = 0.000001; //Used to know the current view direction of the map
     private enum defaultLayerList { Linework, Traverses, Drills, Stations }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
     private Drawable _drawable = new Drawable(); //Meant to be used for linework
@@ -2882,13 +2883,21 @@ public partial class MapPage : ContentPage
 
                     if (success)
                     {
+                        //Update viewing direction with internal compass
+                        if (Compass.Default.IsSupported)
+                        {
+                            Compass.Default.ReadingChanged -= Compass_ReadingChanged;
+                            Compass.Default.ReadingChanged += Compass_ReadingChanged;
+                            Compass.Default.Start(SensorSpeed.UI);
+                        }
+
+                        //Temp this isn't triggered
+                        Geolocation.LocationChanged += Geolocation_LocationChanged;
+
                         _locationSettingEnabledAttempt = 0; //Reset
 
                         //Force location change event
                         await BackgroundTimer(_refreshRate);
-
-                        //Temp this isn't triggered
-                        Geolocation.LocationChanged += Geolocation_LocationChanged;
 
                         this.WaitingCursor.IsRunning = false;
                     }
@@ -3000,6 +3009,35 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
+    /// Will update mapview object with new viewing direction (bearing) based on compass reading with magnetic north
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public void Compass_ReadingChanged(object sender, CompassChangedEventArgs e)
+    {
+        if (mapView != null && mapView.MyLocationLayer != null && _isCheckingGeolocation)
+        {
+            try
+            {
+                double _currentViewDirection = Math.Round(e.Reading.HeadingMagneticNorth, 1);
+                //Change only if new value makes sense, else it'll go flickering
+                if ((_viewDirection != _currentViewDirection) && ( _viewDirection == 0.000001 || _viewDirection > _currentViewDirection + 10 || _viewDirection < _currentViewDirection - 10))
+                {
+
+                    _viewDirection = _currentViewDirection;
+                    mapView?.MyLocationLayer.UpdateMyViewDirection(_viewDirection, mapView?.Map.Navigator.Viewport.Rotation ?? 0, true);
+                }
+
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+        }
+    }
+
+    /// <summary>
     /// Will stop the GPS
     /// </summary>
     public async Task StopGPSAsync()
@@ -3008,8 +3046,12 @@ public partial class MapPage : ContentPage
 
         try
         {
+            //Stop listening to location changes
             Geolocation.LocationChanged -= Geolocation_LocationChanged;
             Geolocation.StopListeningForeground();
+
+            //Stop compass reading
+            Compass.Default.Stop();
 
         }
         catch (System.Exception ex)
@@ -3083,25 +3125,6 @@ public partial class MapPage : ContentPage
             {
                 this.WaitingCursor.IsRunning = false; //Make sure it's closed down
 
-                //if (mapView.MyLocationLayer.MyLocation.Latitude != inLocation.Latitude || mapView.MyLocationLayer.MyLocation.Longitude != inLocation.Longitude)
-                //{
-                //    await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
-                //    await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy));
-
-                //    mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
-                //    mapView.MyLocationEnabled = true;
-                //    mapView.MyLocationFollow = _locationFollowEnabled;
-
-                //    if (inLocation.Course != null && inLocation.Course.HasValue)
-                //    {
-                //        mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                //    }
-                //    //else
-                //    //{
-                //    //    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                //    //}
-                //}
-
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
                 await Task.Run(async () => _vm.SetMapAccuracyColor(inLocation.Accuracy));
                 await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
@@ -3111,13 +3134,8 @@ public partial class MapPage : ContentPage
 
                 if (inLocation.Course != null && inLocation.Course.HasValue)
                 {
-                    mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                    await Task.Run(async () => mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, true));             
                 }
-                else
-                {
-                    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                }
-
             }
         }
 
