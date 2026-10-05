@@ -2888,7 +2888,7 @@ public partial class MapPage : ContentPage
                         {
                             Compass.Default.ReadingChanged -= Compass_ReadingChanged;
                             Compass.Default.ReadingChanged += Compass_ReadingChanged;
-                            Compass.Default.Start(SensorSpeed.UI);
+                            Compass.Default.Start(SensorSpeed.Game, true);
                         }
 
                         //Temp this isn't triggered
@@ -3007,7 +3007,7 @@ public partial class MapPage : ContentPage
         }
 
     }
-
+    
     /// <summary>
     /// Will update mapview object with new viewing direction (bearing) based on compass reading with magnetic north
     /// </summary>
@@ -3020,12 +3020,13 @@ public partial class MapPage : ContentPage
             try
             {
                 double _currentViewDirection = Math.Round(e.Reading.HeadingMagneticNorth, 1);
+
                 //Change only if new value makes sense, else it'll go flickering
-                if ((_viewDirection != _currentViewDirection) && ( _viewDirection == 0.000001 || _viewDirection > _currentViewDirection + 10 || _viewDirection < _currentViewDirection - 10))
+                if ((_viewDirection != _currentViewDirection && _viewDirection != 0) && (_viewDirection == 0.000001 || _viewDirection < _currentViewDirection + 5.0 || _viewDirection > _currentViewDirection - 5.0))
                 {
 
                     _viewDirection = _currentViewDirection;
-                    mapView?.MyLocationLayer.UpdateMyViewDirection(_viewDirection, mapView?.Map.Navigator.Viewport.Rotation ?? 0, true);
+                    mapView?.MyLocationLayer.UpdateMyViewDirection(_viewDirection, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
                 }
 
             }
