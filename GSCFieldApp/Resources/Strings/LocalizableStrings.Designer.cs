@@ -369,6 +369,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location consent explanation.
+        /// </summary>
+        internal static string DisplayAlertGPSConsent {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSConsent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This application requires location access at all times for faster positioning during helicopter or time-constrained operations. Otherwise, in-app location access is good for all other field work but might require 1-2 mins of waiting time to get initial location..
+        /// </summary>
+        internal static string DisplayAlertGPSConsentMessage {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSConsentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location access failed.
         /// </summary>
         internal static string DisplayAlertGPSDenied {
@@ -2102,6 +2120,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string GenericButtonDelete {
             get {
                 return ResourceManager.GetString("GenericButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I agree.
+        /// </summary>
+        internal static string GenericButtonIAgree {
+            get {
+                return ResourceManager.GetString("GenericButtonIAgree", resourceCulture);
             }
         }
         
