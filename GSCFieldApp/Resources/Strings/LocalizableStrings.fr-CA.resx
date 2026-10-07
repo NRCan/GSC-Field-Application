@@ -1630,6 +1630,15 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
     <value>Le nom de fichier entré est déjà présent dans le carnet.</value>
   </data>
+  <data name="DisplayAlertGPSConsent" xml:space="preserve">
+    <value>Explication de consentement de localisation</value>
+  </data>
+  <data name="DisplayAlertGPSConsentMessage" xml:space="preserve">
+    <value>L’Application doit pouvoir accéder à la position en tout temps lors de vol d’hélicoptère ou de contrainte de temps. Sinon, un accès limité à l’application seulement est approprié pour la plupart des campagnes de terrain, mais peut nécessiter 1 à 2 min de temps pour obtenir une position. </value>
+  </data>
+  <data name="GenericButtonIAgree" xml:space="preserve">
+    <value>Je consent</value>
+  </data>
   <data name="SettingPageOtherHeadingMap" xml:space="preserve">
     <value>Carte</value>
   </data>

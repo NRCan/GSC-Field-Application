@@ -112,7 +112,16 @@ public partial class MapPage : ContentPage
 
     double _startX, _startY;
 
+    private PermissionStatus _permissionStatusBackgroundLocation = PermissionStatus.Unknown;
+    private PermissionStatus _permissionStatusAppOnlyLocation = PermissionStatus.Unknown;
+
     #region Properties
+
+    private bool GPSConsent
+    {
+        get { return Preferences.Get(nameof(GPSConsent), false); }
+        set { }
+    }
 
     private bool GPSLogEnabled
     {
@@ -568,7 +577,7 @@ public partial class MapPage : ContentPage
             //Manage GPS
             if (!_isCheckingGeolocation && !_isTapMode)
             {
-                await StartGPS();
+                await GPSPermissionGrant();
             }
 
         }
@@ -2838,14 +2847,14 @@ public partial class MapPage : ContentPage
         }
         else
         {
-            _ = StartGPS();
+            _ = GPSPermissionGrant();
         }
     }
 
     /// <summary>
-    /// Will start the GPS
+    /// Will ask GPS permission from user and then start the GPS if granted
     /// </summary>
-    public async Task StartGPS()
+    public async Task GPSPermissionGrant()
     {
         //Init 
         _isCheckingGeolocation = true;
@@ -2853,33 +2862,67 @@ public partial class MapPage : ContentPage
         this.WaitingCursor.IsRunning = true;
 
         //Get permission from device first
-        PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-        switch (permissionStatus)
+        if (_permissionStatusAppOnlyLocation == PermissionStatus.Unknown || _permissionStatusBackgroundLocation == PermissionStatus.Unknown)
         {
-            case PermissionStatus.Granted:
-                
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    DeactivateLocationVisuals();
-                    return;
-                }
+            //Asking for clear consent from user
+            if (!GPSConsent)
+            {
+                bool consentGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSConsent"].ToString(),
+                LocalizationResourceManager["DisplayAlertGPSConsentMessage"].ToString(),
+                LocalizationResourceManager["GenericButtonIAgree"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
 
-                try
-                {
-                    //Timespan for refresh rate
-                    await SetGPSRefreshRate();
-                    await SetLocationFollow();
+                Preferences.Set(nameof(GPSConsent), consentGPS);
+            }
 
-                    //Listening to location changes
-                    GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, _refreshRate);
-                    CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
+            if (GPSConsent)
+            {
+                _permissionStatusBackgroundLocation = await Permissions.RequestAsync<Permissions.LocationAlways>();
+                _permissionStatusAppOnlyLocation = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            }
 
-                    //Enforce foreground listening
-                    bool success = await Geolocation.StartListeningForegroundAsync(request);
-                    string status = success
-                        ? "Started listening for foreground location updates"
-                        : "Couldn't start listening";
+        }
+
+        //Start GPS if granted, else deactivate location visuals
+        if (_permissionStatusBackgroundLocation == PermissionStatus.Granted ||
+            _permissionStatusBackgroundLocation == PermissionStatus.Restricted ||
+            _permissionStatusBackgroundLocation == PermissionStatus.Limited  ||
+            _permissionStatusAppOnlyLocation == PermissionStatus.Granted)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                DeactivateLocationVisuals();
+                return;
+            }
+
+            await StartGPS();
+        }
+        else
+        {
+            DeactivateLocationVisuals();
+        }
+    }
+
+    /// <summary>
+    /// Will start the GPS and listen to location changes
+    /// </summary>
+    /// <returns></returns>
+    public async Task StartGPS()
+    {
+        try
+        {
+            //Timespan for refresh rate
+            await SetGPSRefreshRate();
+            await SetLocationFollow();
+
+            //Listening to location changes
+            GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, _refreshRate);
+            CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
+
+            //Enforce foreground listening
+            bool success = await Geolocation.StartListeningForegroundAsync(request);
+            string status = success
+                ? "Started listening for foreground location updates"
+                : "Couldn't start listening";
 
                     if (success)
                     {
@@ -2896,8 +2939,8 @@ public partial class MapPage : ContentPage
 
                         _locationSettingEnabledAttempt = 0; //Reset
 
-                        //Force location change event
-                        await BackgroundTimer(_refreshRate);
+                //Force location change event
+                await BackgroundTimer(_refreshRate);
 
                         this.WaitingCursor.IsRunning = false;
                     }
@@ -2909,103 +2952,91 @@ public partial class MapPage : ContentPage
                 catch (FeatureNotSupportedException fnsEx)
                 {
 
-                    // Handle not supported on device exception
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        fnsEx.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
-                    DeactivateLocationVisuals();
+            // Handle not supported on device exception
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                fnsEx.Message,
+                LocalizationResourceManager["GenericButtonOk"].ToString());
+            DeactivateLocationVisuals();
 
-                    new ErrorToLogFile(string.Format("FeatureNotSupportedException: {0}", fnsEx.Message)).WriteToFile();
+            new ErrorToLogFile(string.Format("FeatureNotSupportedException: {0}", fnsEx.Message)).WriteToFile();
 
-                }
-                catch (FeatureNotEnabledException fneEx)
-                {
-                    ///Ask to enable location in setting, only once then retry 10 times, else
-                    ///keep deactivated
+        }
+        catch (FeatureNotEnabledException fneEx)
+        {
+            ///Ask to enable location in setting, only once then retry 10 times, else
+            ///keep deactivated
 
-                    if (_locationSettingEnabledAttempt == 0)
-                    {
-                        // Handle not enabled on device exception
-                        await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
-                            fneEx.Message,
-                            LocalizationResourceManager["GenericButtonOk"].ToString());
+            if (_locationSettingEnabledAttempt == 0)
+            {
+                // Handle not enabled on device exception
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
+                    fneEx.Message,
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
 
-                        //Open location settings so user can toggle it on
+                //Open location settings so user can toggle it on
 #if ANDROID
-                    var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
-                    intent.AddCategory(Intent.CategoryDefault);
-                    intent.SetFlags(ActivityFlags.NewTask);
-                    Platform.CurrentActivity.StartActivityForResult(intent, 0);
+                var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+                intent.AddCategory(Intent.CategoryDefault);
+                intent.SetFlags(ActivityFlags.NewTask);
+                Platform.CurrentActivity.StartActivityForResult(intent, 0);
 #elif IOS
                         UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
 #endif
-                    }
+            }
 
-                    //Deactivate and retry
-                    DeactivateLocationVisuals();
+            //Deactivate and retry
+            DeactivateLocationVisuals();
 
-                    //If after 10 attemps it's still not enabled, stop trying
-                    if (_locationSettingEnabledAttempt <= 10)
-                    {
-                        new ErrorToLogFile(string.Format("FeatureNotEnabledException: Attempts {0} - Error message: {1}", _locationSettingEnabledAttempt.ToString(), fneEx.Message)).WriteToFile();
+            //If after 10 attemps it's still not enabled, stop trying
+            if (_locationSettingEnabledAttempt <= 10)
+            {
+                new ErrorToLogFile(string.Format("FeatureNotEnabledException: Attempts {0} - Error message: {1}", _locationSettingEnabledAttempt.ToString(), fneEx.Message)).WriteToFile();
 
-                        //Increment atempt
-                        _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
+                //Increment atempt
+                _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
 
-                        await Task.Delay(1000).ContinueWith(async a => await StartGPS());
+                await Task.Delay(1000).ContinueWith(async a => await StartGPS());
 
-                        
-                    }
-                    else
-                    {
-                        new ErrorToLogFile(string.Format("FeatureNotEnabledException: 10 attempts were made to get a location, without success location. {0}", fneEx.Message)).WriteToFile();
-                    }
 
-                }
-                catch (PermissionException pEx)
-                {
-
-                    // Handle permission exception
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        pEx.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
-
-                    DeactivateLocationVisuals();
-
-                    new ErrorToLogFile(string.Format("PermissionException: {0}", pEx.Message)).WriteToFile();
-
-                }
-                catch (System.Exception ex)
-                {
-
-                    // Unable to get location
-                    bool restartGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        LocalizationResourceManager["DisplayAlertGPSDeniedMessage"].ToString(),
-                        LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
-
-                    new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
-                    DeactivateLocationVisuals();
-                    await StopGPSAsync();
-
-                    if (restartGPS)
-                    {
-                        await StartGPS();
-                    }
-
-                    this.WaitingCursor.IsRunning = false;
-                }
-
-                break;
-
-            default:
-
-                await DisplayGPSNotGranted();
-                DeactivateLocationVisuals();
-                
-                break;
+            }
+            else
+            {
+                new ErrorToLogFile(string.Format("FeatureNotEnabledException: 10 attempts were made to get a location, without success location. {0}", fneEx.Message)).WriteToFile();
+            }
 
         }
+        catch (PermissionException pEx)
+        {
 
+            // Handle permission exception
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                pEx.Message,
+                LocalizationResourceManager["GenericButtonOk"].ToString());
+
+            DeactivateLocationVisuals();
+
+            new ErrorToLogFile(string.Format("PermissionException: {0}", pEx.Message)).WriteToFile();
+
+        }
+        catch (System.Exception ex)
+        {
+
+            // Unable to get location
+            bool restartGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                LocalizationResourceManager["DisplayAlertGPSDeniedMessage"].ToString(),
+                LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
+            DeactivateLocationVisuals();
+            await StopGPSAsync();
+
+            if (restartGPS)
+            {
+                await StartGPS();
+            }
+
+            this.WaitingCursor.IsRunning = false;
+        }
     }
     
     /// <summary>
@@ -3249,7 +3280,7 @@ public partial class MapPage : ContentPage
             if (_previousSpan.TotalMilliseconds != _refreshRate.TotalMilliseconds)
             {
                 
-                await StopGPSAsync().ContinueWith(async a => await StartGPS());
+                await StopGPSAsync().ContinueWith(async a => await GPSPermissionGrant());
             }
 
         }
