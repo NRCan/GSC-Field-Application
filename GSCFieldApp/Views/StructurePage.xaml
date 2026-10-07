@@ -45,7 +45,7 @@
                             <Label Text="{local:Localize StructurePageClass}" Style="{StaticResource FieldAppEntryTitleMandatory}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureClassPicker"
                                     ItemsSource="{Binding StructureClass.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
-                                    ItemDisplayBinding="{Binding itemValue}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding Model.StructureClass, 
                                         Converter={StaticResource cbox2Str},
                                         ConverterParameter={Binding StructureClass, Source={x:Reference StructureClassPicker}},

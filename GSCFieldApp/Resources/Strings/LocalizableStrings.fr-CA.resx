@@ -1649,4 +1649,7 @@ Projet: {0}
 Géologue: {1}
 Stations: {2}</value>
   </data>
+  <data name="FieldNotesTotalRecords" xml:space="preserve">
+    <value>Total d'enregistrements: </value>
+  </data>
 </root>

@@ -1930,6 +1930,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total records: .
+        /// </summary>
+        internal static string FieldNotesTotalRecords {
+            get {
+                return ResourceManager.GetString("FieldNotesTotalRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by date.
         /// </summary>
         internal static string FielNotesDateHeader {

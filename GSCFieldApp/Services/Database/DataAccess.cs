@@ -436,7 +436,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
 
                 //Manage language description
-                if (CultureInfo.CurrentCulture.ToString().ToLower().Contains("fr"))
+                if (CultureInfo.CurrentCulture.ToString().ToLower().Contains("fr") || CultureInfo.CurrentUICulture.ToString().ToLower().Contains("fr"))
                 {
 
                     if (vocabs.DescriptionFR != null && vocabs.DescriptionFR != string.Empty)
