@@ -49,11 +49,10 @@ public partial class EarthmatPage : ContentPage
             //Cast
             if (e != null && e.SelectedItem != null)
             {
-
+                lithoSearchBar.Text = e.SelectedItem.ToString();
                 EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
                 vm2.RefineGroupListFromDetail(e.SelectedItem.ToString());
 
-                lithoSearchBar.Text = e.SelectedItem.ToString();
 
             }
         }
