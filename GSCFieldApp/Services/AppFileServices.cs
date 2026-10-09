@@ -302,7 +302,7 @@ namespace GSCFieldApp.Services
                         List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
                         await currentConnection.CloseAsync();
 
-                        if (metadataTableRows != null && metadataTableRows.Count() == 1)
+                        if (metadataTableRows != null)
                         {
                             copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
 
