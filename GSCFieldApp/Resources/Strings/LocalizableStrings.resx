@@ -1657,4 +1657,13 @@ Stations: {2} </value>
   <data name="FieldNotesTotalRecords" xml:space="preserve">
     <value>Total records: </value>
   </data>
+  <data name="SensorServiceDisplayMessage" xml:space="preserve">
+    <value>Azimuth: {0}°, Dip: {1}°</value>
+  </data>
+  <data name="SensorServiceDisplayTitle" xml:space="preserve">
+    <value>Sensors</value>
+  </data>
+  <data name="SensorServiceRetryButton" xml:space="preserve">
+    <value>Retry</value>
+  </data>
 </root>

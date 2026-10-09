@@ -1631,10 +1631,10 @@ Aimeriez-vous modifier les droits?</value>
     <value>Le nom de fichier entré est déjà présent dans le carnet.</value>
   </data>
   <data name="ButtonGetOrientationStay" xml:space="preserve">
-    <value>ENTER THIS GAB</value>
+    <value>Obtenir l'azimut et le pendange maintenant.</value>
   </data>
   <data name="ButtonGetOrientationTooltip" xml:space="preserve">
-    <value>ENTER THIS GAB</value>
+    <value>Orienter l'appareil sur la structure afin d'obtenir l'azimut et le pendange.</value>
   </data>
   <data name="DisplayAlertGPSConsent" xml:space="preserve">
     <value>Explication de consentement de localisation</value>
@@ -1657,5 +1657,14 @@ Stations: {2}</value>
   </data>
   <data name="FieldNotesTotalRecords" xml:space="preserve">
     <value>Total d'enregistrements: </value>
+  </data>
+  <data name="SensorServiceDisplayMessage" xml:space="preserve">
+    <value>Azimut: {0}°, Pendage: {1}°</value>
+  </data>
+  <data name="SensorServiceDisplayTitle" xml:space="preserve">
+    <value>Senseurs</value>
+  </data>
+  <data name="SensorServiceRetryButton" xml:space="preserve">
+    <value>Réessayer</value>
   </data>
 </root>

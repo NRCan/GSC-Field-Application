@@ -118,8 +118,8 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout x:Name="StructurePageGetOrientation">
-                                <Button Text="&#xF0039;" 
-                                Style="{StaticResource FieldAppButonSave}" 
+                                <Button Text="&#xEA60;" FontSize="Large" Padding="0"
+                                Style="{StaticResource FieldAppButonSave}" FontFamily="MatDesign" 
                                 ToolTipProperties.Text="{local:Localize ButtonGetOrientationTooltip}"
                                 BackgroundColor="{StaticResource FieldStrucColor}"
                                 Command="{Binding GetOrientationCommand}"

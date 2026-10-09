@@ -3677,6 +3677,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azimuth: {0}°, Dip: {1}°.
+        /// </summary>
+        internal static string SensorServiceDisplayMessage {
+            get {
+                return ResourceManager.GetString("SensorServiceDisplayMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sensors.
+        /// </summary>
+        internal static string SensorServiceDisplayTitle {
+            get {
+                return ResourceManager.GetString("SensorServiceDisplayTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        internal static string SensorServiceRetryButton {
+            get {
+                return ResourceManager.GetString("SensorServiceRetryButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bedrock.
         /// </summary>
         internal static string SettingPageCategoryBedrock {
