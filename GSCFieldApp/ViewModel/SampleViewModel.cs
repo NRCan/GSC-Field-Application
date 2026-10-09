@@ -1,21 +1,22 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Models;
-using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Controls;
-using GSCFieldApp.Views;
+using GSCFieldApp.Models;
 using GSCFieldApp.Services;
-using static GSCFieldApp.Dictionaries.DatabaseLiterals;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using CommunityToolkit.Maui.Alerts;
-using SQLite;
-using System.Data;
-using System.Security.Cryptography;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -349,6 +350,20 @@ namespace GSCFieldApp.ViewModel
 
 
 
+        }
+
+        [RelayCommand]
+        public async Task GetOrientation()
+        {
+            SensorsService sensorsService = new SensorsService();
+            Tuple<double, double> azimDip = await sensorsService.GetAzimDip();
+
+            if (azimDip != null && !azimDip.Item1.IsZeroOrNaN() && !azimDip.Item2.IsZeroOrNaN())
+            {
+                Model.SampleAzim = Convert.ToInt32(azimDip.Item1);
+                Model.SampleDiplunge = Convert.ToInt32(azimDip.Item2);
+                OnPropertyChanged(nameof(Model));
+            }
         }
         #endregion
 

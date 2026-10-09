@@ -121,9 +121,8 @@
                                 <Button Text="&#xEA60;" FontSize="Large" Padding="0"
                                 Style="{StaticResource FieldAppButonSave}" FontFamily="MatDesign" 
                                 ToolTipProperties.Text="{local:Localize ButtonGetOrientationTooltip}"
-                                BackgroundColor="{StaticResource FieldStrucColor}"
-                                Command="{Binding GetOrientationCommand}"
-                                />
+                                BackgroundColor="{StaticResource FieldStrucColorLight}"
+                                Command="{Binding GetOrientationCommand}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout x:Name="StructurePageDepth">
