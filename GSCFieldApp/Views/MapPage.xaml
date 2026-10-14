@@ -25,6 +25,7 @@
         <conv:ElevationConverter x:Key="FormatElevation" />
         <conv:VisibilityFromILayer x:Key="layerButtonVisibility"/>
         <conv:UrlDetectionConverter x:Key="UrlDetection" />
+        <conv:String2Double x:Key="Str2Double"/>
 
         <!-- Layer Properties -->
         <DataTemplate  x:Key="MapLayersTemplate" x:DataType="maplayer:ILayer">
@@ -286,6 +287,10 @@
 
             <!--Progress bar-->
             <ProgressBar x:Name="MapPageProgressBar" BackgroundColor="Transparent"  Grid.Row="1" IsVisible="False" PropertyChanged="MapPageProgressBar_PropertyChanged" ProgressColor="{StaticResource Primary}" WidthRequest="350"/>
+
+            <!--Distance label-->
+            <Label x:Name="MapPageDistanceLabel" Text="{Binding GPSDistance, Converter={StaticResource Str2Double}, Mode=TwoWay}" Grid.Row="1" IsVisible="False"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}" Padding="10" HorizontalOptions="Center" VerticalOptions="Start"/>
 
             <!-- Tap Menu Overlay  -->
             <Grid x:Name="TapMenuOverlay"

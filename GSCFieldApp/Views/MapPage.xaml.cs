@@ -75,7 +75,7 @@ public partial class MapPage : ContentPage
     private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
     private double _viewportWidthRatio = 1;
     private double _viewDirection = 0.000001; //Used to know the current view direction of the map
-    private enum defaultLayerList { Linework, Traverses, Drills, Stations }
+    private enum defaultLayerList { Linework, Traverses, Drills, Stations, GPSSnapLayer }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
     private Drawable _drawable = new Drawable(); //Meant to be used for linework
     private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
@@ -93,6 +93,14 @@ public partial class MapPage : ContentPage
     private static readonly HttpClient SharedHttpClient = new HttpClient();
     IPersistentCache<byte[]>? persistentCache = null;
     MapViewModel _vm = null;
+
+    private MemoryLayer _gpsSnapMemLayer = null; //Will be used to calculate distance between user location and tapped point on the map.
+    private GeometryFeature _gpsSnapLineFeature = null; //Will be used to calculate distance between user location and tapped point on the map.
+
+    private Mapsui.UI.Maui.Position _gpsDistanceToPoint = new Mapsui.UI.Maui.Position(0,0); //Will be used to calculate distance between user location and tapped point on the map.
+
+    RulerWidget _rulerWidget = null;
+
 #if ANDROID
     private ParallelOptions _parallelOptions = new()
     {
@@ -164,6 +172,7 @@ public partial class MapPage : ContentPage
         get { return Preferences.Get(nameof(TraverseVisible), true); }
         set { }
     }
+
     #endregion
 
     public MapPage(MapViewModel vm)
@@ -699,7 +708,6 @@ public partial class MapPage : ContentPage
         TapMenuOverlay.IsVisible = false;
     }
 
-
     private void GPSMode_Clicked(object sender, EventArgs e)
     {
         ToggleGPS();
@@ -746,7 +754,6 @@ public partial class MapPage : ContentPage
                 break;
         }
     }
-
 
     /// <summary>
     /// Will pop an entry dialog for user to enter
@@ -922,7 +929,6 @@ public partial class MapPage : ContentPage
         _selectedTapAction = "Structure";
     }
 
-
     #endregion
 
     /// <summary>
@@ -1055,6 +1061,19 @@ public partial class MapPage : ContentPage
         {
             //Stop event tracking and finalize work
             FinalizeLinework(e);
+        }
+
+        if (!_isDrawingLine && !_isRulerMode)
+        {
+            //Calculate distance between GPS and touched point or remove label showing distance
+            MapPageDistanceLabel.IsVisible = !MapPageDistanceLabel.IsVisible;
+            if (MapPageDistanceLabel.IsVisible)
+            {
+                _gpsDistanceToPoint = e.WorldPosition.ToMaui();
+                _vm.CalculateGPSDistance(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude);
+            }
+
+
         }
 
     }
@@ -1545,6 +1564,7 @@ public partial class MapPage : ContentPage
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
                 prefLayerNames.Add(ApplicationLiterals.aliasDrillHoles);
+                prefLayerNames.Add(ApplicationLiterals.aliasGPSSnapLayer);
 
                 ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
                 if (layerToRemove.Count() > 0)
@@ -2387,6 +2407,10 @@ public partial class MapPage : ContentPage
                     enumFeat = await Task.Run(async () => await _vm.GetDrillLocationsAsync(offset));
                     break;
 
+                case defaultLayerList.GPSSnapLayer:
+                    enumFeat = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync());
+                    break;
+
                 default:
                     enumFeat = await Task.Run(async () => await _vm.GetStationLocationsAsync(offset)); 
                     break;
@@ -2695,6 +2719,16 @@ public partial class MapPage : ContentPage
                     Style = CreateLocationDrillsBitmapStyle(),
                 };
             }
+            else if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasGPSSnapLayer)
+            {
+                defaultLayer = _gpsSnapMemLayer = new MemoryLayer()
+                {
+                    Name = Enum.GetName(defaultLayerName),
+                    Tag = new LayerData { IsMapInfoLayer = false, DataPath = da.PreferedDatabasePath },
+                    Features = dFeats,
+                    Style = null
+                };
+            }
             else
             {
                 defaultLayer = new MemoryLayer()
@@ -2769,15 +2803,15 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will enable/disable the user to make a tap entry for a new station
     /// </summary>
-    private void ToggleRuler()
+    private RulerWidget ToggleRuler()
     {
         //Revert current state of drawing lines
         _isRulerMode = !_isRulerMode;
 
-        RulerWidget rulerWidget = mapView.Map.Widgets.OfType<RulerWidget>().First();
-        if (rulerWidget != null)
+        _rulerWidget = mapView.Map.Widgets.OfType<RulerWidget>().First();
+        if (_rulerWidget != null)
         {
-            rulerWidget.IsActive = _isRulerMode;
+            _rulerWidget.IsActive = _isRulerMode;
             mapView.Map.RefreshGraphics();
         }
         
@@ -2794,6 +2828,8 @@ public partial class MapPage : ContentPage
             //Keep as default
             this.RulerMode.TextColor = Microsoft.Maui.Graphics.Colors.White;
         }
+
+        return _rulerWidget;
     }
 
     /// <summary>
@@ -3156,7 +3192,6 @@ public partial class MapPage : ContentPage
             if (_vm != null)
             {
                 this.WaitingCursor.IsRunning = false; //Make sure it's closed down
-
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
                 await Task.Run(async () => _vm.SetMapAccuracyColor(inLocation.Accuracy));
                 await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
@@ -3167,6 +3202,14 @@ public partial class MapPage : ContentPage
                 if (inLocation.Course != null && inLocation.Course.HasValue)
                 {
                     await Task.Run(async () => mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, true));             
+                }
+
+                if (MapPageDistanceLabel.IsVisible && _gpsSnapMemLayer != null)
+                {
+                    _vm.CalculateGPSDistance(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude);
+                    _gpsSnapMemLayer.Features = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync(new Coordinate(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude )));
+
+                    mapView.Map.RefreshData();
                 }
             }
         }
