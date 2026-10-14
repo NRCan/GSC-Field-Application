@@ -10,6 +10,8 @@ using GSCFieldApp.Views;
 using Mapsui;
 using Mapsui.Layers;
 using Mapsui.Nts.Extensions;
+
+//using Mapsui.Nts.Extensions;
 using Mapsui.Styles;
 using Mapsui.UI.Maui;
 using NetTopologySuite.Geometries;
@@ -770,9 +772,9 @@ namespace GSCFieldApp.ViewModel
             List<ILayer> layerList = layers.ToList();
             foreach (ILayer layer in layerList)
             {
-                //Remove unused layers
+                //Fill out layer collection for layer menu - remove/add
                 if (layer.Name != ApplicationLiterals.aliasMapsuiDrawables && layer.Name != ApplicationLiterals.aliasMapsuiCallouts &&
-                    layer.Name != ApplicationLiterals.aliasMapsuiLayer && layer.Name != ApplicationLiterals.aliasMapsuiPins) 
+                    layer.Name != ApplicationLiterals.aliasMapsuiLayer && layer.Name != ApplicationLiterals.aliasMapsuiPins && layer.Name != ApplicationLiterals.aliasGPSSnapLayer) 
                 {
                     if (!_menuLayerCollection.Contains(layer) && _menuLayerCollection.Where(x=>x.Name == layer.Name).Count() == 0)
                     {
@@ -1292,27 +1294,40 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<IEnumerable<IFeature>> UpdateGPSDistanceLineworkAsync(Coordinate touchedPoint = null)
         {
+            //Init and prepare feature with label and style only once
+            if (_gpsDistanceFeat == null)
+            {
+                _gpsDistanceFeat = await InitGPSDistanceLineworkAsync(touchedPoint);
+            }
+
+            Coordinate startCoord = new Coordinate(_gpsLineStringDistance.Coordinates[0].X, _gpsLineStringDistance.Coordinates[0].Y);
+            Coordinate endcoord = new Coordinate(_gpsLineStringDistance.Coordinates[1].X, _gpsLineStringDistance.Coordinates[1].Y);
+
+
+            //Make sure that first line coordinate is current gps location
+            if (sensorLocation != null)
+            {
+                //Build geometry
+                Coordinate sensorCoord = new Coordinate(sensorLocation.Longitude, sensorLocation.Latitude);
+                NTSGeom.Point touchedPointTransformed = await GeopackageService.TransformPointCoordinatesFromSrid(sensorCoord.ToPoint(), 4326, 3857);
+                startCoord = new Coordinate(touchedPointTransformed.Coordinate.X, touchedPointTransformed.Coordinate.Y);
+            }
+
+
             //Will draw a line between current gps location and touched map point, if any
             if (touchedPoint != null)
             {
-                if (_gpsLineStringDistance == null)
-                {
-                    await InitGPSDistanceLineworkAsync(touchedPoint);
-                }
-                else
-                {
-                    //Build geometry
-                    NTSGeom.Point touchedPointTransformed = await GeopackageService.TransformPointCoordinatesFromSrid(touchedPoint.ToPoint(), 4326, 3857);
-                    _gpsLineStringDistance = new LineString(new Coordinate[] { new Coordinate(_gpsLineStringDistance.Coordinates[0].X, _gpsLineStringDistance.Coordinates[0].Y), 
-                        new Coordinate(touchedPointTransformed.Coordinate.X, touchedPointTransformed.Coordinate.Y) });
-
-                    //Reset
-                    _gpsLineDistanceGeometryFeature = new Mapsui.Nts.GeometryFeature(_gpsLineStringDistance);
-
-                    _gpsDistanceFeat = new IFeature[] { _gpsLineDistanceGeometryFeature };
-                }
-
+                //Build geometry
+                NTSGeom.Point touchedPointTransformed = await GeopackageService.TransformPointCoordinatesFromSrid(touchedPoint.ToPoint(), 4326, 3857);
+                endcoord = new Coordinate(touchedPointTransformed.Coordinate.X, touchedPointTransformed.Coordinate.Y);
             }
+
+            //Reset
+            _gpsLineStringDistance = new LineString(new Coordinate[] { startCoord, endcoord});
+            _gpsLineDistanceGeometryFeature.Geometry = new Mapsui.Nts.GeometryFeature(_gpsLineStringDistance).Geometry;
+            LabelStyle changeDistanceText = _gpsLineDistanceGeometryFeature.Styles.LastOrDefault() as LabelStyle;
+            changeDistanceText.Text = string.Format("{0} km", _gpsDistance);
+            _gpsDistanceFeat = new IFeature[] { _gpsLineDistanceGeometryFeature };
 
             return _gpsDistanceFeat;
 
@@ -1336,36 +1351,29 @@ namespace GSCFieldApp.ViewModel
                     BorderThickness = 1
                 };
 
-                //Build geometry
-                _gpsLineStringDistance =new LineString(new Coordinate[] { new Coordinate(sensorLocation.Longitude, sensorLocation.Latitude), new Coordinate(sensorLocation.Longitude, sensorLocation.Latitude) });
+                //Build default geometry
+                _gpsLineStringDistance =new LineString(new Coordinate[] { new Coordinate(0,0), new Coordinate(0,0) });
 
-                if (_gpsLineDistanceGeometryFeature != null)
+                //Build default feature metadata
+                _gpsLineDistanceGeometryFeature = new Mapsui.Nts.GeometryFeature(_gpsLineStringDistance);
+
+                //Add to list of features
+                _gpsDistanceFeat = _gpsDistanceFeat.Append(_gpsLineDistanceGeometryFeature);
+
+                //Get special color line
+                Mapsui.Styles.Color lineDistanceColor = GetColorFromString("#033dfc");
+
+                //Style line and label
+                _gpsLineDistanceGeometryFeature.Styles.Add(new VectorStyle { Line = new Pen(lineDistanceColor, 3), Outline = null, Fill = null });
+                _gpsLineDistanceGeometryFeature.Styles.Add(new LabelStyle
                 {
-                    //Build feature metadata
-                    _gpsLineDistanceGeometryFeature = new Mapsui.Nts.GeometryFeature(_gpsLineStringDistance);
-
-                    if (_gpsLineDistanceGeometryFeature != null)
-                    {
-
-                        //Add to list of features
-                        _gpsDistanceFeat = _gpsDistanceFeat.Append(_gpsLineDistanceGeometryFeature);
-
-                        //Get true line color
-                        Mapsui.Styles.Color lineDistanceColor = GetColorFromString("#033dfc");
-
-                        //Style line and label
-                        _gpsLineDistanceGeometryFeature.Styles.Add(new VectorStyle { Line = new Pen(lineDistanceColor, 3), Outline = null, Fill = null });
-                        _gpsLineDistanceGeometryFeature.Styles.Add(new LabelStyle
-                        {
-                            Text = string.Format("{0} km", _gpsDistance),
-                            BackColor = labelStyle.BackColor,
-                            HorizontalAlignment = labelStyle.HorizontalAlignment,
-                            BorderThickness = labelStyle.BorderThickness,
-                        });
-                    }
-
-                }
-
+                    Text = string.Format("{0} km", _gpsDistance),
+                    ForeColor = Color.White,
+                    BackColor = labelStyle.BackColor,
+                    HorizontalAlignment = labelStyle.HorizontalAlignment,
+                    BorderThickness = labelStyle.BorderThickness,
+                });
+                
             }
 
             return _gpsDistanceFeat;
@@ -1407,8 +1415,8 @@ namespace GSCFieldApp.ViewModel
         /// <param name="touchedLong"></param>
         /// <param name="touchedLat"></param>
         public void CalculateGPSDistance(double touchedLong, double touchedLat)
-        { 
-            _gpsDistance = Double.Round(sensorLocation.CalculateDistance(touchedLat, touchedLong, DistanceUnits.Kilometers),2);
+        {
+            _gpsDistance = Double.Round(sensorLocation.CalculateDistance(touchedLat, touchedLong, DistanceUnits.Kilometers), 2);
 
             OnPropertyChanged(nameof(GPSDistance));
         }

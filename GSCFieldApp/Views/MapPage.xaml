@@ -288,10 +288,6 @@
             <!--Progress bar-->
             <ProgressBar x:Name="MapPageProgressBar" BackgroundColor="Transparent"  Grid.Row="1" IsVisible="False" PropertyChanged="MapPageProgressBar_PropertyChanged" ProgressColor="{StaticResource Primary}" WidthRequest="350"/>
 
-            <!--Distance label-->
-            <Label x:Name="MapPageDistanceLabel" Text="{Binding GPSDistance, Converter={StaticResource Str2Double}, Mode=TwoWay}" Grid.Row="1" IsVisible="False"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}" Padding="10" HorizontalOptions="Center" VerticalOptions="Start"/>
-
             <!-- Tap Menu Overlay  -->
             <Grid x:Name="TapMenuOverlay"
                     Grid.Row="1"

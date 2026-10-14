@@ -75,11 +75,7 @@ public partial class MapPage : ContentPage
     private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
     private double _viewportWidthRatio = 1;
     private double _viewDirection = 0.000001; //Used to know the current view direction of the map
-    private enum defaultLayerList { Linework, Traverses, Drills, Stations, GPSSnapLayer }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
-    private Drawable _drawable = new Drawable(); //Meant to be used for linework
-    private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
-    private GeometryFeature _drawableLineVectorGeometry = null; //Meant to be used for linework
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
     public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
@@ -88,18 +84,28 @@ public partial class MapPage : ContentPage
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
-    private ImageStyle _stationStyle = null;
-    private ImageStyle _drillStyle = null;
     private static readonly HttpClient SharedHttpClient = new HttpClient();
     IPersistentCache<byte[]>? persistentCache = null;
     MapViewModel _vm = null;
-
-    private MemoryLayer _gpsSnapMemLayer = null; //Will be used to calculate distance between user location and tapped point on the map.
-    private GeometryFeature _gpsSnapLineFeature = null; //Will be used to calculate distance between user location and tapped point on the map.
-
-    private Mapsui.UI.Maui.Position _gpsDistanceToPoint = new Mapsui.UI.Maui.Position(0,0); //Will be used to calculate distance between user location and tapped point on the map.
-
     RulerWidget _rulerWidget = null;
+    private WKTReader _wellKnownTextReader = new WKTReader();
+    private GeopackageService _geopackageService = new GeopackageService();
+    private string _selectedTapAction = null;
+    double _startX, _startY;
+    private PermissionStatus _permissionStatusBackgroundLocation = PermissionStatus.Unknown;
+    private PermissionStatus _permissionStatusAppOnlyLocation = PermissionStatus.Unknown;
+
+    //Layers
+    private enum defaultLayerList { Linework, Traverses, Drills, Stations, GPSSnapLayer }
+    private Drawable _drawable = new Drawable(); //Meant to be used for linework
+    private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
+    private GeometryFeature _drawableLineVectorGeometry = null; //Meant to be used for linework vertices
+    private MemoryLayer _gpsSnapMemLayer = null; //Will be used to calculate distance between user location and tapped point on the map.
+    private GeometryFeature _gpsSnapLineVerticeFeature = null; //Will be used to calculate distance between user location and tapped point on the map.
+    private Mapsui.UI.Maui.Position _gpsDistanceToPoint = new Mapsui.UI.Maui.Position(0,0); //Will be used to calculate distance between user location and tapped point on the map.
+    private bool _showGPSToPointDistance = false; //Will be used to show or not the gps snap to point distance if requested by user.
+    private ImageStyle _stationStyle = null;
+    private ImageStyle _drillStyle = null;
 
 #if ANDROID
     private ParallelOptions _parallelOptions = new()
@@ -113,15 +119,6 @@ public partial class MapPage : ContentPage
     };
 
 #endif
-
-    private WKTReader _wellKnownTextReader = new WKTReader();
-    private GeopackageService _geopackageService = new GeopackageService();
-    private string _selectedTapAction = null;
-
-    double _startX, _startY;
-
-    private PermissionStatus _permissionStatusBackgroundLocation = PermissionStatus.Unknown;
-    private PermissionStatus _permissionStatusAppOnlyLocation = PermissionStatus.Unknown;
 
     #region Properties
 
@@ -1065,17 +1062,24 @@ public partial class MapPage : ContentPage
 
         if (!_isDrawingLine && !_isRulerMode)
         {
+            //Inverse value
+            _showGPSToPointDistance = !_showGPSToPointDistance;
+
+            //Align layer visibility with the value
+            _gpsSnapMemLayer.Enabled = _showGPSToPointDistance;
+
             //Calculate distance between GPS and touched point or remove label showing distance
-            MapPageDistanceLabel.IsVisible = !MapPageDistanceLabel.IsVisible;
-            if (MapPageDistanceLabel.IsVisible)
+            if (_showGPSToPointDistance)
             {
                 _gpsDistanceToPoint = e.WorldPosition.ToMaui();
                 _vm.CalculateGPSDistance(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude);
+                _gpsSnapMemLayer.Features = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync(new Coordinate(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude)));
+                _gpsSnapMemLayer.FeaturesWereModified();
+
+                mapView.Map.RefreshGraphics();
             }
-
-
+ 
         }
-
     }
 
     /// <summary>
@@ -2851,23 +2855,6 @@ public partial class MapPage : ContentPage
         return new Tuple<double, double>(_viewportWidthRatio, _viewportHeightRatio);
     }
 
-    private void SetupMyLocationLayerStyle()
-    {
-        if (mapView?.MyLocationLayer != null)
-        {
-            var arrowImageStyle = new ImageStyle
-            {
-                Image = new Mapsui.Styles.Image
-                {
-                    Source = "embedded://GSCFieldApp.Resources.Raw.Arrow.svg"
-                },
-                SymbolScale = 0.35
-            };
-
-            mapView.MyLocationLayer.Style = arrowImageStyle;
-        }
-    }
-
     #endregion
 
     #region GPS
@@ -3171,7 +3158,7 @@ public partial class MapPage : ContentPage
         }
         catch (System.Exception ex)
         {
-            await DisplayAlert("Alert", ex.Message, "OK");
+            //await DisplayAlert("Alert", ex.Message, "OK");
 
             new ErrorToLogFile(ex).WriteToFile();
 
@@ -3204,12 +3191,12 @@ public partial class MapPage : ContentPage
                     await Task.Run(async () => mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, true));             
                 }
 
-                if (MapPageDistanceLabel.IsVisible && _gpsSnapMemLayer != null)
+                if (_showGPSToPointDistance && _gpsSnapMemLayer != null)
                 {
                     _vm.CalculateGPSDistance(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude);
                     _gpsSnapMemLayer.Features = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync(new Coordinate(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude )));
+                    _gpsSnapMemLayer.FeaturesWereModified();
 
-                    mapView.Map.RefreshData();
                 }
             }
         }
