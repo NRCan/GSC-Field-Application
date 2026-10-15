@@ -2725,12 +2725,14 @@ public partial class MapPage : ContentPage
             }
             else if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasGPSSnapLayer)
             {
+
+
                 defaultLayer = _gpsSnapMemLayer = new MemoryLayer()
                 {
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = false, DataPath = da.PreferedDatabasePath },
                     Features = dFeats,
-                    Style = null
+                    Style = null,
                 };
             }
             else
