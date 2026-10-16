@@ -1,29 +1,30 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Views;
+using GSCFieldApp.Controls;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
+using Microsoft.Maui.ApplicationModel.Communication;
+using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GSCFieldApp.Models;
-using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using GSCFieldApp.Controls;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.Maui.ApplicationModel.Communication;
-using System.Xml.Linq;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
-using SQLite;
-using System.Text.RegularExpressions;
-using GSCFieldApp.Services;
-using static Microsoft.Maui.ApplicationModel.Permissions;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Storage;
-using System.Threading;
 using System.Security.Cryptography;
-using GSCFieldApp.Dictionaries;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -551,16 +552,24 @@ namespace GSCFieldApp.ViewModel
         {
 
             var search_term = searchText.ToLower();
-            var results = _litho_detail_vocab.Where(i => i.Code != null && i.Code.ToLower().Contains(search_term)).ToList();
+            var results = _litho_detail_vocab.Where(i => i.Code != null && (i.Description.ToLower().Contains(search_term) || i.DescriptionFR.ToLower().Contains(search_term))).ToList();
 
             if (results.Count > 0)
             {
                 _lihthoDetailSearchResults = new List<string>();
                 foreach (Vocabularies tmp in results)
                 {
-                    if (tmp.Code != null && !_lihthoDetailSearchResults.Contains(tmp.Code.ToString()))
+                    if (tmp.Code != null && (!_lihthoDetailSearchResults.Contains(tmp.Description.ToString()) && !_lihthoDetailSearchResults.Contains(tmp.DescriptionFR.ToString())))
                     {
-                        _lihthoDetailSearchResults.Add(tmp.Code.ToString());
+                        if (CultureInfo.CurrentCulture.ToString().ToLower().Contains("fr") || CultureInfo.CurrentUICulture.ToString().ToLower().Contains("fr"))
+                        {
+                            _lihthoDetailSearchResults.Add(tmp.DescriptionFR.ToString());
+                        }
+                        else
+                        {
+                            _lihthoDetailSearchResults.Add(tmp.Description.ToString());
+                        }
+                        
                     }
                 }
 
@@ -886,6 +895,13 @@ namespace GSCFieldApp.ViewModel
                             {
                                 LithologyDetail detail = new LithologyDetail();
                                 detail.DetailCode = tmp.Code.ToString();
+                                detail.DetailDescription = tmp.Description;
+
+                                if (CultureInfo.CurrentCulture.ToString().ToLower().Contains("fr") || CultureInfo.CurrentUICulture.ToString().ToLower().Contains("fr"))
+                                {
+                                    detail.DetailDescription = tmp.DescriptionFR;
+                                }
+
                                 existingDetails.First().lithologyDetails.Add(detail);
 
                             }
@@ -998,9 +1014,9 @@ namespace GSCFieldApp.ViewModel
             {
                 foreach (LithologyDetail lDetail in existingGroupType.FirstOrDefault().lithologyDetails)
                 {
-                    if (!_lihthoDetailSearchResults.Contains(lDetail.DetailCode))
+                    if (!_lihthoDetailSearchResults.Contains(lDetail.DetailDescription))
                     {
-                        _lihthoDetailSearchResults.Add(lDetail.DetailCode);
+                        _lihthoDetailSearchResults.Add(lDetail.DetailDescription);
                     }
                 }
             }
@@ -1024,6 +1040,7 @@ namespace GSCFieldApp.ViewModel
             bool foundMatch = false;
             List<ComboBoxItem> matchGroupItem = new List<ComboBoxItem>();
             while (!foundMatch)
+
             {
                 foreach (Lithology lith in lithologies)
                 {
@@ -1031,7 +1048,7 @@ namespace GSCFieldApp.ViewModel
                     {
                         foreach (LithologyDetail lDetail in lith.lithologyDetails)
                         {
-                            if (lDetail.DetailCode == detailName)
+                            if (lDetail.DetailDescription == detailName)
                             {
                                 //List all litho group/types that are parents of selected lith detail
                                 List<ComboBoxItem> matchCurrentGroup = _earthLithoGroup.cboxItems.Where(i => i.itemValue == lith.GroupTypeCode).ToList();

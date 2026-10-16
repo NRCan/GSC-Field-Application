@@ -145,6 +145,18 @@ public static class MauiProgram
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();
 
+        builder
+            .ConfigureLifecycleEvents(events =>
+            {
+            #if ANDROID
+                    // Permission handling is done in ViewModel when needed
+                    events.AddAndroid(android => android.OnStart(activity =>
+                    {
+                        // Optional: Add any startup logic here if needed
+                    }));
+            #endif
+            });
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

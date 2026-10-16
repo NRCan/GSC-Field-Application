@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using SQLite;
 using CommunityToolkit.Maui.Alerts;
 using System.Security.Cryptography;
+using Microsoft.Maui.Devices.Sensors;
+using CommunityToolkit.Maui.Core.Extensions;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -249,6 +251,20 @@ namespace GSCFieldApp.ViewModel
 
 
         }
+
+        [RelayCommand]
+        public async Task GetOrientation()
+        {
+            SensorsService sensorsService = new SensorsService();
+            Tuple<double, double> azimDip = await sensorsService.GetAzimDip();
+
+            if (azimDip != null && !azimDip.Item1.IsZeroOrNaN() && !azimDip.Item2.IsZeroOrNaN())
+            {
+                Model.StructureAzimuth = Convert.ToInt32(azimDip.Item1);
+                Model.StructureDipPlunge = Convert.ToInt32(azimDip.Item2);
+            }
+        }
+
         #endregion
 
         #region METHODS

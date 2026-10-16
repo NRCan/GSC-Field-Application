@@ -25,6 +25,7 @@
         <conv:ElevationConverter x:Key="FormatElevation" />
         <conv:VisibilityFromILayer x:Key="layerButtonVisibility"/>
         <conv:UrlDetectionConverter x:Key="UrlDetection" />
+        <conv:String2Double x:Key="Str2Double"/>
 
         <!-- Layer Properties -->
         <DataTemplate  x:Key="MapLayersTemplate" x:DataType="maplayer:ILayer">

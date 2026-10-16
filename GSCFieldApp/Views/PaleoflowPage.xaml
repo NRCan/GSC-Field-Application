@@ -122,6 +122,14 @@
                                 <CheckBox IsChecked="{Binding Model.PFlowMainDir, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Style="{StaticResource  FieldAppCheckbox}"/>
                             </HorizontalStackLayout>
 
+                            <VerticalStackLayout x:Name="PaleoflowPageGetOrientation">
+                                <Button Text="&#xEA60;" FontSize="Large" Padding="0"
+                                Style="{StaticResource FieldAppButonSave}" FontFamily="MatDesign" 
+                                ToolTipProperties.Text="{local:Localize ButtonGetOrientationTooltip}"
+                                BackgroundColor="{StaticResource FieldPflowColorLight}"
+                                Command="{Binding GetOrientationCommand}"/>
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     
                     </controls:ExpandableFrame>

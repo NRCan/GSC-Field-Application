@@ -142,8 +142,11 @@
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}" />
                         </Grid>
 
-
-                        <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                            <Label Text="{Binding Stations.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                        </StackLayout>
+                        
 
                         <!--Drill Hole records-->
                         <VerticalStackLayout IsVisible="{Binding DrillHoleVisible, Mode=TwoWay}">
@@ -165,7 +168,12 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding DrillHoles.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding DrillHoles.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
+
                         </VerticalStackLayout>
 
                         <!--Earth material records-->
@@ -188,7 +196,11 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding EarthMats.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
+
                         </VerticalStackLayout>
 
 
@@ -212,7 +224,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Samples.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -236,7 +251,11 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Structures.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Structures.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
+                            
                         </VerticalStackLayout>
 
                         <!--Paleoflow records-->
@@ -259,7 +278,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Paleoflows.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Paleoflows.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -284,7 +306,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Minerals.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Minerals.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -309,8 +334,12 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding MineralizationAlterations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding MineralizationAlterations.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
+                            
                         </VerticalStackLayout>
 
                         <!--Fossil records-->
@@ -334,7 +363,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Fossils.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Fossils.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -359,7 +391,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Environments.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Environments.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -384,7 +419,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Documents.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Documents.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -409,7 +447,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Locations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Locations.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 
@@ -434,7 +475,10 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                             </Grid>
 
-                            <Label Text="{Binding Lineworks.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{local:Localize Key=FieldNotesTotalRecords}" Margin="0,0,5,10" />
+                                <Label Text="{Binding Lineworks.Count, StringFormat='{0:D}'}" Margin="0,0,0,10" />
+                            </StackLayout>
 
                         </VerticalStackLayout>
 

@@ -97,6 +97,8 @@
         public const string aliasMapsuiPins = "Pins";
         public const string aliasMapsuiCallouts = "Callouts";
         public const string aliasDrillHoles = "Drills";
+        public const string aliasGPSSnapLayer = "GPSSnapLayer";
+        public const string aliasGPSSnapLayerVertices = "GPSSnapLayerVertices";
 
         public enum SupportedWMSCRS { epsg3857, epsg4326, epsg3978, epsg4269 } //Used for WMS layer loading
 

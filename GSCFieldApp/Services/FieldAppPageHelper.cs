@@ -5,6 +5,7 @@ using GSCFieldApp.Controls;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -111,12 +112,29 @@ namespace GSCFieldApp.Services
         {
             if (NavFromMapPage)
             {
-                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+                // Read user preference
+                bool goToMap = Preferences.Get(nameof(SettingsViewModel.StationMapFieldNotes), true);
+
+                if (goToMap)
+                {
+                    // Pop the current page (StationPage) then navigate to MapPage
+                    await Shell.Current.GoToAsync("..", false);  // Pop current page
+                    await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+                }
+                else
+                {
+                    // Pop the current page (StationPage) then navigate to FieldNotesPage
+                    await Shell.Current.GoToAsync("..", false);  // Pop current page
+                    await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/");  // Navigate to field notes at root level
+                }
+
             }
             else
             {
                 await NavigateToFieldNotesOrMapPage(tableName, refreshTable);
             }
+
+            // existing logic for other tables...
         }
 
         /// <summary>

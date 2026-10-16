@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="gscfieldapp.gscfieldapp" android:versionCode="31502" android:versionName="3.1.5">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="gscfieldapp.gscfieldapp" android:versionCode="31600" android:versionName="3.1.6">
 	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="GSCFieldApp">
 		<!-- FileProvider used to share images for edit with ACTION_EDIT -->
 		<provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
@@ -20,9 +20,6 @@
 	<uses-permission android:name="android.permission.DUMP" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-	<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-	<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 	<uses-permission android:name="android.permission.MANAGE_MEDIA" />
 	<queries>
 		<intent>

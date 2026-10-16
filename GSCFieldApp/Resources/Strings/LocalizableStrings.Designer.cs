@@ -241,6 +241,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Capture Azimuth and Dip Now.
+        /// </summary>
+        internal static string ButtonGetOrientationStay {
+            get {
+                return ResourceManager.GetString("ButtonGetOrientationStay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orient this device on the structure to get its azimuth and dip.
+        /// </summary>
+        internal static string ButtonGetOrientationTooltip {
+            get {
+                return ResourceManager.GetString("ButtonGetOrientationTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to navigate to parent record..
         /// </summary>
         internal static string ButtonNavigateToParent {
@@ -365,6 +383,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string DisplayAlertGPS {
             get {
                 return ResourceManager.GetString("DisplayAlertGPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location consent explanation.
+        /// </summary>
+        internal static string DisplayAlertGPSConsent {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSConsent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This application requires location access at all times for faster positioning during helicopter or time-constrained operations. Otherwise, in-app location access is good for all other field work but might require 1-2 mins of waiting time to get initial location..
+        /// </summary>
+        internal static string DisplayAlertGPSConsentMessage {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSConsentMessage", resourceCulture);
             }
         }
         
@@ -1530,6 +1566,19 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Would you like to do a backup of selected field book?
+        ///
+        ///Project: {0}
+        ///Geologist: {1}
+        ///Stations: {2} .
+        /// </summary>
+        internal static string FieldBookModelQuickSummaryMessage {
+            get {
+                return ResourceManager.GetString("FieldBookModelQuickSummaryMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
         internal static string FieldBookPageActivty {
@@ -1899,6 +1948,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total records: .
+        /// </summary>
+        internal static string FieldNotesTotalRecords {
+            get {
+                return ResourceManager.GetString("FieldNotesTotalRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by date.
         /// </summary>
         internal static string FielNotesDateHeader {
@@ -2102,6 +2160,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string GenericButtonDelete {
             get {
                 return ResourceManager.GetString("GenericButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I agree.
+        /// </summary>
+        internal static string GenericButtonIAgree {
+            get {
+                return ResourceManager.GetString("GenericButtonIAgree", resourceCulture);
             }
         }
         
@@ -3610,6 +3677,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azimuth: {0}°, Dip: {1}°.
+        /// </summary>
+        internal static string SensorServiceDisplayMessage {
+            get {
+                return ResourceManager.GetString("SensorServiceDisplayMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sensors.
+        /// </summary>
+        internal static string SensorServiceDisplayTitle {
+            get {
+                return ResourceManager.GetString("SensorServiceDisplayTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        internal static string SensorServiceRetryButton {
+            get {
+                return ResourceManager.GetString("SensorServiceRetryButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bedrock.
         /// </summary>
         internal static string SettingPageCategoryBedrock {
@@ -3795,6 +3889,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SettingPageOtherHeadingDrillSampleName {
             get {
                 return ResourceManager.GetString("SettingPageOtherHeadingDrillSampleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string SettingPageOtherHeadingMap {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay in map or move to field notes after new record..
+        /// </summary>
+        internal static string SettingPageOtherHeadingMapFieldNotes {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingMapFieldNotes", resourceCulture);
             }
         }
         
@@ -4411,7 +4523,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plot to map.
+        ///   Looks up a localized string similar to Plot on publish map.
         /// </summary>
         internal static string StructurePagePlotMap {
             get {

@@ -74,11 +74,8 @@ public partial class MapPage : ContentPage
     private bool _isRulerMode = false;
     private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
     private double _viewportWidthRatio = 1;
-    private enum defaultLayerList { Linework, Traverses, Drills, Stations }
+    private double _viewDirection = 0.000001; //Used to know the current view direction of the map
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
-    private Drawable _drawable = new Drawable(); //Meant to be used for linework
-    private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
-    private GeometryFeature _drawableLineVectorGeometry = null; //Meant to be used for linework
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
     public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
@@ -87,11 +84,29 @@ public partial class MapPage : ContentPage
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
-    private ImageStyle _stationStyle = null;
-    private ImageStyle _drillStyle = null;
     private static readonly HttpClient SharedHttpClient = new HttpClient();
     IPersistentCache<byte[]>? persistentCache = null;
     MapViewModel _vm = null;
+    RulerWidget _rulerWidget = null;
+    private WKTReader _wellKnownTextReader = new WKTReader();
+    private GeopackageService _geopackageService = new GeopackageService();
+    private string _selectedTapAction = null;
+    double _startX, _startY;
+    private PermissionStatus _permissionStatusBackgroundLocation = PermissionStatus.Unknown;
+    private PermissionStatus _permissionStatusAppOnlyLocation = PermissionStatus.Unknown;
+
+    //Layers
+    private enum defaultLayerList { Linework, Traverses, Drills, Stations, GPSSnapLayer }
+    private Drawable _drawable = new Drawable(); //Meant to be used for linework
+    private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
+    private GeometryFeature _drawableLineVectorGeometry = null; //Meant to be used for linework vertices
+    private MemoryLayer _gpsSnapMemLayer = null; //Will be used to calculate distance between user location and tapped point on the map.
+    private GeometryFeature _gpsSnapLineVerticeFeature = null; //Will be used to calculate distance between user location and tapped point on the map.
+    private Mapsui.UI.Maui.Position _gpsDistanceToPoint = new Mapsui.UI.Maui.Position(0,0); //Will be used to calculate distance between user location and tapped point on the map.
+    private bool _showGPSToPointDistance = false; //Will be used to show or not the gps snap to point distance if requested by user.
+    private ImageStyle _stationStyle = null;
+    private ImageStyle _drillStyle = null;
+
 #if ANDROID
     private ParallelOptions _parallelOptions = new()
     {
@@ -105,13 +120,13 @@ public partial class MapPage : ContentPage
 
 #endif
 
-    private WKTReader _wellKnownTextReader = new WKTReader();
-    private GeopackageService _geopackageService = new GeopackageService();
-    private string _selectedTapAction = null;
-
-    double _startX, _startY;
-
     #region Properties
+
+    private bool GPSConsent
+    {
+        get { return Preferences.Get(nameof(GPSConsent), false); }
+        set { }
+    }
 
     private bool GPSLogEnabled
     {
@@ -154,6 +169,7 @@ public partial class MapPage : ContentPage
         get { return Preferences.Get(nameof(TraverseVisible), true); }
         set { }
     }
+
     #endregion
 
     public MapPage(MapViewModel vm)
@@ -567,7 +583,7 @@ public partial class MapPage : ContentPage
             //Manage GPS
             if (!_isCheckingGeolocation && !_isTapMode)
             {
-                await StartGPS();
+                await GPSPermissionGrant();
             }
 
         }
@@ -689,7 +705,6 @@ public partial class MapPage : ContentPage
         TapMenuOverlay.IsVisible = false;
     }
 
-
     private void GPSMode_Clicked(object sender, EventArgs e)
     {
         ToggleGPS();
@@ -736,7 +751,6 @@ public partial class MapPage : ContentPage
                 break;
         }
     }
-
 
     /// <summary>
     /// Will pop an entry dialog for user to enter
@@ -912,7 +926,6 @@ public partial class MapPage : ContentPage
         _selectedTapAction = "Structure";
     }
 
-
     #endregion
 
     /// <summary>
@@ -1047,6 +1060,26 @@ public partial class MapPage : ContentPage
             FinalizeLinework(e);
         }
 
+        if (!_isDrawingLine && !_isRulerMode)
+        {
+            //Inverse value
+            _showGPSToPointDistance = !_showGPSToPointDistance;
+
+            //Align layer visibility with the value
+            _gpsSnapMemLayer.Enabled = _showGPSToPointDistance;
+
+            //Calculate distance between GPS and touched point or remove label showing distance
+            if (_showGPSToPointDistance)
+            {
+                _gpsDistanceToPoint = e.WorldPosition.ToMaui();
+                _vm.CalculateGPSDistance(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude);
+                _gpsSnapMemLayer.Features = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync(new Coordinate(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude)));
+                _gpsSnapMemLayer.FeaturesWereModified();
+
+                mapView.Map.RefreshGraphics();
+            }
+ 
+        }
     }
 
     /// <summary>
@@ -1535,6 +1568,7 @@ public partial class MapPage : ContentPage
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
                 prefLayerNames.Add(ApplicationLiterals.aliasDrillHoles);
+                prefLayerNames.Add(ApplicationLiterals.aliasGPSSnapLayer);
 
                 ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
                 if (layerToRemove.Count() > 0)
@@ -2377,6 +2411,10 @@ public partial class MapPage : ContentPage
                     enumFeat = await Task.Run(async () => await _vm.GetDrillLocationsAsync(offset));
                     break;
 
+                case defaultLayerList.GPSSnapLayer:
+                    enumFeat = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync());
+                    break;
+
                 default:
                     enumFeat = await Task.Run(async () => await _vm.GetStationLocationsAsync(offset)); 
                     break;
@@ -2685,6 +2723,18 @@ public partial class MapPage : ContentPage
                     Style = CreateLocationDrillsBitmapStyle(),
                 };
             }
+            else if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasGPSSnapLayer)
+            {
+
+
+                defaultLayer = _gpsSnapMemLayer = new MemoryLayer()
+                {
+                    Name = Enum.GetName(defaultLayerName),
+                    Tag = new LayerData { IsMapInfoLayer = false, DataPath = da.PreferedDatabasePath },
+                    Features = dFeats,
+                    Style = null,
+                };
+            }
             else
             {
                 defaultLayer = new MemoryLayer()
@@ -2759,15 +2809,15 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will enable/disable the user to make a tap entry for a new station
     /// </summary>
-    private void ToggleRuler()
+    private RulerWidget ToggleRuler()
     {
         //Revert current state of drawing lines
         _isRulerMode = !_isRulerMode;
 
-        RulerWidget rulerWidget = mapView.Map.Widgets.OfType<RulerWidget>().First();
-        if (rulerWidget != null)
+        _rulerWidget = mapView.Map.Widgets.OfType<RulerWidget>().First();
+        if (_rulerWidget != null)
         {
-            rulerWidget.IsActive = _isRulerMode;
+            _rulerWidget.IsActive = _isRulerMode;
             mapView.Map.RefreshGraphics();
         }
         
@@ -2784,6 +2834,8 @@ public partial class MapPage : ContentPage
             //Keep as default
             this.RulerMode.TextColor = Microsoft.Maui.Graphics.Colors.White;
         }
+
+        return _rulerWidget;
     }
 
     /// <summary>
@@ -2805,23 +2857,6 @@ public partial class MapPage : ContentPage
         return new Tuple<double, double>(_viewportWidthRatio, _viewportHeightRatio);
     }
 
-    private void SetupMyLocationLayerStyle()
-    {
-        if (mapView?.MyLocationLayer != null)
-        {
-            var arrowImageStyle = new ImageStyle
-            {
-                Image = new Mapsui.Styles.Image
-                {
-                    Source = "embedded://GSCFieldApp.Resources.Raw.Arrow.svg"
-                },
-                SymbolScale = 0.35
-            };
-
-            mapView.MyLocationLayer.Style = arrowImageStyle;
-        }
-    }
-
     #endregion
 
     #region GPS
@@ -2837,14 +2872,14 @@ public partial class MapPage : ContentPage
         }
         else
         {
-            _ = StartGPS();
+            _ = GPSPermissionGrant();
         }
     }
 
     /// <summary>
-    /// Will start the GPS
+    /// Will ask GPS permission from user and then start the GPS if granted
     /// </summary>
-    public async Task StartGPS()
+    public async Task GPSPermissionGrant()
     {
         //Init 
         _isCheckingGeolocation = true;
@@ -2852,43 +2887,85 @@ public partial class MapPage : ContentPage
         this.WaitingCursor.IsRunning = true;
 
         //Get permission from device first
-        PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-        switch (permissionStatus)
+        if (_permissionStatusAppOnlyLocation == PermissionStatus.Unknown || _permissionStatusBackgroundLocation == PermissionStatus.Unknown)
         {
-            case PermissionStatus.Granted:
-                
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    DeactivateLocationVisuals();
-                    return;
-                }
+            //Asking for clear consent from user
+            if (!GPSConsent)
+            {
+                bool consentGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSConsent"].ToString(),
+                LocalizationResourceManager["DisplayAlertGPSConsentMessage"].ToString(),
+                LocalizationResourceManager["GenericButtonIAgree"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
 
-                try
-                {
-                    //Timespan for refresh rate
-                    await SetGPSRefreshRate();
-                    await SetLocationFollow();
+                Preferences.Set(nameof(GPSConsent), consentGPS);
+            }
 
-                    //Listening to location changes
-                    GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, _refreshRate);
-                    CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
+            if (GPSConsent)
+            {
+                _permissionStatusBackgroundLocation = await Permissions.RequestAsync<Permissions.LocationAlways>();
+                _permissionStatusAppOnlyLocation = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            }
 
-                    //Enforce foreground listening
-                    bool success = await Geolocation.StartListeningForegroundAsync(request);
-                    string status = success
-                        ? "Started listening for foreground location updates"
-                        : "Couldn't start listening";
+        }
+
+        //Start GPS if granted, else deactivate location visuals
+        if (_permissionStatusBackgroundLocation == PermissionStatus.Granted ||
+            _permissionStatusBackgroundLocation == PermissionStatus.Restricted ||
+            _permissionStatusBackgroundLocation == PermissionStatus.Limited  ||
+            _permissionStatusAppOnlyLocation == PermissionStatus.Granted)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                DeactivateLocationVisuals();
+                return;
+            }
+
+            await StartGPS();
+        }
+        else
+        {
+            DeactivateLocationVisuals();
+        }
+    }
+
+    /// <summary>
+    /// Will start the GPS and listen to location changes
+    /// </summary>
+    /// <returns></returns>
+    public async Task StartGPS()
+    {
+        try
+        {
+            //Timespan for refresh rate
+            await SetGPSRefreshRate();
+            await SetLocationFollow();
+
+            //Listening to location changes
+            GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, _refreshRate);
+            CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
+
+            //Enforce foreground listening
+            bool success = await Geolocation.StartListeningForegroundAsync(request);
+            string status = success
+                ? "Started listening for foreground location updates"
+                : "Couldn't start listening";
 
                     if (success)
                     {
-                        _locationSettingEnabledAttempt = 0; //Reset
-
-                        //Force location change event
-                        await BackgroundTimer(_refreshRate);
+                        //Update viewing direction with internal compass
+                        if (Compass.Default.IsSupported)
+                        {
+                            Compass.Default.ReadingChanged -= Compass_ReadingChanged;
+                            Compass.Default.ReadingChanged += Compass_ReadingChanged;
+                            Compass.Default.Start(SensorSpeed.Game, true);
+                        }
 
                         //Temp this isn't triggered
                         Geolocation.LocationChanged += Geolocation_LocationChanged;
+
+                        _locationSettingEnabledAttempt = 0; //Reset
+
+                //Force location change event
+                await BackgroundTimer(_refreshRate);
 
                         this.WaitingCursor.IsRunning = false;
                     }
@@ -2900,103 +2977,121 @@ public partial class MapPage : ContentPage
                 catch (FeatureNotSupportedException fnsEx)
                 {
 
-                    // Handle not supported on device exception
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        fnsEx.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
-                    DeactivateLocationVisuals();
+            // Handle not supported on device exception
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                fnsEx.Message,
+                LocalizationResourceManager["GenericButtonOk"].ToString());
+            DeactivateLocationVisuals();
 
-                    new ErrorToLogFile(string.Format("FeatureNotSupportedException: {0}", fnsEx.Message)).WriteToFile();
+            new ErrorToLogFile(string.Format("FeatureNotSupportedException: {0}", fnsEx.Message)).WriteToFile();
 
-                }
-                catch (FeatureNotEnabledException fneEx)
-                {
-                    ///Ask to enable location in setting, only once then retry 10 times, else
-                    ///keep deactivated
+        }
+        catch (FeatureNotEnabledException fneEx)
+        {
+            ///Ask to enable location in setting, only once then retry 10 times, else
+            ///keep deactivated
 
-                    if (_locationSettingEnabledAttempt == 0)
-                    {
-                        // Handle not enabled on device exception
-                        await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
-                            fneEx.Message,
-                            LocalizationResourceManager["GenericButtonOk"].ToString());
+            if (_locationSettingEnabledAttempt == 0)
+            {
+                // Handle not enabled on device exception
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
+                    fneEx.Message,
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
 
-                        //Open location settings so user can toggle it on
+                //Open location settings so user can toggle it on
 #if ANDROID
-                    var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
-                    intent.AddCategory(Intent.CategoryDefault);
-                    intent.SetFlags(ActivityFlags.NewTask);
-                    Platform.CurrentActivity.StartActivityForResult(intent, 0);
+                var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+                intent.AddCategory(Intent.CategoryDefault);
+                intent.SetFlags(ActivityFlags.NewTask);
+                Platform.CurrentActivity.StartActivityForResult(intent, 0);
 #elif IOS
                         UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
 #endif
-                    }
+            }
 
-                    //Deactivate and retry
-                    DeactivateLocationVisuals();
+            //Deactivate and retry
+            DeactivateLocationVisuals();
 
-                    //If after 10 attemps it's still not enabled, stop trying
-                    if (_locationSettingEnabledAttempt <= 10)
-                    {
-                        new ErrorToLogFile(string.Format("FeatureNotEnabledException: Attempts {0} - Error message: {1}", _locationSettingEnabledAttempt.ToString(), fneEx.Message)).WriteToFile();
+            //If after 10 attemps it's still not enabled, stop trying
+            if (_locationSettingEnabledAttempt <= 10)
+            {
+                new ErrorToLogFile(string.Format("FeatureNotEnabledException: Attempts {0} - Error message: {1}", _locationSettingEnabledAttempt.ToString(), fneEx.Message)).WriteToFile();
 
-                        //Increment atempt
-                        _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
+                //Increment atempt
+                _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
 
-                        await Task.Delay(1000).ContinueWith(async a => await StartGPS());
+                await Task.Delay(1000).ContinueWith(async a => await StartGPS());
 
-                        
-                    }
-                    else
-                    {
-                        new ErrorToLogFile(string.Format("FeatureNotEnabledException: 10 attempts were made to get a location, without success location. {0}", fneEx.Message)).WriteToFile();
-                    }
 
-                }
-                catch (PermissionException pEx)
-                {
-
-                    // Handle permission exception
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        pEx.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
-
-                    DeactivateLocationVisuals();
-
-                    new ErrorToLogFile(string.Format("PermissionException: {0}", pEx.Message)).WriteToFile();
-
-                }
-                catch (System.Exception ex)
-                {
-
-                    // Unable to get location
-                    bool restartGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        LocalizationResourceManager["DisplayAlertGPSDeniedMessage"].ToString(),
-                        LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
-
-                    new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
-                    DeactivateLocationVisuals();
-                    await StopGPSAsync();
-
-                    if (restartGPS)
-                    {
-                        await StartGPS();
-                    }
-
-                    this.WaitingCursor.IsRunning = false;
-                }
-
-                break;
-
-            default:
-
-                await DisplayGPSNotGranted();
-                DeactivateLocationVisuals();
-                
-                break;
+            }
+            else
+            {
+                new ErrorToLogFile(string.Format("FeatureNotEnabledException: 10 attempts were made to get a location, without success location. {0}", fneEx.Message)).WriteToFile();
+            }
 
         }
+        catch (PermissionException pEx)
+        {
 
+            // Handle permission exception
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                pEx.Message,
+                LocalizationResourceManager["GenericButtonOk"].ToString());
+
+            DeactivateLocationVisuals();
+
+            new ErrorToLogFile(string.Format("PermissionException: {0}", pEx.Message)).WriteToFile();
+
+        }
+        catch (System.Exception ex)
+        {
+
+            // Unable to get location
+            bool restartGPS = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                LocalizationResourceManager["DisplayAlertGPSDeniedMessage"].ToString(),
+                LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            new ErrorToLogFile(string.Format("DisplayAlertGPSDenied: {0}", ex.Message)).WriteToFile();
+            DeactivateLocationVisuals();
+            await StopGPSAsync();
+
+            if (restartGPS)
+            {
+                await StartGPS();
+            }
+
+            this.WaitingCursor.IsRunning = false;
+        }
+    }
+    
+    /// <summary>
+    /// Will update mapview object with new viewing direction (bearing) based on compass reading with magnetic north
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public void Compass_ReadingChanged(object sender, CompassChangedEventArgs e)
+    {
+        if (mapView != null && mapView.MyLocationLayer != null && _isCheckingGeolocation)
+        {
+            try
+            {
+                double _currentViewDirection = Math.Round(e.Reading.HeadingMagneticNorth, 1);
+
+                //Change only if new value makes sense, else it'll go flickering
+                if ((_viewDirection != _currentViewDirection && _viewDirection != 0) && (_viewDirection == 0.000001 || _viewDirection < _currentViewDirection + 5.0 || _viewDirection > _currentViewDirection - 5.0))
+                {
+
+                    _viewDirection = _currentViewDirection;
+                    mapView?.MyLocationLayer.UpdateMyViewDirection(_viewDirection, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                }
+
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+        }
     }
 
     /// <summary>
@@ -3008,8 +3103,12 @@ public partial class MapPage : ContentPage
 
         try
         {
+            //Stop listening to location changes
             Geolocation.LocationChanged -= Geolocation_LocationChanged;
             Geolocation.StopListeningForeground();
+
+            //Stop compass reading
+            Compass.Default.Stop();
 
         }
         catch (System.Exception ex)
@@ -3061,7 +3160,7 @@ public partial class MapPage : ContentPage
         }
         catch (System.Exception ex)
         {
-            await DisplayAlert("Alert", ex.Message, "OK");
+            //await DisplayAlert("Alert", ex.Message, "OK");
 
             new ErrorToLogFile(ex).WriteToFile();
 
@@ -3082,26 +3181,6 @@ public partial class MapPage : ContentPage
             if (_vm != null)
             {
                 this.WaitingCursor.IsRunning = false; //Make sure it's closed down
-
-                //if (mapView.MyLocationLayer.MyLocation.Latitude != inLocation.Latitude || mapView.MyLocationLayer.MyLocation.Longitude != inLocation.Longitude)
-                //{
-                //    await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
-                //    await Task.Run(async () => await SetMapAccuracyColor(inLocation.Accuracy));
-
-                //    mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
-                //    mapView.MyLocationEnabled = true;
-                //    mapView.MyLocationFollow = _locationFollowEnabled;
-
-                //    if (inLocation.Course != null && inLocation.Course.HasValue)
-                //    {
-                //        mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                //    }
-                //    //else
-                //    //{
-                //    //    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                //    //}
-                //}
-
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
                 await Task.Run(async () => _vm.SetMapAccuracyColor(inLocation.Accuracy));
                 await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));
@@ -3111,13 +3190,16 @@ public partial class MapPage : ContentPage
 
                 if (inLocation.Course != null && inLocation.Course.HasValue)
                 {
-                    mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
+                    await Task.Run(async () => mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0, true));             
                 }
-                //else
-                //{
-                //    mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                //}
 
+                if (_showGPSToPointDistance && _gpsSnapMemLayer != null)
+                {
+                    _vm.CalculateGPSDistance(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude);
+                    _gpsSnapMemLayer.Features = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync(new Coordinate(_gpsDistanceToPoint.Longitude, _gpsDistanceToPoint.Latitude )));
+                    _gpsSnapMemLayer.FeaturesWereModified();
+
+                }
             }
         }
 
@@ -3230,7 +3312,7 @@ public partial class MapPage : ContentPage
             if (_previousSpan.TotalMilliseconds != _refreshRate.TotalMilliseconds)
             {
                 
-                await StopGPSAsync().ContinueWith(async a => await StartGPS());
+                await StopGPSAsync().ContinueWith(async a => await GPSPermissionGrant());
             }
 
         }

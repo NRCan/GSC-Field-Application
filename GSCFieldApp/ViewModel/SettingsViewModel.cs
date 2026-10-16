@@ -179,6 +179,12 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(DailyTraverseIncrementaionEnabled), true); }
             set { Preferences.Set(nameof(DailyTraverseIncrementaionEnabled), value); }
         }
+
+        public bool StationMapFieldNotes
+        {
+            get { return Preferences.Get(nameof(StationMapFieldNotes), true); }
+            set { Preferences.Set(nameof(StationMapFieldNotes), value); }
+        }
         /// <summary>
         /// Property saved in the about page
         /// </summary>

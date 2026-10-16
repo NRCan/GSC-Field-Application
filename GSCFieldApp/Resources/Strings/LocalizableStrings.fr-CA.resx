@@ -1379,7 +1379,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Profondeur (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
-    <value>Ajouter sur carte</value>
+    <value>Ajouter sur carte publiée</value>
   </data>
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
     <value>Cocher les entités souhaités</value>
@@ -1606,6 +1606,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Incrément quotidien de traverse</value>
   </data>
+  <data name="SettingPageOtherHeadingMapFieldNotes" xml:space="preserve">
+    <value>Rester dans la carte ou migrer vers les notes après la création d'un enregistrement.</value>
+  </data>
   <data name="MapPageTapMenuStruc" xml:space="preserve">
     <value>Structure/Pflow</value>
   </data>
@@ -1626,5 +1629,42 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
     <value>Le nom de fichier entré est déjà présent dans le carnet.</value>
+  </data>
+  <data name="ButtonGetOrientationStay" xml:space="preserve">
+    <value>Obtenir l'azimut et le pendange maintenant.</value>
+  </data>
+  <data name="ButtonGetOrientationTooltip" xml:space="preserve">
+    <value>Orienter l'appareil sur la structure afin d'obtenir l'azimut et le pendange.</value>
+  </data>
+  <data name="DisplayAlertGPSConsent" xml:space="preserve">
+    <value>Explication de consentement de localisation</value>
+  </data>
+  <data name="DisplayAlertGPSConsentMessage" xml:space="preserve">
+    <value>L’Application doit pouvoir accéder à la position en tout temps lors de vol d’hélicoptère ou de contrainte de temps. Sinon, un accès limité à l’application seulement est approprié pour la plupart des campagnes de terrain, mais peut nécessiter 1 à 2 min de temps pour obtenir une position. </value>
+  </data>
+  <data name="GenericButtonIAgree" xml:space="preserve">
+    <value>Je consent</value>
+  </data>
+  <data name="SettingPageOtherHeadingMap" xml:space="preserve">
+    <value>Carte</value>
+  </data>
+  <data name="FieldBookModelQuickSummaryMessage" xml:space="preserve">
+    <value>Aimeriez-vous effectuer une sauvegarde du carnet de notes présentement sélectionné?
+
+Projet: {0}
+Géologue: {1}
+Stations: {2}</value>
+  </data>
+  <data name="FieldNotesTotalRecords" xml:space="preserve">
+    <value>Total d'enregistrements: </value>
+  </data>
+  <data name="SensorServiceDisplayMessage" xml:space="preserve">
+    <value>Azimut: {0}°, Pendage: {1}°</value>
+  </data>
+  <data name="SensorServiceDisplayTitle" xml:space="preserve">
+    <value>Senseurs</value>
+  </data>
+  <data name="SensorServiceRetryButton" xml:space="preserve">
+    <value>Réessayer</value>
   </data>
 </root>

@@ -1378,7 +1378,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Depth (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
-    <value>Plot to map</value>
+    <value>Plot on publish map</value>
   </data>
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
     <value>Select features to add</value>
@@ -1605,6 +1605,9 @@ Enter last two digit of current year to proceed.</value>
   <data name="SettingPageOtherHeadingStationToggle" xml:space="preserve">
     <value>Daily traverse increment</value>
   </data>
+  <data name="SettingPageOtherHeadingMapFieldNotes" xml:space="preserve">
+    <value>Stay in map or move to field notes after new record.</value>
+  </data>
   <data name="MapPageTapMenuStruc" xml:space="preserve">
     <value>Structure/Pflow</value>
   </data>
@@ -1625,5 +1628,42 @@ Enter last two digit of current year to proceed.</value>
   </data>
   <data name="DocumentPageFileNameExistsContent" xml:space="preserve">
     <value>Entered file name already exists in the field notes.</value>
+  </data>
+  <data name="ButtonGetOrientationStay" xml:space="preserve">
+    <value>Capture Azimuth and Dip Now</value>
+  </data>
+  <data name="ButtonGetOrientationTooltip" xml:space="preserve">
+    <value>Orient this device on the structure to get its azimuth and dip</value>
+  </data>
+  <data name="DisplayAlertGPSConsent" xml:space="preserve">
+    <value>Location consent explanation</value>
+  </data>
+  <data name="DisplayAlertGPSConsentMessage" xml:space="preserve">
+    <value>This application requires location access at all times for faster positioning during helicopter or time-constrained operations. Otherwise, in-app location access is good for all other field work but might require 1-2 mins of waiting time to get initial location.</value>
+  </data>
+  <data name="GenericButtonIAgree" xml:space="preserve">
+    <value>I agree</value>
+  </data>
+  <data name="SettingPageOtherHeadingMap" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="FieldBookModelQuickSummaryMessage" xml:space="preserve">
+    <value>Would you like to do a backup of selected field book?
+
+Project: {0}
+Geologist: {1}
+Stations: {2} </value>
+  </data>
+  <data name="FieldNotesTotalRecords" xml:space="preserve">
+    <value>Total records: </value>
+  </data>
+  <data name="SensorServiceDisplayMessage" xml:space="preserve">
+    <value>Azimuth: {0}°, Dip: {1}°</value>
+  </data>
+  <data name="SensorServiceDisplayTitle" xml:space="preserve">
+    <value>Sensors</value>
+  </data>
+  <data name="SensorServiceRetryButton" xml:space="preserve">
+    <value>Retry</value>
   </data>
 </root>

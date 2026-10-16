@@ -1,6 +1,7 @@
 ﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,8 +9,10 @@ namespace GSCFieldApp.Models
 {
 
     [Table(TableStructure)]
-    public class Structure
+    public class Structure : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         [Column(FieldStructureID), PrimaryKey, AutoIncrement]
         public int StructureID { get; set; }
 
@@ -55,11 +58,35 @@ namespace GSCFieldApp.Models
         [Column(FieldStructureSense)]
         public string StructureSense { get; set; }
 
+        private int? _structureAzimuth;
         [Column(FieldStructureAzimuth)]
-        public int? StructureAzimuth { get; set; }
+        public int? StructureAzimuth
+        {
+            get => _structureAzimuth;
+            set
+            {
+                if (_structureAzimuth != value)
+                {
+                    _structureAzimuth = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StructureAzimuth)));
+                }
+            }
+        }
 
+        private int? _structureDipPlunge;
         [Column(FieldStructureDip)]
-        public int? StructureDipPlunge { get; set; }
+        public int? StructureDipPlunge
+        {
+            get => _structureDipPlunge;
+            set
+            {
+                if (_structureDipPlunge != value)
+                {
+                    _structureDipPlunge = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StructureDipPlunge)));
+                }
+            }
+        }
 
         [Column(FieldStructureSymAng)]
         public int? StructureSymAng

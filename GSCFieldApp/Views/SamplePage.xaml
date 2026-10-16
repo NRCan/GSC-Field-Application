@@ -147,6 +147,14 @@
 
                             </VerticalStackLayout>
 
+                            <VerticalStackLayout x:Name="SamplePageGetOrientation">
+                                <Button Text="&#xEA60;" FontSize="Large" Padding="0"
+                                Style="{StaticResource FieldAppButonSave}" FontFamily="MatDesign" 
+                                ToolTipProperties.Text="{local:Localize ButtonGetOrientationTooltip}"
+                                BackgroundColor="{StaticResource FieldSampleColorLight}"
+                                Command="{Binding GetOrientationCommand}"/>
+                            </VerticalStackLayout>
+
                             <Label Text="{local:Localize SamplePageSurface}" Style="{StaticResource FieldAppPickerLabel}" />
                             <Picker Title="{local:Localize GenericPickerTitle}" 
                                     x:Name="SampleSurfacePicker" 

@@ -4,11 +4,16 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
 using NetTopologySuite.IO;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.Models
 {
     public partial class FieldBooks
     {
+        //Localization
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
         #region PROPERTIES
 
         //Define here are the properties that can be used for edit and delete operation
@@ -46,6 +51,22 @@ namespace GSCFieldApp.Models
                 }
             }
             set { }
+        }
+
+        public string QuickSummary
+        {
+            get
+            {
+                if (metadataForProject != null)
+                {
+                    return string.Format(LocalizationResourceManager["FieldBookModelQuickSummaryMessage"].ToString(), metadataForProject.ProjectName, metadataForProject.Geologist, StationNumber); 
+                    
+                }
+                else
+                {
+                    return string.Format(LocalizationResourceManager["FieldBookModelQuickSummaryMessage"].ToString(), "", "", StationNumber);
+                }
+            }
         }
 
         private DataAccess da = new DataAccess();
