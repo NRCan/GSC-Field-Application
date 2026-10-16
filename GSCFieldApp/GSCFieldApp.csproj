@@ -315,6 +315,8 @@
 	<ItemGroup>
 	  <MauiAsset Remove="Resources\Raw\point.png" />
 	  <MauiAsset Remove="Resources\Raw\pointDrills.png" />
+	  <MauiAsset Remove="Resources\Raw\struc_linear.png" />
+	  <MauiAsset Remove="Resources\Raw\struc_planar.png" />
 	  <MauiAsset Remove="Resources\Raw\vector-point.png" />
     <MauiAsset Remove="Resources\Raw\Arrow.svg" />
 	</ItemGroup>
@@ -358,6 +360,12 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="Resources\Raw\pointDrills.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Resources\Raw\struc_linear.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Resources\Raw\struc_planar.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="Resources\Raw\vector-point.png">

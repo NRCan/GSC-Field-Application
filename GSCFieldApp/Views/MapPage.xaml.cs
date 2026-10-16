@@ -96,16 +96,18 @@ public partial class MapPage : ContentPage
     private PermissionStatus _permissionStatusAppOnlyLocation = PermissionStatus.Unknown;
 
     //Layers
-    private enum defaultLayerList { Linework, Traverses, Drills, Stations, GPSSnapLayer }
+    private enum defaultLayerList { Linework, Traverses, Drills, Stations, GPSSnapLayer, Structures }
     private Drawable _drawable = new Drawable(); //Meant to be used for linework
     private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
     private GeometryFeature _drawableLineVectorGeometry = null; //Meant to be used for linework vertices
     private MemoryLayer _gpsSnapMemLayer = null; //Will be used to calculate distance between user location and tapped point on the map.
-    private GeometryFeature _gpsSnapLineVerticeFeature = null; //Will be used to calculate distance between user location and tapped point on the map.
     private Mapsui.UI.Maui.Position _gpsDistanceToPoint = new Mapsui.UI.Maui.Position(0,0); //Will be used to calculate distance between user location and tapped point on the map.
     private bool _showGPSToPointDistance = false; //Will be used to show or not the gps snap to point distance if requested by user.
     private ImageStyle _stationStyle = null;
     private ImageStyle _drillStyle = null;
+    private MemoryLayer _structureMemLayer = null; //Will be used to show case structure symbols on map page
+    private GeometryFeature _structureGeometry = null; //Will be used to contain the structure symbols geometry and style to show on the map page
+
 
 #if ANDROID
     private ParallelOptions _parallelOptions = new()
@@ -170,6 +172,11 @@ public partial class MapPage : ContentPage
         set { }
     }
 
+    public bool StructureVisible
+    {
+        get { return Preferences.Get(nameof(StructureVisible), true); }
+        set { }
+    }
     #endregion
 
     public MapPage(MapViewModel vm)
@@ -1569,6 +1576,7 @@ public partial class MapPage : ContentPage
                 prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
                 prefLayerNames.Add(ApplicationLiterals.aliasDrillHoles);
                 prefLayerNames.Add(ApplicationLiterals.aliasGPSSnapLayer);
+                prefLayerNames.Add(ApplicationLiterals.aliasStructureLayer);
 
                 ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
                 if (layerToRemove.Count() > 0)
@@ -2359,6 +2367,13 @@ public partial class MapPage : ContentPage
                         defaultLayers.Add(dLayer);
                     }
                 }
+                else if (dLayer.Name == ApplicationLiterals.aliasStructureLayer)
+                {
+                    if (StructureVisible)
+                    {
+                        defaultLayers.Add(dLayer);
+                    }
+                }
                 else 
                 {
                     defaultLayers.Add(dLayer);
@@ -2414,7 +2429,9 @@ public partial class MapPage : ContentPage
                 case defaultLayerList.GPSSnapLayer:
                     enumFeat = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync());
                     break;
-
+                case defaultLayerList.Structures:
+                    enumFeat = await Task.Run(async () => await _vm.GetStructureLocationsAsync(offset));
+                    break;
                 default:
                     enumFeat = await Task.Run(async () => await _vm.GetStationLocationsAsync(offset)); 
                     break;
@@ -2458,7 +2475,6 @@ public partial class MapPage : ContentPage
             _drillStyle.SymbolScale = 0.45;
         }
         
-
         return _drillStyle;
     }
 
@@ -2728,6 +2744,18 @@ public partial class MapPage : ContentPage
 
 
                 defaultLayer = _gpsSnapMemLayer = new MemoryLayer()
+                {
+                    Name = Enum.GetName(defaultLayerName),
+                    Tag = new LayerData { IsMapInfoLayer = false },
+                    Features = dFeats,
+                    Style = null,
+                };
+            }
+            else if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasStructureLayer)
+            {
+
+
+                defaultLayer = _structureMemLayer = new MemoryLayer()
                 {
                     Name = Enum.GetName(defaultLayerName),
                     Tag = new LayerData { IsMapInfoLayer = false, DataPath = da.PreferedDatabasePath },
