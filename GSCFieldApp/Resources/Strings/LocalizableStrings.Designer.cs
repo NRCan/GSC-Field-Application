@@ -4523,7 +4523,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plot to map.
+        ///   Looks up a localized string similar to Plot on publish map.
         /// </summary>
         internal static string StructurePagePlotMap {
             get {

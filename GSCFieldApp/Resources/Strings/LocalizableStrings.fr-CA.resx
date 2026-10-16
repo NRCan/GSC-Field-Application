@@ -1379,7 +1379,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Profondeur (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
-    <value>Ajouter sur carte</value>
+    <value>Ajouter sur carte publiée</value>
   </data>
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
     <value>Cocher les entités souhaités</value>

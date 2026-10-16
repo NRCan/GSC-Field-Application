@@ -1378,7 +1378,7 @@ Enter last two digit of current year to proceed.</value>
     <value>Depth (m)</value>
   </data>
   <data name="StructurePagePlotMap" xml:space="preserve">
-    <value>Plot to map</value>
+    <value>Plot on publish map</value>
   </data>
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
     <value>Select features to add</value>
