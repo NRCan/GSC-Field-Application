@@ -1378,7 +1378,8 @@ public partial class MapPage : ContentPage
             foreach (var item in mapView.Map.Layers)
             {
                 if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework
-                    || item.Name == ApplicationLiterals.aliasTraversePoint || item.Name == ApplicationLiterals.aliasDrillHoles)
+                    || item.Name == ApplicationLiterals.aliasTraversePoint || item.Name == ApplicationLiterals.aliasDrillHoles 
+                    || item.Name == ApplicationLiterals.aliasStructureLayer)
                 {
                     //Get map layer
                     ILayer mapLayer = mapView.Map.Layers.Where(x => x.Name == item.Name).First();
@@ -1408,9 +1409,15 @@ public partial class MapPage : ContentPage
                         databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(DrillHole)));
                         layerToReload = defaultLayerList.Drills;
                     }
+                    else if (item.Name == ApplicationLiterals.aliasStructureLayer)
+                    {
+                        databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Structure)));
+                        layerToReload = defaultLayerList.Structures;
+
+                    }
 
                     //Check with record count if diff add last or remove missing
-                    if (databaseCount != mapLayerCount)
+                    if (databaseCount != mapLayerCount || (item.Name == ApplicationLiterals.aliasStructureLayer && StructureVisible))
                     {
                         //Get latest features
                         MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
@@ -1421,8 +1428,8 @@ public partial class MapPage : ContentPage
                             //Feature list to modify
                             List<IFeature> mapFeatures = mapMemoryLayer.Features.ToList();
 
-                            //Light clean case
-                            if (lightClean)
+                            //Light clean case or full clean if structure layer (must refresh symbol rotation and or style)
+                            if (lightClean && item.Name != ApplicationLiterals.aliasStructureLayer)
                             {
                                 //Remove case
                                 if (databaseCount < mapLayerCount)
@@ -2430,7 +2437,7 @@ public partial class MapPage : ContentPage
                     enumFeat = await Task.Run(async () => await _vm.UpdateGPSDistanceLineworkAsync());
                     break;
                 case defaultLayerList.Structures:
-                    enumFeat = await Task.Run(async () => await _vm.GetStructureLocationsAsync(offset));
+                    enumFeat = await Task.Run(async () => await _vm.GetStructureLocationsAsync());
                     break;
                 default:
                     enumFeat = await Task.Run(async () => await _vm.GetStationLocationsAsync(offset)); 

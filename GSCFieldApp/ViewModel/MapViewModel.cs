@@ -34,8 +34,6 @@ using NTSGeom = NetTopologySuite.Geometries;
 using Position = Mapsui.UI.Maui.Position;
 using Mapsui.Nts;
 
-
-
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -70,8 +68,7 @@ namespace GSCFieldApp.ViewModel
         private IEnumerable<IFeature> _gpsDistanceFeatCollection = null; //Will hold the IFeature object that contains the vector of line and end point for distance calculation
         private Coordinate _lastTouchedPoint = new Coordinate(0, 0); //Will be used to know if touched point has changed or not
 
-        private ImageStyle _structurePlanarStyle = null;
-        private ImageStyle _structureLinearStyle = null;
+        private GraphicPlacement _graphicPlacement = new GraphicPlacement(); //Will be used to calculate the placement of the structure symbols 
 
         //Localization
         public LocalizationResourceManager LocalizationResourceManager
@@ -1460,100 +1457,115 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<IFeature>> GetStructureLocationsAsync(Offset offset)
+        public async Task<IEnumerable<IFeature>> GetStructureLocationsAsync()
         {
             IEnumerable<IFeature> enumFeat = new IFeature[] { };
 
-            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+            try
             {
-
-                //Prep
-                string queryStructureJoins = string.Format(@"SELECT l.{9}, l.{10}, s.{11}, s.{12}, s.{13}, s.{14}, s.{15}, s.{16} " +
-                    "FROM {0} s JOIN {1} e on e.{2} = s.{3} JOIN {4} st on st.{5} = e.{6} JOIN {7} l on st.{8} = l.{9};",
-                    TableStructure, TableEarthMat, FieldEarthMatID, FieldStructureParentID, TableStation, FieldStationID, FieldEarthMatStatID,
-                    TableLocation, FieldStationObsID, FieldLocationID, FieldGenericGeometry, FieldStructureID, FieldStructureName,
-                    FieldStructureClass, FieldStructureType, FieldStructureDetail, FieldStructureAzimuth);
-                List<StructureLayer> structures = await DataAccess.DbConnection.QueryAsync<StructureLayer>(queryStructureJoins);
-
-                if (structures.Count() > 0)
+                if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
                 {
-                    await Parallel.ForEachAsync(structures, _parallelOptions, async (fs, token) =>
+
+                    //Prep
+                    string queryStructureJoins = string.Format(@"SELECT l.{9}, l.{10}, s.{11}, s.{12}, s.{13}, s.{14}, s.{15}, s.{16}, s.{18}, " +
+                        "CASE WHEN (CAST(SUBSTR(s.{12}, -2) as integer) != 0) THEN (CAST(SUBSTR(s.{12}, -2) as integer)) ELSE (1) END as {17} " +
+                        "FROM {0} s JOIN {1} e on e.{2} = s.{3} JOIN {4} st on st.{5} = e.{6} JOIN {7} l on st.{8} = l.{9};",
+                        TableStructure, TableEarthMat, FieldEarthMatID, FieldStructureParentID, TableStation, FieldStationID, FieldEarthMatStatID,
+                        TableLocation, FieldStationObsID, FieldLocationID, FieldGenericGeometry, FieldStructureID, FieldStructureName,
+                        FieldStructureClass, FieldStructureType, FieldStructureDetail, FieldStructureAzimuth, FieldStructureLayerPriorrity,
+                        FieldStructureRelated);
+                    List<StructureLayer> structures = await DataAccess.DbConnection.QueryAsync<StructureLayer>(queryStructureJoins);
+
+                    if (structures.Count() > 0)
                     {
-
-                        if (fs.LocationGeometry != null)
+                        //Build dictionary of paired structures (planar and linear) so they can have the same offset and be shown one on top of the other
+                        Dictionary<int, int> _pairedStructureDictionary = new Dictionary<int, int>();
+                        structures.Where(x => x.StructureRelated != null).ToList().ForEach(x =>
                         {
-                            //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
-                            //Build geometry
-                            NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fs.LocationGeometry);
-
-                            if (locationPoint != null)
+                            if (!_pairedStructureDictionary.ContainsKey(x.StructureRelated.GetValueOrDefault(0)))
                             {
-                                //Build feature 
-                                Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
-
-                                //Recreate styling each time, else it doesn't work well with the parallel loop for obvious reason
-                                double rotationValue = 0;
-                                if (fs.StructureAzimuth != null)
-                                {
-                                    Double.TryParse(fs.StructureAzimuth.GetValueOrDefault(0).ToString(), out rotationValue);
-                                }
-                                
-                                ImageStyle fsStyle = new ImageStyle();
-                                if (fs.StructureClass == KeywordPlanar)
-                                {
-                                    fsStyle = CreateStructurePlanarBitmapStyle(rotationValue);
-                                }
-                                else if (fs.StructureClass == KeywordLinear)
-                                {
-                                    fsStyle = CreateStructureLinearBitmapStyle(rotationValue);
-                                }
-                                else
-                                {
-                                    fsStyle = CreateStructurePlanarBitmapStyle(rotationValue);
-                                }
-
-                                //Finish
-                                feat.Styles.Add(fsStyle);
-                                feat[DatabaseLiterals.FieldStructureID] = fs.StructureID;
-                                enumFeat = enumFeat.Append(feat);
+                                int pairedPriority = structures.Where(y => y.StructureID == x.StructureRelated).Select(y => y.PriorityOrder).FirstOrDefault(x.PriorityOrder);
+                                _pairedStructureDictionary.Add(x.StructureRelated.GetValueOrDefault(0), pairedPriority);
                             }
-                        }
-                    });
+
+                        });
+
+                        await Parallel.ForEachAsync(structures, _parallelOptions, async (fs, token) =>
+                        {
+
+                            if (fs.LocationGeometry != null)
+                            {
+                                //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
+                                //Build geometry
+                                NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fs.LocationGeometry);
+
+                                if (locationPoint != null)
+                                {
+                                    //Validate offset placement
+                                    if (_pairedStructureDictionary.ContainsKey(fs.StructureRelated.GetValueOrDefault(0)))
+                                    {
+                                        fs.PriorityOrder = _pairedStructureDictionary[fs.StructureRelated.GetValueOrDefault(0)];
+                                    }
+
+                                    //Calculate offset based on priority order.
+                                    NetTopologySuite.Geometries.Point newLocationPoint = await _graphicPlacement.GetPositionOffsetFromPlacementPriority(fs.PriorityOrder, locationPoint, 100);
+
+                                    //Build feature 
+                                    Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(newLocationPoint);
+
+                                    //Recreate styling each time, else it doesn't work well with the parallel loop for obvious reason
+                                    double rotationValue = 0;
+                                    if (fs.StructureAzimuth != null)
+                                    {
+                                        Double.TryParse(fs.StructureAzimuth.GetValueOrDefault(0).ToString(), out rotationValue);
+                                    }
+
+                                    ImageStyle fsStyle = new ImageStyle();
+                                    if (fs.StructureClass == KeywordPlanar)
+                                    {
+                                        fsStyle = await CreateStructureBitmapStyle(rotationValue, fs.PriorityOrder, "embedded://GSCFieldApp.Resources.Raw.struc_planar.png");
+                                    }
+                                    else if (fs.StructureClass == KeywordLinear)
+                                    {
+                                        fsStyle = await CreateStructureBitmapStyle(rotationValue, fs.PriorityOrder, "embedded://GSCFieldApp.Resources.Raw.struc_linear.png");
+                                    }
+                                    else
+                                    {
+                                        fsStyle = await CreateStructureBitmapStyle(rotationValue, fs.PriorityOrder, "embedded://GSCFieldApp.Resources.Raw.struc_default.png");
+                                    }
+
+                                    //Finish
+                                    feat.Styles.Add(fsStyle);
+                                    feat[DatabaseLiterals.FieldStructureID] = fs.StructureID;
+                                    enumFeat = enumFeat.Append(feat);
+                                }
+                            }
+                        });
+                    }
                 }
+
+            }
+            catch (System.Exception GetStructureLocationsAsyncException)
+            {
+                new ErrorToLogFile(GetStructureLocationsAsyncException).WriteToFile();
             }
 
             return enumFeat;
         }
 
         /// <summary>
-        /// Will set style of planar structures
+        /// Will set style of planar/linear structures
         /// </summary>
         /// <returns></returns>
-        private ImageStyle CreateStructurePlanarBitmapStyle(double rotation)
+        private async Task<ImageStyle> CreateStructureBitmapStyle(double rotation, int priority, string sourcePath)
         {
-            ImageStyle structurePlanarStyle = new ImageStyle{
+            ImageStyle structureStyle = new ImageStyle{
                 SymbolRotation = rotation,
-                Image = new Mapsui.Styles.Image { Source = "embedded://GSCFieldApp.Resources.Raw.struc_planar.png" },
-                SymbolScale = 1
+                Image = new Mapsui.Styles.Image { Source = sourcePath },
+                SymbolScale = 0.5, 
             };
 
-            return structurePlanarStyle;
-        }
-
-        /// <summary>
-        /// Will set style of linear structures
-        /// </summary>
-        /// <returns></returns>
-        private ImageStyle CreateStructureLinearBitmapStyle(double rotation)
-        {
-
-            ImageStyle structureLinearStyle = new ImageStyle {
-                SymbolRotation = rotation,
-                Image = new Mapsui.Styles.Image { Source = "embedded://GSCFieldApp.Resources.Raw.struc_linear.png" },
-                SymbolScale = 1
-            };
-
-            return structureLinearStyle;
+            return structureStyle;
         }
 
         #endregion

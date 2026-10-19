@@ -26,5 +26,9 @@ namespace GSCFieldApp.Models
         public string StructureDetail { get; set; }
         [Column(DatabaseLiterals.FieldStructureAzimuth)]
         public int? StructureAzimuth { get; set; }
+        [Column(DatabaseLiterals.FieldStructureRelated)]
+        public int? StructureRelated { get; set; }
+        [Column(DatabaseLiterals.FieldStructureLayerPriorrity)]
+        public int PriorityOrder { get; set; }
     }
 }

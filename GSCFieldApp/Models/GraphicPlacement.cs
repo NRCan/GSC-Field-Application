@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using GSCFieldApp.Services.DatabaseServices;
+using Mapsui.Styles;
+using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +22,7 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// List of azim placement based on main direction and with priorities (west, south, east then north)
         /// </summary>
-        public List<int> defaultAzimuthPlacement = new List<int>() { 90, 180, 270, 0 };
+        public List<int> defaultAzimuthPlacement = new List<int>() { 0, 180, 270, 90 };
 
         /// <summary>
         /// Placement offsets as tuples(offset x, offset y)
@@ -69,7 +73,7 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// Will return a given placement offset based on priority of placement.
+        /// Will return a given placement offset based on priority of placement for labeling features
         /// WARNING: this does weird thing with the symbols. Using a new location seems to fix this.
         /// </summary>
         /// <param name="priority">Number from 1 to 8</param>
@@ -130,31 +134,92 @@ namespace GSCFieldApp.Models
             return new Tuple<double, double>(returnX, returnY);
         }
 
+
         /// <summary>
-        /// Will return a new location position from a given priority for symbol placement
+        /// Will return a given placement offset based on priority of placement for png symbols. Since Mapsui used to but can't
+        /// rotate and offset at the same time, we need to place the actual geometry else where now.
         /// </summary>
         /// <param name="priority">Number from 1 to 8</param>
         /// <param name="imageHeight">If symbol anchor is center and picture marker, imageHeight will help with proper placement</param>
         /// <param name="imageWidth">If symbol anchor is center and picture marker, imageWidht will help with proper placement.</param>
         /// <returns></returns>
-        //public Tuple<double, double> GetPositionOffsetFromPlacementPriority(int order, double centerX, double centerY, double distanceAway)
-        //{
-        //    //Create a projected point
-        //    MapPoint centerPoint = new MapPoint(centerX, centerY, 0.0, SpatialReferences.Wgs84);
-        //    MapPoint projectedPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(centerPoint, SpatialReferences.WebMercator);
+        public Offset GetOffsetFromPlacementPriorityForSymbols(int priority)
+        {
+            Offset placementOffset = new Offset(0, 0);
 
-        //    //Get main direction in azimuth
-        //    int azimOrientationPlace = CalculateOrientationFromOrientation(order);
+            if (priority > 8)
+            {
+                priority = priority - 8;
+            }
 
-        //    //Calculate new location from distance and a new orientation
-        //    double returnX = projectedPoint.X + (distanceAway * Math.Cos(azimOrientationPlace * Math.PI / 180));
-        //    double returnY = projectedPoint.Y + (distanceAway * Math.Sin(azimOrientationPlace * Math.PI / 180));
+            if (priority == 8)
+            {
+                placementOffset.X = PlacementOffsets.northEast.Item1 * 75;
+                placementOffset.Y = PlacementOffsets.northEast.Item2 * 75;
+            }
+            else if (priority == 6)
+            {
+                placementOffset.X = PlacementOffsets.southWest.Item1 * 75;
+                placementOffset.Y = PlacementOffsets.southWest.Item2 * 75;
+            }
+            else if (priority == 7)
+            {
+                placementOffset.X = PlacementOffsets.southEast.Item1 * 75;
+                placementOffset.Y = PlacementOffsets.southEast.Item2 * 50;
+            }
+            else if (priority == 5)
+            {
+                placementOffset.X = PlacementOffsets.northWest.Item1 * 75;
+                placementOffset.Y = PlacementOffsets.northWest.Item2 * 75;
+            }
+            else if (priority == 2)
+            {
+                placementOffset.X = PlacementOffsets.south.Item1 * 100;
+                placementOffset.Y = PlacementOffsets.south.Item2 * 100;
+            }
+            else if (priority == 4)
+            {
+                placementOffset.X = PlacementOffsets.east.Item1 * 100;
+                placementOffset.Y = PlacementOffsets.east.Item2 * 100;
+            }
+            else if (priority == 3)
+            {
+                placementOffset.X = PlacementOffsets.west.Item1 * 100;
+                placementOffset.Y = PlacementOffsets.west.Item2 * 100;
+            }
+            else if (priority == 1)
+            {
+                placementOffset.X = PlacementOffsets.north.Item1 * 100;
+                placementOffset.Y = PlacementOffsets.north.Item2 * 100;
+            }
+            else
+            {
+                placementOffset.X = PlacementOffsets.north.Item1 * 100;
+                placementOffset.Y = PlacementOffsets.north.Item2 * 100;
+            }
 
-        //    //Reproject back to geographic
-        //    centerPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(new MapPoint(returnX, returnY, 0.0, SpatialReferences.WebMercator), SpatialReferences.Wgs84);
+            return placementOffset;
+        }
 
-        //    return new Tuple<double, double>(centerPoint.X, centerPoint.Y);
-        //}
+        /// <summary>
+        /// Will return a new location position from a given priority for symbol placement
+        /// </summary>
+        /// <param name="priority">Number from 1 to 8</param>
+        /// <returns></returns>
+        public async Task<NetTopologySuite.Geometries.Point> GetPositionOffsetFromPlacementPriority(int order, NetTopologySuite.Geometries.Point centerLocation, double distanceAway)
+        {
+            //Get main direction in azimuth
+            int azimOrientationPlace = CalculateOrientationFromOrientation(order);
+
+            //Calculate new location from distance and a new orientation
+            double returnX = centerLocation.X + (distanceAway * Math.Cos(azimOrientationPlace * Math.PI / 180));
+            double returnY = centerLocation.Y + (distanceAway * Math.Sin(azimOrientationPlace * Math.PI / 180));
+
+            //Reproject back to geographic
+            NetTopologySuite.Geometries.Point newPointPlacement = new NetTopologySuite.Geometries.Point(returnX, returnY);
+
+            return newPointPlacement;
+        }
 
         /// <summary>
         /// Will calculate the proper azimuth placement, from a default set of 4 places. Will shift the result each time there is a modulo of 4 items
