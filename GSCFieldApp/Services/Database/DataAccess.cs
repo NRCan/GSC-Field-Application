@@ -352,8 +352,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Get vocab records from generic database not prefered one
-            SQLiteAsyncConnection vocabConnection = GetConnectionFromPath(databasePath);
-            List<Vocabularies> vocabs = await vocabConnection.QueryAsync<Vocabularies>(finalQuery);
+            //SQLiteAsyncConnection vocabConnection = GetConnectionFromPath(databasePath);
+            List<Vocabularies> vocabs = await _dbConnection.QueryAsync<Vocabularies>(finalQuery);
 
             //Add empty record for user to remove any selected values
             Vocabularies emptyNull = new Vocabularies();
@@ -362,7 +362,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             vocabs.Insert(0, emptyNull);
 
-            await vocabConnection.CloseAsync();
+            //await vocabConnection.CloseAsync();
 
             return vocabs;
         }
