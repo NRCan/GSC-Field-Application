@@ -1360,7 +1360,6 @@ namespace GSCFieldApp.ViewModel
 
         }
 
-
         /// <summary>
         /// Will initialized the gps distance line layer feature, vector geometry styling and labeling
         /// </summary>
@@ -1467,13 +1466,13 @@ namespace GSCFieldApp.ViewModel
                 {
 
                     //Prep
-                    string queryStructureJoins = string.Format(@"SELECT l.{9}, l.{10}, s.{11}, s.{12}, s.{13}, s.{14}, s.{15}, s.{16}, s.{18}, " +
+                    string queryStructureJoins = string.Format(@"SELECT l.{9}, l.{10}, s.{11}, s.{12}, s.{13}, s.{14}, s.{15}, s.{16}, s.{18}, s.{19}, " +
                         "CASE WHEN (CAST(SUBSTR(s.{12}, -2) as integer) != 0) THEN (CAST(SUBSTR(s.{12}, -2) as integer)) ELSE (1) END as {17} " +
                         "FROM {0} s JOIN {1} e on e.{2} = s.{3} JOIN {4} st on st.{5} = e.{6} JOIN {7} l on st.{8} = l.{9};",
                         TableStructure, TableEarthMat, FieldEarthMatID, FieldStructureParentID, TableStation, FieldStationID, FieldEarthMatStatID,
                         TableLocation, FieldStationObsID, FieldLocationID, FieldGenericGeometry, FieldStructureID, FieldStructureName,
                         FieldStructureClass, FieldStructureType, FieldStructureDetail, FieldStructureAzimuth, FieldStructureLayerPriorrity,
-                        FieldStructureRelated);
+                        FieldStructureRelated, FieldStructureDip);
                     List<StructureLayer> structures = await DataAccess.DbConnection.QueryAsync<StructureLayer>(queryStructureJoins);
 
                     if (structures.Count() > 0)
@@ -1513,7 +1512,7 @@ namespace GSCFieldApp.ViewModel
                                     //Build feature 
                                     Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(newLocationPoint);
 
-                                    //Recreate styling each time, else it doesn't work well with the parallel loop for obvious reason
+                                    //Recreate styling each time, else it doesn't work well with the parallel loop
                                     double rotationValue = 0;
                                     if (fs.StructureAzimuth != null)
                                     {
@@ -1531,11 +1530,36 @@ namespace GSCFieldApp.ViewModel
                                     }
                                     else
                                     {
-                                        fsStyle = await CreateStructureBitmapStyle(rotationValue, fs.PriorityOrder, "embedded://GSCFieldApp.Resources.Raw.struc_default.png");
+                                        fsStyle = await CreateStructureBitmapStyle(rotationValue, fs.PriorityOrder, "embedded://GSCFieldApp.Resources.Raw.struc_planar.png");
+                                    }
+                                    feat.Styles.Add(fsStyle);
+
+                                    //Label dip value
+                                    if (fs.StructureDipPlunge != null)
+                                    {
+                                        //Get proper labeling position based on structure class and symbol azimuth
+                                        int dipLabelAzimtuh = fs.StructureAzimuth.GetValueOrDefault(0);
+                                        //if (fs.StructureClass == KeywordPlanar)
+                                        //{
+                                        //    dipLabelAzimtuh = dipLabelAzimtuh + 90;
+                                        //}
+                                        Offset dipOffset = _graphicPlacement.GetRelOffsetForLabel(dipLabelAzimtuh);
+
+                                        LabelStyle dipLabelStyle = new LabelStyle
+                                        {
+                                            BackColor = new Brush(Color.Transparent),
+                                            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left,
+                                            BorderThickness = 1,
+                                            Text = fs.StructureDipPlunge.GetValueOrDefault(0).ToString(),
+                                            ForeColor = Color.Black,
+                                            Offset = dipOffset,
+                                            MaxVisible = 10,
+                                        };
+
+                                        feat.Styles.Add(dipLabelStyle);
                                     }
 
                                     //Finish
-                                    feat.Styles.Add(fsStyle);
                                     feat[DatabaseLiterals.FieldStructureID] = fs.StructureID;
                                     enumFeat = enumFeat.Append(feat);
                                 }

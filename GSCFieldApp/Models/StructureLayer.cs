@@ -28,6 +28,8 @@ namespace GSCFieldApp.Models
         public int? StructureAzimuth { get; set; }
         [Column(DatabaseLiterals.FieldStructureRelated)]
         public int? StructureRelated { get; set; }
+        [Column(DatabaseLiterals.FieldStructureDip)]
+        public int? StructureDipPlunge { get; set; }
         [Column(DatabaseLiterals.FieldStructureLayerPriorrity)]
         public int PriorityOrder { get; set; }
     }

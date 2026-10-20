@@ -1602,7 +1602,8 @@ public partial class MapPage : ContentPage
                         if (mpl.LayerName != ApplicationLiterals.aliasStations 
                             && mpl.LayerName != ApplicationLiterals.aliasLinework
                             && mpl.LayerName != ApplicationLiterals.aliasTraversePoint
-                            && mpl.LayerName != ApplicationLiterals.aliasDrillHoles)
+                            && mpl.LayerName != ApplicationLiterals.aliasDrillHoles
+                            && mpl.LayerName != ApplicationLiterals.aliasStructureLayer)
                         {
                             if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
                             {
@@ -3143,7 +3144,11 @@ public partial class MapPage : ContentPage
             Geolocation.StopListeningForeground();
 
             //Stop compass reading
-            Compass.Default.Stop();
+            if (Compass.Default.IsSupported)
+            {
+                Compass.Default.Stop();
+            }
+            
 
         }
         catch (System.Exception ex)
@@ -3209,13 +3214,19 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task UpdateLocationOnMap(Sensor.Location inLocation)
     {
-        this.WaitingCursor.IsRunning = false;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (WaitingCursor.IsRunning)
+            {
+                WaitingCursor.IsRunning = false;
+            }
+        });
 
         if (_isCheckingGeolocation)
         {
             if (_vm != null)
             {
-                this.WaitingCursor.IsRunning = false; //Make sure it's closed down
+                //this.WaitingCursor.IsRunning = false; //Make sure it's closed down
                 await Task.Run(async () => _vm.RefreshCoordinates(inLocation));
                 await Task.Run(async () => _vm.SetMapAccuracyColor(inLocation.Accuracy));
                 await Task.Run(async () => mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude)));

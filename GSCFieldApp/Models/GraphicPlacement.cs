@@ -306,5 +306,63 @@ namespace GSCFieldApp.Models
                     return 1;
             }
         }
+
+        /// <summary>
+        /// Will calculate the relative offset meant for labels and symbols dependant on the 
+        /// symbol orientation. 
+        /// the label if it needs to be perpendicular to it (ex: planar structures)
+        /// Mapsui uses screen coordinates and usual coordinates, so Y axis is inverted since the start of the is screen is top left corner.
+        /// </summary>
+        /// <param name="azimuthOfSymbol"></param>
+        /// <param name="add90"></param>
+        /// <returns></returns>
+        public Offset GetRelOffsetForLabel(int? azimuthOfSymbol)
+        {
+            Offset relativeOffset = new Offset(0, 0);
+
+            if (azimuthOfSymbol != null)
+            {
+
+                if (azimuthOfSymbol >= 360)
+                {
+                    azimuthOfSymbol = azimuthOfSymbol - 360;
+                }
+
+                if (azimuthOfSymbol >= 0 && azimuthOfSymbol < 45)
+                {
+                    relativeOffset = new Offset(10, 0);
+                }
+                else if (azimuthOfSymbol >= 45 && azimuthOfSymbol < 90)
+                {
+                    relativeOffset = new Offset(10, -10);
+                }
+                else if (azimuthOfSymbol >= 90 && azimuthOfSymbol < 135)
+                {
+                    relativeOffset = new Offset(0, -10);
+                }
+                else if (azimuthOfSymbol >= 135 && azimuthOfSymbol < 180)
+                {
+                    relativeOffset = new Offset(-10, -10);
+                }
+                else if (azimuthOfSymbol >= 180 && azimuthOfSymbol < 225)
+                {
+                    relativeOffset = new Offset(-10, 0);
+                }
+                else if (azimuthOfSymbol >= 225 && azimuthOfSymbol < 270)
+                {
+                    relativeOffset = new Offset(-10, 10);
+                }
+                else if (azimuthOfSymbol >= 270 && azimuthOfSymbol < 315)
+                {
+                    relativeOffset = new Offset(0, 10);
+                }
+                else if (azimuthOfSymbol >= 315 && azimuthOfSymbol < 360)
+                {
+                    relativeOffset = new Offset(10, 10);
+                }
+            }
+
+            return relativeOffset;
+        }
     }
 }
