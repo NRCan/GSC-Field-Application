@@ -106,6 +106,9 @@ namespace GSCFieldApp.Models
         [Column(FieldStructureParentID)]
         public int StructureEarthmatID { get; set; }
 
+        [Column(FieldStructureConfidence)]
+        public int StructureConfidence { get; set; }
+
         private int? _structureSymAng;
 
         //Hierarchy
@@ -380,6 +383,13 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DBVersion] = structureFieldListDefault;
+                
+                //Revert schema 2.1 changes.
+                List<string> structureFieldList200 = new List<string>();
+                structureFieldList200.AddRange(structureFieldListDefault);
+                structureFieldList200.Remove(FieldStructureConfidence);
+                structureFieldList[DBVersion200] = structureFieldList200;
+
                 structureFieldList[DBVersion190] = structureFieldList[DBVersion200];
 
                 //Revert schema 1.9 changes. 

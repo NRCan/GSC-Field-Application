@@ -946,6 +946,7 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableMineralAlteration);
                 basicInsertQueriesTables.Remove(TableDocument);
                 basicInsertQueriesTables.Remove(TablePFlow);
+                basicInsertQueriesTables.Remove(TableStructure);
             }
 
             #endregion
@@ -2835,6 +2836,18 @@ namespace GSCFieldApp.ViewModel
             string genericInsertQueryPFlow = GenerateInsertQueriesFromModel(pflowFieldList, pflowNullFieldList, TablePFlow, pflowPrimes, null, attachedDBName);
 
             insertQuery_21.Add(genericInsertQueryPFlow);
+
+            #endregion
+
+            #region F_STRUCTURE
+
+            Structure modelStructure = new Structure();
+            List<string> structureFieldList = modelStructure.getFieldList[DBVersion210];
+            List<string> structureNullFieldList = new List<string>() { FieldStructureConfidence };
+            Tuple<string, string> structurePrimes = new Tuple<string, string>(FieldStructureID, FieldStructureID);
+            string genericInsertQueryStructure = GenerateInsertQueriesFromModel(structureFieldList, structureNullFieldList, TableStructure, structurePrimes, null, attachedDBName);
+
+            insertQuery_21.Add(genericInsertQueryStructure);
 
             #endregion
 
