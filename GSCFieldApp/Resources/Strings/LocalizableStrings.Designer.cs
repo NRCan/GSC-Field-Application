@@ -4294,6 +4294,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confidence.
+        /// </summary>
+        internal static string StructurePageConfidence {
+            get {
+                return ResourceManager.GetString("StructurePageConfidence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Depth (m).
         /// </summary>
         internal static string StructurePageDepth {

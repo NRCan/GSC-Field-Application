@@ -1629,4 +1629,7 @@ Enter last two digit of current year to proceed.</value>
   <data name="MineralizationAlterationPagePercent" xml:space="preserve">
     <value>Percent</value>
   </data>
+  <data name="StructurePageConfidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
 </root>

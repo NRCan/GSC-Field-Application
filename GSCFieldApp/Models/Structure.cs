@@ -107,7 +107,7 @@ namespace GSCFieldApp.Models
         public int StructureEarthmatID { get; set; }
 
         [Column(FieldStructureConfidence)]
-        public int StructureConfidence { get; set; }
+        public string StructureConfidence { get; set; }
 
         private int? _structureSymAng;
 

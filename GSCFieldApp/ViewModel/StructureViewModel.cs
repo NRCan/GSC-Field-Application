@@ -35,13 +35,14 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _structureGeneration = new ComboBox();
         private ComboBox _structureClass = new ComboBox();
         private ComboBox _structureDetail = new ComboBox();
+        private ComboBox _structureConfidence = new ComboBox();
 
         private ComboBox _structureFormatAll = new ComboBox();
         private ComboBox _structureDetailAll = new ComboBox();
         private ComboBox _structureAttitudeAll = new ComboBox();
         private ComboBox _structureYoungingAll = new ComboBox();
         private ComboBox _structureGenerationAll = new ComboBox();
-
+        
         #endregion
 
         #region PROPERTIES
@@ -88,6 +89,7 @@ namespace GSCFieldApp.ViewModel
         public ComboBox StructureGeneration { get { return _structureGeneration; } set { _structureGeneration = value; } }
         public ComboBox StructureClass { get { return _structureClass; } set { _structureClass = value; } }
         public ComboBox StructureDetail{ get { return _structureDetail; } set { _structureDetail = value; } }
+        public ComboBox StructureConfidence { get { return _structureConfidence; } set { _structureConfidence = value; } }
 
         #endregion
 
@@ -272,6 +274,9 @@ namespace GSCFieldApp.ViewModel
 
             _structureStrain = await FillAPicker(FieldStructureStrain);
             OnPropertyChanged(nameof(StructureStrain));
+
+            _structureConfidence = await FillAPicker(FieldStructureConfidence);
+            OnPropertyChanged(nameof(StructureConfidence));
 
             //Second order pickers
             _structureDetailAll = await FillAPicker(FieldStructureDetail);
@@ -490,6 +495,15 @@ namespace GSCFieldApp.ViewModel
                     }
                     OnPropertyChanged(nameof(StructureRelatedAlias));
                 }
+
+                foreach (ComboBoxItem cbox in StructureConfidence.cboxItems)
+                {
+                    if (cbox.itemValue == _model.StructureConfidence)
+                    {
+                        StructureConfidence.cboxDefaultItemIndex = StructureConfidence.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(StructureConfidence));
 
                 #endregion
 

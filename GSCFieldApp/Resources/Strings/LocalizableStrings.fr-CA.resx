@@ -352,7 +352,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Surface altérée</value>
   </data>
   <data name="EarthmatPageConfidence" xml:space="preserve">
-    <value>Confidence</value>
+    <value>Confiance</value>
   </data>
   <data name="EarthmatPageContactLower" xml:space="preserve">
     <value>Contact Inférieur</value>
@@ -874,7 +874,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Classe</value>
   </data>
   <data name="PaleoflowPageConfidence" xml:space="preserve">
-    <value>Confidence</value>
+    <value>Confiance</value>
   </data>
   <data name="PaleoflowPageDescTitle" xml:space="preserve">
     <value>Description</value>
@@ -1319,7 +1319,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Type</value>
   </data>
   <data name="LineworkPageConfidence" xml:space="preserve">
-    <value>Confidence</value>
+    <value>Confiance</value>
   </data>
   <data name="LineworkPageSymbol" xml:space="preserve">
     <value>Couleur de la ligne</value>
@@ -1629,5 +1629,8 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MineralizationAlterationPagePercent" xml:space="preserve">
     <value>Pourcentage</value>
+  </data>
+  <data name="StructurePageConfidence" xml:space="preserve">
+    <value>Confiance</value>
   </data>
 </root>

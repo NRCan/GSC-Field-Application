@@ -219,29 +219,28 @@
                                 <CheckBox IsChecked="{Binding Model.StructurePlotToMap, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Style="{StaticResource  FieldAppCheckbox}"/>
                             </HorizontalStackLayout>
 
-                            <VerticalStackLayout >
+                            <Label Text="{local:Localize StructurePageConfidence}" Style="{StaticResource FieldAppPickerLabel}" />
+                            <Picker Title="{local:Localize GenericPickerTitle}" x:Name="StructureConfidencePicker"
+                                ItemsSource="{Binding StructureConfidence.cboxItems, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding itemName}"
+                                SelectedItem="{Binding Model.StructureConfidence, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding StructureConfidence, Source={x:Reference StructureConfidencePicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding StructureConfidence.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <Label Text="{local:Localize StructurePageFabric}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.StructureFabric, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppEditorNotes}"/>
+                            <Label Text="{local:Localize StructurePageFabric}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Text="{Binding Model.StructureFabric, Mode=TwoWay}"
+                                    Style="{StaticResource FieldAppEditorNotes}"/>
 
-                            </VerticalStackLayout>
+                            <Label Text="{local:Localize StructurePageSense}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Text="{Binding Model.StructureSense, Mode=TwoWay}"
+                                    Style="{StaticResource FieldAppEditorNotes}"/>
 
-                            <VerticalStackLayout >
 
-                                <Label Text="{local:Localize StructurePageSense}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.StructureSense, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppEditorNotes}"/>
-
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout >
-
-                                <Label Text="{local:Localize StructurePageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.StructureNotes, Mode=TwoWay}"
-                                       Style="{StaticResource FieldAppEditorNotes}"/>
-
-                            </VerticalStackLayout>
+                            <Label Text="{local:Localize StructurePageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Text="{Binding Model.StructureNotes, Mode=TwoWay}"
+                                    Style="{StaticResource FieldAppEditorNotes}"/>
 
                         </VerticalStackLayout>
 
