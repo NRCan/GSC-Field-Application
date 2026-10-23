@@ -945,7 +945,7 @@ namespace GSCFieldApp.ViewModel
                 queryList.AddRange(GetUpgradeQueryVersion2_1(attachDBName));
                 basicInsertQueriesTables.Remove(TableMineralAlteration);
                 basicInsertQueriesTables.Remove(TableDocument);
-                basicInsertQueriesTables.Remove(TableSample);
+                basicInsertQueriesTables.Remove(TablePFlow);
             }
 
             #endregion
@@ -2826,15 +2826,15 @@ namespace GSCFieldApp.ViewModel
 
             #endregion
 
-            #region F_SAMPLE
+            #region F_PFLOW
 
-            Sample modelSample = new Sample();
-            List<string> sampleFieldList = modelSample.getFieldList[DBVersion210];
-            List<string> sampleNullFieldList = new List<string>() { FieldSampleAzimMag };
-            Tuple<string, string> samplePrimes = new Tuple<string, string>(FieldSampleID, FieldSampleID);
-            string genericInsertQuerySample = GenerateInsertQueriesFromModel(sampleFieldList, sampleNullFieldList, TableSample, samplePrimes, null, attachedDBName);
+            Paleoflow modelPFlow = new Paleoflow();
+            List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion210];
+            List<string> pflowNullFieldList = new List<string>() { FieldPFLowAzimMag, FieldPFLowSymAng };
+            Tuple<string, string> pflowPrimes = new Tuple<string, string>(FieldPFlowID, FieldPFlowID);
+            string genericInsertQueryPFlow = GenerateInsertQueriesFromModel(pflowFieldList, pflowNullFieldList, TablePFlow, pflowPrimes, null, attachedDBName);
 
-            insertQuery_21.Add(genericInsertQuerySample);
+            insertQuery_21.Add(genericInsertQueryPFlow);
 
             #endregion
 

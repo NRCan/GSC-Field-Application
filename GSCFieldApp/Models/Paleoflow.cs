@@ -1,8 +1,9 @@
-﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
+﻿using GSCFieldApp.Dictionaries;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.Models
 {
@@ -60,6 +61,12 @@ namespace GSCFieldApp.Models
         [Column(FieldPFlowParentID)]
         public int PFlowParentID { get; set; }
 
+        [Column(DatabaseLiterals.FieldPFLowAzimMag)]
+        public string PFlowAzimMag { get; set; }
+
+        [Column(DatabaseLiterals.FieldPFLowSymAng)]
+        public string PFlowSymAng { get; set; }
+
         //Hierarchy
         public string ParentName = TableEarthMat;
 
@@ -109,11 +116,12 @@ namespace GSCFieldApp.Models
 
                 pflowFieldList[DBVersion] = pflowFieldListDefault;
 
-                //Revert shcema 1.7 changes
-                //List<string> pflowFieldList160 = new List<string>();
-                //pflowFieldList160.AddRange(pflowFieldListDefault);
-                //pflowFieldList160.Remove(FieldGenericRowID);
-                //pflowFieldList[DBVersion160] = pflowFieldList160;
+                //Revert shcema 2.1 changes
+                List<string> pflowFieldList200 = new List<string>();
+                pflowFieldList200.AddRange(pflowFieldListDefault);
+                pflowFieldList200.Remove(DatabaseLiterals.FieldPFLowAzimMag);
+                pflowFieldList200.Remove(DatabaseLiterals.FieldPFLowSymAng);
+                pflowFieldList[DatabaseLiterals.DBVersion200] = pflowFieldList200;
 
 
                 return pflowFieldList;

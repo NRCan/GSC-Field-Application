@@ -97,8 +97,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleFrostBoil)]
         public string SampleFrostBoil { get; set; }
 
-        [Column(DatabaseLiterals.FieldSampleAzimMag)]
-        public string SampleAzimMag { get; set; }
+
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -150,7 +149,6 @@ namespace GSCFieldApp.Models
                 //Revert schema 2.1 changes
                 List<string> sampleFieldList200 = new List<string>();
                 sampleFieldList200.AddRange(sampleFieldListDefault);
-                sampleFieldList200.Remove(DatabaseLiterals.FieldSampleAzimMag);
                 sampleFieldList[DatabaseLiterals.DBVersion200] = sampleFieldList200;
 
                 //Revert schema 2.0 changes
