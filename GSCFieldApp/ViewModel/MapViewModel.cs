@@ -1537,23 +1537,29 @@ namespace GSCFieldApp.ViewModel
                                     //Label dip value
                                     if (fs.StructureDipPlunge != null)
                                     {
-                                        //Get proper labeling position based on structure class and symbol azimuth
+                                        //Get proper labeling position based on structure class and symbol azimuth (*pi/180 to convert to radian for cos/sin)
                                         int dipLabelAzimtuh = fs.StructureAzimuth.GetValueOrDefault(0);
-                                        //if (fs.StructureClass == KeywordPlanar)
-                                        //{
-                                        //    dipLabelAzimtuh = dipLabelAzimtuh + 90;
-                                        //}
-                                        Offset dipOffset = _graphicPlacement.GetRelOffsetForLabel(dipLabelAzimtuh);
+                                        double returnX = (15 * Math.Cos(dipLabelAzimtuh * Math.PI / 180));
+                                        double returnY = (15 * Math.Sin(dipLabelAzimtuh * Math.PI / 180));
 
+                                        if (fs.StructureClass == KeywordLinear)
+                                        {
+                                            //Rotate anticlockwise to get label on top of the arrow symbol
+                                            returnX = (35 * Math.Cos((dipLabelAzimtuh - 90) * Math.PI / 180));
+                                            returnY = (35 * Math.Sin((dipLabelAzimtuh - 90) * Math.PI / 180));
+                                        }
+
+                                        Offset dipOffset = new Offset(returnX, returnY);
                                         LabelStyle dipLabelStyle = new LabelStyle
                                         {
                                             BackColor = new Brush(Color.Transparent),
-                                            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left,
+                                            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Center,
                                             BorderThickness = 1,
                                             Text = fs.StructureDipPlunge.GetValueOrDefault(0).ToString(),
                                             ForeColor = Color.Black,
                                             Offset = dipOffset,
                                             MaxVisible = 10,
+                                            Font = new Mapsui.Styles.Font { FontFamily = "Arial", Size = 10, Bold = false, Italic = true }
                                         };
 
                                         feat.Styles.Add(dipLabelStyle);
