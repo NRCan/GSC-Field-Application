@@ -382,7 +382,7 @@ namespace GSCFieldApp.ViewModel
         async Task EditTappedFeature()
         {
             //Variables
-            List<string> keyIDField = new List<string>() { DatabaseLiterals.FieldStationID, DatabaseLiterals.FieldLineworkID, DatabaseLiterals.FieldDrillID};
+            List<string> keyIDField = new List<string>() { DatabaseLiterals.FieldStationID, DatabaseLiterals.FieldLineworkID, DatabaseLiterals.FieldDrillID, DatabaseLiterals.FieldStructureID};
             bool foundKeyField = false;
 
             //Will popup the tapped feature if station or linework
@@ -450,6 +450,26 @@ namespace GSCFieldApp.ViewModel
                                     new Dictionary<string, object>
                                     {
                                         [nameof(DrillHole)] = tappedL,
+                                    }
+                                );
+                            }
+                        }
+                        else if (mi.FieldName == keyIDField[3])
+                        {
+                            foundKeyField = true;
+                            int idValue = int.Parse(mi.FieldValue);
+                            List<Structure> tappedStruct = await DataAccess.DbConnection.Table<Structure>().Where(i => i.StructureID == idValue).ToListAsync();
+
+                            //Navigate to linework page
+                            if (tappedStruct != null && tappedStruct.Count() == 1)
+                            {
+                                //Adapt for map page nav
+                                Structure tappedL = tappedStruct[0];
+
+                                await Shell.Current.GoToAsync($"/{nameof(StructurePage)}/",
+                                    new Dictionary<string, object>
+                                    {
+                                        [nameof(Structure)] = tappedL,
                                     }
                                 );
                             }

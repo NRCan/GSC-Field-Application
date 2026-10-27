@@ -466,6 +466,13 @@ public partial class MapPage : ContentPage
                                         featureIDFieldName,
                                         featureValue);
                                     }
+                                    else if (l.Name == ApplicationLiterals.aliasStructureLayer)
+                                    {
+                                        gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                        DatabaseLiterals.TableStructure,
+                                        featureIDFieldName,
+                                        featureValue);
+                                    }
 
 
                                     //Get clicked feature record values
