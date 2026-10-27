@@ -1592,7 +1592,7 @@ namespace GSCFieldApp.ViewModel
             ImageStyle structureStyle = new ImageStyle{
                 SymbolRotation = rotation,
                 Image = new Mapsui.Styles.Image { Source = sourcePath },
-                SymbolScale = 0.5, 
+                SymbolScale = 0.6, 
             };
 
             return structureStyle;
