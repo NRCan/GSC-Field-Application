@@ -39,7 +39,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 {
     public class GeopackageService
     {
-
+        #region INIT
         public DataAccess da = new DataAccess();
         // Create a geometry factory with the spatial reference id 4326
         public static GeometryFactory defaultGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGDefault);
@@ -119,6 +119,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             MaxDegreeOfParallelism = 10
         };
+
+        #endregion
 
         /// <summary>
         /// This special class is used since mod_spatialite can't seem to be working

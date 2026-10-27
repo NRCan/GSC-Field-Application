@@ -52,7 +52,6 @@ using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
 using Point = NetTopologySuite.Geometries.Point;
 using Sensor = Microsoft.Maui.Devices.Sensors;
 
-
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -78,8 +77,9 @@ public partial class MapPage : ContentPage
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-    public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
-    public Tuple<Point, Point> _wmsCRSExtent = null;
+    //public int _wmsCRS = 0;
+    public List<int> SupportedWMSIntCRS = new List<int>() { 3857, 4326, 3978, 4269 }; //Used for WMS layer loading
+    //public Tuple<Point, Point> _wmsCRSExtent = null;
     private int _locationSettingEnabledAttempt = 0; //used to know when user has turned on location in the device setting
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
@@ -796,31 +796,15 @@ public partial class MapPage : ContentPage
                 {
                     supportedCRS = true;
                 }
-                //if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGAtlas))
-                //{
-                //    supportedCRS = true;
-                //    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3978;
 
-                //    _wmsCRSExtent = await Task.Run(async () => await wService.GetCRSExtent(wms_url, DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGAtlas));
-
-                //}
-                //if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGDefault))
-                //{
-                //    supportedCRS = true;
-                //    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg4326;
-
-
-                //    _wmsCRSExtent = await Task.Run(async () => await wService.GetCRSExtent(wms_url, DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGDefault));
-
-                //}
             }
 
+            //If supported CRS is found, get the list of layers and show them to user to chose from
             if (supportedCRS)    
             {
                 //Get list of WMS layers
                 List<MapPageLayerSelection> mpl = await Task.Run(async () => await wService.GetListOfWMSLayers(wms_url));
                 
-
                 //Show list of layers available from url get cap os user can chose
                 if (mpl != null && mpl.Count() > 0)
                 {
@@ -2151,85 +2135,94 @@ public partial class MapPage : ContentPage
 
         if (wmsURL != null && wmsURL != string.Empty)
         {
-                //Get tiling scheme for tiles and their resolution set from csr
+            //Get tiling scheme for tiles and their resolution set from csr
             TileSchema schema = new GlobalSphericalMercator { Format = "image/png"};
 
-                //Special schema for canadian atlas
-                if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg3978)
-                {
-                    TileSchema3978 tileSchema3978 = new TileSchema3978();
-
-                    //If wms crs extent was parsed correctly from get cap, set tileschema with it
-                    if (_wmsCRSExtent != null)
-                    {
-                        tileSchema3978 = new TileSchema3978(_wmsCRSExtent);
-                    }
-
-                    await tileSchema3978.TransformTo(3857);
-                    schema = tileSchema3978;
-
-                }
-                else if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg4326)
-                {
-                    TileSchema4326 tileSchema4326 = new TileSchema4326();
-
-                    //If wms crs extent was parsed correctly from get cap, set tileschema with it
-                    if (_wmsCRSExtent != null)
-                    {
-                        tileSchema4326 = new TileSchema4326(_wmsCRSExtent);
-                    }
-
-                    await tileSchema4326.TransformTo(3857);
-                    schema = tileSchema4326;
-                }
+            //Set 3857 schema with recalculated values
+            //TileSchemaCustom tileSchemaCustom = new TileSchemaCustom(_wmsCRSExtent, _wmsCRS);
+            //await tileSchemaCustom.TransformTo(3857);
+            //schema.Extent = tileSchemaCustom.Extent;
+            //schema.OriginX = tileSchemaCustom.OriginX;
+            //schema.OriginY = tileSchemaCustom.OriginY;
+            //CalculateResolutions(schema, 20, tileSchemaCustom.LowerLeft, tileSchemaCustom.UpperRight);
 
             WmscUrlBuilder request = new WmscUrlBuilder(new Uri(wmsURL), schema, [layerID]);
 
-                if (request != null)
+            if (request != null)
+            {
+
+                SqlitePersistentCache wmsCache = null;
+                if (withCache)
                 {
-                    SqlitePersistentCache wmsCache = null;
-                    if (withCache)
-                    {
-                        wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
-                    }
-
-                    HttpTileSource httpTileSource = new HttpTileSource(
-                        schema,
-                        urlBuilder: request,
-                        persistentCache: wmsCache,
-                        configureHttpRequestMessage: r =>
-                        {
-                            r.Headers.TryAddWithoutValidation("User-Agent", "GSC-Field-App/3.x (+https://github.com/NRCan/GSC-Field-Application)");
-                        });
-
-                    TileLayer tl = new TileLayer(httpTileSource);
-                    LayerData layerData = new LayerData
-                    {
-                        DataPath = wmsURL,
-                        IsMapInfoLayer = false,
-                    };
-                    tl.Name = layerName;
-                    tl.Tag = layerData;
-
-                    if (pageLayer != null)
-                    {
-                        tl.Opacity = pageLayer.LayerOpacity;
-                        tl.Enabled = pageLayer.LayerVisibility;
-                    }
-
-                    //Insert at right location in collection
-                    InsertLayerAtRightPlace(tl);
-
+                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'), TimeSpan.Zero);
                 }
-                else
+
+                HttpTileSource httpTileSource = new HttpTileSource(
+                    schema,
+                    urlBuilder: request,
+                    persistentCache: wmsCache,
+                    configureHttpRequestMessage: r =>
+                    {
+                        r.Headers.TryAddWithoutValidation("User-Agent", "GSC-Field-App/3.x (+https://github.com/NRCan/GSC-Field-Application)");
+                    });
+
+                TileLayer tl = new TileLayer(httpTileSource);
+                LayerData layerData = new LayerData
                 {
-                    hasError = true;
+                    DataPath = wmsURL,
+                    IsMapInfoLayer = false,
+                };
+                tl.Name = layerName;
+                tl.Tag = layerData;
+
+                if (pageLayer != null)
+                {
+                    tl.Opacity = pageLayer.LayerOpacity;
+                    tl.Enabled = pageLayer.LayerVisibility;
                 }
+
+                //Insert at right location in collection
+                InsertLayerAtRightPlace(tl);
 
             }
+            else
+            {
+                hasError = true;
+            }
+
+        }
 
         return hasError;
 
+    }
+
+    /// <summary>
+    /// Will recalculate the resolutions
+    /// </summary>
+    /// <param name="arrayLength"></param>
+    public void CalculateResolutions(TileSchema schema, int arrayLength, Point lowerLeft, Point upperRight)
+    {
+        double[] res = new double[arrayLength];
+
+        double width = Math.Abs(upperRight.X - lowerLeft.X);
+        double height = Math.Abs(upperRight.Y - lowerLeft.Y);
+
+        //_origin = lowerLeft;
+
+        for (int i = 0; i < arrayLength; i++)
+        {
+            //Calc
+            res[i] = Math.Max(width, height) / (256 * (Math.Pow(2, i)));
+
+            //Set
+            schema.Resolutions[i] = new BruTile.Resolution
+            (
+                i,
+                res[i],
+                256,
+                256
+            );
+        }
     }
 
     /// <summary>

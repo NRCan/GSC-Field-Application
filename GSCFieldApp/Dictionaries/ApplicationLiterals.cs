@@ -101,6 +101,7 @@
         public const string aliasStructureLayer = "Structures";
 
         public enum SupportedWMSCRS { epsg3857, epsg4326, epsg3978, epsg4269 } //Used for WMS layer loading
+        
 
         #endregion
 
