@@ -606,6 +606,7 @@ namespace GSCFieldApp.ViewModel
 
 
             //There is one picker that needs all brotha's and sista's listing
+            Model.StructureRelated = null;
             _structureRelatedAlias = await FillRelatedStructureAsync();
             OnPropertyChanged(nameof(StructureRelatedAlias));
 
@@ -682,6 +683,12 @@ namespace GSCFieldApp.ViewModel
 
                     relatedCbx.cboxDefaultItemIndex = -1;
                 }
+
+                //Add null value
+                Controls.ComboBoxItem nullItem = new ComboBoxItem();
+                nullItem.itemValue = null;
+                nullItem.itemName = " ";
+                relatedCbx.cboxItems.Insert(0,nullItem);
             }
 
             return relatedCbx;
