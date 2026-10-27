@@ -28,6 +28,14 @@
         public string Display_text_1 { get; set; }
         public string Display_text_2 { get; set; }
         public string Display_text_3 { get; set; }
+        public string Display_text_oneLiner
+        {
+            get 
+            {
+                return string.Format("{0}: {1} - {2}", Display_text_1, Display_text_2, Display_text_3);
+            }
+            set { }
+        }
         public string IconFontText { get; set; }
 
         public string Date { get; set; }
