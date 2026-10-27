@@ -64,7 +64,17 @@ namespace GSCFieldApp.ViewModel
         public bool StructureVisible
         {
             get { return Preferences.Get(nameof(StructureVisible), true); }
-            set { Preferences.Set(nameof(StructureVisible), value); }
+            set 
+            {
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNoteCustomFieldSettingChangedRequest = fieldNoteCustomFieldSettingChanged;
+                if (fieldNoteCustomFieldSettingChangedRequest != null)
+                {
+                    fieldNoteCustomFieldSettingChangedRequest(this, true);
+                }
+
+                Preferences.Set(nameof(StructureVisible), value); 
+            }
         }
 
         public bool DrillHoleVisible
