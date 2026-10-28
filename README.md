@@ -4,11 +4,11 @@
 
 This project is a Geological Survey Canada on-site data collection application for geologists. The application automatically stores locational data for each location created and allows data entry of complex geological information. 
 
-The application mainly presents a GIS map page with access to specialized forms. Map layers and forms data are presented as notebooks that can be transfered between application/handhelds and save with some metadata like current working project name, geologist and activity name.
+The application mainly presents a GIS map page with access to specialized forms. Map layers and forms data are presented as notebooks that can be transfered between application/devices and save with some metadata like current working project name, geologist and activity name.
 
-Target users are geologist that would like an easy to use, validation, standardize and consult field geological information for later office and analysis use. This application is intented for regional geology for data gathering or cartography.
+Target users are geologist that would like an easy to use standardized field geological information for later office and analysis use. This application is intented for regional geology data gathering or cartography.
 
-The GSC Field Application only records bedrock geology data at this time, but we will be extending it to include surficial data in the near future.
+The GSC Field Application offers bedrock and surficial geology data and forms.
 
 ## Requirements
 
@@ -20,7 +20,13 @@ or
 
 ## Installation
 
-The application is side-loaded onto any Windows 10 PC that meets the build requirement. A developer configuration is needed on W10 in order to side-load this application.
+### Windows Store
+
+[Online Store Link](https://apps.microsoft.com/detail/9p6v1g4px5vq?hl=en-US&gl=CA)
+
+### Android Store
+
+[Online Store Link](https://play.google.com/store/apps/details?id=gscfieldapp.gscfieldapp)
 
 ## Latest Version
 
@@ -64,7 +70,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see [Federal identity requirements](https://www.canada.ca/en/treasury-board-secretariat/topics/government-communications/federal-identity-requirements.html).
 
 ## Natural Resources Canada, Geological Survey of Canada
-##### © His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2026.
+© His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2026.
 
 ______________________
 
@@ -91,6 +97,14 @@ ou
 ## Installation
 
 L'application doit être installé manuellement sur toute plateforme Windows 10 qui atteint le pré-requis minimal. Une configuration en mode développeur est aussi nécessaire pour l'installation manuelle.
+
+### Boutique numérique Windows
+
+[Lien vers la boutique en ligne](https://apps.microsoft.com/detail/9p6v1g4px5vq?hl=en-US&gl=CA)
+
+### Boutique numérique Android 
+
+[Lien vers la boutique en ligne](https://play.google.com/store/apps/details?id=gscfieldapp.gscfieldapp)
 
 ## La dernière version
 
@@ -134,4 +148,4 @@ Voir [CONTRIBUTING.md](CONTRIBUTING.md)
 Le mot-symbole « Canada » et les éléments graphiques connexes liés à cette distribution sont protégés en vertu des lois portant sur les marques de commerce et le droit d'auteur. Aucune autorisation n'est accordée pour leur utilisation à l'extérieur des paramètres du programme de coordination de l'image de marque du gouvernement du Canada. Pour obtenir davantage de renseignements à ce sujet, veuillez consulter les [Exigences pour l'image de marque](https://www.canada.ca/fr/secretariat-conseil-tresor/sujets/communications-gouvernementales/exigences-image-marque.html).
 
 ## Ressources naturelles Canada, Commission géologique du Canada.
-##### © Sa Majesté le Roi du Chef du Canada représenté par le ministre des Ressources naturelles, 2026.
+© Sa Majesté le Roi du Chef du Canada représenté par le ministre des Ressources naturelles, 2026.
