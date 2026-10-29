@@ -131,42 +131,64 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Will keep a record of the gps log as a line. Dev mode only
+        /// </summary>
         public bool GPSLogEnabled
         {
             get { return Preferences.Get(nameof(GPSLogEnabled), false); }
             set { Preferences.Set(nameof(GPSLogEnabled), value); }
         }
 
+        /// <summary>
+        /// Will crank the refresh rate from 1 second to 350ms for gps location
+        /// </summary>
         public bool GPSHighRateEnabled
         {
             get { return Preferences.Get(nameof(GPSHighRateEnabled), false); }
             set { Preferences.Set(nameof(GPSHighRateEnabled), value); }
         }
 
+        /// <summary>
+        /// Will keep a record of the gps log as a line. Dev mode only
+        /// </summary>
         public string GPSLogFilePath
         {
             get { return Preferences.Get(nameof(GPSLogFilePath), ""); }
             set { Preferences.Set(nameof(GPSLogFilePath), value); }
         }
 
+        /// <summary>
+        /// Will make sure the map is always centered on the current user location
+        /// </summary>
         public bool LocationFollowEnabled
         {
             get { return Preferences.Get(nameof(LocationFollowEnabled), false); }
             set { Preferences.Set(nameof(LocationFollowEnabled), value); }
         }
 
+        /// <summary>
+        /// Enable ability for user to change sample name with a double tap/click on the alias
+        /// within the form
+        /// </summary>
         public bool CustomSampleNameEnabled
         {
             get { return Preferences.Get(nameof(CustomSampleNameEnabled), true); }
             set { Preferences.Set(nameof(CustomSampleNameEnabled), value); }
         }
 
+        /// <summary>
+        /// Will emforce the automatic opening of camera app on any new records or not
+        /// </summary>
         public bool InternalCameraFirstEnabled
         {
             get { return Preferences.Get(nameof(InternalCameraFirstEnabled), true); }
             set { Preferences.Set(nameof(InternalCameraFirstEnabled), value); }
         }
 
+        /// <summary>
+        /// Will show the photo file name with photo extension rather then record alias
+        /// </summary>
         public bool PhotoAliasFilename
         {
             get { return Preferences.Get(nameof(PhotoAliasFilename), true); }
@@ -181,6 +203,23 @@ namespace GSCFieldApp.ViewModel
 
                 //keep in pref
                 Preferences.Set(nameof(PhotoAliasFilename), value); 
+            }
+        }
+
+        public bool LightAliasVsFullAlias
+        {
+            get { return Preferences.Get(nameof(LightAliasVsFullAlias), true); }
+            set
+            {
+                //Send call to refresh field note page
+                EventHandler<bool> fieldNoteFilteringSettingChangedRequest = fieldNoteFilteringSettingChanged;
+                if (fieldNoteFilteringSettingChangedRequest != null)
+                {
+                    fieldNoteFilteringSettingChangedRequest(this, true);
+                }
+
+                //keep in pref
+                Preferences.Set(nameof(LightAliasVsFullAlias), value);
             }
         }
 

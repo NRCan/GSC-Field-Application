@@ -3893,6 +3893,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show light or full alias..
+        /// </summary>
+        internal static string SettingPageOtherHeadingLightAliasOrFull {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeadingLightAliasOrFull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
         internal static string SettingPageOtherHeadingMap {

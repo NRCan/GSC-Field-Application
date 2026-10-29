@@ -1667,4 +1667,7 @@ Stations: {2}</value>
   <data name="SensorServiceRetryButton" xml:space="preserve">
     <value>Réessayer</value>
   </data>
+  <data name="SettingPageOtherHeadingLightAliasOrFull" xml:space="preserve">
+    <value>Affiche le petit ou le grand alias.</value>
+  </data>
 </root>

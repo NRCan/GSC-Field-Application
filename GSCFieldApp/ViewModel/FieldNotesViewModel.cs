@@ -243,6 +243,12 @@ namespace GSCFieldApp.ViewModel
             set { }
         }
 
+        public bool LightAliasVsFullAlias
+        {
+            get { return Preferences.Get(nameof(LightAliasVsFullAlias), true); }
+            set { }
+        }
+
         #region DATA COLLECTION
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
@@ -2118,7 +2124,7 @@ namespace GSCFieldApp.ViewModel
         {
             FieldNote stationsFN = new FieldNote
             {
-                Display_text_1 = st.StationAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? st.StationAliasLight: st.StationAlias,
                 Display_text_2 = st.StationObsType,
                 Display_text_3 = st.StationNote,
                 GenericTableName = TableStation,
@@ -2153,7 +2159,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote emsFN = new FieldNote()
             {
-                Display_text_1 = earthmaterial.EarthmatAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? earthmaterial.EarthmatAliasLight: earthmaterial.EarthMatName,
                 Display_text_2 = earthmaterial.EarthMatLithdetail,
                 Display_text_3 = earthmaterial.EarthMatLithgroup,
                 GenericTableName = TableEarthMat,
@@ -2178,7 +2184,7 @@ namespace GSCFieldApp.ViewModel
         {
             FieldNote samFN = new FieldNote
             {
-                Display_text_1 = sam.SampleAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? sam.SampleAliasLight: sam.SampleName,
                 Display_text_2 = sam.SampleType,
                 Display_text_3 = sam.SamplePurpose,
                 GenericTableName = TableSample,
@@ -2208,7 +2214,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote dcFN = new FieldNote
             {
-                Display_text_1 = PhotoAliasFilename ? dc.DocumentAliasLight : dc.FileName,
+                Display_text_1 = PhotoAliasFilename ? (LightAliasVsFullAlias ? dc.DocumentAliasLight: dc.DocumentName) : dc.FileName,
                 Display_text_2 = dc.Category,
                 Display_text_3 = dc.Description,
                 GenericTableName = TableDocument,
@@ -2232,7 +2238,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote structureFN = new FieldNote
             {
-                Display_text_1 = struc.StructureAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? struc.StructureAliasLight: struc.StructureName,
                 Display_text_2 = struc.StructureType,
                 Display_text_3 = struc.StructureDetail,
                 GenericTableName = TableStructure,
@@ -2256,7 +2262,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote pfFN = new FieldNote
             {
-                Display_text_1 = pf.PflowAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? pf.PflowAliasLight: pf.PFlowName,
                 Display_text_2 = pf.PFlowClass,
                 Display_text_3 = pf.PFlowSense,
                 GenericTableName = TablePFlow,
@@ -2280,7 +2286,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote fossFN = new FieldNote
             {
-                Display_text_1 = foss.FossilAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? foss.FossilAliasLight: foss.FossilIDName,
                 Display_text_2 = foss.FossilType,
                 Display_text_3 = foss.FossilNote,
                 GenericTableName = TableFossil,
@@ -2304,7 +2310,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote envFN = new FieldNote
             {
-                Display_text_1 = env.EnvironmentAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? env.EnvironmentAliasLight: env.EnvName,
                 Display_text_2 = env.EnvRelief,
                 Display_text_3 = env.EnvNotes,
                 GenericTableName = TableEnvironment,
@@ -2334,7 +2340,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote minFN = new FieldNote
             {
-                Display_text_1 = min.MineralAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? min.MineralAliasLight: min.MineralIDName,
                 Display_text_2 = min.MineralName,
                 Display_text_3 = min.MineralMode,
                 GenericTableName = TableMineral,
@@ -2364,7 +2370,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote malFN = new FieldNote
             {
-                Display_text_1 = malt.MineralALterationAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? malt.MineralALterationAliasLight: malt.MAName,
                 Display_text_2 = malt.MAMA,
                 Display_text_3 = malt.MAUnit,
                 GenericTableName = TableMineralAlteration,
@@ -2399,7 +2405,7 @@ namespace GSCFieldApp.ViewModel
 
             FieldNote locFN = new FieldNote
             {
-                Display_text_1 = loc.LocationAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? loc.LocationAliasLight: loc.LocationAlias,
                 Display_text_2 = coordinatesFormat,
                 Display_text_3 = loc.locationNTS,
                 GenericTableName = TableLocation,
@@ -2423,7 +2429,7 @@ namespace GSCFieldApp.ViewModel
         {
             FieldNote dhFN = new FieldNote
             {
-                Display_text_1 = dh.DrillAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? dh.DrillAliasLight: dh.DrillIDName,
                 Display_text_2 = dh.DrillName,
                 Display_text_3 = dh.DrillType,
                 GenericTableName = TableDrillHoles,
@@ -2446,7 +2452,7 @@ namespace GSCFieldApp.ViewModel
         {
             FieldNote lwFN = new FieldNote
             {
-                Display_text_1 = lw.LineAliasLight,
+                Display_text_1 = LightAliasVsFullAlias ? lw.LineAliasLight: lw.LineIDName,
                 Display_text_2 = lw.LineType,
                 Display_text_3 = lw.LineNotes,
                 GenericTableName = TableLinework,

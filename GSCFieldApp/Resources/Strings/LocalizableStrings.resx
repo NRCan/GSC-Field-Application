@@ -1666,4 +1666,7 @@ Stations: {2} </value>
   <data name="SensorServiceRetryButton" xml:space="preserve">
     <value>Retry</value>
   </data>
+  <data name="SettingPageOtherHeadingLightAliasOrFull" xml:space="preserve">
+    <value>Show light or full alias.</value>
+  </data>
 </root>

@@ -117,6 +117,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="40"/>
                                         <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
 
                                     <Label Text="{local:Localize SettingPageFieldNoteFiltering}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
@@ -125,6 +126,10 @@
                                     <!--For Photos in the field notes page, display Alias or FileName -->
                                     <Label Text="{local:Localize SettingPageOtherHeadingAliasFilename}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
                                     <Switch IsToggled="{Binding PhotoAliasFilename, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1" />
+
+                                    <!--On new photo record, open internal camera first instead of form-->
+                                    <Label Text="{local:Localize SettingPageOtherHeadingLightAliasOrFull}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding LightAliasVsFullAlias, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2" />
                                     
                                 </Grid>
                             </Border>
@@ -158,8 +163,7 @@
                                     <!--Enable map page high refresh rate for GPS tracking-->
                                     <Label Text="{local:Localize SettingPageGPSHighRateToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
                                     <Switch IsToggled="{Binding GPSHighRateEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
-
-
+                                    
                                 </Grid>
                             </Border>
 
@@ -195,7 +199,6 @@
 
                                 </Grid>
                             </Border>
-
 
                             <!--Station traverse management-->
                             <Label Style="{StaticResource FieldAppSettingTitles}" Text="{local:Localize SettingPageOtherHeadingStation}"/>
