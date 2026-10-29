@@ -2233,7 +2233,7 @@ namespace GSCFieldApp.ViewModel
             FieldNote structureFN = new FieldNote
             {
                 Display_text_1 = struc.StructureAliasLight,
-                Display_text_2 = struc.StructureClass,
+                Display_text_2 = struc.StructureType,
                 Display_text_3 = struc.StructureDetail,
                 GenericTableName = TableStructure,
                 GenericID = struc.StructureID,
