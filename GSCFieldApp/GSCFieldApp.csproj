@@ -590,6 +590,9 @@
 	  <MauiImage Update="Resources\Images\logo_gray.svg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </MauiImage>
+	  <MauiImage Update="Resources\Images\mosquito.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiImage>
 	  <MauiImage Update="Resources\Images\woah.gif">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </MauiImage>
