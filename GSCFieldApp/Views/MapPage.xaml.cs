@@ -3000,8 +3000,8 @@ public partial class MapPage : ContentPage
 
                         _locationSettingEnabledAttempt = 0; //Reset
 
-                //Force location change event
-                await BackgroundTimer(_refreshRate);
+                        //Force location change event
+                        await BackgroundTimer(_refreshRate);
 
                         this.WaitingCursor.IsRunning = false;
                     }
@@ -3046,7 +3046,7 @@ public partial class MapPage : ContentPage
             }
 
             //Deactivate and retry
-            DeactivateLocationVisuals();
+            //DeactivateLocationVisuals();
 
             //If after 10 attemps it's still not enabled, stop trying
             if (_locationSettingEnabledAttempt <= 10)
