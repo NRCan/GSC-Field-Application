@@ -38,7 +38,7 @@ public partial class StationPage : ContentPage
         }
 
         EasterEggs ee = new EasterEggs();
-        ee.ShowMosquito(this.StationMainGrid, 42); //Default 4% changes of hitting the easter egg
+        await ee.ShowMosquito(this.StationMainGrid); //Default 4% changes of hitting the easter egg
     }
 
 }
