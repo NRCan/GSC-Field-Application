@@ -36,6 +36,9 @@ public partial class StationPage : ContentPage
                 this.Title = LocalizationResourceManager["StationPageWaypoint"].ToString();
             }
         }
+
+        EasterEggs ee = new EasterEggs();
+        ee.ShowMosquito(this.StationMainGrid, 42); //Default 4% changes of hitting the easter egg
     }
 
 }

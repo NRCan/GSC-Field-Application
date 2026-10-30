@@ -26,8 +26,10 @@
     
     <ContentPage.Content>
 
-        <Grid Style="{StaticResource FieldAppFormGrid}">
+        <Grid x:Name="StationMainGrid" Style="{StaticResource FieldAppFormGrid}">
 
+            <!--<Image x:Name="stationEasterEgg" Visual="" Source="mosquito.png" HeightRequest="60" WidthRequest="60" HorizontalOptions="Center" IsAnimationPlaying="True" IsVisible="true"/>-->
+            
             <Label Text="{Binding Model.StationAlias, Mode=TwoWay}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
             
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
